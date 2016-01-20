@@ -44,7 +44,7 @@
 \newcommand{\vast}{\bBigg@{4}}
 \newcommand{\Vast}{\bBigg@{6}}
 \makeatother
-
+\newtheorem{algo}{Algorithm}
 \newcommand{\vastl}{\mathopen\vast}
 \newcommand{\vastm}{\mathrel\vast}
 \newcommand{\vastr}{\mathclose\vast}
@@ -71,13 +71,13 @@ Some ideas to get us going
 \end{abstract}
 
 \begin{keyword}
-\sep \sep 
+\sep \sep
 \MSC[2010]  \sep
 \end{keyword}
 
 \end{frontmatter}
 
-\section{Introduction.} 
+\section{Introduction.}
 
 We want to solve two problems.  For some suitable subset, $\cc$, of continuous, real-valued functions on the finite interval $[a,b]$, we want to construct  algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
@@ -119,17 +119,17 @@ For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 \le x_2 \le x_3 \le b$ let  $p
 \begin{multline*} 
 p(f,\{x_1, x_2, x_3\})(x) : = \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1 - x_3)}f(x_1) \\ + \frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2 - x_3)}f(x_2) + \frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3 - x_2)}f(x_3) \biggr ].
 \end{multline*}
-Furthermore, let $\Delta(f,\{x_1, x_2, x_3\})$ denote the second deriative of this quadratic polynomial: 
+Furthermore, let $\Delta(f,\{x_1, x_2, x_3\})$ denote the second deriative of this quadratic polynomial:
 \begin{multline} \label{Deltadef}
 \Delta(f,\{x_1, x_2, x_3\}) : = 2 \biggl[ \frac{f(x_1)}{(x_1-x_2)(x_1 - x_3)} + \frac{f(x_2)}{(x_2-x_1)(x_2 - x_3)} \\
 + \frac{f(x_3)}{(x_3-x_1)(x_3 - x_2)} \biggr ].
 \end{multline}
-Since the function $f - p(f,\{x_1, x_2, x_3\})$ has at least three zeros on $[x_1, x_3]$, it follows that $f' - p(f,\{x_1, x_2, x_3\})'$ has at least two zeros on this interval and $f'' - p(f,\{x_1, x_2, x_3\})''$ has at least one zero on this interval.  Thus, 
+Since the function $f - p(f,\{x_1, x_2, x_3\})$ has at least three zeros on $[x_1, x_3]$, it follows that $f' - p(f,\{x_1, x_2, x_3\})'$ has at least two zeros on this interval and $f'' - p(f,\{x_1, x_2, x_3\})''$ has at least one zero on this interval.  Thus,
 \begin{equation} \label{fppDeltaa}
 f''(t_2) = \Delta(f,\{x_1, x_2, x_3\}) \quad \text{for some } t_2 \in [x_1, x_3].
 \end{equation}
 
-The correspondence between in the previous equation makes possible a data-driven upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$, which can then be combined with error bound  \eqref{appxerrbda} to obtain an data-driven error bound for the linear spline approximation.  Again consider the partition of $[a,b]$ denoted as $\datasites$, and let $t_1, \ldots, t_{n-1}$ be defined analogous to \eqref{fppDeltab}, i.e., 
+The correspondence between in the previous equation makes possible a data-driven upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$, which can then be combined with error bound  \eqref{appxerrbda} to obtain an data-driven error bound for the linear spline approximation.  Again consider the partition of $[a,b]$ denoted as $\datasites$, and let $t_1, \ldots, t_{n-1}$ be defined analogous to \eqref{fppDeltab}, i.e.,
 \begin{equation} \label{fppDeltab}
 f''(t_i) = \Delta(f,\{x_{i-1}, x_i, x_{i+1}\}) \quad \text{for some } t_i \in [x_{i-1}, x_{i+1}].
 \end{equation}
@@ -145,13 +145,13 @@ This implies that the norm has the following upper bound:
  \times \max\bigl(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}\bigr).
 \end{multline}
 
-Next consider the cases of the sub-intervals on the left border of the interval.  For $i \in \{1,2\}$ it follows by the cone definition that 
+Next consider the cases of the sub-intervals on the left border of the interval.  For $i \in \{1,2\}$ it follows by the cone definition that
 \begin{gather}
 \nonumber
 \abs{f''(x)} \le \fC(\max(x-a,t_{i+1}-x))\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i], \\
 \norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}.
 \end{gather}
-Similary, for $i \in \{n-1, n\}$ it follows by the cone definition that 
+Similary, for $i \in \{n-1, n\}$ it follows by the cone definition that
 \begin{gather}
 \nonumber
 \abs{f''(x)} \le \fC(\max(x-t_{i-2},b-x))\abs{f''(t_{i-2})})  \ \forall x \in [x_{i-1},x_i], \\
@@ -168,6 +168,43 @@ The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the da
 \end{multline}
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
+\begin{algo}
+Given error tolerance $\varepsilon$ and input function $f$, start with $n+1$ points, denote 
+$$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad K = \{1,2,\ldots,n-1\}$$ and choose $\fC$. Do the following
+\begin{description}
+\item[Stage 1.\ Estimate $f''(t_k), k \in K $ as in \eqref{fppDeltab}.] \label{stage1}
+\item[Stage 2. Check for convergence.]  \label{stage3}
+For all $ k \in K,$ estimate $\text{errest}_k.$
+\[
+\text{errest}_k=\frac{(x_k-x_{k-1})^2}{8}\norm[{[x_{k-1},k_i]}]{f''},
+\]
+where $\norm[{[x_{k-1},x_k]}]{f''}$ is defined as \eqref{normbd}.
+Let $ K$ denote the intervals where $\text{errest}_k > \varepsilon$ and their adjacent intervals.
+If $K \ne \emptyset$, go to Stage 3.
+Otherwise, return the algorithm and terminate.
+\item[Stage 3.\ Split intervals in $K$.]\label{stage4} %Suppose
+%  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
+%    $$[t_{k_i-1},t_{k_i}] \longrightarrow \left[t_{k_i-1},\frac{t_{k_i-1}+t_{k_i}}{2}\right] \left[\frac{t_{k_i-1}+t_{k_i}}{2},t_{k_i}\right]
+%    \qquad \forall i=1,\ldots,m,$$
+%    where the $k_i$ here are the present values.
+%    To update the endpoints of subintervals and partition, we have the following formulas. For clarification,
+%    we use primed notation for the updated ones.
+%    \begin{align*}
+%    &L' =  L + m,\\
+%    &m' =  2m,\\
+%    & k'_{2i} =  k_i + i, \qquad i = 0,\ldots,m, \\
+%    &k'_{2i+1}=  k_{i+1} +i, \qquad i=0,\ldots,m, \\
+%    &t'_{k+i} =  t_k, \qquad k_i \le k < k_{i+1}, \ i = 0,\ldots,m, \\
+%    &t'_{k+i-1} =  \frac{t_{k_{i}-1} + t_{k_i}}{2}, \qquad i = 1,\ldots,m, \\
+%    &t'_{L'} =   t_L,\\
+%    &K' =  \{k'_1, \ldots, k'_{2m}\}, \\
+%    &\bvec{{n^*}' }=  ({n^*}'_k)_{k=1}^{L'}=(\eta(t'_k-t'_{k-1}))_{k=1}^{L'}, \\
+%    &\cp' =  \{[t'_0,t'_1],\ldots,[t'_{k-1},t'_k],\ldots, [t'_{L'-1},t'_{L'}]\}.
+%    \end{align*}
+    Update $x$ and $K$, then we go back to Stage~1.
+
+\end{description}
+\end{algo}
 
 \section*{References}
 
@@ -189,9 +226,9 @@ A different approach to reliable computation than the one we pursue here involve
 
 \section{The Composite Trapezoidal Rule and Its Error Bound.} \label{trapbasicsec}
 
-The composite trapezoidal rule $T_n$ approximates an integral by the sum of the areas of $n$ trapezoids whose heights are function values (see \eqref{trapruledef} and Fig.\ \ref{fourintegfig}(a)). The trapezoidal rule is also the integral of the piecewise linear spline approximation to the integrand. Under mild smoothness conditions on $f$ we know that $T_n(f) \to \int_a^b f(x) \, \dif x$ as $n \to \infty$ (see \eqref{traperrbd} below). 
+The composite trapezoidal rule $T_n$ approximates an integral by the sum of the areas of $n$ trapezoids whose heights are function values (see \eqref{trapruledef} and Fig.\ \ref{fourintegfig}(a)). The trapezoidal rule is also the integral of the piecewise linear spline approximation to the integrand. Under mild smoothness conditions on $f$ we know that $T_n(f) \to \int_a^b f(x) \, \dif x$ as $n \to \infty$ (see \eqref{traperrbd} below).
 
-We would like to turn $T_n$ into an \emph{automatic} quadrature algorithm that chooses $n$ to ensure that the trapezoidal rule error is small enough.  Given the user's tolerance for error, $\varepsilon$, an automatic trapezoidal algorithm should choose $n$ such that 
+We would like to turn $T_n$ into an \emph{automatic} quadrature algorithm that chooses $n$ to ensure that the trapezoidal rule error is small enough.  Given the user's tolerance for error, $\varepsilon$, an automatic trapezoidal algorithm should choose $n$ such that
 \begin{equation*} \label{errdef}
 \err(f,n) := \abs{\int_a^b f(x) \, \dif x - T_n(f)} \le \varepsilon.
 \end{equation*}
@@ -207,16 +244,16 @@ Here $\Var(\cdot)$ represents the (total) variation of a function:
 \end{equation}
 A \emph{partition}, $\datasites$, is defined as an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.  Intuitively, $\Var(f)$ is the total vertical distance up and down that one travels on a roller coaster whose track is the graph of $f$. The function $f \mapsto \Var(f')$ is a semi-norm on the space $\cv$. The restriction that $\Var(f')$ is finite implies that $f'$ may have at most a countably infinite number of discontinuities.
 
-An example of a function in $\cv$ whose first derivative is  discontinuous but has finite variation is the triangle-shaped function  $\tri(\cdot;t,h)$, which is used later in our error analysis.  For $a \le t < t+2h \le b$ let 
+An example of a function in $\cv$ whose first derivative is  discontinuous but has finite variation is the triangle-shaped function  $\tri(\cdot;t,h)$, which is used later in our error analysis.  For $a \le t < t+2h \le b$ let
 \begin{subequations} \label{trifundef}
 \begin{gather}
 \tri(x;t,h):= \begin{cases} h -\abs{x-t-h},  & t \le x < t+2h  \\
 0, & a \le x < t \text{ or } t+2h \le x \le b,
 \end{cases} \\
-\tri'(x;t,h) = \begin{cases} 
+\tri'(x;t,h) = \begin{cases}
 1, & t \le x < t+h, \\
 -1, & t+h \le x < t+2h, \\
-0, & a \le x < t \text{ or } t+2h \le x \le b, 
+0, & a \le x < t \text{ or } t+2h \le x \le b,
 \end{cases} \\
 \label{trifunVar}
 \Var(\tri'(\cdot;t,h)) \le 4 \text{ with equality if $a < t  < t+2h < b$}, \\
@@ -245,7 +282,7 @@ An example of a function in $\cv$ whose first derivative is  discontinuous but h
 \caption{Two functions in $\cv$ with discontinuous first derivatives: (a) a single peaked function, $\tri(\cdot,0.25,0.20)$ as defined in \eqref{trifundef}, and (b) a double-peaked function, $\twopk(\cdot,0.65,0.1,+)$ with $\hcut=0.2$ as defined in \eqref{twopkdef}.  \label{trianglepeakfig}}
 \end{figure}
 
-The true error of the trapezoidal rule, $\err(f,n)$, is rarely known in practice, but there exists a rigorous upper bound on the error of the form 
+The true error of the trapezoidal rule, $\err(f,n)$, is rarely known in practice, but there exists a rigorous upper bound on the error of the form
 \begin{equation} \label{traperrbd}
 \err(f,n) \le \frac{(b-a)^2\Var(f')}{8n^2} =:\oerr(f,n), \qquad n \in \naturals
 \end{equation}
@@ -265,13 +302,13 @@ The value of the integral to four significant digits may be found by a variety o
 
 Error bound \eqref{traperrbd} can help us determine how large $n$ must be to satisfy the error tolerance if an upper bound on $\Var(f')$ is available or can be correctly assumed. The following automatic algorithm fits this situation.
 
-\begin{ballalgo}[Non-Adaptive, for Balls] \label{ballalgo} Given an interval $[a,b]$, a ball radius $\sigma>0$, an error tolerance, $\varepsilon$, and a routine for generating values of $f$, set 
+\begin{ballalgo}[Non-Adaptive, for Balls] \label{ballalgo} Given an interval $[a,b]$, a ball radius $\sigma>0$, an error tolerance, $\varepsilon$, and a routine for generating values of $f$, set
 \begin{equation}\label{algo1n}
 n = \Bigg \lceil (b-a)\sqrt{\frac{\sigma}{8\varepsilon}} \Bigg \rceil,
 \end{equation}
 and return the trapezoidal rule $\ballinteg(f,a,b,\varepsilon)=T_n(f,a,b)$ as the answer.
 \end{ballalgo}
-\begin{theorem} \label{ballalgothm} For all integrands $f$ lying in the ball $\cb_{\sigma} : =\{g \in \cv : \Var(g') \le \sigma\}$, $\ballinteg$ is successful, i.e., 
+\begin{theorem} \label{ballalgothm} For all integrands $f$ lying in the ball $\cb_{\sigma} : =\{g \in \cv : \Var(g') \le \sigma\}$, $\ballinteg$ is successful, i.e.,
 \[
 \abs{\int_a^b f(x) \, \dif x - \ballinteg(f,a,b,\varepsilon)}\le \varepsilon.
 \]
@@ -280,7 +317,7 @@ The computational cost of $\ballinteg$ is $n+1$ function values, where $n$ is gi
 
 The algorithm $\ballinteg$ is automatic because it expends as much effort as required by the error tolerance, $\varepsilon$ and the radius of the ball, $\sigma$, to obtain the desired answer.  It is non-adaptive because the computational cost is the same for all integrands given $\varepsilon$ and $\sigma$.
 
-The computational cost of $\ballinteg$ is asymptotically optimal for the integration problem defined over $\cb_{\sigma}$.  This can be shown by constructing two fooling functions. 
+The computational cost of $\ballinteg$ is asymptotically optimal for the integration problem defined over $\cb_{\sigma}$.  This can be shown by constructing two fooling functions.
 
 \begin{theorem} \label{compcostballint}
 Let $\goodinteg$ be any (possibly adaptive) algorithm that succeeds for all integrands in $\cb_{\sigma}$. For any error tolerance $\varepsilon>0$, $\goodinteg$ must use
@@ -292,11 +329,11 @@ Let $\{x_i\}_{i=1}^{n-1}$ be the ordered nodes where $\goodinteg(\cdot,a,b,\vare
 \begin{equation}
 \size(\datasites):= \max_{i=1, \dots, n} (x_i - x_{i-1}).
 \end{equation}
-Let $(x_-,x_+)$ be a pair of consecutive points in the partition with maximum separation, i.e., $x_+ -x_- = \size(\datasites) \ge (b-a)/n$.  By \eqref{trifunVar} the integrands $f_{\pm}(x) := \pm \sigma \tri(x,x_-,(x_+-x_-)/2)/4$ lie in $\cb_\sigma$ and therefore must be integrated successfully by $\goodinteg$.  Moreover, since $f_{\pm}(x_1)=\cdots = f_{\pm}(x_{n-1}) = 0$, it follows that $0$ and $f_{\pm}$ are indistinguishable to $\goodinteg$, and thus 
-$\goodinteg(f_\pm,a,b,\varepsilon)=\goodinteg(0,a,b,\varepsilon)$.  
-Applying \eqref{trifuninteg} and the triangle inequality leads to a lower bound on $n$: 
+Let $(x_-,x_+)$ be a pair of consecutive points in the partition with maximum separation, i.e., $x_+ -x_- = \size(\datasites) \ge (b-a)/n$.  By \eqref{trifunVar} the integrands $f_{\pm}(x) := \pm \sigma \tri(x,x_-,(x_+-x_-)/2)/4$ lie in $\cb_\sigma$ and therefore must be integrated successfully by $\goodinteg$.  Moreover, since $f_{\pm}(x_1)=\cdots = f_{\pm}(x_{n-1}) = 0$, it follows that $0$ and $f_{\pm}$ are indistinguishable to $\goodinteg$, and thus
+$\goodinteg(f_\pm,a,b,\varepsilon)=\goodinteg(0,a,b,\varepsilon)$.
+Applying \eqref{trifuninteg} and the triangle inequality leads to a lower bound on $n$:
 \begin{align*}
-\varepsilon & 
+\varepsilon &
 \ge \frac{1}{2}\left [ \abs{\int_a^b f_-(x) \, \dif x - \goodinteg(f_-,a,b,\varepsilon)} + \abs{\int_a^b f_+(x) \, \dif x - \goodinteg(f_+,a,b,\varepsilon)} \right] \\
 & =  \frac{1}{2}\left [ \abs{\goodinteg(f_-,a,b,\varepsilon) -  \int_a^b f_-(x) \, \dif x} + \abs{\int_a^b f_+(x) \, \dif x - \goodinteg(f_+,a,b,
 \varepsilon)} \right] \\
@@ -306,7 +343,7 @@ Applying \eqref{trifuninteg} and the triangle inequality leads to a lower bound 
 This inequality provides a lower bound on $n-1$, which is the computational cost of this arbitrary, successful algorithm, $\goodinteg$, as given in the statement of Theorem \ref{compcostballint}.  The asymptotic rate of increase is $\Order(\sqrt{\sigma/\varepsilon})$ as $\sigma/\varepsilon \to \infty$, the same as for \eqref{algo1n}.
 \end{proof}
 
-For $f_{\text{easy}}$ in \eqref{feasy}, one may choose $\sigma=1.5038$, and then $\ballinteg$ uses $n = \lceil 0.4336/\sqrt{\varepsilon}\, \rceil$ trapezoids to get an answer within $\varepsilon$ of the true answer. Picking any modest value of $\sigma$ no smaller than $1.5038$ would  work also.  
+For $f_{\text{easy}}$ in \eqref{feasy}, one may choose $\sigma=1.5038$, and then $\ballinteg$ uses $n = \lceil 0.4336/\sqrt{\varepsilon}\, \rceil$ trapezoids to get an answer within $\varepsilon$ of the true answer. Picking any modest value of $\sigma$ no smaller than $1.5038$ would  work also.
 
 The numerical integration problems arising in calculus courses usually have integrands, $f$, for which $\Var(f')$ is easy to compute or bound.  However, we are aiming for a quadrature algorithm that accepts $f$ as a black-box whose formula might be quite complex.  We do not want to require the user to provide an upper bound on $\Var(f')$.
 
@@ -317,15 +354,15 @@ Adaptive quadrature algorithms don't need a value of $\sigma$, which $\ballinteg
 \begin{equation}\label{baderr}
 \herr(f,n) := \frac{\abs{T_n(f) - T_{n/2}(f)}}{3}, \qquad \frac n2 \in \naturals.
 \end{equation}
-This error estimate leads to the following adaptive quadrature algorithm, $\flawinteg$. Each iteration doubles the previous number of trapezoids so that function values can be reused. 
+This error estimate leads to the following adaptive quadrature algorithm, $\flawinteg$. Each iteration doubles the previous number of trapezoids so that function values can be reused.
 
 \begin{flawalgo}[Adaptive, for Cones] \label{baderralgo} Given an error tolerance, $\varepsilon$, let $j=1$ and $n_1=2$.
 
-\begin{description} 
+\begin{description}
 
 \item[Step 1] Compute the error estimate $\herr(f,n_j)$ according to \eqref{baderr}.
 
-\item [Step 2] If $\herr(f,n_j) \le \varepsilon$, then return the trapezoidal rule approximation $T_{n_j}(f)$ as the answer.  
+\item [Step 2] If $\herr(f,n_j) \le \varepsilon$, then return the trapezoidal rule approximation $T_{n_j}(f)$ as the answer.
 
 \item [Step 3] Otherwise let $n_{j+1}=2 n_j$, increase $j$ by one, and go to Step 1.
 
@@ -335,7 +372,7 @@ This error estimate leads to the following adaptive quadrature algorithm, $\flaw
 
 Consider the integrand $f_{\text{big}}$, plotted above in Fig.\ \ref{fourintegfig}(b), and defined below:
 \begin{subequations} \label{fbig}
-\begin{gather} 
+\begin{gather}
 f_{\text{big}}(x;m) :=  1 + \frac{15 m^4}{2} \left[ \frac{1}{30} - x^2(1-x)^2 \right], \quad m \in \naturals, \\
 \int_0^1 f_{\text{big}}(x;m) \, \dif x =  1, \quad T_{n}(f_{\text{big}}(x;m))= 1 + \frac{m^4}{4n^4},  \\
 \Var(f'_{\text{big}}(x;m)) = \frac{10 m^4}{\sqrt{3}},  \\ \err(f_{\text{big}}(x;m),n)=\frac{m^4}{4n^4} \le \frac{5m^4}{4n^4} = \herr(f_{\text{big}}(x;m),n).
@@ -344,7 +381,7 @@ f_{\text{big}}(x;m) :=  1 + \frac{15 m^4}{2} \left[ \frac{1}{30} - x^2(1-x)^2 \r
 (As an aside, $\err(f_{\text{big}}(x;m),n) = \Order (n^{-4})$ rather than only $\Order (n^{-2})$ because $f_{\text{big}}$ has sufficient periodic  derivatives.)  Algorithm $\flawinteg$ works well for this example because the error estimate is always larger than the true error no matter how large $m$ is, but $\flawinteg$ does not need $m$ or $\Var(f'_{\text{big}}(x;m))$ as an input.  On the other hand, $\ballinteg$ with a fixed $\sigma$ would fail for $f_{\text{big}}(\cdot; m)$ with $m$ large enough.
 
 The algorithm $\flawinteg$ must succeed for all integrands in the cone of functions where the true error is no greater than the error estimate:
-\begin{equation*} 
+\begin{equation*}
 \cc_{\text{flaw}} : = \{f \in \cv : \err(f,n) \le \herr(f,n) \; \forall n/2 \in \naturals\}.
 \end{equation*}
 However, one would desire a more intuitive understanding of what kinds of functions lie in $\cc_{\text{flaw}}$.
@@ -355,7 +392,7 @@ S_n(f) &:= \frac{b-a}{3n} \left [ f(t_0) + 4 f(t_1) + 2 f(t_2) + \cdots  + 2 f(t
 & = \frac{4T_n(f) - T_{n/2}(f)}{3} =  T_n(f) + \frac{T_n(f) - T_{n/2}(f)}{3}, \qquad \frac n2 \in \naturals,
 \end{align*}
 where $t_i=a+i(b-a)/n$.  The error bound for Simpson's rule then serves as an bound on the error of $\herr(f,n)$ \cite{BraPet11a}*{\Sect 7.3, p.\ 231}:
-\begin{align} 
+\begin{align}
 \nonumber
 \abs{\err(f,n) - \herr(f,n)} & = \abs{\abs{\int_a^b f(x) \, \dif x - T_n(f)} - \frac{\abs{T_n(f) - T_{n/2}(f)}}{3}} \\
 & \le \abs{\int_a^b f(x) \, \dif x - S_n(f)}  \le \frac{(b-a)^4 \Var(f''')}{36n^4}. \label{Simperrbd}
@@ -371,13 +408,13 @@ Any quadrature algorithm may fail to give the correct answer if $f$ has signific
 \begin{gather}
 f_{\text{spiky}}(x;m) = 30[\bbl m x \bbr(1-\bbl m x \bbr)]^2, \qquad m \in \naturals, \quad \bbl x \bbr := x \bmod 1, \\
 \int_0^1 f_{\text{spiky}}(x;m) \, \dif x = 1, \qquad \Var(f'_{\text{spiky}}(\cdot;m))= \frac{40m^2}{\sqrt{3}},\\
-T_n(f_{\text{spiky}}(\cdot;m))=0, \qquad 
+T_n(f_{\text{spiky}}(\cdot;m))=0, \qquad
 \text{for } \frac{m} {n} \in \naturals, \\
 \label{spikyerr}
-\err(f_{\text{spiky}}(\cdot;m),n)=1 \le \frac{5m^2}{\sqrt{3}n^2} = \oerr(f_{\text{spiky}}(\cdot;m),n) \qquad 
+\err(f_{\text{spiky}}(\cdot;m),n)=1 \le \frac{5m^2}{\sqrt{3}n^2} = \oerr(f_{\text{spiky}}(\cdot;m),n) \qquad
 \text{for } \frac{m}{n} \in \naturals, \\
 \label{spikyerrest}
- \err(f_{\text{spiky}}(\cdot;m),n) =  1 > 0 = \herr(f_{\text{spiky}}(\cdot;m),n)  \qquad 
+ \err(f_{\text{spiky}}(\cdot;m),n) =  1 > 0 = \herr(f_{\text{spiky}}(\cdot;m),n)  \qquad
 \text{for } \frac{m}{n} \in \naturals.
 \end{gather}
 \end{subequations}
@@ -399,11 +436,11 @@ Adaptive algorithm $\flawinteg$ has an even worse flaw than its inability to han
 \begin{quote}
 While prepared to take the risk of being misled by chance alignment of zeros in the integrand function, or by narrow peaks which are ``missed,'' the user may wish to be reassured that for ``reasonable'' integrand functions which do not have these characteristics all will be well. It is the purpose of the rest of this section to demonstrate by example that he cannot be reassured on this point. In fact the routine is likely to be unreliable in a significant proportion of the problems it faces (say $1$ to $5\%$) and there is no way of predicting in a straightforward way in which of any set of apparently reasonable problems this will happen.
 \end{quote}
-Lyness went on to describe how to construct a ``reasonable'' integrand that fools an automatic quadrature algorithm.  We call this a \emph{fluky} integrand.  
+Lyness went on to describe how to construct a ``reasonable'' integrand that fools an automatic quadrature algorithm.  We call this a \emph{fluky} integrand.
 
 Figure \ref{fourintegfig}(c) shows a fluky integrand that fools the error estimate in \eqref{baderr}:
 \begin{subequations} \label{fluky}
-\begin{gather} 
+\begin{gather}
 f_{\text{fluky}}(x;m) = f_{\text{big}}(x;m) + \frac{15m^2}{2}\left[- \frac{1}{6}+ x(1-x) \right], \quad m \in \naturals, \\
 \int_0^1 f_{\text{fluky}}(x;m) \, \dif x =  1, \quad T_{n}(f_{\text{fluky}}(x;m))=1 + \frac{m^2(m^2-5 n^2)}{4n^4}, \\
 \err(f_{\text{fluky}}(\cdot;m),n)=\frac{m^2 \abs{m^2-5n^2}}{4n^2}, \\
@@ -415,12 +452,12 @@ f_{\text{fluky}}(x;m) = f_{\text{big}}(x;m) + \frac{15m^2}{2}\left[- \frac{1}{6}
 \end{subequations}
 The integrand $f_{\text{fluky}}$ appears quite ``reasonable''---similar in shape to $f_{\text{big}}$.  We label integrands like this one ``fluky'' because their construction is rather delicate, and they totally fool the error bound while having a small number of local optima.
 
-While we may more readily understand that sufficiently spiky integrands fall outside $\cc_{\text{flaw}}$, the cone of integrands for which $\flawinteg$ succeeds, it is now also apparent that non-spiky integrands, such as $f_{\text{fluky}}$, also fall outside this cone. Even inflating the error estimate by a constant does not help. The next section presents an adaptive algorithm that only fails for spiky functions. 
+While we may more readily understand that sufficiently spiky integrands fall outside $\cc_{\text{flaw}}$, the cone of integrands for which $\flawinteg$ succeeds, it is now also apparent that non-spiky integrands, such as $f_{\text{fluky}}$, also fall outside this cone. Even inflating the error estimate by a constant does not help. The next section presents an adaptive algorithm that only fails for spiky functions.
 
 Nearly all existing adaptive quadrature algorithms can be fooled by both spiky and fluky integrands.  \Fig \ref{fig:foolquad} displays two integrands that fool \Matlab's premier quadrature algorithm, {\tt integral} \cite{MAT8.4}, which is based on an adaptive composite Gauss-Konrod scheme devised by Larry Shampine \ycite{Sha08a}.  The difference between two Gauss rules with different orders of accuracy---but using the same nodes--is used to estimate the error.  Fig.\  \ref{fig:foolquad}(a) depicts a spiky function whose integral is $1$ but for which \Matlab gives a value of $0$.   \Fig \ref{fig:foolquad}(b) depicts a fluky function whose integral is $0.278827$  but for which \Matlab gives a value of $0.278\boldsymbol{799}$.  In both cases the absolute and relative error tolerances are set to $10^{-13}$, but clearly are not met.  There is no theory describing the conditions under which \Matlab's {\tt integral} must succeed.
 
 \begin{figure}
-\centering 
+\centering
 \begin{colorfig}
 \begin{tabular}{cc}
 (a) & (b) \\
@@ -477,7 +514,7 @@ From this definition it follows that
 \nonumber
 \MoveEqLeft{\fC(\size(\datasites)) \hV(\twopk'(x;t,h,\pm),\datasites,\{\Delta_{i}\}_{i=1}^{n-1})} \\
 \nonumber
-&\ge  \begin{cases} 
+&\ge  \begin{cases}
 \fC(0) \Var(\twopk'(x;t,h,\pm)),  & 0 \le \size(\datasites) < h, \\
 \fC(h) \Var(\tri'(x;0,\hcut)) =  3 \fC(h) , & h \le \size(\datasites) < \hcut,
 \end{cases} \\
@@ -496,12 +533,12 @@ We cannot use $\hV(f',\datasites,\{\Delta_{i}\}_{i=1}^{n-1})$ to approximate $\V
 \begin{lem}  \label{tVlem}
 For all $f \in \cc$ it follows that $\tV_n(f) \le \Var(f') \le \fC(2(b-a)/n) \tV_n(f)$ for $n>2(b-a)/\hcut$.
 \end{lem}
-\begin{proof} For all $i=0, \ldots, n-1$ it follows that 
+\begin{proof} For all $i=0, \ldots, n-1$ it follows that
 \begin{equation} \label{MVT}
 f(t_{i+1})-f(t_{i}) = \int_{t_i}^{t_{i+1}} f'(x) \, \dif x = (t_{i+1}-t_{i}) \Delta_i
 \end{equation}
 for some $\Delta_{i}$ between $f'(x_i^-)$ and $f'(x_i^+)$ and for some $x_i \in [t_{i},t_{i+1}]$.  This follows from a mean value argument. Since it is impossible for $f'(x)$ to lie strictly below or strictly above $[f(t_{i+1})-f(t_{i})]/(t_{i+1}-t_{i})$, there must exist $\xi_{\pm} \in [t_{i},t_{i+1}]$ with $f'(\xi_-) \le [f(t_{i+1})-f(t_{i})]/(t_{i+1}-t_{i}) \le f'(\xi_+)$.  A bisection algorithm then converges to an $x_i$ with the desired property.
-Augmenting $\{x_{i}\}_{i=1}^n$ with $a$ and $b$ to become a partition, $\{x_i\}_{i=0}^{n+1}$, it follows from \eqref{MVT} that 
+Augmenting $\{x_{i}\}_{i=1}^n$ with $a$ and $b$ to become a partition, $\{x_i\}_{i=0}^{n+1}$, it follows from \eqref{MVT} that
 \begin{align*}
  \tV_n(f) &=\sum_{i=1}^{n-1} \abs{ \Delta_i - \Delta_{i-1}} = \hV(f',\{x_i\}_{i=0}^{n+1},\{\Delta_{i}\}_{i=1}^{n}) \\
  & \begin{cases} \le \Var(f') & \text{by \eqref{hVlowerbd}}, \\
@@ -527,11 +564,11 @@ This is the crux of our guaranteed adaptive trapezoidal rule, $\integ$, which is
 \begin{description}
 \item[Step 1] Compute $\tV_{n_j}(f)$ and $\displaystyle \oV_j = \min\left(\oV_{j-1}, \fC\left(\frac{2(b-a)}{n_j}\right)\tV_{n_j}(f) \right )$. If it happens that $\tV_{n_j}(f) >  \oV_{j}$, then re-define $\hcut$ and $\fC$ so that $\tV_{n_k}(f) \le   \oV_{k}$ for $k=1, \ldots, j$. Otherwise, proceed.
 
-\item [Step 2] If $(b-a)^2 \oV_j \le 8 n_j^2\varepsilon$, then return $T_{n_j}(f)$ as the answer.  
+\item [Step 2] If $(b-a)^2 \oV_j \le 8 n_j^2\varepsilon$, then return $T_{n_j}(f)$ as the answer.
 
 \item [Step 3] Otherwise, increase the number of trapezoids to $n_{j+1} = \max(2,m) n_j$, where
 \begin{multline}\label{conealgom}
-m = \min\{ r \in \naturals : \eta(rn_j) \tV_{n_j}(f) \le  \varepsilon \}, \\ \text{with} \quad \eta(n):= \frac{(b-a)^2 \fC(2(b-a)/n)}{8 n^2}, 
+m = \min\{ r \in \naturals : \eta(rn_j) \tV_{n_j}(f) \le  \varepsilon \}, \\ \text{with} \quad \eta(n):= \frac{(b-a)^2 \fC(2(b-a)/n)}{8 n^2},
 \end{multline}
 increase $j$ by one, and go to Step 1.
 
@@ -539,7 +576,7 @@ increase $j$ by one, and go to Step 1.
 \end{guaralgo}
 
 \begin{theorem} \label{conealgosuccthm}
-Algorithm $\integ$ is successful, i.e.,  
+Algorithm $\integ$ is successful, i.e.,
 \[
 \abs{\int_a^b f(x) \, \dif x - \integ(f,a,b,\varepsilon)} \le \varepsilon \qquad \forall f \in \cc.
 \]
@@ -563,18 +600,18 @@ N(f,\varepsilon) \\
 The number of function values required by $\integ(f,a,b,\varepsilon)$ is $N(f,\varepsilon)+1$.
 \end{theorem}
 
-\begin{proof} No matter what inputs $f$ and $\varepsilon$ are provided, the number of trapezoids must be at least $n_1 = \left \lfloor 2(b-a)/\hcut \right \rfloor +1$.  Then the number of trapezoids is increased until $(b-a)^2 \oV_j \le 8 n_j^2\varepsilon$, which by \eqref{guarerr} implies that $\oerr(f,n) \le \varepsilon$.  This implies the lower bound on $N(f,\varepsilon)$ 
+\begin{proof} No matter what inputs $f$ and $\varepsilon$ are provided, the number of trapezoids must be at least $n_1 = \left \lfloor 2(b-a)/\hcut \right \rfloor +1$.  Then the number of trapezoids is increased until $(b-a)^2 \oV_j \le 8 n_j^2\varepsilon$, which by \eqref{guarerr} implies that $\oerr(f,n) \le \varepsilon$.  This implies the lower bound on $N(f,\varepsilon)$
 
-Let $J$ be the value of $j$ for which Algorithm $\integ$ terminates.  Since $n_1$ satisfies the upper bound, we may assume that $J \ge 2$.  Let $m$ be the integer found in Step 3, and let $m^*=\max(2,m)$.  Note that $\eta((m^*-1)n_{J-1}) \Var(f')  > \varepsilon$.  For $m^*=2$ this follows because 
+Let $J$ be the value of $j$ for which Algorithm $\integ$ terminates.  Since $n_1$ satisfies the upper bound, we may assume that $J \ge 2$.  Let $m$ be the integer found in Step 3, and let $m^*=\max(2,m)$.  Note that $\eta((m^*-1)n_{J-1}) \Var(f')  > \varepsilon$.  For $m^*=2$ this follows because
 \begin{multline*}
 \eta(n_{J-1}) \Var(f') \ge \frac{(b-a)^2 \fC(2(b-a)/n_{J-1}) \tV_{n_{J-1}}(f)}{8 n_{j-1}^2}  \\
 \ge  \frac{(b-a)^2 \oV_{J-1}(f)}{8 n_{j-1}^2} > \varepsilon.
 \end{multline*}
-For $m^*=m>2$ this follows by the definition of $m$ in Step 3.  Since $\eta$ is a decreasing function, this implies that 
+For $m^*=m>2$ this follows by the definition of $m$ in Step 3.  Since $\eta$ is a decreasing function, this implies that
 \[
 (m^*-1)n_{J-1} < n^*:= \min \left \{ n \in \naturals : n\ge \left \lfloor \frac{2(b-a)}{\hcut} \right \rfloor +1,  \ \eta(n)  \Var(f') \le  \varepsilon \right \}.
 \]
-Thus, $n_J=m^* n_{J-1} < [m^*/(m^*-1)] n^* \le 2 n^*$, which corresponds to the first part of the upper bound  in \eqref{integcostbd}.  
+Thus, $n_J=m^* n_{J-1} < [m^*/(m^*-1)] n^* \le 2 n^*$, which corresponds to the first part of the upper bound  in \eqref{integcostbd}.
 
 To establish the second part of the upper bound, we show that
 \begin{equation*}
@@ -595,21 +632,21 @@ which completes the proof of the upper bound on $n^*$.
 Not only is it important to understand the maximum possible computational cost of $\integ$, but it is also desirable to know whether this cost is optimal among all possible algorithms utilizing function values.  The optimality of $\integ$ may be demonstrated by an argument similar to the proof of Theorem \ref{compcostballint}.
 
 \begin{theorem} \label{conealgolowbdthm}
-Let $\goodinteg$ be any (possibly adaptive) algorithm that succeeds for all integrands in $\cc$, and only uses function values.  For any error tolerance $\varepsilon>0$ and any arbitrary value of $\Var(f')$, there will be some $f \in \cc$ for which $\goodinteg$ must use at least 
+Let $\goodinteg$ be any (possibly adaptive) algorithm that succeeds for all integrands in $\cc$, and only uses function values.  For any error tolerance $\varepsilon>0$ and any arbitrary value of $\Var(f')$, there will be some $f \in \cc$ for which $\goodinteg$ must use at least
 \begin{equation} \label{lowbdcone}
 -\frac{3}{2}+(b-a-3\hcut)\sqrt{\frac{[\fC(0)-1]\Var(f')}{16\varepsilon}}
 \end{equation}
 function values.  As $\Var(f')/\varepsilon \to \infty$ the asymptotic rate of increase is the same as the computational cost of $\integ$, provided $\fC(0)>1$.
 \end{theorem}
 \begin{proof}
-For any positive $\alpha$, suppose that  $\goodinteg(\cdot,a,b,\varepsilon)$ evaluates the triangle peak shaped integrand $\alpha \tri(\cdot;0,\hcut)$ at $n$ nodes before returning an answer.  Let $\{x_i\}_{i=1}^m$ be the $m \le n$ ordered nodes used by $\goodinteg(\alpha \tri(\cdot;0,\hcut),a,b,\varepsilon)$ that fall in the interval $(x_0, x_{m+1})$, where $x_0:=a+3\hcut$, $x_{m+1}:=b-h$, and $h:=[b-a-3\hcut]/(2n+3)$.  There must be at least one of these $x_i$ with $i=0, \ldots, m$ for which 
+For any positive $\alpha$, suppose that  $\goodinteg(\cdot,a,b,\varepsilon)$ evaluates the triangle peak shaped integrand $\alpha \tri(\cdot;0,\hcut)$ at $n$ nodes before returning an answer.  Let $\{x_i\}_{i=1}^m$ be the $m \le n$ ordered nodes used by $\goodinteg(\alpha \tri(\cdot;0,\hcut),a,b,\varepsilon)$ that fall in the interval $(x_0, x_{m+1})$, where $x_0:=a+3\hcut$, $x_{m+1}:=b-h$, and $h:=[b-a-3\hcut]/(2n+3)$.  There must be at least one of these $x_i$ with $i=0, \ldots, m$ for which
 \[
 \frac{x_{i+1}-x_i}{2} \ge \frac{x_{m+1}-x_0}{2(m+1)} \ge \frac{x_{m+1}-x_0}{2n+2}
 = \frac{b-a-3 \hcut-h}{2n+2}=\frac{b-a-3 \hcut}{2n+3} = h.
 \]
-Choose one such $x_i$, and call it $t$.  The choice of $t$ and $h$ ensure that $\goodinteg(\cdot,a,b,\varepsilon)$ cannot distinguish between $\alpha\twopk(\cdot;t,h,\pm)$ and $\alpha \tri(\cdot;0,\hcut)$.  Thus, 
+Choose one such $x_i$, and call it $t$.  The choice of $t$ and $h$ ensure that $\goodinteg(\cdot,a,b,\varepsilon)$ cannot distinguish between $\alpha\twopk(\cdot;t,h,\pm)$ and $\alpha \tri(\cdot;0,\hcut)$.  Thus,
 \[
-\goodinteg(\alpha\twopk(\cdot;t,h,\pm),a,b,\varepsilon) = \goodinteg(\alpha \tri(\cdot;0,\hcut),a,b,\varepsilon). 
+\goodinteg(\alpha\twopk(\cdot;t,h,\pm),a,b,\varepsilon) = \goodinteg(\alpha \tri(\cdot;0,\hcut),a,b,\varepsilon).
 \]
 
 Moreover, as discussed in the previous section, the functions $\alpha \tri(\cdot;0,\hcut)$ and $\alpha\twopk(\cdot;t,h,\pm)$ all belong to the cone $\cc$.  This means that $\goodinteg$ is successful for all of these functions.  By the definitions of $\tri$ in \eqref{trifundef} and $\twopk$ in \eqref{twopkdef}, it follows that
@@ -619,7 +656,7 @@ Moreover, as discussed in the previous section, the functions $\alpha \tri(\cdot
 & \ge \frac{1}{2}\left [ \abs{ \goodinteg(\alpha \tri(\cdot;0,\hcut),a,b,\varepsilon) -  \int_a^b \alpha \twopk(x;t,h,-) \, \dif x} \right . \\
 & \quad \qquad \left . + \abs{ \int_a^b \alpha \twopk(x;t,h,+) \, \dif x - \goodinteg(\alpha \tri(\cdot;0,\hcut),a,b,\varepsilon) } \right]  \\
 & \ge \frac{1}{2} \abs{  \int_a^b \alpha \twopk(x;t,h,+) \, \dif x -  \int_a^b \alpha \twopk(x;t,h,-) \, \dif x}  \\
-& = \int_a^b \frac{3\alpha [\fC(h)-1]}{4} \tri(x;t,h) \,  \dif x = \frac{3\alpha [\fC(h)-1]h^2}{4} \\ 
+& = \int_a^b \frac{3\alpha [\fC(h)-1]}{4} \tri(x;t,h) \,  \dif x = \frac{3\alpha [\fC(h)-1]h^2}{4} \\
 &= \frac{[\fC(h)-1]h^2 \Var(\alpha \tri(\cdot;0,\hcut))}{4}.
 \end{align*}
 Substituting for $h$ in terms of $n$ gives a lower bound on $n$:
@@ -638,23 +675,23 @@ Finally, compare the upper bound on the computational cost of $\integ$ in \eqref
 
 Numerical computation is an important part of mathematics because it provides us answers when analytic methods cannot.  The work presented here challenges both mathematics educators and numerical analysis researchers.
 
-We have found that university students have difficulty combining analytic and numerical methods holistically to solve realistic mathematical problems \cite{BerEtal14a}.  Students tend to work in just one mode.  Or, they think that the lack of an analytic formula for the answer means that no answer exists.  Our teaching should be designed to correct this.  Calculus is a good place to introduce students to the trapezoidal rule for evaluating integrals that do exist, but whose values cannot be expressed in terms of analytic functions.  
+We have found that university students have difficulty combining analytic and numerical methods holistically to solve realistic mathematical problems \cite{BerEtal14a}.  Students tend to work in just one mode.  Or, they think that the lack of an analytic formula for the answer means that no answer exists.  Our teaching should be designed to correct this.  Calculus is a good place to introduce students to the trapezoidal rule for evaluating integrals that do exist, but whose values cannot be expressed in terms of analytic functions.
 
 However, the trapezoidal rule as taught in a calculus course leaves open the question of how large $n$ needs to be, unless the problem is simple enough to be handled by $\ballinteg$ (\Sect \ref{autoballsec}). Rather than pretend that all realistic problems have feasible upper bounds on $\Var(f')$, we should explain to students that this question is answered by adaptive algorithms, and then point students to a later course or the literature.
 
 When students get to a numerical analysis course that discusses error estimates for quadrature, we would urge instructors \emph{not} to teach $\herr(f,n)$ in \eqref{baderr}, as is commonly done now.  As discussed here in \Sect \ref{flawstopsec} and \ref{flukysubsec} and three decades ago by \ocite{Lyn83}, $\herr(f,n)$  is flawed.  We now have a better alternative, $\terr(f,n)$ in \eqref{guarerr}, which should be mentioned---if not taught---in beginning numerical analysis courses.
 
-The treatment of numerical integration in this article highlights the gap that exists in the theory and practice of numerical computation for a wide range of problems.  There are good basic methods, such as the trapezoidal rule used here.  Error bounds of the form 
+The treatment of numerical integration in this article highlights the gap that exists in the theory and practice of numerical computation for a wide range of problems.  There are good basic methods, such as the trapezoidal rule used here.  Error bounds of the form
 \[
 \err(f,n):=\norm{S(f)-A_n(f)} \le C(n) \norm{f}
 \]
 already exist, where $S$ denotes the solution operator (integration in our case), $A_n$ denotes the numerical method ($T_n$ in our case),  $\norm{f}$ denotes some semi-norm of the input element $f$ ($\Var(f')$ in our case), $C$ is some known function, and $n$ corresponds to the number of steps or nodes.  The question begging for an answer is,  ``How large must $n$ be to ensure that error, $\err(f,n)$  is no greater than the tolerance, $\varepsilon$?''
 
-When $S(f)$ corresponds to evaluation of elementary or special functions, such as $\cos(f)$ or $\erf(f)$ for $f \in \reals$, we do not tell our calculators and computer languages how to choose $n$, the number of terms in a polynomial approximation.  That number is chosen invisibly and large enough so that the error is negligible compared to machine accuracy.  Theory guarantees that these algorithms work.  
+When $S(f)$ corresponds to evaluation of elementary or special functions, such as $\cos(f)$ or $\erf(f)$ for $f \in \reals$, we do not tell our calculators and computer languages how to choose $n$, the number of terms in a polynomial approximation.  That number is chosen invisibly and large enough so that the error is negligible compared to machine accuracy.  Theory guarantees that these algorithms work.
 
 But for more complicated problems, such as integration, function approximation, function optimization, and solutions of differential equations, there are not many practical automatic and adaptive algorithms with  theoretical guarantees of success.  \ocite{Bre13a} describes guaranteed algorithms for finding one zero of a function and for finding minima of unimodal functions that date from the early 1970s.  He even considers the challenges of finite precision arithmetic.   \ocite{WasGao92a}, \ocite{PlaWas05a},  \ocite{PlaEtal08a}, \ocite{PlaWoz09a}, and \ocite{PlaEtal13a} have shown that adaptive algorithms can be successful for integration and function approximation problems where the functions have singularities.  \ocite{Nov96a} has discussed what a priori knowledge about a mathematical problem may allow adaptive algorithms to be superior to non-adaptive ones.
 
-Guaranteed adaptive multivariate integration algorithms have been derived using Monte Carlo \cite{HicEtal14a} and quasi-Monte Carlo methods \cite{HicJim16a,JimHic16a}.  Guaranteed adaptive algorithms for univariate function approximation \cite{HicEtal14b} and optimization of multimodal univariate functions \cite{Ton14a}  have been derived using linear splines.  These recent algorithms rely on identifying data-based upper bounds on $\norm{f}$ that are valid for $f$ inside certain cones.  
+Guaranteed adaptive multivariate integration algorithms have been derived using Monte Carlo \cite{HicEtal14a} and quasi-Monte Carlo methods \cite{HicJim16a,JimHic16a}.  Guaranteed adaptive algorithms for univariate function approximation \cite{HicEtal14b} and optimization of multimodal univariate functions \cite{Ton14a}  have been derived using linear splines.  These recent algorithms rely on identifying data-based upper bounds on $\norm{f}$ that are valid for $f$ inside certain cones.
 
 There are two reasons why it makes sense to focus on cones of $f$.  Problems that are homogeneous ($S(cf)=cS(f)$ for all $c\in \reals$) typically are solved by homogeneous numerical methods, $A_n$.  This makes the true error positively homogeneous ($\err(cf,n) = \abs{c}\err(f,n)$ for all $c\in \reals$). Good error bounds, $\terr(f,n)$, also tend to be positively homogeneous, which means that the set of functions for which the error bound is successful, $\{ f : \err(f,n) \le \terr(f,n)\}$, must be a cone.
 
@@ -666,9 +703,9 @@ lies outside $\cc$ for $h< \hcut/2$.  Since $\cc$ is not convex, it is possible 
 
 Our challenge to the numerical analysis community is to take the ideas illustrated here and extend them to other problems and more powerful algorithms.  The trapezoidal rule is admittedly inefficient if the integrand has a higher degree of smoothness.  The arguments used here should have analogs for higher order quadrature methods.  Adaptive algorithms for other mathematical problems exist, but they lack theoretical justification.  Again, using the ideas presented here we hope that these algorithms can either be justified or replaced by better, guaranteed algorithms.
 
-The scientific computing community has been discussing how to make our numerical computations reproducible \cite{BaiBor12a, BanHei14a, BucDon95a, LeV2013a, Sto14a}, i.e., ensuring that one person's computations can be replicated by others.  This includes making software readily available, transparent, and easy to use.  
+The scientific computing community has been discussing how to make our numerical computations reproducible \cite{BaiBor12a, BanHei14a, BucDon95a, LeV2013a, Sto14a}, i.e., ensuring that one person's computations can be replicated by others.  This includes making software readily available, transparent, and easy to use.
 
-We think that the emphasis should be broadened to include \emph{reliable} numerical computations.  Reproducing someone else's answer has less value if the answer is wrong.  This means that numerical software should also be thoroughly tested, efficiently coded, and come with the theoretical guarantees of success that are so often missing.  \ocite{Cho14a} has discussed these ideas and an attempt to teach them to computational mathematics graduate students.  These students have applied what they have learned to the development of the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal14a}.  GAIL is an attempt to develop truly reliable numerical software, and it already includes some of the algorithms mentioned above.  A future version should include the new, adaptive algorithm $\integ$ described here.  
+We think that the emphasis should be broadened to include \emph{reliable} numerical computations.  Reproducing someone else's answer has less value if the answer is wrong.  This means that numerical software should also be thoroughly tested, efficiently coded, and come with the theoretical guarantees of success that are so often missing.  \ocite{Cho14a} has discussed these ideas and an attempt to teach them to computational mathematics graduate students.  These students have applied what they have learned to the development of the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal14a}.  GAIL is an attempt to develop truly reliable numerical software, and it already includes some of the algorithms mentioned above.  A future version should include the new, adaptive algorithm $\integ$ described here.
 
 \section{Acknowledgements.}  The authors are grateful for discussions with a number of colleagues and collaborators. This research was supported in part by grant NSF-DMS-1115392.
 
