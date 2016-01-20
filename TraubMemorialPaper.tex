@@ -81,8 +81,8 @@ Some ideas to get us going
 
 We want to solve two problems.  For some suitable subset, $\cc$, of continuous, real-valued functions on the finite interval $[a,b]$, we want to construct  algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
-\norm[\infty]{f - A(f,\abstol)} \le \varepsilon,  \tag{APP} \\
-\min_{a \le x \le b} f(x) - M(f,\abstol) \le \varepsilon. \tag{OPT}
+\norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \\
+M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{OPT}
 \end{gather}
 Here $A$ and $M$ depend only on function values.  They will be adaptive algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites previously chosen.  These algorithms also automatically determine when to stop sampling the input function and return the answer.
 
@@ -93,11 +93,11 @@ The choice of $\cc$ is different than the work of Ding and Tong in their theses 
 \]
 Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ be some positive number.  The set of functions for our algorithms will apply is defined as functions whose second derivatives do not change much in magnitude over a short distance, specifically,
 \begin{multline} \label{condef}
-\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ h \in [0, \fh], \ h_{\pm} \in [0,h],  \  \abs{f''(x)} \\
-\le \begin{cases} \fC(h) \max(|f''(x-h_-)|, |f''(x+h_+)|), & a \le x-h_- \le x + h_+ \le b,\\
-\fC(h) |f''(x-h_-)|, & a \le x-h_- \le b <  x + h_+, \\
-\fC(h) |f''(x+h_+)|, & x-h_- < a \le x + h_+ \le b.
-\end{cases} 
+\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ h \in [0, \fh], \ h_{\pm} \in [0,h], \ x_\pm = x \pm h_\pm, \\  \abs{f''(x)}
+\le \begin{cases} \fC(h) \max(|f''(x_-)|, |f''(x_+)|), & a \le x_- \le x_+ \le b,\\
+\fC(h) |f''(x_-)|, & a \le x_- \le b <  x_+, \\
+\fC(h) |f''(x_+)|, & x_- < a \le x_+ \le b.
+\end{cases} \quad 
  \Vastr \}.
 \end{multline}
 This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  This cone considers difference quotients on both sides of $x$ to bound $\abs{f''(x)}$ to allow functions with step discontinuities in their second derivatives, provided that these do not occur too close to each other or too close to the ends of the interval.
@@ -117,7 +117,7 @@ To construct an adaptive algorithm, requires an upper bound on $\norm[{[x_{i-1},
 
 For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 \le x_2 \le x_3 \le b$ let  $p(f,\{x_1, x_2, x_3\})$ denote the Lagrange quadratic interpolating polynomial,
 \begin{multline*} 
-p(f,\{x_1, x_2, x_3\}) : = \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1 - x_3)}f(x_1) \\ + \frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2 - x_3)}f(x_2) + \frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3 - x_2)}f(x_3) \biggr ].
+p(f,\{x_1, x_2, x_3\})(x) : = \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1 - x_3)}f(x_1) \\ + \frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2 - x_3)}f(x_2) + \frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3 - x_2)}f(x_3) \biggr ].
 \end{multline*}
 Furthermore, let $\Delta(f,\{x_1, x_2, x_3\})$ denote the second deriative of this quadratic polynomial: 
 \begin{multline} \label{Deltadef}
@@ -134,7 +134,7 @@ The correspondence between in the previous equation makes possible a data-driven
 f''(t_i) = \Delta(f,\{x_{i-1}, x_i, x_{i+1}\}) \quad \text{for some } t_i \in [x_{i-1}, x_{i+1}].
 \end{equation}
 
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. It follows by the definition of the cone that
+First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Since $t_{i-2} \le x \le t_{i+1}$ for all $ x \in [x_{i-1},x_i]$,  it follows by the definition of the cone that
 \begin{equation*}
 \abs{f''(x)} \le \fC(\max(x-t_{i-2},t_{i+1}-x))\max(\abs{f''(t_{i-2})},\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i].
 \end{equation*}
@@ -142,29 +142,29 @@ This implies that the norm has the following upper bound:
 \begin{subequations} \label{normbd}
 \begin{multline}
 \norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
- \times \max(\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}).
+ \times \max\bigl(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}\bigr).
 \end{multline}
 
 Next consider the cases of the sub-intervals on the left border of the interval.  For $i \in \{1,2\}$ it follows by the cone definition that 
 \begin{gather}
 \nonumber
 \abs{f''(x)} \le \fC(\max(x-a,t_{i+1}-x))\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i], \\
-\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}).
+\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}.
 \end{gather}
 Similary, for $i \in \{n-1, n\}$ it follows by the cone definition that 
 \begin{gather}
 \nonumber
 \abs{f''(x)} \le \fC(\max(x-t_{i-2},b-x))\abs{f''(t_{i-2})})  \ \forall x \in [x_{i-1},x_i], \\
-\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\}}).
+\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})}.
 \end{gather}
 \end{subequations}
 The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the data-driven error bound for the linear spline:
 \begin{multline} \label{appxerrbdb}
 \norm{f - S(f,\datasites)} \le \\
-\max \Bigl \{ \bigl(\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}) \bigr)_{i=1}^2, \\
-\bigl( \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
- \times \max(\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}) \bigr)_{i=3}^{n-2}, \\
- \bigl(\fC(\max(x_i-x_{i-3},b-x_{i-1}))\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\}}) \bigr)_{i=n-1}^n \Bigr\}.
+\max \Bigl \{ \Bigl(\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})} \Bigr)_{i=1}^2, \\
+\Bigl( \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
+ \times \max(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})} \Bigr)_{i=3}^{n-2}, \\
+ \Bigl(\fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})} \Bigr)_{i=n-1}^n \Bigr\}.
 \end{multline}
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
