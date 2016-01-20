@@ -107,7 +107,7 @@ S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{
 \end{multline}
 The error of this approximation is bounded as follows
 \begin{equation} \label{appxerrbda}
-\norm{f - A(f,\datasites)} \le \sup_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
+\norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
 \end{equation}
 To construct an adaptive algorithm, requires an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values.  This can be done for $f \in \cc$.
 
@@ -125,7 +125,7 @@ Since the function $f - p(f,\{x_1, x_2, x_3\})$ has at least three zeros on $[x_
 f''(t_2) = \Delta(f,\{x_1, x_2, x_3\}) \quad \text{for some } t_2 \in [x_1, x_3].
 \end{equation}
 
-The correspondence between in the previous equation makes possible a data-driven upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$, which can then be combined with error bound  \label{appxerrbda} to obtain an data-driven error bound for the linear spline approximation.  Again consider the partition of $[a,b]$ denoted as $\datasites$, and let $t_1, \ldots, t_{n-1}$ be defined analogous to \eqref{fppDeltab}, i.e., 
+The correspondence between in the previous equation makes possible a data-driven upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$, which can then be combined with error bound  \eqref{appxerrbda} to obtain an data-driven error bound for the linear spline approximation.  Again consider the partition of $[a,b]$ denoted as $\datasites$, and let $t_1, \ldots, t_{n-1}$ be defined analogous to \eqref{fppDeltab}, i.e., 
 \begin{equation} \label{fppDeltab}
 f''(t_i) = \Delta(f,\{x_{i-1}, x_i, x_{i+1}\}) \quad \text{for some } t_i \in [x_{i-1}, x_{i+1}].
 \end{equation}
@@ -135,13 +135,33 @@ First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}
 \abs{f''(x)} \le \fC(\max(x-t_{i-2},t_{i+1}-x))\max(\abs{f''(t_{i-2})},\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i].
 \end{equation*}
 This implies that the norm has the following upper bound:
-\begin{multline*}
+\begin{subequations} \label{normbd}
+\begin{multline}
 \norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
  \times \max(\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}).
-\end{multline*}
+\end{multline}
 
-
-
+Next consider the cases of the sub-intervals on the left border of the interval.  For $i \in \{1,2\}$ it follows by the cone definition that 
+\begin{gather}
+\nonumber
+\abs{f''(x)} \le \fC(\max(x-a,t_{i+1}-x))\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i], \\
+\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}).
+\end{gather}
+Similary, for $i \in \{n-1, n\}$ it follows by the cone definition that 
+\begin{gather}
+\nonumber
+\abs{f''(x)} \le \fC(\max(x-t_{i-2},b-x))\abs{f''(t_{i-2})})  \ \forall x \in [x_{i-1},x_i], \\
+\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-t_{i-2},b-x_{i-1}))\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\}}).
+\end{gather}
+\end{subequations}
+The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the data-driven error bound for the linear spline:
+\begin{multline} \label{appxerrbdb}
+\norm{f - S(f,\datasites)} \le \\
+\max \Bigl \{ \bigl(\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}) \bigr)_{i=1}^2, \\
+\bigl( \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
+ \times \max(\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}) \bigr)_{i=3}^{n-2}, \\
+ \bigl(\fC(\max(x_i-t_{i-2},b-x_{i-1}))\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\}}) \bigr)_{i=n-1}^n \Bigr\}
+\end{multline}
 
 
 
@@ -150,6 +170,14 @@ This implies that the norm has the following upper bound:
 \bibliography{FJH23,FJHOwn23}
 
 \end{document}
+
+
+
+
+
+
+
+
 
 
 
