@@ -1,0 +1,15 @@
+\def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
+\begin{thebibliography}{1}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Misc
+\bibitem[{\HickernellFJ et~al.(2015+)\HickernellFJ, Razo and
+  Yun}]{HicRazYun15a}
+\bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{Razo\xfnm[ M.]},
+  \bibinfo{author}{Yun\xfnm[ S.]}.
+\newblock \bibinfo{title}{Reliable adaptive numerical integration}.
+\newblock \bibinfo{year}{2015+}.
+\newblock \bibinfo{note}{Submitted for publication}.
+
+\end{thebibliography}

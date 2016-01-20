@@ -86,6 +86,7 @@ We want to solve two problems.  For some suitable subset, $\cc$, of continuous, 
 \end{gather}
 Here $A$ and $M$ depend only on function values.  They will be adaptive algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites previously chosen.  These algorithms also automatically determine when to stop sampling the input function and return the answer.
 
+\subsection{The Cone}
 The choice of $\cc$ is different than the work of Ding and Tong in their theses and is similar to that in \cite{HicRazYun15a}. We will employ linear splines to build our algorithms, and so we will consider functions in the Soboloev space
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''} <  \infty \Bigr\}.
@@ -99,8 +100,9 @@ Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ 
 \end{cases} 
  \Vastr \}.
 \end{multline}
-This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.
+This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  This cone considers difference quotients on both sides of $x$ to bound $\abs{f''(x)}$ to allow functions with step discontinuities in their second derivatives, provided that these do not occur too close to each other or too close to the ends of the interval.
 
+\subsection{The Linear Spline and Its Error}
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.   The linear spline approximation to a function $f$ based on the partition $\datasites$ is denoted, $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
