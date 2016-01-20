@@ -130,10 +130,11 @@ The correspondence between in the previous equation makes possible a data-driven
 f''(t_i) = \Delta(f,\{x_{i-1}, x_i, x_{i+1}\}) \quad \text{for some } t_i \in [x_{i-1}, x_{i+1}].
 \end{equation}
 
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. It follows by the definition of the cone that for all $x \in [x_{i-1},x_i]$, 
+First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. It follows by the definition of the cone that
 \begin{equation*}
-\abs{f''(x)} \le \fC(\max(x-t_{i-2},t_{i+1}-x))\max(\abs{f''(t_{i-2})},\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i]
+\abs{f''(x)} \le \fC(\max(x-t_{i-2},t_{i+1}-x))\max(\abs{f''(t_{i-2})},\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i].
 \end{equation*}
+This implies that the norm has the following upper bound:
 \begin{multline*}
 \norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
  \times \max(\abs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\}}).
