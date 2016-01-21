@@ -1,8 +1,14 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{1}
+\begin{thebibliography}{3}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Phdthesis
+\bibitem[{Ding(2015)}]{Din15a}
+\bibinfo{author}{Ding\xfnm[ Y.]}.
+\newblock \bibinfo{title}{Guaranteed Adaptive Univariate Function
+  Approximation}.
+\newblock Ph.D. thesis; Illinois Institute of Technology; \bibinfo{year}{2015}.
 %Type = Misc
 \bibitem[{\HickernellFJ et~al.(2015+)\HickernellFJ, Razo and
   Yun}]{HicRazYun15a}
@@ -11,5 +17,12 @@
 \newblock \bibinfo{title}{Reliable adaptive numerical integration}.
 \newblock \bibinfo{year}{2015+}.
 \newblock \bibinfo{note}{Submitted for publication}.
+%Type = Masterthesis
+\bibitem[{Tong(2014)}]{Ton14a}
+\bibinfo{author}{Tong\xfnm[ X.]}.
+\newblock \bibinfo{title}{A Guaranteed, Adaptive, Automatic Algorithm for
+  Univariate Function Minimization}.
+\newblock Master's thesis; Illinois Institute of Technology;
+  \bibinfo{year}{2014}.
 
 \end{thebibliography}

@@ -87,7 +87,7 @@ M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{OPT}
 Here $A$ and $M$ depend only on function values.  They will be adaptive algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites previously chosen.  These algorithms also automatically determine when to stop sampling the input function and return the answer.
 
 \subsection{The Cone}
-The choice of $\cc$ is different than the work of Ding and Tong in their theses and is similar to that in \cite{HicRazYun15a}. We will employ linear splines to build our algorithms, and so we will consider functions in the Soboloev space
+The choice of $\cc$ is different than that chosen by \cite{Din15a} and \cite{Ton14a} and is similar to that in \cite{HicRazYun15a}. We will employ linear splines to build our algorithms, and so we will consider functions in the Soboloev space
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''} <  \infty \Bigr\}.
 \]
