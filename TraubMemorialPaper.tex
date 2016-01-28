@@ -97,7 +97,7 @@ Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ 
 \le \begin{cases} \fC(h) \max(|f''(x_-)|, |f''(x_+)|), & a \le x_- \le x_+ \le b,\\
 \fC(h) |f''(x_-)|, & a \le x_- \le b <  x_+, \\
 \fC(h) |f''(x_+)|, & x_- < a \le x_+ \le b.
-\end{cases} \quad 
+\end{cases} \quad
  \Vastr \}.
 \end{multline}
 This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
@@ -116,7 +116,7 @@ The error of this approximation is bounded as follows
 To construct an adaptive algorithm, requires an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values.  This can be done for $f \in \cc$.
 
 For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 \le x_2 \le x_3 \le b$ let  $p(f,\{x_1, x_2, x_3\})$ denote the Lagrange quadratic interpolating polynomial,
-\begin{multline*} 
+\begin{multline*}
 p(f,\{x_1, x_2, x_3\})(x) : = \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1 - x_3)}f(x_1) \\ + \frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2 - x_3)}f(x_2) + \frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3 - x_2)}f(x_3) \biggr ].
 \end{multline*}
 Furthermore, let $\Delta(f,\{x_1, x_2, x_3\})$ denote the second deriative of this quadratic polynomial:
@@ -169,20 +169,28 @@ The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the da
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
 \begin{algo}
-Given error tolerance $\varepsilon$ and input function $f$, start with $n+1$ points, denote 
-$$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad K = \{1,2,\ldots,n-1\}$$ and choose $\fC$. Do the following
+Given error tolerance $\varepsilon$ and input function $f$, start with $n+1$ points, denote
+$$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad \mathcal{I} = \{1,2,\ldots,n-1,n\}$$ and choose $\fC$. Do the following
 \begin{description}
-\item[Stage 1.\ Estimate $f''(t_k), k \in K $ as in \eqref{fppDeltab}.] \label{stage1}
-\item[Stage 2. Check for convergence.]  \label{stage3}
-For all $ k \in K,$ estimate $\text{errest}_k.$
-\[
-\text{errest}_k=\frac{(x_k-x_{k-1})^2}{8}\norm[{[x_{k-1},k_i]}]{f''},
+\item[Stage 1.\ Estimate $\Delta(f,\{x_{i-1}, x_{i}, x_{i+1}\}), i = \{1,2,\ldots,n-1\}$ as in \eqref{fppDeltab}.] \label{stage1}
+\item[Stage 2. Check for convergence.]  \label{stage2}
+For all $ i \in \mathcal{I},$ estimate $\text{errest}_i.$
+Denote\[\hspace{-20ex}
+\text{normbd}_i=\begin{cases}
+\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}        &  i=1,2, \\
+\fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\max\bigl(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}\bigr)  & i =3, \ldots, n-2,\\
+\fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})}  & i=n-1,n.\\
+\end{cases}
 \]
-where $\norm[{[x_{k-1},x_k]}]{f''}$ is defined as \eqref{normbd}.
-Let $ K$ denote the intervals where $\text{errest}_k > \varepsilon$ and their adjacent intervals.
-If $K \ne \emptyset$, go to Stage 3.
+We have
+\[
+\text{errest}_i=
+\frac{(x_i-x_{i-1})^2}{8}\text{normbd}_i.
+\]
+Let $ \mathcal{I} = \{i \in \mathcal{I}: \text{errest}_i > \varepsilon\}$.
+If $\mathcal{I} \ne \emptyset$, go to Stage 3.
 Otherwise, return the algorithm and terminate.
-\item[Stage 3.\ Split intervals in $K$.]\label{stage4} %Suppose
+\item[Stage 3.\ Split intervals in $\mathcal{I}$ and adjacent intervals to $i, i \in \mathcal{I}$.]\label{stage3} %Suppose
 %  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
 %    $$[t_{k_i-1},t_{k_i}] \longrightarrow \left[t_{k_i-1},\frac{t_{k_i-1}+t_{k_i}}{2}\right] \left[\frac{t_{k_i-1}+t_{k_i}}{2},t_{k_i}\right]
 %    \qquad \forall i=1,\ldots,m,$$
@@ -201,7 +209,7 @@ Otherwise, return the algorithm and terminate.
 %    &\bvec{{n^*}' }=  ({n^*}'_k)_{k=1}^{L'}=(\eta(t'_k-t'_{k-1}))_{k=1}^{L'}, \\
 %    &\cp' =  \{[t'_0,t'_1],\ldots,[t'_{k-1},t'_k],\ldots, [t'_{L'-1},t'_{L'}]\}.
 %    \end{align*}
-    Update $x$ and $K$, then we go back to Stage~1.
+    Update $x$, $\mathcal{I}$ and $\text{errest}_i$, then we go back to Stage~1.
 
 \end{description}
 \end{algo}
