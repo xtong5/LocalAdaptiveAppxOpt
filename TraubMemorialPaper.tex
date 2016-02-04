@@ -86,23 +86,48 @@ M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{OPT}
 \end{gather}
 Here $A$ and $M$ depend only on function values.  They will be adaptive algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites previously chosen.  These algorithms also automatically determine when to stop sampling the input function and return the answer.
 
-\subsection{The Cone}
-The choice of $\cc$ is different than those chosen by \cite{HicEtal14b},  \cite{Din15a} and \cite{Ton14a} and is similar to that in \cite{HicRazYun15a}. We will employ linear splines to build our algorithms, and so we will consider functions in the Soboloev space
+\subsection{The Cone, $\cc$}
+The set of functions $\cc$ for which our algorithms are successful will be a cone, i.e., $f \in \cc \implies af \in \cc $ for all real $a$.  Cones of functions have are key to the adpative algorithms and their analysis  in \cite{HicEtal14b},  \cite{Din15a} and \cite{Ton14a}.  The cone chosen here is somewhat different than those cones, but similar to the cone  used by \cite{HicRazYun15a}. 
+
+Our adaptive algorithms will be based on linear splines.  The normed vector space of functions with essentially the weakest smoothness assumptions required to guarantee the best error possible for the linear spline is the following Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
-\cw^{2,\infty}[a,b] : = \Bigl \{f \in C[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''} <  \infty \Bigr\}.
+\cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
+The $L^{\infty}$-norm appears in the error bound for linear splines, and our algorithm must construct an upper bound in terms of function values.
+
+Although we cannot obtain values of $f''(x)$ for a specific $x$ of our choosing based only on values of $f$, we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a specified interval.  This is done via Newton divided differences.  For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 \le x_2 \le x_3 \le b$ define
+\begin{equation} \label{minfppdef}
+m(f,[x_1, x_3]) = \min \Bigl\{ \abs{z}  : \inf_{x_1 \le x \le x_3} f''(x) \le z \le \sup_{x_1 \le x \le x_3} f''(x) \Bigr\}.
+\end{equation}
+Here the infimum and supremum exclude points where $f''$ is undefined.  Note that $m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$ depending on whether $f''$ takes on one sign or both signs on the interval  $[x_1, x_3]$.  Note that for any intervals $\ci, \cj \subseteq [a,b]$ it follows from the definition that
+\begin{equation} \label{mdec}
+m(f,\ci) \ge m(f,\cj) \qquad \forall \ci \subseteq \cj.
+\end{equation}
+
+Let  $p$ denote the Lagrange quadratic interpolating polynomial at the nodes $\{x_1, x_2, x_3\}$, which may be written as
+\begin{equation*}
+p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2), 
+\end{equation*}
+where the $f[\cdots]$ are the Newton divided differences \cite{}.  For any $f \in \cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval, i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < x_+ < x_3$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.  If $f''$ were continuous, then we could conclude that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1, x_3]$. However, functions in $\cw^{2,\infty}[a,b]$ do not necessarily have continuous second derivatives.  Fortunately, we can obtain a somewhat weaker result that is just as useful by the definition of \eqref{minfppdef}, 
+\begin{multline*}
+\bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
+= \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,[x_1, x_3]) (\xi_+  - \xi_-).
+\end{multline*}
+So, the the data-based second order divided difference tells us something about $f''$ in the interval $[x_1, x_3]$:
+\begin{equation}
+\bigabs{f[x_1, x_2, x_3]} \ge m(f,[x_1, x_3]).
+\end{equation}
+
 Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ be some positive number.  The set of functions for our algorithms will apply is defined as functions whose second derivatives do not change much in magnitude over a short distance, specifically,
 \begin{multline} \label{condef}
-\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ h \in [0, \fh], \ h_{\pm} \in [0,h], \ x_\pm = x \pm h_\pm, \\  \abs{f''(x)}
-\le \begin{cases} \fC(h) \max(|f''(x_-)|, |f''(x_+)|), & a \le x_- \le x_+ \le b,\\
-\fC(h) |f''(x_-)|, & a \le x_- \le b <  x_+, \\
-\fC(h) |f''(x_+)|, & x_- < a \le x_+ \le b.
-\end{cases} \quad
+\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], \\  \abs{f''(x)}
+\le \begin{cases} \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b,\\
+\fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+, \\
+\fC(h) m(f,[x,x_+]), & x_- < a \le x_+ \le b.
+\end{cases} 
  \Vastr \}.
 \end{multline}
 This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
-
-Since functions in $\cw^{2,\infty}[a,b]$ may have undefined second derivatives at countably many locations, the actual definition of the cone must be slightly different than what is listed above.
 
 \subsection{The Linear Spline and Its Error}
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.   The linear spline approximation to a function $f$ based on the partition $\datasites$ is denoted, $S(f,\datasites)$ and defined as
@@ -113,59 +138,52 @@ The error of this approximation is bounded as follows
 \begin{equation} \label{appxerrbda}
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
 \end{equation}
-To construct an adaptive algorithm, requires an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values.  This can be done for $f \in \cc$.
+To construct an adaptive algorithm, requires an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values.  This can be done for $f \in \cc$ using the correspondence between a second order difference and the second derivative in \eqref{minfppdef}.
 
-For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 \le x_2 \le x_3 \le b$ let  $p(f,\{x_1, x_2, x_3\})$ denote the Lagrange quadratic interpolating polynomial,
-\begin{multline*}
-p(f,\{x_1, x_2, x_3\})(x) : = \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1 - x_3)}f(x_1) \\ + \frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2 - x_3)}f(x_2) + \frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3 - x_2)}f(x_3) \biggr ].
-\end{multline*}
-Furthermore, let $\Delta(f,\{x_1, x_2, x_3\})$ denote the second deriative of this quadratic polynomial:
-\begin{multline} \label{Deltadef}
-\Delta(f,\{x_1, x_2, x_3\}) : = 2 \biggl[ \frac{f(x_1)}{(x_1-x_2)(x_1 - x_3)} + \frac{f(x_2)}{(x_2-x_1)(x_2 - x_3)} \\
-+ \frac{f(x_3)}{(x_3-x_1)(x_3 - x_2)} \biggr ].
-\end{multline}
-Since the function $f - p(f,\{x_1, x_2, x_3\})$ has at least three zeros on $[x_1, x_3]$, it follows that $f' - p(f,\{x_1, x_2, x_3\})'$ has at least two zeros on this interval and $f'' - p(f,\{x_1, x_2, x_3\})''$ has at least one zero on this interval.  Thus,
-\begin{equation} \label{fppDeltaa}
-f''(t_2) = \Delta(f,\{x_1, x_2, x_3\}) \quad \text{for some } t_2 \in [x_1, x_3].
-\end{equation}
-
-The correspondence between in the previous equation makes possible a data-driven upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$, which can then be combined with error bound  \eqref{appxerrbda} to obtain an data-driven error bound for the linear spline approximation.  Again consider the partition of $[a,b]$ denoted as $\datasites$, and let $t_1, \ldots, t_{n-1}$ be defined analogous to \eqref{fppDeltab}, i.e.,
-\begin{equation} \label{fppDeltab}
-f''(t_i) = \Delta(f,\{x_{i-1}, x_i, x_{i+1}\}) \quad \text{for some } t_i \in [x_{i-1}, x_{i+1}].
-\end{equation}
-
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Since $t_{i-2} \le x \le t_{i+1}$ for all $ x \in [x_{i-1},x_i]$,  it follows by the definition of the cone that
+First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. For all $ x \in [x_{i-1},x_i]$,  let 
+\[
+h_- = x - x_{i-3}, \ h_+ = x_{i+2} - x, \ h  = \max(h_{\pm}), \ x_- = x_{i-3}, \ x_+ =  x_{i+2}.
+\]
+Then it follows by the definition of the cone that
 \begin{equation*}
-\abs{f''(x)} \le \fC(\max(x-t_{i-2},t_{i+1}-x))\max(\abs{f''(t_{i-2})},\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i].
+\abs{f''(x)} \le \fC(h)\max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
-This implies that the norm has the following upper bound:
+Applying the fact that $\fC$ is non-decreasing and property \eqref{mdec} yields the following upper bound for the norm of $f''$ in terms of function values:
 \begin{subequations} \label{normbd}
-\begin{multline}
-\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
- \times \max\bigl(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}\bigr).
-\end{multline}
+\begin{align}
+\nonumber
+\MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
+\nonumber
+ & \le \sup_{x_{i-1} \le x \le x_i} \bigl[ \fC(\max(x-x_{i-3},x_{i+2}-x)) \\
+ \nonumber & \qquad \qquad \times \max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr] \\
+\nonumber
+ & \le  \fC(\max(x_{i-1}-x_{i-3},x_{i+2}-x_i))  \max\bigl(m(f,[x_{i-3},x_{i-1}]),m(f,[x_i,x_{i+2}])\bigr] \\
+\nonumber & \le  \fC(\max(x_{i-1}-x_{i-3},x_{i+2}-x_i))  \\
+&\ \  \times \max\bigl(\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) =: B(f,[x_{i-1},x_i]).
+\end{align}
 
-Next consider the cases of the sub-intervals on the left border of the interval.  For $i \in \{1,2\}$ it follows by the cone definition that
-\begin{gather}
+Next consider the cases of the sub-intervals on the left border of the interval.  For $i \in \{1,2\}$ it follows by a similar argument that 
+\begin{align}
 \nonumber
-\abs{f''(x)} \le \fC(\max(x-a,t_{i+1}-x))\abs{f''(t_{i+1})})  \ \forall x \in [x_{i-1},x_i], \\
-\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}.
-\end{gather}
-Similary, for $i \in \{n-1, n\}$ it follows by the cone definition that
-\begin{gather}
+\abs{f''(x)} & \le \fC(\max(x-a,x_{i+2}-x))m(f'',[x,x_{i+2}])  \ \forall x \in [x_{i-1},x_i], \\
 \nonumber
-\abs{f''(x)} \le \fC(\max(x-t_{i-2},b-x))\abs{f''(t_{i-2})})  \ \forall x \in [x_{i-1},x_i], \\
-\norm[{[x_{i-1},x_i]}]{f''} \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})}.
-\end{gather}
+\norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{f[x_i,x_{i+1},x_{i+2}]} \\
+& =: B(f,[x_{i-1},x_i]).
+\end{align}
+Similary, for $i \in \{n-1, n\}$ it follows that
+\begin{align}
+\nonumber
+\abs{f''(x)} & \le \fC(\max(x-x_{i-3},b-x))m(f'',[x_{i-3},x]) \ \forall x \in [x_{i-1},x_i], \\
+\nonumber
+\norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{f[x_{i-3},x_{i-2},x_{i-1}]} \\
+& =: B(f,[x_{i-1},x_i]).
+\end{align}
 \end{subequations}
 The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the data-driven error bound for the linear spline:
-\begin{multline} \label{appxerrbdb}
-\norm{f - S(f,\datasites)} \le \\
-\max \Bigl \{ \Bigl(\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})} \Bigr)_{i=1}^2, \\
-\Bigl( \fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\\
- \times \max(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\abs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})} \Bigr)_{i=3}^{n-2}, \\
- \Bigl(\fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})} \Bigr)_{i=n-1}^n \Bigr\}.
-\end{multline}
+\begin{equation} \label{appxerrbdb}
+\norm{f - S(f,\datasites)} \le
+\max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8} .
+\end{equation}
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
 \begin{algo}
