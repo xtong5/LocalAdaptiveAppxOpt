@@ -99,9 +99,9 @@ Although we cannot obtain values of $f''(x)$ for a specific $x$ of our choosing 
 \begin{equation} \label{minfppdef}
 m(f,[x_1, x_3]) = \min \Bigl\{ \abs{z}  : \inf_{x_1 \le x \le x_3} f''(x) \le z \le \sup_{x_1 \le x \le x_3} f''(x) \Bigr\}.
 \end{equation}
-Here the infimum and supremum exclude points where $f''$ is undefined.  Note that $m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$ depending on whether $f''$ takes on one sign or both signs on the interval  $[x_1, x_3]$.  Note that for any intervals $\ci, \cj \subseteq [a,b]$ it follows from the definition that
+Here the infimum and supremum exclude points where $f''$ is undefined.  Note that $m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$ depending on whether $f''$ takes on one sign or both signs on the interval  $[x_1, x_3]$.  Note that for any intervals $I , J \subseteq [a,b]$ it follows from the definition that
 \begin{equation} \label{mdec}
-m(f,\ci) \ge m(f,\cj) \qquad \forall \ci \subseteq \cj.
+m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
 
 Let  $p$ denote the Lagrange quadratic interpolating polynomial at the nodes $\{x_1, x_2, x_3\}$, which may be written as
@@ -120,11 +120,11 @@ So, the the data-based second order divided difference tells us something about 
 
 Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ be some positive number.  The set of functions for our algorithms will apply is defined as functions whose second derivatives do not change much in magnitude over a short distance, specifically,
 \begin{multline} \label{condef}
-\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], \\  \abs{f''(x)}
+\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], \\  \limsup_{t \to x}\abs{f''(t)} \\
 \le \begin{cases} \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b,\\
 \fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+, \\
 \fC(h) m(f,[x,x_+]), & x_- < a \le x_+ \le b.
-\end{cases} 
+\end{cases} \quad
  \Vastr \}.
 \end{multline}
 This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
