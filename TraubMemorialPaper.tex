@@ -81,45 +81,54 @@ Some ideas to get us going
 
 We want to solve two problems.  For some suitable subset, $\cc$, of continuous, real-valued functions on the finite interval $[a,b]$, we want to construct  algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
-\norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \\
-M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{OPT}
+\norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
+M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
 Here $A$ and $M$ depend only on function values.  They will be adaptive algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites previously chosen.  These algorithms also automatically determine when to stop sampling the input function and return the answer.
 
-\subsection{The Cone, $\cc$}
-The set of functions $\cc$ for which our algorithms are successful will be a cone, i.e., $f \in \cc \implies af \in \cc $ for all real $a$.  Cones of functions have are key to the adpative algorithms and their analysis  in \cite{HicEtal14b},  \cite{Din15a} and \cite{Ton14a}.  The cone chosen here is somewhat different than those cones, but similar to the cone  used by \cite{HicRazYun15a}. 
-
-Our adaptive algorithms will be based on linear splines.  The normed vector space of functions with essentially the weakest smoothness assumptions required to guarantee the best error possible for the linear spline is the following Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
+\section{The Cone, $\cc$}
+Linear splines will form the basis for algorithms $A$ and $M$, which solve the function approximation and minimization problems to the given tolerance, as specified in \eqref{appxprob} and \eqref{optprob}. The linear spline error is essentially the best possible for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
-The $L^{\infty}$-norm appears in the error bound for linear splines, and our algorithm must construct an upper bound in terms of function values.
 
-Although we cannot obtain values of $f''(x)$ for a specific $x$ of our choosing based only on values of $f$, we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a specified interval.  This is done via Newton divided differences.  For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 \le x_2 \le x_3 \le b$ define
+Our adaptive algorithms require an upper bound on $\norm[{[\alpha, \beta]}]{f''}$ in terms of function values for functions that are not too spiky.  Specifically, in \eqref{normbd} below we construct a $B$, such that 
+\[
+\norm[{[\alpha, \beta]}]{f''} \le B(f,[\alpha,\beta]) \quad \forall f \in \cc, \ a \le \alpha < \beta \le b,
+\]
+where $B$ depends only on values of $f$ sampled in the neighborhood of $[\alpha, \beta]$.  Our upper bound is homogeneous in the function, i.e., $B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$.  Thus, the set of functions $\cc$ for which our bound applies---and our algorithms succeed---is chosen to be a cone: $f \in \cc \implies cf \in \cc$  for all real $c$.  The precise definition of $\cc$ is given below in \eqref{conedef}.   Cones of functions are key to the theoretically justified adpative algorithms  in \cite{HicEtal14b},  \cite{Din15a}, \cite{Ton14a}, and \cite{HicRazYun15a}. 
+
+\subsection{Newton Divided Differences}
+
+For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 < x_2 < x_3 \le b$ define a measure of how small $\abs{f''}$ can be in the interval $[x_1, x_3]$ as follows:
 \begin{equation} \label{minfppdef}
 m(f,[x_1, x_3]) = \min \Bigl\{ \abs{z}  : \inf_{x_1 \le x \le x_3} f''(x) \le z \le \sup_{x_1 \le x \le x_3} f''(x) \Bigr\}.
 \end{equation}
-Here the infimum and supremum exclude points where $f''$ is undefined.  Note that $m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$ depending on whether $f''$ takes on one sign or both signs on the interval  $[x_1, x_3]$.  Note that for any intervals $I , J \subseteq [a,b]$ it follows from the definition that
+Here the infimum and supremum exclude points where $f''$ is undefined.  Note that $m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$ depending on whether $f''$ takes on one sign or both signs on the interval  $[x_1, x_3]$.  Because of possible jump discontinuities in $f''$, $m(f,[x_1, x_3])$ may be $0$ even when $\inf_{x_1 \le x \le x_3} \abs{f''(x)} > 0$.  Note that for any intervals $I , J \subseteq [a,b]$ it follows from the definition that
 \begin{equation} \label{mdec}
 m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
+
+We cannot of $f''(x)$ for a specific $x$ based only on values of $f$.  However, we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a specified interval via Newton divided differences.  
+
 
 Let  $p$ denote the Lagrange quadratic interpolating polynomial at the nodes $\{x_1, x_2, x_3\}$, which may be written as
 \begin{equation*}
 p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2), 
 \end{equation*}
-where the $f[\cdots]$ are the Newton divided differences \cite{}.  For any $f \in \cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval, i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < x_+ < x_3$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.  If $f''$ were continuous, then we could conclude that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1, x_3]$. However, functions in $\cw^{2,\infty}[a,b]$ do not necessarily have continuous second derivatives.  Fortunately, we can obtain a somewhat weaker result that is just as useful by the definition of \eqref{minfppdef}, 
+where the $f[\cdots]$ are the Newton divided differences \cite{}.  For any $f \in \cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval, i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < x_+ < x_3$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.  If $f''$ is  continuous, then we can conclude that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1, x_3]$. However,  $\cw^{2,\infty}[a,b]$ contains functions without continuous second derivatives.  Fortunately, we can obtain a somewhat weaker result that is just as useful by the definition of \eqref{minfppdef}, 
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,[x_1, x_3]) (\xi_+  - \xi_-).
 \end{multline*}
-So, the the data-based second order divided difference tells us something about $f''$ in the interval $[x_1, x_3]$:
+So, the the data-based second order divided difference tells provides an upper bound on how small  $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 \begin{equation}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,[x_1, x_3]).
 \end{equation}
 
-Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ be some positive number.  The set of functions for our algorithms will apply is defined as functions whose second derivatives do not change much in magnitude over a short distance, specifically,
-\begin{multline} \label{condef}
+\subsection{The Cone Definition}
+Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function.  The cone of functions for which our algorithms will apply only includes functions whose second derivatives do not change much in magnitude over a short distance, namely, 
+\begin{multline} \label{conedef}
 \cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], \\  \limsup_{t \to x}\abs{f''(t)} \\
 \le \begin{cases} \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b,\\
 \fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+, \\
@@ -127,7 +136,7 @@ Let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function and let $\fh$ 
 \end{cases} \quad
  \Vastr \}.
 \end{multline}
-This set $\cc$ satisfies the definition of a cone, i.e., $f \in \cc \implies cf \in \cc$ for all real $c$.  Increasing $\fC$ or $\fh$ produces a larger cone.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
+The parameter, $\fh$ and the function $\fC$ define the cone $\cc$;  increasing one or both expands the cone to include more functions.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
 
 \subsection{The Linear Spline and Its Error}
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.   The linear spline approximation to a function $f$ based on the partition $\datasites$ is denoted, $S(f,\datasites)$ and defined as
@@ -186,6 +195,7 @@ The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the da
 \end{equation}
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
+\section{The Function Approximation Algorithm, $A$}
 \begin{algo}
 Given error tolerance $\varepsilon$ and input function $f$, start with $n+1$ points, denote
 $$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad \mathcal{I} = \{1,2,\ldots,n-1,n\}$$ and choose $\fC$. Do the following
