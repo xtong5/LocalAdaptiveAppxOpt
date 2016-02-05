@@ -136,7 +136,15 @@ Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
 \end{cases} \quad
  \Vastr \}.
 \end{multline}
-The parameter, $\fh$ and the function $\fC$ define the cone $\cc$;  increasing one or both expands the cone to include more functions.  A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
+The parameter, $\fh$ and the function $\fC$ define the cone $\cc$;  increasing one or both expands the cone to include more functions.  
+
+A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
+
+To better understand $\cc$, let's explore what functions $\cc$ includes an what functions $\cc$ excludes.  Consider the two functions defined on $[-1,1]$ whose second derivatives oscillate heavily near $0$: 
+\begin{gather*}
+f_1(x) = x^4 \sin(1/x), \qquad f_1''(x) = (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \\
+f_2(x) = 6 x^2 + f_1(x), \qquad f_2''(x) = 12 + f_1''(x).
+\end{gather*}
 
 \subsection{The Linear Spline and Its Error}
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.   The linear spline approximation to a function $f$ based on the partition $\datasites$ is denoted, $S(f,\datasites)$ and defined as
