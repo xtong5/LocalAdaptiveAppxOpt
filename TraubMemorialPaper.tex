@@ -140,11 +140,46 @@ The parameter, $\fh$ and the function $\fC$ define the cone $\cc$;  increasing o
 
 A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$  may lie inside $\cc$ only if $\beta - \alpha > 2\fh$.  Except near the endpoints of the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\abs{f''(x)}$.   This allows $\cc$ to include functions with step discontinuities in their second derivatives, provided that these discontinuities do not occur too close to each other or too close to the ends of the interval.
 
-To better understand $\cc$, let's explore what functions $\cc$ includes an what functions $\cc$ excludes.  Consider the two functions defined on $[-1,1]$ whose second derivatives oscillate heavily near $0$: 
+To better understand $\cc$, we provide examples of functions lying outside $\cc$ and similar functions lying inside $\cc$.  Consider  these two functions defined on $[-1,1]$ whose second derivatives oscillate wildly near $0$: 
 \begin{gather*}
 f_1(x) = x^4 \sin(1/x), \qquad f_1''(x) = (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \\
 f_2(x) = 6 x^2 + f_1(x), \qquad f_2''(x) = 12 + f_1''(x).
 \end{gather*}
+These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$ takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$, it follows that $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.  However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$.  Thus, $f_1$ cannot lie inside $\cc$ no matter how $\fh$ and $\fC$ are defined.    On the other hand,  $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and $\limsup_{t \to x} \abs{f''_1(x)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in \cc$ if $\fC(0) \ge 2$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=5cm]{f1f2plot.eps} \qquad
+\includegraphics[width=5cm]{f1closeplot.eps} \\
+\includegraphics[width=5cm]{f1ppf2ppplot.eps} \qquad
+\includegraphics[width=5cm]{f2closeplot.eps}
+\caption{The examples $f_1$ and $f_2$ and their second derivatives.  Note that $f_2''(x) = f_1''(x) + 20$. \label{f1f2fig}}
+\end{figure}
+
+Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
+\begin{align*}
+f_3(x) & = \begin{cases} \displaystyle \frac{1}{2\delta^2} [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta} \\
+\qquad \qquad - (x-c+\delta)\abs{x-c+\delta}], & \abs{x-c} \le 2\delta, \\
+0, & \text{otherwise},
+\end{cases} \\
+f''_3(x) & = \begin{cases} \displaystyle \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta, \\
+0, & \text{otherwise}.
+\end{cases}
+\end{align*}
+Here $c$ and $\delta$ are parameters.  This function and its second derivative are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$.  For this choice of parameters, if $\fh < 0.1$,  $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, then for $x \in [-0.6, 0.2]$ it follows that $-1 \le x_- \le x_+ \le 1$, and 
+\[
+\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} = 25 \qquad -0.6 \le x \le 0.2
+\]
+For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$.  Thus, for any choice of $\fC : [0,b-a] \to [1,\infty)$, the function $f_3$ lies in $\cc$.  However, if $\ch$ is too large, say, $0.1 < h_\pm \le \fh$, and  $x_\pm = -0.5\pm h_\pm$, then $m(f_3,[x_-,-0.5])=m(f_3,[-0.5,x_+])=0$.  Since $f_3''(-0.5) = 25$, now $f_3 \notin \cc$.  This example illustrates how $\fh$ determines the width of a spiky function that may still lie in $\cc$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=5cm]{f3plot.eps} \qquad
+\includegraphics[width=5cm]{f3ppplot.eps} 
+\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.  \label{f3fig}}
+\end{figure}
+
+The above examples of functions outside $\cc$ have discontinuities in the second derivative.  Even with a function has sufficient smoothness, it 
 
 \subsection{The Linear Spline and Its Error}
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.   The linear spline approximation to a function $f$ based on the partition $\datasites$ is denoted, $S(f,\datasites)$ and defined as
