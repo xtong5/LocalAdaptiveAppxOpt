@@ -1,6 +1,6 @@
 \documentclass[review]{elsarticle}
 
-\usepackage{amsmath,amssymb,xspace,mathtools,hyperref}
+\usepackage{amsmath,amssymb,xspace,mathtools,hyperref,color}
 
 \input{FJHDef.tex}
 
@@ -52,6 +52,14 @@
 \newcommand{\Vastm}{\mathrel\Vast}
 \newcommand{\Vastr}{\mathclose\Vast}
 
+\definecolor{orange}{rgb}{1.0,0.3,0.0}
+\definecolor{violet}{rgb}{0.75,0,1}
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\newcommand{\frednote}[1]{  {\textcolor{red}  {**Fred: #1 }}}
+\newcommand{\yuhannote}[1]{  {\textcolor{darkgreen}  {**Yuhan: #1 }}}
+\newcommand{\xinnote}[1]{ {\textcolor{violet}  {**Xin: #1 }}}
+\newcommand{\scnote}[1]{ {\textcolor{orange}  {**SC: #1}}}
+
 \begin{document}
 
 \begin{frontmatter}
@@ -81,7 +89,7 @@ Some ideas to get us going
 \section{Introduction.} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We want to solve two problems.  For some suitable subset, $\cc$, of continuous, real-valued functions on the finite interval $[a,b]$, we want to construct  algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to \reals$ such that for all $f \in \cc$ and $\abstol > 0$
+We want to solve two problems.  For some suitable subset, $\cc$, of continuous, real-valued functions on the finite interval $[a,b]$, we want to construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
 \norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
