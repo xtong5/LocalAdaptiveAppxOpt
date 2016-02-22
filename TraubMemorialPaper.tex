@@ -55,10 +55,10 @@
 \definecolor{orange}{rgb}{1.0,0.3,0.0}
 \definecolor{violet}{rgb}{0.75,0,1}
 \definecolor{darkgreen}{rgb}{0,0.6,0}
-\newcommand{\frednote}[1]{  {\textcolor{red}  {**Fred: #1 }}}
-\newcommand{\yuhannote}[1]{  {\textcolor{darkgreen}  {**Yuhan: #1 }}}
-\newcommand{\xinnote}[1]{ {\textcolor{violet}  {**Xin: #1 }}}
-\newcommand{\scnote}[1]{ {\textcolor{orange}  {**SC: #1}}}
+\newcommand{\frednote}[1]{  {\textcolor{red}  {\mbox{**Fred:} #1}}}
+\newcommand{\yuhannote}[1]{  {\textcolor{darkgreen}  {\mbox{**Yuhan:} #1}}}
+\newcommand{\xinnote}[1]{ {\textcolor{violet}  {\mbox{**Xin:} #1}}}
+\newcommand{\scnote}[1]{ {\textcolor{orange}  {\mbox{**SC:} #1}}}
 
 \begin{document}
 
@@ -196,7 +196,7 @@ magnitude over a short distance, namely,
 \end{cases} \quad
  \Vastr \}.
 \end{multline}
-The parameter, $\fh$ and the function $\fC$ define the cone $\cc$; increasing
+The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
 one or both expands the cone to include more functions.
 
 A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$ may
@@ -211,7 +211,7 @@ and similar functions lying inside $\cc$. Consider these two functions defined
 on $[-1,1]$ whose second derivatives oscillate wildly near $0$:
 \begin{gather*}
 f_1(x) = x^4 \sin(1/x), \qquad f_1''(x) = (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \\
-f_2(x) = 6 x^2 + f_1(x), \qquad f_2''(x) = 12 + f_1''(x).
+f_2(x) = 6 \scnote{10 \mbox{ in Matlab script}} x^2 + f_1(x), \qquad f_2''(x) = 12 \scnote{20?}+ f_1''(x).
 \end{gather*}
 These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
@@ -219,7 +219,7 @@ it follows that $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
 However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
 $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
-$\limsup_{t \to x} \abs{f''_1(x)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
+$\limsup_{t \to x} \abs{f''_1(x \scnote{t})} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
 \begin{figure}[t]
@@ -229,7 +229,8 @@ $\limsup_{t \to x} \abs{f''_1(x)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
 \includegraphics[width=5cm]{f1ppf2ppplot.eps} \qquad
 \includegraphics[width=5cm]{f2closeplot.eps}
 \caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
-$f_2''(x) = f_1''(x) + 20$. \label{f1f2fig}}
+$f_2''(x) = f_1''(x) + 20$.}
+\label{f1f2fig}
 \end{figure}
 
 Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
@@ -260,7 +261,8 @@ a spiky function that may still lie in $\cc$.
 \centering
 \includegraphics[width=5cm]{f3plot.eps} \qquad
 \includegraphics[width=5cm]{f3ppplot.eps} 
-\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.  \label{f3fig}}
+\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.}
+\label{f3fig}
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
