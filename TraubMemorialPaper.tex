@@ -107,16 +107,29 @@ and return the answers.
 \section{The Cone, $\cc$} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines will form the basis for algorithms $A$ and $M$, which solve the function approximation and minimization problems to the given tolerance, as specified in \eqref{appxprob} and \eqref{optprob}. The linear spline error is essentially the best possible for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
+Linear splines will form the basis for algorithms $A$ and $M$, which solve the
+function approximation and minimization problems to the given tolerance, as
+specified in \eqref{appxprob} and \eqref{optprob}. The linear spline error is
+essentially the best possible for the Sobolev space of functions whose second
+derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
 
-Our adaptive algorithms require an upper bound on $\norm[{[\alpha, \beta]}]{f''}$ in terms of function values for functions that are not too spiky.  Specifically, in \eqref{normbd} below we construct a $B$, such that 
+Our adaptive algorithms require an upper bound on $\norm[{[\alpha,
+\beta]}]{f''}$ in terms of function values for functions that are not too spiky.
+Specifically, in \eqref{normbd} below we construct a $B$, such that
 \[
 \norm[{[\alpha, \beta]}]{f''} \le B(f,[\alpha,\beta]) \quad \forall f \in \cc, \ a \le \alpha < \beta \le b,
 \]
-where $B$ depends only on values of $f$ sampled in the neighborhood of $[\alpha, \beta]$.  Our upper bound is homogeneous in the function, i.e., $B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$.  Thus, the set of functions $\cc$ for which our bound applies---and our algorithms succeed---is chosen to be a cone: $f \in \cc \implies cf \in \cc$  for all real $c$.  The precise definition of $\cc$ is given below in \eqref{conedef}.   Cones of functions are key to the theoretically justified adpative algorithms  in \cite{HicEtal14b},  \cite{Din15a}, \cite{Ton14a}, and \cite{HicRazYun15a}. 
+where $B$ depends only on values of $f$ sampled in the neighborhood of $[\alpha,
+\beta]$. Our upper bound is homogeneous in the function, i.e.,
+$B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$. Thus, the
+set of functions $\cc$ for which our bound applies---and our algorithms
+succeed---is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
+$c$. The precise definition of $\cc$ is given below in \eqref{conedef}. Cones of
+functions are key to the theoretically justified adpative algorithms in
+\cite{HicEtal14b}, \cite{Din15a}, \cite{Ton14a}, and \cite{HicRazYun15a}.
 
 %--------------------------------------------------
 \subsection{Newton Divided Differences} \label{sec:ndd}
