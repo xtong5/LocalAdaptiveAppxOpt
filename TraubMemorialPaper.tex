@@ -77,7 +77,9 @@ Some ideas to get us going
 
 \end{frontmatter}
 
-\section{Introduction.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction.} \label{sec:intro}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 We want to solve two problems.  For some suitable subset, $\cc$, of continuous, real-valued functions on the finite interval $[a,b]$, we want to construct  algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
@@ -86,7 +88,10 @@ M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
 Here $A$ and $M$ depend only on function values.  They will be adaptive algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites previously chosen.  These algorithms also automatically determine when to stop sampling the input function and return the answer.
 
-\section{The Cone, $\cc$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Cone, $\cc$} \label{sec:cone}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Linear splines will form the basis for algorithms $A$ and $M$, which solve the function approximation and minimization problems to the given tolerance, as specified in \eqref{appxprob} and \eqref{optprob}. The linear spline error is essentially the best possible for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
@@ -98,7 +103,9 @@ Our adaptive algorithms require an upper bound on $\norm[{[\alpha, \beta]}]{f''}
 \]
 where $B$ depends only on values of $f$ sampled in the neighborhood of $[\alpha, \beta]$.  Our upper bound is homogeneous in the function, i.e., $B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$.  Thus, the set of functions $\cc$ for which our bound applies---and our algorithms succeed---is chosen to be a cone: $f \in \cc \implies cf \in \cc$  for all real $c$.  The precise definition of $\cc$ is given below in \eqref{conedef}.   Cones of functions are key to the theoretically justified adpative algorithms  in \cite{HicEtal14b},  \cite{Din15a}, \cite{Ton14a}, and \cite{HicRazYun15a}. 
 
-\subsection{Newton Divided Differences}
+%--------------------------------------------------
+\subsection{Newton Divided Differences} \label{sec:ndd}
+%--------------------------------------------------
 
 For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 < x_2 < x_3 \le b$ define a measure of how small $\abs{f''}$ can be in the interval $[x_1, x_3]$ as follows:
 \begin{equation} \label{minfppdef}
@@ -126,7 +133,10 @@ So, the the data-based second order divided difference tells provides an upper b
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,[x_1, x_3]).
 \end{equation}
 
-\subsection{The Cone Definition}
+%--------------------------------------------------
+\subsection{The Cone Definition}  \label{sec:conedef}
+%--------------------------------------------------
+
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any non-decreasing function.  The cone of functions for which our algorithms will apply only includes functions whose second derivatives do not change much in magnitude over a short distance, namely, 
 \begin{multline} \label{conedef}
 \cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], \\  \limsup_{t \to x}\abs{f''(t)} \\
@@ -181,7 +191,10 @@ For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$.  Thus, for a
 
 The above examples of functions outside $\cc$ have discontinuities in the second derivative.  Even with a function has sufficient smoothness, it 
 
+%--------------------------------------------------
 \subsection{The Linear Spline and Its Error}
+%--------------------------------------------------
+
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be an ordered sequence of points that includes the endpoints of the interval,  $a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$.   The linear spline approximation to a function $f$ based on the partition $\datasites$ is denoted, $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
@@ -238,7 +251,10 @@ The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the da
 \end{equation}
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
-\section{The Function Approximation Algorithm, $A$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Function Approximation Algorithm, $A$} \label{sec:algo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{algo}
 Given error tolerance $\varepsilon$ and input function $f$, start with $n+1$ points, denote
 $$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad \mathcal{I} = \{1,2,\ldots,n-1,n\}$$ and choose $\fC$. Do the following
@@ -285,7 +301,9 @@ Otherwise, return the algorithm and terminate.
 \end{description}
 \end{algo}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibliography{FJH23,FJHOwn23}
 
