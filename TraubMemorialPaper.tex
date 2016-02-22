@@ -339,13 +339,17 @@ $$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad \mathcal{I} = \{1,2,\ldots,n-1,n\
 \item[Stage 1.\ Estimate $\Delta(f,\{x_{i-1}, x_{i}, x_{i+1}\}), i = \{1,2,\ldots,n-1\}$ as in \eqref{fppDeltab}.] \label{stage1}
 \item[Stage 2. Check for convergence.]  \label{stage2}
 For all $ i \in \mathcal{I},$ estimate $\text{errest}_i.$
-Denote\[\hspace{-20ex}
-\text{normbd}_i=\begin{cases}
-\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}        &  i=1,2, \\
-\fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1}))\max\bigl(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}\bigr)  & i =3, \ldots, n-2,\\
+Denote
+\begin{align*}
+    & \text{normbd}_i 
+\\ \hspace{-2ex} 
+= &
+\begin{cases}
+\fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}        &  i=1,2 \\
+\fC(\max(x_i-x_{i-3},x_{i+2}-x_{i-1})) \\ \quad \max\bigl(\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})},\bigabs{\Delta(f,\{x_{i}, x_{i+1}, x_{i+2}\})}\bigr) & i =3, \ldots, n-2\\
 \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{\Delta(f,\{x_{i-3}, x_{i-2}, x_{i-1}\})}  & i=n-1,n.\\
 \end{cases}
-\]
+\end{align*}
 We have
 \[
 \text{errest}_i=
