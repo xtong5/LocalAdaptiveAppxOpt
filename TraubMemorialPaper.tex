@@ -336,8 +336,8 @@ The goal is to increase the number of nodes in the partition as needed to make t
 Given error tolerance $\varepsilon$ and input function $f$, start with $n+1$ points, denote
 $$x_i=a+\frac{i}{n}(b-a), i=0,\ldots,n, \qquad \mathcal{I} = \{1,2,\ldots,n-1,n\}$$ and choose $\fC$. Do the following
 \begin{description}
-\item[Stage 1.\ Estimate $\Delta(f,\{x_{i-1}, x_{i}, x_{i+1}\}), i = \{1,2,\ldots,n-1\}$ as in \eqref{fppDeltab}.] \label{stage1}
-\item[Stage 2. Check for convergence.]  \label{stage2}
+\item[Stage 1] \label{stage1} Estimate $\Delta(f,\{x_{i-1}, x_{i}, x_{i+1}\}), i = \{1,2,\ldots,n-1\}$ as in \eqref{fppDeltab}. \scnote{fix ref}
+\item[Stage 2] \label{stage2} Check for convergence.
 For all $ i \in \mathcal{I},$ estimate $\text{errest}_i.$
 Denote
 \begin{align*}
@@ -358,7 +358,7 @@ We have
 Let $ \mathcal{I} = \{i \in \mathcal{I}: \text{errest}_i > \varepsilon\}$.
 If $\mathcal{I} \ne \emptyset$, go to Stage 3.
 Otherwise, return the algorithm and terminate.
-\item[Stage 3.\ Split intervals in $\mathcal{I}$ and adjacent intervals to $i, i \in \mathcal{I}$.]\label{stage3} %Suppose
+\item[Stage 3] \label{stage3}  Split intervals in $\mathcal{I}$ and adjacent intervals to $i, i \in \mathcal{I}$. %Suppose
 %  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
 %    $$[t_{k_i-1},t_{k_i}] \longrightarrow \left[t_{k_i-1},\frac{t_{k_i-1}+t_{k_i}}{2}\right] \left[\frac{t_{k_i-1}+t_{k_i}}{2},t_{k_i}\right]
 %    \qquad \forall i=1,\ldots,m,$$
@@ -377,7 +377,7 @@ Otherwise, return the algorithm and terminate.
 %    &\bvec{{n^*}' }=  ({n^*}'_k)_{k=1}^{L'}=(\eta(t'_k-t'_{k-1}))_{k=1}^{L'}, \\
 %    &\cp' =  \{[t'_0,t'_1],\ldots,[t'_{k-1},t'_k],\ldots, [t'_{L'-1},t'_{L'}]\}.
 %    \end{align*}
-    Update $x$, $\mathcal{I}$ and $\text{errest}_i$, then we go back to Stage~1.
+    Update $x$, $\mathcal{I}$ and $\text{errest}_i$, then we go back to Stage~\ref{stage1}.
 
 \end{description}
 \end{algo}
