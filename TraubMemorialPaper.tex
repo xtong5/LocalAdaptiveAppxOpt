@@ -284,10 +284,10 @@ The error of this approximation is bounded as follows
 \begin{equation} \label{appxerrbda}
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
 \end{equation}
-To construct an adaptive algorithm, requires an upper bound on
+To construct an adaptive algorithm, \scnote{add ``one''?} requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
-second derivative in \eqref{minfppdef}.
+second derivative in~\eqref{minfppdef}.
 
 First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. For all $ x \in [x_{i-1},x_i]$,  let 
 \[
