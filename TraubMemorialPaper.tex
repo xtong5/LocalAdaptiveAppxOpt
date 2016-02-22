@@ -135,28 +135,47 @@ functions are key to the theoretically justified adpative algorithms in
 \subsection{Newton Divided Differences} \label{sec:ndd}
 %--------------------------------------------------
 
-For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 < x_2 < x_3 \le b$ define a measure of how small $\abs{f''}$ can be in the interval $[x_1, x_3]$ as follows:
+For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 < x_2 < x_3 \le b$ define a
+measure of how small $\abs{f''}$ can be in the interval $[x_1, x_3]$ as follows:
 \begin{equation} \label{minfppdef}
 m(f,[x_1, x_3]) = \min \Bigl\{ \abs{z}  : \inf_{x_1 \le x \le x_3} f''(x) \le z \le \sup_{x_1 \le x \le x_3} f''(x) \Bigr\}.
 \end{equation}
-Here the infimum and supremum exclude points where $f''$ is undefined.  Note that $m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$ depending on whether $f''$ takes on one sign or both signs on the interval  $[x_1, x_3]$.  Because of possible jump discontinuities in $f''$, $m(f,[x_1, x_3])$ may be $0$ even when $\inf_{x_1 \le x \le x_3} \abs{f''(x)} > 0$.  Note that for any intervals $I , J \subseteq [a,b]$ it follows from the definition that
+Here the infimum and supremum exclude points where $f''$ is undefined. Note that
+$m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$
+depending on whether $f''$ takes on one sign or both signs on the interval
+$[x_1, x_3]$. Because of possible jump discontinuities in $f''$, $m(f,[x_1,
+x_3])$ may be $0$ even when $\inf_{x_1 \le x \le x_3} \abs{f''(x)} > 0$. Note
+that for any intervals $I , J \subseteq [a,b]$ it follows from the definition
+that
 \begin{equation} \label{mdec}
 m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
 
-We cannot of $f''(x)$ for a specific $x$ based only on values of $f$.  However, we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a specified interval via Newton divided differences.  
+We cannot of $f''(x)$ for a specific $x$ based only on values of $f$. However,
+we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a
+specified interval via Newton divided differences.
 
 
-Let  $p$ denote the Lagrange quadratic interpolating polynomial at the nodes $\{x_1, x_2, x_3\}$, which may be written as
+Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
+$\{x_1, x_2, x_3\}$, which may be written as
 \begin{equation*}
 p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2), 
 \end{equation*}
-where the $f[\cdots]$ are the Newton divided differences \cite{}.  For any $f \in \cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval, i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < x_+ < x_3$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.  If $f''$ is  continuous, then we can conclude that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1, x_3]$. However,  $\cw^{2,\infty}[a,b]$ contains functions without continuous second derivatives.  Fortunately, we can obtain a somewhat weaker result that is just as useful by the definition of \eqref{minfppdef}, 
+where the $f[\cdots]$ are the Newton divided differences \cite{}. For any $f \in
+\cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on
+$[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval,
+i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < x_+ < x_3$ with
+$f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
+that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1,
+x_3]$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
+second derivatives. Fortunately, we can obtain a somewhat weaker result that is
+just as useful by the definition of \eqref{minfppdef},
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,[x_1, x_3]) (\xi_+  - \xi_-).
 \end{multline*}
-So, the the data-based second order divided difference tells provides an upper bound on how small  $\abs{f''}$ can be in the interval $[x_1, x_3]$:
+So, the the data-based second order divided difference tells provides an upper
+bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 \begin{equation}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,[x_1, x_3]).
 \end{equation}
