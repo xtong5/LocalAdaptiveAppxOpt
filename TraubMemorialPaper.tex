@@ -248,7 +248,7 @@ are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$. For this choice of
 parameters, if $\fh < 0.1$, $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, then
 for $x \in [-0.6, 0.2]$ it follows that $-1 \le x_- \le x_+ \le 1$, and
 \[
-\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} = 25 \qquad -0.6 \le x \le 0.2
+\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} = 25, \qquad -0.6 \le x \le 0.2.
 \]
 For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$. Thus, for
 any choice of $\fC : [0,b-a] \to [1,\infty)$, the function $f_3$ lies in $\cc$.
@@ -266,7 +266,7 @@ a spiky function that may still lie in $\cc$.
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
-derivative. Even with a function has sufficient smoothness, it
+derivative. Even with a function has sufficient smoothness, it \scnote{incomplete}
 
 %--------------------------------------------------
 \subsection{The Linear Spline and Its Error}
@@ -329,7 +329,7 @@ The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the da
 The goal is to increase the number of nodes in the partition as needed to make this error bound smaller than the desired tolerance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Function Approximation Algorithm, $A$} \label{sec:algo}
+\section{The Function Approximation Algorithm, $A$} \label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{algo}
@@ -381,6 +381,8 @@ Otherwise, return the algorithm and terminate.
 
 \end{description}
 \end{algo}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{References}
