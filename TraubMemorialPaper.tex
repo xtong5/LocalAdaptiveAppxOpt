@@ -118,7 +118,7 @@ derivatives have finite $L^{\infty}$-norm:
 
 Our adaptive algorithms require an upper bound on $\norm[{[\alpha,
 \beta]}]{f''}$ in terms of function values for functions that are not too spiky.
-Specifically, in \eqref{normbd} below, we construct a \scnote{add ``bound''} $B$, such that
+Specifically, in \eqref{normbd} below, we construct an upper bound $B$, such that
 \[
 \norm[{[\alpha, \beta]}]{f''} \le B(f,[\alpha,\beta]) \quad \forall f \in \cc, \ a \le \alpha < \beta \le b,
 \]
@@ -164,7 +164,7 @@ p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2),
 where the $f[\cdots]$ are the Newton divided differences \cite{}\scnote{to add a reference}. For any $f \in
 \cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on
 $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval,
-i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < x_+ \scnote{\mbox{typo?  }  \xi_+} < x_3$ with
+i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
 that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1,
 x_3]$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
@@ -211,7 +211,7 @@ and similar functions lying inside $\cc$. Consider these two functions defined
 on $[-1,1]$ whose second derivatives oscillate wildly near $0$:
 \begin{gather*}
 f_1(x) = x^4 \sin(1/x), \qquad f_1''(x) = (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \\
-f_2(x) = 6 \scnote{10 \mbox{ in Matlab script}} x^2 + f_1(x), \qquad f_2''(x) = 12 \scnote{20?}+ f_1''(x).
+f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
 These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
@@ -219,7 +219,7 @@ it follows that $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
 However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
 $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
-$\limsup_{t \to x} \abs{f''_1(x \scnote{t})} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
+$\limsup_{t \to x} \abs{f''_1(t)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
 \begin{figure}[t]
@@ -284,7 +284,7 @@ The error of this approximation is bounded as follows
 \begin{equation} \label{appxerrbda}
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
 \end{equation}
-To construct an adaptive algorithm, \scnote{add ``one''?} requires an upper bound on
+To construct an adaptive algorithm, one requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{minfppdef}.
