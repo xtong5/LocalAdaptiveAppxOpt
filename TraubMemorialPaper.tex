@@ -150,8 +150,8 @@ that
 \begin{equation} \label{mdec}
 m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
- g\
-We cannot of $f''(x)$ for a specific $x$ based only on values of $f$. However,
+
+We cannot \scnote{missing a verb} of $f''(x)$ for a specific $x$ based only on values of $f$. However,
 we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a
 specified interval via the Newton divided differences.
 
@@ -161,10 +161,10 @@ $\{x_1, x_2, x_3\}$, which may be written as
 \begin{equation*}
 p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2), 
 \end{equation*}
-where the $f[\cdots]$ are the Newton divided differences \cite{}\scnote{to add a reference}. In particular,
+where the $f[\cdots]$ are the Newton divided differences; see for example~\cite{CheKin12a}. In particular,
 \begin{gather} 
 \nonumber
-f[x_1] = f(x_1), \qquad f[x_1, x_2] = \frac{f(x_2) - f(x_1)}{x_2-x_1}, \\
+f[x_1] = f(x_1), \quad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \quad
 f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
 \end{gather}
 For any $f \in
@@ -180,7 +180,7 @@ just as useful by the definition of \eqref{minfppdef},
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,[x_1, x_3]) (\xi_+  - \xi_-).
 \end{multline*}
-So, the the data-based second-order divided difference provides an upper
+So the the data-based second-order divided difference provides an upper
 bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 \begin{equation}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,[x_1, x_3]).
@@ -193,15 +193,19 @@ bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
 non-decreasing function. The cone of functions for which our algorithms will
 apply only includes functions whose second derivatives do not change much in
-magnitude over a short distance, namely,
-\begin{multline} \label{conedef}
-\cc : = \bigl \{ f \in \cw^{2,\infty}[a,b] : \text{for all }x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], \\  \limsup_{t \to x}\abs{f''(t)} \\
-\le \begin{cases} \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b,\\
-\fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+, \\
-\fC(h) m(f,[x,x_+]), & x_- < a \le x_+ \le b.
-\end{cases} \quad
- \Vastr \}.
-\end{multline}
+magnitude over a short distance, namely, \scnote{Is the following format better?}
+\begin{align} \label{conedef}
+\nonumber \cc :=  & \Bigl \{ 
+ f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], 
+\\ \nonumber  & \limsup_{t \to x}\abs{f''(t)}  \le  
+\begin{cases} 
+  \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b\\
+\fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+\\
+\fC(h) m(f,[x,x_+]), & x_- < a \le x_+ \le b
+\end{cases} %\quad
+ %\Vastr 
+\\ & \Bigr \}.
+\end{align}
 The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
 one or both expands the cone to include more functions.
 
@@ -221,7 +225,7 @@ f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
 These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
-it follows that $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
+it follows that \scnote{$f_1$}  $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
 However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
 $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
@@ -241,12 +245,16 @@ $f_2''(x) = f_1''(x) + 20$.}
 
 Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
 \begin{align*}
-f_3(x) & = \begin{cases} \displaystyle \frac{1}{2\delta^2} [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta} \\
-\qquad \qquad - (x-c+\delta)\abs{x-c+\delta}], & \abs{x-c} \le 2\delta, \\
-0, & \text{otherwise},
+f_3(x) & = \begin{cases} \displaystyle 
+   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta} 
+\\ \qquad \qquad
+    - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta, 
+\\ 0, & \text{otherwise},
 \end{cases} \\
-f''_3(x) & = \begin{cases} \displaystyle \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta, \\
-0, & \text{otherwise}.
+f''_3(x) & = 
+\begin{cases} \displaystyle 
+    \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta, 
+\\ 0, & \text{otherwise}.
 \end{cases}
 \end{align*}
 Here $c$ and $\delta$ are parameters. This function and its second derivative
@@ -254,11 +262,11 @@ are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$. For this choice of
 parameters, if $\fh < 0.1$, $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, then
 for $x \in [-0.6, 0.2]$ it follows that $-1 \le x_- \le x_+ \le 1$, and
 \[
-\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} = 25, \qquad -0.6 \le x \le 0.2.
+\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} \scnote{f \rightarrow f_3} = 25, \qquad -0.6 \le x \le 0.2.
 \]
-For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$. Thus, for
+For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$\scnote{$f \rightarrow f_3$?}. Thus, for
 any choice of $\fC : [0,b-a] \to [1,\infty)$, the function $f_3$ lies in $\cc$.
-However, if $\ch$ is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
+However, if $\ch$ \scnote{$\fh$?}  is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
 h_\pm$, then $m(f_3,[x_-,-0.5])=m(f_3,[-0.5,x_+])=0$. Since $f_3''(-0.5) = 25$,
 now $f_3 \notin \cc$. This example illustrates how $\fh$ determines the width of
 a spiky function that may still lie in $\cc$.
@@ -346,22 +354,28 @@ The goal is to increase the number of nodes in the partition as needed to make
 this error bound smaller than the desired tolerance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Function Approximation Algorithm, $A$} \label{sec:fappx}
+\section{The Function Approximation Algorithm, $A$\scnote{A or S. Here, above, and below}} \label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{algo}
-For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\varepsilon >0$ be user inputs.  Let $n = ??$ and define the following $n+1$ points and index set of intervals for which the error tolerance is not yet satisified:
-$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad \mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}.   Then do the following:
+For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
+$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\varepsilon >0$ \scnote{$\abstol$?} be
+user inputs. Let $n = ??$ \scnote{to fill in initial val} and define the
+following $n+1$ points and index set of intervals for which the error tolerance
+is not yet satisified: $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
+\mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1},
+x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
+following:
 \begin{description}
 %\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. 
-\item[Step 1.] \label{stage2} Check for convergence. 
-Let 
+\item[Step 1.] \label{stage1} Check for convergence. 
+Let   \scnote{$\abstol$? below}
 \[
 \mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \varepsilon \right\}.
 \]
 If $\mathcal{I} = \emptyset$, return the linear spline $S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.   
 Otherwise, continue to the next step.
-\item[Step 2.] \label{stage3}  Split in half those intervals $[x_i,x_i-1]$ for which $i-1, i$, or $i+1$ lies in $\mathcal{I}$. %Suppose
+\item[Step 2.] \label{stage2}  Split in half those intervals $[x_i,x_i-1]$ such that $i-1, i$, or $i+1$ lies in $\mathcal{I}$. %Suppose
 %  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
 %    $$[t_{k_i-1},t_{k_i}] \longrightarrow \left[t_{k_i-1},\frac{t_{k_i-1}+t_{k_i}}{2}\right] \left[\frac{t_{k_i-1}+t_{k_i}}{2},t_{k_i}\right]
 %    \qquad \forall i=1,\ldots,m,$$
@@ -380,7 +394,7 @@ Otherwise, continue to the next step.
 %    &\bvec{{n^*}' }=  ({n^*}'_k)_{k=1}^{L'}=(\eta(t'_k-t'_{k-1}))_{k=1}^{L'}, \\
 %    &\cp' =  \{[t'_0,t'_1],\ldots,[t'_{k-1},t'_k],\ldots, [t'_{L'-1},t'_{L'}]\}.
 %    \end{align*}
-Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~1.
+Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
 
 \end{description}
 \end{algo}
