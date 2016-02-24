@@ -92,40 +92,39 @@ Some ideas to get us going
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 We want to solve two problems. For some suitable subset, $\cc$, of continuous,
-real-valued functions on the finite interval $[a,b]$, we want to construct approximation
+real-valued functions on the finite interval $[a,b]$, we want to construct 
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
 \norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-Here $A$ and $M$ depend only on function values. They will be adaptive iterative
+Here $A$ and $M$ depend only on function values. They will be adaptive 
 algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the
-function values already obtained at the data sites chosen in previous iterations. These
+function values already obtained at the data sites chosen in already. These
 algorithms also automatically determine when to stop sampling the input function
 and return the answers.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines will form the basis for algorithms $A$ and $M$, which solve the
+Linear splines will form the basis for our adaptive algorithms $A$ and $M$, which solve the
 function approximation and minimization problems to the given tolerance, as
-specified in \eqref{appxprob} and \eqref{optprob}. The linear spline error is
-essentially the best possible for the Sobolev space of functions whose second
-derivatives have finite $L^{\infty}$-norm:
+specified in \eqref{appxprob} and \eqref{optprob}. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
 
-Our adaptive algorithms require an upper bound on $\norm[{[\alpha,
-\beta]}]{f''}$ in terms of function values for functions that are not too spiky.
-Specifically, in \eqref{normbd} below, we construct an upper bound $B$, such that
+To bound the error of the linear spline, our adaptive algorithms construct data-based upper bounds on $\norm[{[\alpha,
+\beta]}]{f''}$ in terms of function values.  In \eqref{normbd} below, we derive an upper bound $B$, such that
 \[
 \norm[{[\alpha, \beta]}]{f''} \le B(f,[\alpha,\beta]) \quad \forall f \in \cc, \ a \le \alpha < \beta \le b,
 \]
 where $B$ depends only on values of $f$ sampled in the neighborhood of $[\alpha,
-\beta]$. Our upper bound is homogeneous in the function, i.e.,
+\beta]$. The set $\cc \subset \cw^{2,\infty}[a,b]$ consists of functions that are \emph{not too spiky}.  Our upper bound is homogeneous in the function, i.e.,
 $B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$. Thus, the
 set of functions $\cc$ for which our bound applies---and our algorithms
 succeed---is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
@@ -153,7 +152,7 @@ that
 m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
 
-We cannot \scnote{missing a verb} of $f''(x)$ for a specific $x$ based only on values of $f$. However,
+We cannot determine $f''(x)$ for a specific $x$ based only on values of $f$. However,
 we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a
 specified interval via the Newton divided differences.
 
@@ -176,8 +175,7 @@ i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
 that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1,
 x_3]$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
-second derivatives. Fortunately, we can obtain a somewhat weaker result that is
-just as useful by the definition of \eqref{minfppdef},
+second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by the definition of \eqref{minfppdef},
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,[x_1, x_3]) (\xi_+  - \xi_-).
