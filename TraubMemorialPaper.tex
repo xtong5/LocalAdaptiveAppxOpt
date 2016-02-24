@@ -1,6 +1,6 @@
 \documentclass[review]{elsarticle}
 
-\usepackage{amsmath,amssymb,xspace,mathtools,hyperref,color}
+\usepackage{amsmath,amssymb,xspace,mathtools,hyperref,enumitem,color}
 
 \input{FJHDef.tex}
 
@@ -359,20 +359,20 @@ this error bound smaller than the desired tolerance.
 
 \begin{algo}
 For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
-$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\varepsilon >0$ \scnote{$\abstol$?} be
+$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
 user inputs. Let $n = ??$ \scnote{to fill in initial val} and define the
 following $n+1$ points and index set of intervals for which the error tolerance
 is not yet satisified: $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1},
 x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
 following:
-\begin{enumerate}
+\begin{enumerate}[leftmargin = 10ex]
 \renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 %\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. 
 \item \label{stage1} Check for convergence. 
-Let   \scnote{$\abstol$? below}
+Let  
 \[
-\mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \varepsilon \right\}.
+\mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
 If $\mathcal{I} = \emptyset$, return the linear spline $S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.   
 Otherwise, continue to the next step.
