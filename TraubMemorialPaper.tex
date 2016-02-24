@@ -1,6 +1,6 @@
 \documentclass[review]{elsarticle}
 
-\usepackage{amsmath,amssymb,xspace,mathtools,hyperref,enumitem,color}
+\usepackage{amsmath,amssymb,amsthm,xspace,mathtools,hyperref,color}
 
 \input{FJHDef.tex}
 
@@ -44,7 +44,9 @@
 \newcommand{\vast}{\bBigg@{4}}
 \newcommand{\Vast}{\bBigg@{6}}
 \makeatother
-\newdefinition{algo}{Algorithm}
+%\newdefinition{algo}{Algorithm}
+\theoremstyle{definition}
+\newtheorem*{algoA}{Algorithm $A$}
 \newcommand{\vastl}{\mathopen\vast}
 \newcommand{\vastm}{\mathrel\vast}
 \newcommand{\vastr}{\mathclose\vast}
@@ -164,7 +166,7 @@ p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2),
 where the $f[\cdots]$ are the Newton divided differences; see for example~\cite{CheKin12a}. In particular,
 \begin{gather} 
 \nonumber
-f[x_1] = f(x_1), \quad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \quad
+f[x_1] = f(x_1), \qquad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \\
 f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
 \end{gather}
 For any $f \in
@@ -354,10 +356,10 @@ The goal is to increase the number of nodes in the partition as needed to make
 this error bound smaller than the desired tolerance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Function Approximation Algorithm, $A$\scnote{A or S. Here, above, and below}} \label{sec:fappx}
+\section{The Function Approximation Algorithm, $A$}\label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{algo}
+\begin{algoA}
 For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
 $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
 user inputs. Let $n = ??$ \scnote{to fill in initial val} and define the
@@ -366,7 +368,7 @@ is not yet satisified: $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1},
 x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
 following:
-\begin{enumerate}[leftmargin = 10ex]
+\begin{enumerate}[\hspace{8.5ex}]
 \renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 %\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. 
 \item \label{stage1} Check for convergence. 
@@ -374,9 +376,9 @@ Let
 \[
 \mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
-If $\mathcal{I} = \emptyset$, return the linear spline $S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.   
+If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.   
 Otherwise, continue to the next step.
-\item \label{stage2}  Split in half those intervals $[x_i,x_i-1]$ such that $i-1, i$, or $i+1$ lies in $\mathcal{I}$. %Suppose
+\item \label{stage2}  Split in half those intervals $[x_i,x_i-1]$ for which $i-1, i$, or $i+1$ lies in $\mathcal{I}$. %Suppose
 %  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
 %    $$[t_{k_i-1},t_{k_i}] \longrightarrow \left[t_{k_i-1},\frac{t_{k_i-1}+t_{k_i}}{2}\right] \left[\frac{t_{k_i-1}+t_{k_i}}{2},t_{k_i}\right]
 %    \qquad \forall i=1,\ldots,m,$$
@@ -398,7 +400,7 @@ Otherwise, continue to the next step.
 Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
 
 \end{enumerate}
-\end{algo}
+\end{algoA}
 
 we need a theorem that works.\\
 Numerical examples.\\
