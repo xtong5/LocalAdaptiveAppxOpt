@@ -62,6 +62,17 @@
 \newcommand{\xinnote}[1]{ {\textcolor{violet}  {\mbox{**Xin:} #1}}}
 \newcommand{\scnote}[1]{ {\textcolor{orange}  {\mbox{**SC:} #1}}}
 
+\newcommand{\Ixl}{I_{x,l}}
+\newcommand{\Ixlx}{I_{x,\ell(x)}}
+\newcommand{\Ixrlx}{I_{x,\rell(x)}}
+\newcommand{\Ixhlx}{I_{x,\hell(x)}}
+\newcommand{\hell}{\hat{\ell}}
+\newcommand{\tell}{\tilde{\ell}}
+\newcommand{\rell}{\mathring{\ell}}
+\DeclareMathOperator{\lo}{lo}
+\DeclareMathOperator{\errest}{errest}
+\newtheorem{theorem}{Theorem}
+
 \begin{document}
 
 \begin{frontmatter}
@@ -92,14 +103,14 @@ Some ideas to get us going
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 We want to solve two problems. For some suitable subset, $\cc$, of continuous,
-real-valued functions on the finite interval $[a,b]$, we want to construct 
+real-valued functions on the finite interval $[a,b]$, we want to construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for all $f \in \cc$ and $\abstol > 0$
 \begin{gather}
 \norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-Here $A$ and $M$ depend only on function values. They will be adaptive 
+Here $A$ and $M$ depend only on function values. They will be adaptive
 algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the
 function values already obtained at the data sites chosen in already. These
 algorithms also automatically determine when to stop sampling the input function
@@ -160,10 +171,10 @@ specified interval via the Newton divided differences.
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{x_1, x_2, x_3\}$, which may be written as
 \begin{equation*}
-p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2), 
+p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2),
 \end{equation*}
 where the $f[\cdots]$ are the Newton divided differences; see for example~\cite{CheKin12a}. In particular,
-\begin{gather} 
+\begin{gather}
 \nonumber
 f[x_1] = f(x_1), \qquad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \\
 f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
@@ -195,15 +206,15 @@ non-decreasing function. The cone of functions for which our algorithms will
 apply only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely, \scnote{Is the following format better?}
 \begin{align} \label{conedef}
-\nonumber \cc :=  & \Bigl \{ 
- f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh], 
-\\ \nonumber  & \limsup_{t \to x}\abs{f''(t)}  \le  
-\begin{cases} 
+\nonumber \cc :=  & \Bigl \{
+ f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh],
+\\ \nonumber  & \limsup_{t \to x}\abs{f''(t)}  \le
+\begin{cases}
   \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b\\
 \fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+\\
 \fC(h) m(f,[x,x_+]), & x_- < a \le x_+ \le b
 \end{cases} %\quad
- %\Vastr 
+ %\Vastr
 \\ & \Bigr \}.
 \end{align}
 The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
@@ -245,15 +256,15 @@ $f_2''(x) = f_1''(x) + 20$.}
 
 Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
 \begin{align*}
-f_3(x) & = \begin{cases} \displaystyle 
-   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta} 
+f_3(x) & = \begin{cases} \displaystyle
+   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
 \\ \qquad \qquad
-    - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta, 
+    - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise},
 \end{cases} \\
-f''_3(x) & = 
-\begin{cases} \displaystyle 
-    \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta, 
+f''_3(x) & =
+\begin{cases} \displaystyle
+    \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise}.
 \end{cases}
 \end{align*}
@@ -274,7 +285,7 @@ a spiky function that may still lie in $\cc$.
 \begin{figure}[t]
 \centering
 \includegraphics[width=5cm]{f3plot.eps} \qquad
-\includegraphics[width=5cm]{f3ppplot.eps} 
+\includegraphics[width=5cm]{f3ppplot.eps}
 \caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.}
 \label{f3fig}
 \end{figure}
@@ -303,7 +314,7 @@ $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{minfppdef}.
 
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. For all $ x \in [x_{i-1},x_i]$,  let 
+First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. For all $ x \in [x_{i-1},x_i]$,  let
 \[
 h_- = x - x_{i-3}, \ h_+ = x_{i+2} - x, \ h  = \max(h_{\pm}), \ x_- = x_{i-3}, \ x_+ =  x_{i+2}.
 \]
@@ -368,13 +379,13 @@ x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
 following:
 \begin{enumerate}[\hspace{8.5ex}]
 \renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
-%\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. 
-\item \label{stage1} Check for convergence. 
-Let  
+%\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}.
+\item \label{stage1} Check for convergence.
+Let
 \[
 \mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
-If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.   
+If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
 \item \label{stage2}  Split in half those intervals $[x_i,x_i-1]$ for which $i-1, i$, or $i+1$ lies in $\mathcal{I}$. %Suppose
 %  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
@@ -401,6 +412,7 @@ Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}
 \end{algoA}
 
 we need a theorem that works.\\
+\input{localcost}
 Numerical examples.\\
 We need computational cost\\
 complexity bound \\
