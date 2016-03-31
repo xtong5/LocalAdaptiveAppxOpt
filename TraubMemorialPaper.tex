@@ -204,19 +204,22 @@ bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
 non-decreasing function. The cone of functions for which our algorithms will
 apply only includes functions whose second derivatives do not change much in
-magnitude over a short distance, namely, \scnote{Is the following format better?}
-\begin{align} \label{conedef}
-\nonumber \cc :=  & \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm, \ h = \max(h_{\pm}) \in [0, \fh],
-\\ \nonumber  & \limsup_{t \to x}\abs{f''(t)}  \le
+magnitude over a short distance, namely,\yuhannote{change the definition of cone}
+\begin{multline} \label{conedef}
+\nonumber \cc :=   \Bigl \{
+ f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm,
+\\  h = \max(h_{\pm}) \in [0, \fh], \  \limsup_{t \to x}\abs{f''(t)}  \le M(f,x,h_\pm) \Bigr \},
+\end{multline}
+where
+\begin{multline*}
+M(f,x,h_\pm)=\\
 \begin{cases}
-  \fC(h) \max\bigl(m(f,[x_-,x]),m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b\\
-\fC(h) m(f,[x_-,x]), & a \le x_- \le b <  x_+\\
-\fC(h) m(f,[x,x_+]), & x_- < a \le x_+ \le b
+  \max\bigl(\fC(h_{-}) m(f,[x_-,x]),\fC(h_{+}) m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b\\
+\fC(h_{-}) m(f,[x_-,x]), & a \le x_- \le b <  x_+\\
+\fC(h_{+}) m(f,[x,x_+]), & x_- < a \le x_+ \le b
 \end{cases} %\quad
  %\Vastr
-\\ & \Bigr \}.
-\end{align}
+\end{multline*}
 The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
 one or both expands the cone to include more functions.
 
@@ -320,7 +323,7 @@ h_- = x - x_{i-3}, \ h_+ = x_{i+2} - x, \ h  = \max(h_{\pm}), \ x_- = x_{i-3}, \
 \]
 Then it follows by the definition of the cone that
 \begin{equation*}
-\abs{f''(x)} \le \fC(h)\max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr)  \quad  \forall x \in [x_{i-1},x_i].
+\abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,[x_{i-3},x]),\fC(h_+)m(f,[x,x_{i+2}])\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
 Applying the fact that $\fC$ is non-decreasing and property \eqref{mdec} yields
 the following upper bound for the norm of $f''$ in terms of function values:
@@ -329,12 +332,13 @@ the following upper bound for the norm of $f''$ in terms of function values:
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
 \nonumber
- & \le \sup_{x_{i-1} \le x \le x_i} \bigl[ \fC(\max(x-x_{i-3},x_{i+2}-x)) \\
- \nonumber & \qquad \qquad \times \max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr] \\
+ & \le \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,[x_{i-3},x]),\fC(x_{i+2}-x)m(f,[x,x_{i+2}])\bigr)\bigr]  \\
+ %\nonumber & \qquad \qquad \times \max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr] \\
 \nonumber
- & \le  \fC(\max(x_{i-1}-x_{i-3},x_{i+2}-x_i))  \max\bigl(m(f,[x_{i-3},x_{i-1}]),m(f,[x_i,x_{i+2}])\bigr] \\
-\nonumber & \le  \fC(\max(x_{i-1}-x_{i-3},x_{i+2}-x_i))  \\
-&\ \  \times \max\bigl(\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) =: B(f,[x_{i-1},x_i]).
+ & \le \max\bigl(\fC(x_{i-1}-x_{i-3})m(f,[x_{i-3},_{i-1}]),\fC(x_{i+2}-x_i)m(f,[x_i,x_{i+2}])\bigr) \\
+\nonumber & \le  \max\bigl(\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  \\
+\nonumber &\qquad  \qquad \bigl. \fC(x_{i+2}-x_i)\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
+& = \max\bigl(B_-(f,[x_{i-1},x_i]),B_+(f,[x_{i-1},x_i])\bigr)=: B(f,[x_{i-1},x_i]).
 \end{align}
 
 Next consider the cases of the sub-intervals on the left border of the interval.
@@ -344,17 +348,21 @@ For $i \in \{1,2\}$ it follows by a similar argument that
 \abs{f''(x)} & \le \fC(\max(x-a,x_{i+2}-x))m(f'',[x,x_{i+2}])  \ \forall x \in [x_{i-1},x_i], \\
 \nonumber
 \norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{f[x_i,x_{i+1},x_{i+2}]} \\
-& =: B(f,[x_{i-1},x_i]).
+& =: B(f,[x_{i-1},x_i]),
 \end{align}
-Similary, for $i \in \{n-1, n\}$ it follows that
+where $B_+(f,[x_{i-1},x_i])=B(f,[x_{i-1},x_i])$ and $ B_-(f,[x_{i-1},x_i])=0$.
+
+Similarly, for $i \in \{n-1, n\}$ it follows that
 \begin{align}
 \nonumber
 \abs{f''(x)} & \le \fC(\max(x-x_{i-3},b-x))m(f'',[x_{i-3},x]) \ \forall x \in [x_{i-1},x_i], \\
 \nonumber
 \norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{f[x_{i-3},x_{i-2},x_{i-1}]} \\
-& =: B(f,[x_{i-1},x_i]).
+& =: B(f,[x_{i-1},x_i]),
 \end{align}
 \end{subequations}
+where $B_-(f,[x_{i-1},x_i])=B(f,[x_{i-1},x_i])$ and $B_+(f,[x_{i-1},x_i])=0$.
+
 The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{equation} \label{appxerrbdb}
@@ -387,27 +395,13 @@ Let
 \]
 If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
-\item \label{stage2}  Split in half those intervals $[x_i,x_i-1]$ for which $i-1, i$, or $i+1$ lies in $\mathcal{I}$. %Suppose
-%  $$\cp=\{[t_0,t_1],\ldots,[t_{k-1},t_k],\ldots, [t_{L-1},t_L]\}$$ and $K=\{k_i\}_{i=1}^m$, where $k_0=0< k_1<k_2<\ldots<k_m\le L=k_{m+1}$. Double the number of points on interval $[t_{k_i-1},t_{k_i}]$ and split it into two, i.e.
-%    $$[t_{k_i-1},t_{k_i}] \longrightarrow \left[t_{k_i-1},\frac{t_{k_i-1}+t_{k_i}}{2}\right] \left[\frac{t_{k_i-1}+t_{k_i}}{2},t_{k_i}\right]
-%    \qquad \forall i=1,\ldots,m,$$
-%    where the $k_i$ here are the present values.
-%    To update the endpoints of subintervals and partition, we have the following formulas. For clarification,
-%    we use primed notation for the updated ones.
-%    \begin{align*}
-%    &L' =  L + m,\\
-%    &m' =  2m,\\
-%    & k'_{2i} =  k_i + i, \qquad i = 0,\ldots,m, \\
-%    &k'_{2i+1}=  k_{i+1} +i, \qquad i=0,\ldots,m, \\
-%    &t'_{k+i} =  t_k, \qquad k_i \le k < k_{i+1}, \ i = 0,\ldots,m, \\
-%    &t'_{k+i-1} =  \frac{t_{k_{i}-1} + t_{k_i}}{2}, \qquad i = 1,\ldots,m, \\
-%    &t'_{L'} =   t_L,\\
-%    &K' =  \{k'_1, \ldots, k'_{2m}\}, \\
-%    &\bvec{{n^*}' }=  ({n^*}'_k)_{k=1}^{L'}=(\eta(t'_k-t'_{k-1}))_{k=1}^{L'}, \\
-%    &\cp' =  \{[t'_0,t'_1],\ldots,[t'_{k-1},t'_k],\ldots, [t'_{L'-1},t'_{L'}]\}.
-%    \end{align*}
+\item \label{stage2}  If $$\frac{(x_i - x_{i-1})^2B_+(f,[x_{i-1},x_i])}{8} > \abstol,$$
+split in half those intervals $[x_i,x_i-1]$ for which $i, i+1$, or $i+2$ lies in $\mathcal{I}$ where the length of these intervals
+are the largest.
+If $$\frac{(x_i - x_{i-1})^2B_-(f,[x_{i-1},x_i])}{8} > \abstol,$$
+split in half those intervals $[x_i,x_i-1]$ for which $i-2, i-1$, or $i$ lies in $\mathcal{I}$ where the length of these intervals
+are the largest. %Suppose
 Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
-
 \end{enumerate}
 \end{algoA}
 
