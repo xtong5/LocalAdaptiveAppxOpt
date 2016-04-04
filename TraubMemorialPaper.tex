@@ -208,7 +208,7 @@ magnitude over a short distance, namely,\yuhannote{change the definition of cone
 \begin{multline} \label{conedef}
 \nonumber \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm,
-\\  h = \max(h_{\pm}) \in [0, \fh], \  \limsup_{t \to x}\abs{f''(t)}  \le M(f,x,h_\pm) \Bigr \},
+\\  \max(h_{\pm}) \in [0, \fh], \  \limsup_{t \to x}\abs{f''(t)}  \le M(f,x,h_\pm) \Bigr \},
 \end{multline}
 where
 \begin{multline*}
@@ -302,7 +302,7 @@ derivative. Even with a function has sufficient smoothness, it \scnote{incomplet
 
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
 an ordered sequence of points that includes the endpoints of the interval,
-$a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$. The linear spline
+$a=:x_0 < x_1 < \cdots < x_{n-1} < x_{n}:=b$, where $x_{i+1}-x_{i-2} <\fh, \forall i=2,\ldots, n-1$.  The linear spline
 approximation to a function $f$ based on the partition $\datasites$ is denoted,
 $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
@@ -317,11 +317,23 @@ $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{minfppdef}.
 
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. For all $ x \in [x_{i-1},x_i]$,  let
-\[
-h_- = x - x_{i-3}, \ h_+ = x_{i+2} - x, \ h  = \max(h_{\pm}), \ x_- = x_{i-3}, \ x_+ =  x_{i+2}.
-\]
-Then it follows by the definition of the cone that
+For all $ x \in [x_{i-1},x_i]$,  denote
+\begin{align*}
+&h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
+ &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
+\end{align*}
+Let
+\begin{align*}
+B_{+}(f,[x_{i-1},x_i])&=\begin{cases}
+    \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}  & \i=1,\ldots,n-2,
+\\ 0, & i=n-1,n.
+\end{cases}\\
+ B_{-}(f,[x_{i-1},x_i])&=\begin{cases}
+   0  & \i=1,2,
+\\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])} & i=3,\ldots,n.
+\end{cases}
+\end{align*}
+First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Then it follows by the definition of the cone that
 \begin{equation*}
 \abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,[x_{i-3},x]),\fC(h_+)m(f,[x,x_{i+2}])\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
@@ -335,10 +347,10 @@ the following upper bound for the norm of $f''$ in terms of function values:
  & \le \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,[x_{i-3},x]),\fC(x_{i+2}-x)m(f,[x,x_{i+2}])\bigr)\bigr]  \\
  %\nonumber & \qquad \qquad \times \max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr] \\
 \nonumber
- & \le \max\bigl(\fC(x_{i-1}-x_{i-3})m(f,[x_{i-3},_{i-1}]),\fC(x_{i+2}-x_i)m(f,[x_i,x_{i+2}])\bigr) \\
-\nonumber & \le  \max\bigl(\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  \\
-\nonumber &\qquad  \qquad \bigl. \fC(x_{i+2}-x_i)\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
-& = \max\bigl(B_-(f,[x_{i-1},x_i]),B_+(f,[x_{i-1},x_i])\bigr)=: B(f,[x_{i-1},x_i]).
+ & \le \max\bigl(\fC(x_{i}-x_{i-3})m(f,[x_{i-3},_{i-1}]),\fC(x_{i+2}-x_{i-1})m(f,[x_i,x_{i+2}])\bigr) \\
+\nonumber & \le  \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  \\
+\nonumber &\qquad  \qquad \bigl. \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
+& = \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
 \end{align}
 
 Next consider the cases of the sub-intervals on the left border of the interval.
@@ -348,9 +360,8 @@ For $i \in \{1,2\}$ it follows by a similar argument that
 \abs{f''(x)} & \le \fC(\max(x-a,x_{i+2}-x))m(f'',[x,x_{i+2}])  \ \forall x \in [x_{i-1},x_i], \\
 \nonumber
 \norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{f[x_i,x_{i+1},x_{i+2}]} \\
-& =: B(f,[x_{i-1},x_i]),
+& = B_+(f,[x_{i-1},x_i]).
 \end{align}
-where $B_+(f,[x_{i-1},x_i])=B(f,[x_{i-1},x_i])$ and $ B_-(f,[x_{i-1},x_i])=0$.
 
 Similarly, for $i \in \{n-1, n\}$ it follows that
 \begin{align}
@@ -358,16 +369,15 @@ Similarly, for $i \in \{n-1, n\}$ it follows that
 \abs{f''(x)} & \le \fC(\max(x-x_{i-3},b-x))m(f'',[x_{i-3},x]) \ \forall x \in [x_{i-1},x_i], \\
 \nonumber
 \norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{f[x_{i-3},x_{i-2},x_{i-1}]} \\
-& =: B(f,[x_{i-1},x_i]),
+& =B_-(f,[x_{i-1},x_i]).
 \end{align}
 \end{subequations}
-where $B_-(f,[x_{i-1},x_i])=B(f,[x_{i-1},x_i])$ and $B_+(f,[x_{i-1},x_i])=0$.
 
 The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{equation} \label{appxerrbdb}
 \norm{f - S(f,\datasites)} \le
-\max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8} .
+\max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr)}{8} .
 \end{equation}
 The goal is to increase the number of nodes in the partition as needed to make
 this error bound smaller than the desired tolerance.
@@ -395,12 +405,14 @@ Let
 \]
 If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
-\item \label{stage2}  If $$\frac{(x_i - x_{i-1})^2B_+(f,[x_{i-1},x_i])}{8} > \abstol,$$
-split in half those intervals $[x_i,x_i-1]$ for which $i, i+1$, or $i+2$ lies in $\mathcal{I}$ where the length of these intervals
-are the largest.
-If $$\frac{(x_i - x_{i-1})^2B_-(f,[x_{i-1},x_i])}{8} > \abstol,$$
-split in half those intervals $[x_i,x_i-1]$ for which $i-2, i-1$, or $i$ lies in $\mathcal{I}$ where the length of these intervals
-are the largest. %Suppose
+\item \label{stage2} 
+Denote
+\begin{multline*}
+\widehat{\mathcal{I}} = \left\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_\pm(f,[x_{j-1},x_j])}{8}  > \abstol,\right.\\
+ \left.j=i, i\mp1, i\mp1, 0<j\le n \right\}.
+\end{multline*}
+\[\widetilde{\mathcal{I}}=\left\{i \in \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in\widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
+Split in half those intervals $[x_i,x_i-1]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
 Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}

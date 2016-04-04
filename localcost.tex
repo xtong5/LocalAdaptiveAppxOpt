@@ -1,105 +1,119 @@
 \subsection{Computational Cost}
 
-In this part, we investigate the computational cost of our locally adaptive algorithm. Let $n_0$ denote the initial number of intervals. We firstly introduce one new notation $\Ixl$. Let
+In this part, we investigate the computational cost of our locally adaptive algorithm. Let $n_0$ denote the initial number of intervals. We firstly introduce one new notation $\Ixl$.
+\[\Ixl=\left[a+\frac{(j-1)(b-a)2^{-l}}{n_0},a+\frac{j(b-a)2^{-l}}{n_0}\right],\]
+where $j=\left\lceil\frac{(x-a)n_02^l}{b-a}\right\rceil, \ l = 0,1,2,\ldots$.
+Let
 $\ell(x)$ be defined such that
-$I_{x,\ell(x)}$ is the final interval which contains $x$ in the final discretization where width of $I_{x,\ell(x)}$ is
-$\frac{2^{-\ell(x)}(b-a)}{n_0}$.
-Thus the computational cost should be
-\[
-\cost(S,f,\varepsilon) =\int_a^b \frac{2^{\ell(x)}n_0}{(b-a} dx +1 = \frac{n_0}{(b-a} \int_a^b 2^{\ell(x)} dx +1
-\]
-Thus, for subinterval $I_{x,l}$, we have the error bound from~\eqref{appxerrbdb}
-$$\errest(x,l)=\frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}.$$
-Let $j=\lfloor\frac{n_0 2^l x}{b-a}\rfloor$. Denote
-\[\bar{I}_{x,l}=\left[\max\left(a, \frac{(j-2)2^{-l}(b-a)}{n_0}\right), \min\left(b, \frac{(j+3)2^{-l}(b-a)}{n_0}\right)\right]
+$I_{x,\ell(x)}$ is the final interval which contains $x$ in the final discretization.
+Denote
+\[\bar{I}_{x,l}=\left[a+\frac{\max(0,j-3)2^{-l}(b-a)}{n_0}, a+ \frac{\min(j+2,2^ln_0)2^{-l}(b-a)}{n_0}\right]
 \].
 
-For $i \in \{3, \ldots, L-2\}$,  as $\fC$ a is non-decreasing function and by \eqref{normbd}, we know
-\begin{align*}
-B(f,[x_{i-1},x_i]) & \le \fC (2(x_i-x_{i-1}))\max\limits_{x_{i-3}\le t \le x_{i+2}}\abs{f''(t)}\\
-& \le \fC\left(\frac{2 \cdot2^{-l}(b-a)}{n_0}\right) \norm[\bar{I}_{x,l}]{f''}.
-%&\le \fC\left(\frac{2(b-a)}{n_0}\right) \max\limits_{\max\{a,x-\delta\} \le t \le \min\{x+\delta, b\}}\abs{f''(t)},\\
-\end{align*}
-Similar for $i\in \{1,2\}$, we have
-\begin{align*}
-B(f,[x_{i-1},x_i]) & \le \fC(3(x_i-x_{i-1}))\max\limits_{x_{i}\le t \le x_{i+2}}\abs{f''(t)}\\
-& \le \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \norm[\bar{I}_{x,l}]{f''}.
-%&\le \fC\left(\frac{2(b-a)}{n_0}\right) \max\limits_{\max\{a,x-\delta\} \le t \le \min\{x+\delta, b\}}\abs{f''(t)},\\
-\end{align*}
-Thus for $i \in \{L-1,L\}$, we have
-\begin{align*}
-B(f,[x_{i-1},x_i]) & \le \fC(3(x_i-x_{i-1})) \max\limits_{x_{i-3}\le t \le x_{i-1}}\abs{f''(t)}\\
-& \le \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \norm[\bar{I}_{x,l}]{f''}.
-%&\le \fC\left(\frac{2(b-a)}{n_0}\right) \max\limits_{\max\{a,x-\delta\} \le t \le \min\{x+\delta, b\}}\abs{f''(t)},\\
-\end{align*}
-Therefore, for any $i \in \{1,2,\ldots, L\}$ we can obtain
-\begin{align*}
-B(f,[x_{i-1},x_i]) & \le \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right)  \norm[\bar{I}_{x,l}]{f''}.
-\end{align*}
-
-Thus
-we can obtain an upper bound on $\errest(x,l)$ in terms of $ \norm[\bar{I}_{x,l}]{f''}$:
-\[
- \errest(x,l)  \le C_l \norm[\bar{I}_{x,l}]{f''}, \qquad \forall x \in [a,b], \ l \in \natzero,
-\]
+Let
+\begin{equation}\label{eqn:defoflx}
+L(x) = \min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\},
+\end{equation}
 where
 \[\qquad C_l=\fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \frac{2^{-2l}(b-a)^2}{8n^2_0}
 \]
 depends on $n_0$, $\fC$, and $l$, but not on $f$.
 
-We define
-\begin{equation}\label{eqn:defoflx}
-L(x) = \min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\} .
-\end{equation}
+%For $i \in \{3, \ldots, L-2\}$,  as $\fC$ a is non-decreasing function and by \eqref{normbd}, we know
+%\begin{align*}
+%B(f,[x_{i-1},x_i]) & \le \fC (2(x_i-x_{i-1}))\max\limits_{x_{i-3}\le t \le x_{i+2}}\abs{f''(t)}\\
+%& \le \fC\left(\frac{2 \cdot2^{-l}(b-a)}{n_0}\right) \norm[\bar{I}_{x,l}]{f''}.
+%%&\le \fC\left(\frac{2(b-a)}{n_0}\right) \max\limits_{\max\{a,x-\delta\} \le t \le \min\{x+\delta, b\}}\abs{f''(t)},\\
+%\end{align*}
+%Similar for $i\in \{1,2\}$, we have
+%\begin{align*}
+%B(f,[x_{i-1},x_i]) & \le \fC(3(x_i-x_{i-1}))\max\limits_{x_{i}\le t \le x_{i+2}}\abs{f''(t)}\\
+%& \le \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \norm[\bar{I}_{x,l}]{f''}.
+%%&\le \fC\left(\frac{2(b-a)}{n_0}\right) \max\limits_{\max\{a,x-\delta\} \le t \le \min\{x+\delta, b\}}\abs{f''(t)},\\
+%\end{align*}
+%Thus for $i \in \{L-1,L\}$, we have
+%\begin{align*}
+%B(f,[x_{i-1},x_i]) & \le \fC(3(x_i-x_{i-1})) \max\limits_{x_{i-3}\le t \le x_{i-1}}\abs{f''(t)}\\
+%& \le \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \norm[\bar{I}_{x,l}]{f''}.
+%%&\le \fC\left(\frac{2(b-a)}{n_0}\right) \max\limits_{\max\{a,x-\delta\} \le t \le \min\{x+\delta, b\}}\abs{f''(t)},\\
+%\end{align*}
+%Therefore, for any $i \in \{1,2,\ldots, L\}$ we can obtain
+%\begin{align*}
+%B(f,[x_{i-1},x_i]) & \le \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right)  \norm[\bar{I}_{x,l}]{f''}.
+%\end{align*}
+%
+%Thus
+%we can obtain an upper bound on $\errest(x,l)$ in terms of $ \norm[\bar{I}_{x,l}]{f''}$:
+%\[
+% \errest(x,l)  \le C_l \norm[\bar{I}_{x,l}]{f''}, \qquad \forall x \in [a,b], \ l \in \natzero,
+%\]
 
-We want to show that $\forall x$, if the interval containing $x$ becomes as the same as
-$I_{x,L(x)}$ that it cannot be cut further, i.e., $\ell(x) \le L(x)$. 
 
-Suppose $I_{x,L(x)}$ has to be cut,i.e. $\ell(x)>L(x)$, where $I_{x,L(x)}=[x_{i-1},x_i]$ for some $i$. Only in five different cases, interval $[x_{i-1},x]$ needs to be cut.
-We will show none of them satisfied.
+We want to show that $\ell(x) \le L(x)$. If not, at some point denote $I_{x,L(x)}$ by $[x_{i-1},x_i]$, this $[x_{i-1},x_i]$ should be cut.
+By the algorithm, we know there are five different cases. 
 \begin{enumerate}
   \item $[x_{i-1},x]$ doesn't satisfy the error tolerance, i.e.,
-  $$\frac{B(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 > \abstol.$$
-  However, by the definition of $L(x)$, it is impossible.
-  \item $[x_{i-2},x_{i-1}]$ doesn't satisfy the error tolerance.  By the algorithm, we know
-  \begin{align*}&\frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 > \abstol\\
-  &x_i-x_{i-1} \ge  x_{i+1}-x_{i} \qquad x_i-x_{i-1} \ge x_{i-1}-x_{i-2}.
+  $$\frac{B_+(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2,$$
+  or
+  $$\frac{B_-(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i-1,i-2.$$
+  We investigate the first condition at first.
+  If 
+  $$\frac{B_+(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2,$$
+  by the definition, we know
+  \begin{align*}
+  & \frac{B_+(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 \\ \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2\\
+    \le & \fC\left(\frac{3\cdot2^{-L(x)}(b-a)}{n_0}\right) \frac{2^{-2L(x)}(b-a)^2}{8n^2_0}\norm[{[x_{i},x_{i+2}]}]{f''} \\
+     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} < \abstol.
   \end{align*}
+  In the other situation, if $$\frac{B_-(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i-1,i-2,$$
+  by the definition, we know
+  \begin{align*}
+  & \frac{B_-(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 \\ \le &\frac{\fC(x_{i}-x_{i-3})f[x_{i-3},x_{i-2},x_{i-1}]}{8}(x_{i}-x_{i-1})^2\\
+    \le & \fC\left(\frac{3\cdot2^{-L(x)}(b-a)}{n_0}\right) \frac{2^{-2L(x)}(b-a)^2}{8n^2_0}\norm[{[x_{i-3},x_{i-1}]}]{f''} \\
+     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} < \abstol.
+  \end{align*}
+  Contradiction.  
+  \item $[x_{i-2},x_{i-1}]$ doesn't satisfy the error tolerance.  By the algorithm, we know
+  \[
+  \frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2.
+  \]
   But from the definition, we know
   \begin{align*}
   & \frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 \\ \le &\frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2\\
-    \le & \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \frac{2^{-2l}(b-a)^2}{8n^2_0}\norm[{[x_{i-1},x_{i+1}]}]{f''} \\
-     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} < \abstol
+    \le & \fC\left(\frac{3\cdot2^{-L(x)}(b-a)}{n_0}\right) \frac{2^{-2L(x)}(b-a)^2}{8n^2_0}\norm[{[x_{i-1},x_{i+1}]}]{f''} \\
+     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} < \abstol.
   \end{align*}
   Contradiction.
   \item $[x_{i-3},x_{i-2}]$ doesn't satisfy the error tolerance. By the algorithm, we know
-  \begin{align*}
-  & \frac{B_+(f,[x_{i-3},x_{i-2}])}{8}(x_{i-2}-x_{i-3})^2 > \abstol \\&x_i-x_{i-1} \ge x_{i-2}-x_{i-3} \qquad x_i-x_{i-1} \ge x_{i-1}-x_{i-2}.
-  \end{align*}
+  \[
+  \frac{B_+(f,[x_{i-3},x_{i-2}])}{8}(x_{i-2}-x_{i-3})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2.
+  \]
   But from the definition, we know
   \begin{align*}
   & \frac{B_+(f,[x_{i-3},x_{i-2}])}{8}(x_{i-2}-x_{i-3})^2 \\  \le &\frac{\fC(x_i-x_{i-3})f[x_{i-2},x_{i-1},x_{i}]}{8}(x_{i-2}-x_{i-3})^2\\
-    \le & \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \frac{2^{-2l}(b-a)^2}{8n^2_0}\norm[{[x_{i-2},x_{i}]}]{f''} \\
+    \le & \fC\left(\frac{3\cdot2^{-L(x)}(b-a)}{n_0}\right) \frac{2^{-2L(x)}(b-a)^2}{8n^2_0}\norm[{[x_{i-2},x_{i}]}]{f''} \\
      \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''}< \abstol.
   \end{align*}
   Contradiction.
   \item $[x_{i},x_{i+1}]$ doesn't satisfy the error tolerance. By the algorithm, we know
-  \begin{align*}& \frac{B_-(f,[x_{i},x_{i+1}])}{8}(x_{i+1}-x_{i})^2 > \abstol \\ & x_i-x_{i-1} \ge x_{i+1}-x_{i} \qquad x_i-x_{i-1} \ge x_{i-1}-x_{i-2}.\end{align*}
+  \[ \frac{B_-(f,[x_{i},x_{i+1}])}{8}(x_{i+1}-x_{i})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2.
+  \]
   But from the definition, we know
   \begin{align*}
   & \frac{B_-(f,[x_{i},x_{i+1}])}{8}(x_{i+1}-x_{i})^2 \\ \le &\frac{\fC(x_{i+1}-x_{i-2})f[x_{i-2},x_{i-1},x_{i}]}{8}(x_{i+1}-x_{i})^2\\
-    \le & \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \frac{2^{-2l}(b-a)^2}{8n^2_0}\norm[{[x_{i-2},x_{i}]}]{f''} \\
+    \le & \fC\left(\frac{3\cdot2^{-L(x)}(b-a)}{n_0}\right) \frac{2^{-2L(x)}(b-a)^2}{8n^2_0}\norm[{[x_{i-2},x_{i}]}]{f''} \\
      \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''}< \abstol.
   \end{align*}
   Contradiction.
   \item $[x_{i+1},x_{i+2}]$ doesn't satisfy the error tolerance. By the algorithm, we know
-  \begin{align*} &\frac{B_-(f,[x_{i+1},x_{i+2}])}{8}(x_{i+2}-x_{i+1})^2 > \abstol \\
-  & x_i-x_{i-1} \ge x_{i+1}-x_{i} \qquad x_i-x_{i-1} \ge x_{i+2}-x_{i+1}.
-  \end{align*}
+  \[
+  \frac{B_-(f,[x_{i+1},x_{i+2}])}{8}(x_{i+2}-x_{i+1})^2 > \abstol \qquad x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2.
+  \]
   But from the definition, we know
-  \begin{align*}
-  & \frac{B_-(f,[x_{i+1},x_{i+2}])}{8}(x_{i+2}-x_{i+1})^2 \\ \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i+2}-x_{i+1})^2\\
-    \le & \fC\left(\frac{3\cdot2^{-l}(b-a)}{n_0}\right) \frac{2^{-2l}(b-a)^2}{8n^2_0}\norm[{[x_{i-1},x_{i+1}]}]{f''} \\
+    \begin{align*}
+  & \frac{B_-(f,[x_{i+1},x_{i+2}])}{8}(x_{i+2}-x_{i+1})^2 \\
+  \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i+2}-x_{i+1})^2\\
+  \le & \fC\left(\frac{3\cdot2^{-L(x)}(b-a)}{n_0}\right) \frac{2^{-2L(x)}(b-a)^2}{8n^2_0}\norm[{[x_{i-1},x_{i+1}]}]{f''} \\
      \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''}<\abstol.
   \end{align*}
   Contradiction.
