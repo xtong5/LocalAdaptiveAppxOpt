@@ -325,22 +325,21 @@ For all $ x \in [x_{i-1},x_i]$,  denote
 Let
 \begin{align*}
 B_{+}(f,[x_{i-1},x_i])&=\begin{cases}
-    \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}  & \i=1,\ldots,n-2,
+    \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
 \\ 0, & i=n-1,n.
 \end{cases}\\
  B_{-}(f,[x_{i-1},x_i])&=\begin{cases}
-   0  & \i=1,2,
-\\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])} & i=3,\ldots,n.
+   0,  & i=1,2,
+\\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n.
 \end{cases}
 \end{align*}
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Then it follows by the definition of the cone that
+At first, we consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Then it follows by the definition of the cone that
 \begin{equation*}
 \abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,[x_{i-3},x]),\fC(h_+)m(f,[x,x_{i+2}])\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
 Applying the fact that $\fC$ is non-decreasing and property \eqref{mdec} yields
 the following upper bound for the norm of $f''$ in terms of function values:
-\begin{subequations} \label{normbd}
-\begin{align}
+\begin{align}\label{normbd}
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
 \nonumber
@@ -353,27 +352,9 @@ the following upper bound for the norm of $f''$ in terms of function values:
 & = \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
 \end{align}
 
-Next consider the cases of the sub-intervals on the left border of the interval.
-For $i \in \{1,2\}$ it follows by a similar argument that
-\begin{align}
-\nonumber
-\abs{f''(x)} & \le \fC(\max(x-a,x_{i+2}-x))m(f'',[x,x_{i+2}])  \ \forall x \in [x_{i-1},x_i], \\
-\nonumber
-\norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{f[x_i,x_{i+1},x_{i+2}]} \\
-& = B_+(f,[x_{i-1},x_i]).
-\end{align}
-
-Similarly, for $i \in \{n-1, n\}$ it follows that
-\begin{align}
-\nonumber
-\abs{f''(x)} & \le \fC(\max(x-x_{i-3},b-x))m(f'',[x_{i-3},x]) \ \forall x \in [x_{i-1},x_i], \\
-\nonumber
-\norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{f[x_{i-3},x_{i-2},x_{i-1}]} \\
-& =B_-(f,[x_{i-1},x_i]).
-\end{align}
-\end{subequations}
-
-The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the
+Similarly, we can obtain the same result for the sub-intervals on the left and right borders of the interval. Hence,
+\eqref{normbd} is satisfied for all $i=1,\ldots,n$.
+The bound in \eqref{normbd} combined with \eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{equation} \label{appxerrbdb}
 \norm{f - S(f,\datasites)} \le
@@ -397,21 +378,20 @@ x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
 following:
 \begin{enumerate}[\hspace{8.5ex}]
 \renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
-%\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}.
 \item \label{stage1} Check for convergence.
-Let
+Let $\mathcal{I}=\mathcal{I}_+ \cup \mathcal{I}_-$, where
 \[
-\mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
+\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_\pm(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
 If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
-\item \label{stage2} 
-Denote
+\item \label{stage2}
+Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 \begin{multline*}
-\widehat{\mathcal{I}} = \left\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_\pm(f,[x_{j-1},x_j])}{8}  > \abstol,\right.\\
- \left.j=i, i\mp1, i\mp1, 0<j\le n \right\}.
+\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_\pm(f,[x_{j-1},x_j])}{8}  > \abstol,\right.\\
+ \left.j=i\mp k, 0<j\le n, k=1,2. \right\},
 \end{multline*}
-\[\widetilde{\mathcal{I}}=\left\{i \in \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in\widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
+\[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
 Split in half those intervals $[x_i,x_i-1]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
 Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
 \end{enumerate}
