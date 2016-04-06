@@ -370,7 +370,14 @@ this error bound smaller than the desired tolerance.
 \begin{algoA}
 For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
 $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs. Let $n = ??$ \scnote{to fill in initial val} and define the
+user inputs. Choose positive integers $n_{\lo}$ and $n_{\text{hi}}$ such that 
+$n_{\text{hi}} \ge n_{\lo}$ and let $n=n_0$ where
+\begin{equation}
+\label{nodefinition}
+n_0 = \max\left\{\left\lceil n_{\text{hi}}
+\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,3\right\}.
+\end{equation}
+Define the
 following $n+1$ points and index set of intervals for which the error tolerance
 is not yet satisified: $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1},
