@@ -239,7 +239,7 @@ f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
 These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
-it follows that \scnote{$f_1$}  $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
+it follows that $m(f_1,[-h_-,0]) = m(f_1,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
 However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
 $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
@@ -248,10 +248,10 @@ $\limsup_{t \to x} \abs{f''_1(t)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=5cm]{f1f2plot.eps} \qquad
-\includegraphics[width=5cm]{f1closeplot.eps} \\
-\includegraphics[width=5cm]{f1ppf2ppplot.eps} \qquad
-\includegraphics[width=5cm]{f2closeplot.eps}
+\includegraphics[width=5.6cm]{f1f2plot.eps} \quad
+\includegraphics[width=5.9cm]{f1closeplot.eps} \\
+\includegraphics[width=5.6cm]{f1ppf2ppplot.eps} \quad
+\includegraphics[width=5.9cm]{f2closeplot.eps}
 \caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
 $f_2''(x) = f_1''(x) + 20$.}
 \label{f1f2fig}
@@ -276,19 +276,19 @@ are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$. For this choice of
 parameters, if $\fh < 0.1$, $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, then
 for $x \in [-0.6, 0.2]$ it follows that $-1 \le x_- \le x_+ \le 1$, and
 \[
-\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} \scnote{f \rightarrow f_3} = 25, \qquad -0.6 \le x \le 0.2.
+\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = 25, \qquad -0.6 \le x \le 0.2.
 \]
-For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$\scnote{$f \rightarrow f_3$?}. Thus, for
+For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, for
 any choice of $\fC : [0,b-a] \to [1,\infty)$, the function $f_3$ lies in $\cc$.
-However, if $\ch$ \scnote{$\fh$?}  is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
+However, if $\fh$ is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
 h_\pm$, then $m(f_3,[x_-,-0.5])=m(f_3,[-0.5,x_+])=0$. Since $f_3''(-0.5) = 25$,
 now $f_3 \notin \cc$. This example illustrates how $\fh$ determines the width of
 a spiky function that may still lie in $\cc$.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=5cm]{f3plot.eps} \qquad
-\includegraphics[width=5cm]{f3ppplot.eps}
+\includegraphics[width=5.7cm]{f3plot.eps} \quad
+\includegraphics[width=5.7cm]{f3ppplot.eps}
 \caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.}
 \label{f3fig}
 \end{figure}
