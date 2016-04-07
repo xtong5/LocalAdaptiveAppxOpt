@@ -217,7 +217,7 @@ M(f,x,h_\pm)=\\
   \max\bigl(\fC(h_{-}) m(f,[x_-,x]),\fC(h_{+}) m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b\\
 \fC(h_{-}) m(f,[x_-,x]), & a \le x_- \le b <  x_+\\
 \fC(h_{+}) m(f,[x,x_+]), & x_- < a \le x_+ \le b
-\end{cases} %\quad
+\end{cases}. %\quad
  %\Vastr
 \end{multline*}
 The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
@@ -243,7 +243,7 @@ it follows that $m(f_1,[-h_-,0]) = m(f_1,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$
 However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
 $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
-$\limsup_{t \to x} \abs{f''_1(t)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
+$\limsup_{t \to x} \abs{f''_2(t)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
 \begin{figure}[t]
@@ -310,7 +310,7 @@ S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{
 \end{multline}
 The error of this approximation is bounded as follows
 \begin{equation} \label{appxerrbda}
-\norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
+\norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
 \end{equation}
 To construct an adaptive algorithm, one requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
@@ -343,13 +343,13 @@ the following upper bound for the norm of $f''$ in terms of function values:
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
 \nonumber
- & \le \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,[x_{i-3},x]),\fC(x_{i+2}-x)m(f,[x,x_{i+2}])\bigr)\bigr]  \\
+ \le  & \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,[x_{i-3},x]),\fC(x_{i+2}-x)m(f,[x,x_{i+2}])\bigr)\bigr]  \\
  %\nonumber & \qquad \qquad \times \max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr] \\
 \nonumber
- & \le \max\bigl(\fC(x_{i}-x_{i-3})m(f,[x_{i-3},_{i-1}]),\fC(x_{i+2}-x_{i-1})m(f,[x_i,x_{i+2}])\bigr) \\
-\nonumber & \le  \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  \\
-\nonumber &\qquad  \qquad \bigl. \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
-& = \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
+ \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,[x_{i-3},x_{i-1}]),\fC(x_{i+2}-x_{i-1})m(f,[x_i,x_{i+2}])\bigr) \\
+\nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  
+ \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
+ =  & \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
 \end{align}
 
 Similarly, we can obtain the same result for the sub-intervals on the left and right borders of the interval. Hence,
