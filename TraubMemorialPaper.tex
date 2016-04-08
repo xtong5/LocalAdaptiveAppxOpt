@@ -70,6 +70,7 @@
 \newcommand{\tell}{\tilde{\ell}}
 \newcommand{\rell}{\mathring{\ell}}
 \DeclareMathOperator{\lo}{lo}
+\DeclareMathOperator{\ninit}{ninit}
 \DeclareMathOperator{\errest}{errest}
 \newtheorem{theorem}{Theorem}
 
@@ -372,10 +373,10 @@ this error bound smaller than the desired tolerance.
 For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
 $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
 user inputs. Choose positive integers $n_{\lo}$ and $n_{\text{hi}}$ such that 
-$n_{\text{hi}} \ge n_{\lo}$ and let $n=n_0-1$ where
+$n_{\text{hi}} \ge n_{\lo}$ and let  $n=n_{\ninit}-1$ where
 \begin{equation}
 \label{nodefinition}
-n_0 = \max\left\{\left\lceil n_{\text{hi}}
+n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
 \left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
 \end{equation}
 Define the
@@ -405,18 +406,19 @@ Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}
 \end{enumerate}
 \end{algoA}
 
-we need a theorem that works.\\
 \input{localcost}
-Numerical examples.\\
-We need computational cost\\
-complexity bound \\
-
-\section{The Minimization Algorithm, M}
 
 we need a theorem that works.\\
 Numerical examples.\\
 We need computational cost\\
-complexity bound \\
+complexity bound 
+
+\section{The Minimization Algorithm, $M$}
+
+we need a theorem that works.\\
+Numerical examples.\\
+We need computational cost\\
+complexity bound
 
 \section{Discussion}
 
