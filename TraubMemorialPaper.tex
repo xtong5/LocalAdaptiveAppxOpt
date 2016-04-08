@@ -205,11 +205,12 @@ Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
 non-decreasing function. The cone of functions for which our algorithms will
 apply only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,\yuhannote{change the definition of cone}
-\begin{multline} \label{conedef}
+\begin{align*} \label{conedef}
 \nonumber \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm,
-\\  \max(h_{\pm}) \in [0, \fh], \  \limsup_{t \to x}\abs{f''(t)}  \le M(f,x,h_\pm) \Bigr \},
-\end{multline}
+ f  \in \cw^{2,\infty}[a,b]: &  \  \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm,
+  \  \max(h_{\pm}) \in [0, \fh], 
+\\  & \limsup_{t \to x}\abs{f''(t)}  \le M(f,x,h_\pm) \Bigr \},
+\end{align*}
 where
 \begin{multline*}
 M(f,x,h_\pm)=\\
@@ -242,8 +243,8 @@ takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
 it follows that $m(f_1,[-h_-,0]) = m(f_1,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
 However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
-$m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
-$\limsup_{t \to x} \abs{f''_2(t)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
+$m(f_2,[\alpha, \beta]) \ge 13.5$ for all $-1 \le \alpha < \beta \le 1$, and
+$\limsup_{t \to x} \abs{f''_2(t)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
 \begin{figure}[t]
