@@ -150,7 +150,7 @@ f''(x) := \Bigl[\liminf_{t \to x} f''(t), \limsup_{t \to x} f''(t) \Bigr], \\
 Furthermore, $\abs{f''(]\alpha, \beta[)}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in ]\alpha,\beta[$.  We define a
 measure of how small $\abs{f''(x)}$ can be for  $x \in [\alpha, \beta]$ as follows:
 \begin{equation} \label{minfppdef}
-m(f,]\alpha, \beta[) = \min \abs{f''(]\alpha, \beta[)}.
+m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
 \end{equation}
 For any open intervals $I , J \subseteq [a,b]$, it follows from the definition~\eqref{minfppdef}
 that
@@ -159,7 +159,7 @@ m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
 
 We cannot determine $f''(x)$ for a specific $x$ based only on values of $f$. However,
-we can use values of $f$ to provide an upper bound on $m(f,]\alpha, \beta[)$ via the Newton divided differences.
+we can use values of $f$ to provide an upper bound on $m(f,\alpha, \beta)$ via the Newton divided differences.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{x_1, x_2, x_3\}$, which may be written as
@@ -182,12 +182,12 @@ x_3]$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
 second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by the definition of \eqref{minfppdef},
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
-= \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,]x_1, x_3[) (\xi_+  - \xi_-).
+= \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,x_1, x_3) (\xi_+  - \xi_-).
 \end{multline*}
 So the the data-based second-order divided difference provides an upper
 bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 \begin{equation}
-\bigabs{f[x_1, x_2, x_3]} \ge m(f,]x_1, x_3[).
+\bigabs{f[x_1, x_2, x_3]} \ge m(f,x_1, x_3).
 \end{equation}
 
 %--------------------------------------------------
@@ -207,9 +207,9 @@ where
 \begin{multline*}
 M(f,x,h_\pm)=\\
 \begin{cases}
-  \max\bigl(\fC(h_{-}) m(f,]x_-,x[),\fC(h_{+}) m(f,]x,x_+[)\bigr), & a \le x_- \le x_+ \le b,\\
-\fC(h_{-}) m(f,]x_-,x[), & a \le x_- \le b <  x_+,\\
-\fC(h_{+}) m(f,]x,x_+[), & x_- < a \le x_+ \le b.
+  \max\bigl(\fC(h_{-}) m(f,x_-,x),\fC(h_{+}) m(f,x,x_+)\bigr), & a \le x_- \le x_+ \le b,\\
+\fC(h_{-}) m(f,x_-,x), & a \le x_- \le b <  x_+,\\
+\fC(h_{+}) m(f,x,x_+), & x_- < a \le x_+ \le b.
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
@@ -234,10 +234,10 @@ f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
 These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
-it follows that  $m(f_1,]-h_-,0[) = m(f_1,]0,h_+[) = 0$ for all $h_\pm \in [0,1]$.
+it follows that  $m(f_1,-h_-,0) = m(f_1,0,h_+) = 0$ for all $h_\pm \in [0,1]$.
 However, $\max\abs{f''_1(0)} = 1$, so $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
-$m(f_2,]\alpha, \beta[) \ge 13.5$ for all $-1 \le \alpha < \beta \le 1$, and
+$m(f_2,\alpha, \beta) \ge 13.5$ for all $-1 \le \alpha < \beta \le 1$, and
 $\max \abs{f''_2(x)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
@@ -268,15 +268,14 @@ f''_3(x) & =
 \end{align*}
 Here $c$ and $\delta$ are parameters. This function and its second derivative
 are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$. For this choice of
-parameters, if $\fh < 0.1$, $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, then
-for $x \in [-0.6, 0.2]$ it follows that $-1 \le x_- \le x_+ \le 1$, and
+parameters, if $\fh < 0.1$, then for
+any choice of $\fC : [0,b-a] \to [1,\infty)$ it follows that $f_3 \in \cc$.  We see this by examining two cases.  If $x \in [-0.6, 0.2]$, then for $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, it follows that $-1 \le x_- \le x_+ \le 1$, and
 \[
-\max\bigl(m(f_3,]x_-,x[),m(f_3,]x,x_+[)\bigr) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = 25, \qquad -0.6 \le x \le 0.2.
+\max\bigl(m(f_3,x_-,x),m(f_3,x,x_+)\bigr) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = 25.
 \]
-For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, for
-any choice of $\fC : [0,b-a] \to [1,\infty)$, the function $f_3$ lies in $\cc$.
+For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied. 
 However, if $\fh$ is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
-h_\pm$, then $m(f_3,]x_-,-0.5[)=m(f_3,]-0.5,x_+[)=0$. Since $f_3''(-0.5) = 25$,
+h_\pm$, then $m(f_3,x_-,-0.5)=m(f_3,-0.5,x_+)=0$. Since $f_3''(-0.5) = 25$,
 now $f_3 \notin \cc$. This example illustrates how $\fh$ determines the width of
 a spiky function that may still lie in $\cc$.
 
@@ -289,7 +288,7 @@ a spiky function that may still lie in $\cc$.
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
-derivative. Even with a function has sufficient smoothness, it \scnote{incomplete}
+derivative. Even if a function has sufficient smoothness, it \scnote{incomplete}
 
 %--------------------------------------------------
 \subsection{The Linear Spline and Its Error}
@@ -330,7 +329,7 @@ B_{+}(f,[x_{i-1},x_i])&=\begin{cases}
 \end{align*}
 At first, we consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Then it follows by the definition of the cone that
 \begin{equation*}
-\abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,]x_{i-3},x[),\fC(h_+)m(f,]x,x_{i+2}[)\bigr)  \quad  \forall x \in [x_{i-1},x_i].
+\abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,x_{i-3},x),\fC(h_+)m(f,x,x_{i+2})\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
 Applying the fact that $\fC$ is non-decreasing and property \eqref{mdec} yields
 the following upper bound for the norm of $f''$ in terms of function values:
@@ -338,10 +337,10 @@ the following upper bound for the norm of $f''$ in terms of function values:
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
 \nonumber
- \le  & \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,]x_{i-3},x[),\fC(x_{i+2}-x)m(f,]x,x_{i+2}[)\bigr)\bigr]  \\
- %\nonumber & \qquad \qquad \times \max\bigl(m(f,]x_{i-3},x[),m(f,]x,x_{i+2}[)\bigr] \\
+ \le  & \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,x_{i-3},x),\fC(x_{i+2}-x)m(f,x,x_{i+2})\bigr)\bigr]  \\
+ %\nonumber & \qquad \qquad \times \max\bigl(m(f,x_{i-3},x),m(f,x,x_{i+2})\bigr] \\
 \nonumber
- \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,[x_{i-3},x_{i-1}]),\fC(x_{i+2}-x_{i-1})m(f,]x_i,x_{i+2}[)\bigr) \\
+ \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,x_{i-3},x_{i-1}),\fC(x_{i+2}-x_{i-1})m(f,x_i,x_{i+2})\bigr) \\
 \nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  
  \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
