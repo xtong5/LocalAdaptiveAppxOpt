@@ -70,6 +70,7 @@
 \newcommand{\tell}{\tilde{\ell}}
 \newcommand{\rell}{\mathring{\ell}}
 \DeclareMathOperator{\lo}{lo}
+\DeclareMathOperator{\ninit}{ninit}
 \DeclareMathOperator{\errest}{errest}
 \newtheorem{theorem}{Theorem}
 
@@ -237,16 +238,16 @@ takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
 it follows that  $m(f_1,[-h_-,0]) = m(f_1,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
 However, $\max\abs{f''_1(0)} = 1$, so $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
-$m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
-$\max \abs{f''_2(x)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
+$m(f_2,[\alpha, \beta]) \ge 13.5$ for all $-1 \le \alpha < \beta \le 1$, and
+$\limsup_{t \to x} \abs{f''_2(t)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=5cm]{f1f2plot.eps} \qquad
-\includegraphics[width=5cm]{f1closeplot.eps} \\
-\includegraphics[width=5cm]{f1ppf2ppplot.eps} \qquad
-\includegraphics[width=5cm]{f2closeplot.eps}
+\includegraphics[width=5.6cm]{f1f2plot.eps} \quad
+\includegraphics[width=5.9cm]{f1closeplot.eps} \\
+\includegraphics[width=5.6cm]{f1ppf2ppplot.eps} \quad
+\includegraphics[width=5.9cm]{f2closeplot.eps}
 \caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
 $f_2''(x) = f_1''(x) + 20$.}
 \label{f1f2fig}
@@ -271,19 +272,19 @@ are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$. For this choice of
 parameters, if $\fh < 0.1$, $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, then
 for $x \in [-0.6, 0.2]$ it follows that $-1 \le x_- \le x_+ \le 1$, and
 \[
-\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f''(x)} \scnote{f \rightarrow f_3} = 25, \qquad -0.6 \le x \le 0.2.
+\max\bigl(m(f_3,[x_-,x]),m(f_3,[x,x_+])\bigr) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = 25, \qquad -0.6 \le x \le 0.2.
 \]
-For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f''(x) = 0$\scnote{$f \rightarrow f_3$?}. Thus, for
+For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, for
 any choice of $\fC : [0,b-a] \to [1,\infty)$, the function $f_3$ lies in $\cc$.
-However, if $\ch$ \scnote{$\fh$?}  is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
+However, if $\fh$ is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
 h_\pm$, then $m(f_3,[x_-,-0.5])=m(f_3,[-0.5,x_+])=0$. Since $f_3''(-0.5) = 25$,
 now $f_3 \notin \cc$. This example illustrates how $\fh$ determines the width of
 a spiky function that may still lie in $\cc$.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=5cm]{f3plot.eps} \qquad
-\includegraphics[width=5cm]{f3ppplot.eps}
+\includegraphics[width=5.7cm]{f3plot.eps} \quad
+\includegraphics[width=5.7cm]{f3ppplot.eps}
 \caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.}
 \label{f3fig}
 \end{figure}
@@ -297,7 +298,7 @@ derivative. Even with a function has sufficient smoothness, it \scnote{incomplet
 
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
 an ordered sequence of points that includes the endpoints of the interval,
-$a=:x_0 \le x_1 \le \cdots \le x_{n-1} \le x_{n}:=b$. The linear spline
+$a=:x_0 < x_1 < \cdots < x_{n-1} < x_{n}:=b$, where $x_{i+1}-x_{i-2} <\fh, \forall i=2,\ldots, n-1$.  The linear spline
 approximation to a function $f$ based on the partition $\datasites$ is denoted,
 $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
@@ -305,64 +306,55 @@ S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{
 \end{multline}
 The error of this approximation is bounded as follows
 \begin{equation} \label{appxerrbda}
-\norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}
+\norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
 \end{equation}
 To construct an adaptive algorithm, one requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{minfppdef}.
 
-First consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. For all $ x \in [x_{i-1},x_i]$,  let
-\[
-h_- = x - x_{i-3}, \ h_+ = x_{i+2} - x, \ h  = \max(h_{\pm}), \ x_- = x_{i-3}, \ x_+ =  x_{i+2}.
-\]
-Then it follows by the definition of the cone that
+For all $ x \in [x_{i-1},x_i]$,  denote
+\begin{align*}
+&h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
+ &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
+\end{align*}
+Let
+\begin{align*}
+B_{+}(f,[x_{i-1},x_i])&=\begin{cases}
+    \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
+\\ 0, & i=n-1,n.
+\end{cases}\\
+ B_{-}(f,[x_{i-1},x_i])&=\begin{cases}
+   0,  & i=1,2,
+\\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n.
+\end{cases}
+\end{align*}
+At first, we consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Then it follows by the definition of the cone that
 \begin{equation*}
 \abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,[x_{i-3},x]),\fC(h_+)m(f,[x,x_{i+2}])\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
 Applying the fact that $\fC$ is non-decreasing and property \eqref{mdec} yields
 the following upper bound for the norm of $f''$ in terms of function values:
-\begin{subequations} \label{normbd}
-\begin{align}
+\begin{align}\label{normbd}
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
 \nonumber
- & \le \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,[x_{i-3},x]),\fC(x_{i+2}-x)m(f,[x,x_{i+2}])\bigr)\bigr]  \\
+ \le  & \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,[x_{i-3},x]),\fC(x_{i+2}-x)m(f,[x,x_{i+2}])\bigr)\bigr]  \\
  %\nonumber & \qquad \qquad \times \max\bigl(m(f,[x_{i-3},x]),m(f,[x,x_{i+2}])\bigr] \\
 \nonumber
- & \le \max\bigl(\fC(x_{i-1}-x_{i-3})m(f,[x_{i-3},_{i-1}]),\fC(x_{i+2}-x_i)m(f,[x_i,x_{i+2}])\bigr) \\
-\nonumber & \le  \max\bigl(\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  \\
-\nonumber &\qquad  \qquad \bigl. \fC(x_{i+2}-x_i)\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
-& = \max\bigl(B_-(f,[x_{i-1},x_i]),B_+(f,[x_{i-1},x_i])\bigr)=: B(f,[x_{i-1},x_i]).
+ \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,[x_{i-3},x_{i-1}]),\fC(x_{i+2}-x_{i-1})m(f,[x_i,x_{i+2}])\bigr) \\
+\nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  
+ \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
+ =  & \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
 \end{align}
 
-Next consider the cases of the sub-intervals on the left border of the interval.
-For $i \in \{1,2\}$ it follows by a similar argument that
-\begin{align}
-\nonumber
-\abs{f''(x)} & \le \fC(\max(x-a,x_{i+2}-x))m(f'',[x,x_{i+2}])  \ \forall x \in [x_{i-1},x_i], \\
-\nonumber
-\norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-a,x_{i+2}-x_{i-1}))\bigabs{f[x_i,x_{i+1},x_{i+2}]} \\
-& =: B(f,[x_{i-1},x_i]),
-\end{align}
-where $B_+(f,[x_{i-1},x_i])=B(f,[x_{i-1},x_i])$ and $ B_-(f,[x_{i-1},x_i])=0$.
-
-Similarly, for $i \in \{n-1, n\}$ it follows that
-\begin{align}
-\nonumber
-\abs{f''(x)} & \le \fC(\max(x-x_{i-3},b-x))m(f'',[x_{i-3},x]) \ \forall x \in [x_{i-1},x_i], \\
-\nonumber
-\norm[{[x_{i-1},x_i]}]{f''} & \le \fC(\max(x_i-x_{i-3},b-x_{i-1}))\bigabs{f[x_{i-3},x_{i-2},x_{i-1}]} \\
-& =: B(f,[x_{i-1},x_i]),
-\end{align}
-\end{subequations}
-where $B_-(f,[x_{i-1},x_i])=B(f,[x_{i-1},x_i])$ and $B_+(f,[x_{i-1},x_i])=0$.
-
-The three bounds in \eqref{normbd} combined with \eqref{appxerrbda} yield the
+Similarly, we can obtain the same result for the sub-intervals on the left and right borders of the interval. Hence,
+\eqref{normbd} is satisfied for all $i=1,\ldots,n$.
+The bound in \eqref{normbd} combined with \eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{equation} \label{appxerrbdb}
 \norm{f - S(f,\datasites)} \le
-\max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8} .
+\max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr)}{8} .
 \end{equation}
 The goal is to increase the number of nodes in the partition as needed to make
 this error bound smaller than the desired tolerance.
@@ -374,44 +366,53 @@ this error bound smaller than the desired tolerance.
 \begin{algoA}
 For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
 $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs. Let $n = ??$ \scnote{to fill in initial val} and define the
+user inputs. Choose positive integers $n_{\lo}$ and $n_{\text{hi}}$ such that 
+$n_{\text{hi}} \ge n_{\lo}$ and let  $n=n_{\ninit}-1$ where
+\begin{equation}
+\label{nodefinition}
+n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
+\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
+\end{equation}
+Define the
 following $n+1$ points and index set of intervals for which the error tolerance
 is not yet satisified: $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1},
 x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
 following:
-\begin{enumerate}[\hspace{8.5ex}]
-\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
-%\item[Step 1.] \label{stage1} Compute $f[x_{i-1}, x_{i}, x_{i+1}]$ for those values of $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}.
+\begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
+%\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 \item \label{stage1} Check for convergence.
-Let
+Let $\mathcal{I}=\mathcal{I}_+ \cup \mathcal{I}_-$, where
 \[
-\mathcal{I} = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
+\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_\pm(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
 If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
-\item \label{stage2}  If $$\frac{(x_i - x_{i-1})^2B_+(f,[x_{i-1},x_i])}{8} > \abstol,$$
-split in half those intervals $[x_i,x_i-1]$ for which $i, i+1$, or $i+2$ lies in $\mathcal{I}$ where the length of these intervals
-are the largest.
-If $$\frac{(x_i - x_{i-1})^2B_-(f,[x_{i-1},x_i])}{8} > \abstol,$$
-split in half those intervals $[x_i,x_i-1]$ for which $i-2, i-1$, or $i$ lies in $\mathcal{I}$ where the length of these intervals
-are the largest. %Suppose
+\item \label{stage2}
+Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
+\begin{multline*}
+\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_\pm(f,[x_{j-1},x_j])}{8}  > \abstol,\right.\\
+ \left.j=i\mp k, 0<j\le n, k=1,2. \right\},
+\end{multline*}
+\[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
+Split in half those intervals $[x_i,x_i-1]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
 Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
 
-we need a theorem that works.\\
 \input{localcost}
-Numerical examples.\\
-We need computational cost\\
-complexity bound \\
-
-\section{The Minimization Algorithm, M}
 
 we need a theorem that works.\\
 Numerical examples.\\
 We need computational cost\\
-complexity bound \\
+complexity bound 
+
+\section{The Minimization Algorithm, $M$}
+
+we need a theorem that works.\\
+Numerical examples.\\
+We need computational cost\\
+complexity bound
 
 \section{Discussion}
 
