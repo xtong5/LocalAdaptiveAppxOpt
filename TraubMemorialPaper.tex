@@ -102,19 +102,18 @@ Some ideas to get us going
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We want to solve two problems. For some suitable subset, $\cc$, of continuous,
-real-valued functions on the finite interval $[a,b]$, we want to construct
+The goal is to solve two problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+real-valued functions on the finite interval $[a,b]$, we will  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
-\reals$ such that for all $f \in \cc$ and $\abstol > 0$
+\reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
 \begin{gather}
 \norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-Here $A$ and $M$ depend only on function values. They will be adaptive
-algorithms, which choose the data sites in $[a,b]$ adaptively, depending on the
-function values already obtained at the data sites chosen in already. These
-algorithms also automatically determine when to stop sampling the input function
-and return the answers.
+Here $A$ and $M$ will depend only on function values. They will choose the data sites in $[a,b]$ adaptively, depending on the
+function values already obtained at the data sites chosen previously.  The algorithms will sample more densely in places where it is required.  These
+algorithms will also automatically determine when to stop sampling the input function
+and return their answers.
 
 
 
@@ -122,9 +121,7 @@ and return the answers.
 \section{The Cone, $\cc$} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines will form the basis for our adaptive algorithms $A$ and $M$, which solve the
-function approximation and minimization problems to the given tolerance, as
-specified in \eqref{appxprob} and \eqref{optprob}. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
+Linear splines will form the basis for our adaptive algorithms $A$ and $M$. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
@@ -135,10 +132,8 @@ To bound the error of the linear spline, our adaptive algorithms construct data-
 \norm[{[\alpha, \beta]}]{f''} \le B(f,[\alpha,\beta]) \quad \forall f \in \cc, \ a \le \alpha < \beta \le b,
 \]
 where $B$ depends only on values of $f$ sampled in the neighborhood of $[\alpha,
-\beta]$. The set $\cc \subset \cw^{2,\infty}[a,b]$ consists of functions that are \emph{not too spiky}.  Our upper bound is homogeneous in the function, i.e.,
-$B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$. Thus, the
-set of functions $\cc$ for which our bound applies---and our algorithms
-succeed---is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
+\beta]$. The set $\cc \subset \cw^{2,\infty}[a,b]$, for which this bound applies and for which our algorithms are guaranteed to succeed, consists of functions that are \emph{not too spiky}.  Our upper bound is homogeneous in the function, i.e.,
+$B(cf,[\alpha,\beta]) = \abs{c} B(f,[\alpha,\beta])$ for all real $c$. Thus, $\cc$ is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
 $c$. The precise definition of $\cc$ is given below in \eqref{conedef}. Cones of
 functions are key to the theoretically justified adpative algorithms in
 \cite{HicEtal14b}, \cite{Ton14a}, \cite{Din15a}, and \cite{HicRazYun15a}.
@@ -147,25 +142,23 @@ functions are key to the theoretically justified adpative algorithms in
 \subsection{Newton Divided Differences} \label{sec:ndd}
 %--------------------------------------------------
 
-For any $\{x_1, x_2, x_3\}$ satisfying $a \le x_1 < x_2 < x_3 \le b$, we define a
-measure of how small $\abs{f''}$ can be in the interval $[x_1, x_3]$ as follows:
+Functions in $\cw^{2,\infty}[a,b]$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
+\[ 
+f''(x) = \Bigl[\liminf_{t \to x} f''(t), \limsup_{t \to x} f''(t) \Bigr].
+\]
+Moreover, $f''([\alpha, \beta])$ is defined as the interval containing all values of $f''(x)$ for $x \in [\alpha,\beta]$, where $[\alpha,\beta] \subseteq [a,b]$.  Furthermore, $\abs{f''([\alpha, \beta])}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in [\alpha,\beta]$.  We define a
+measure of how small $\abs{f''(x)}$ can be for  $x \in [\alpha, \beta]$ as follows:
 \begin{equation} \label{minfppdef}
-m(f,[x_1, x_3]) = \min \Bigl\{ \abs{z}  : \inf_{x_1 \le x \le x_3} f''(x) \le z \le \sup_{x_1 \le x \le x_3} f''(x) \Bigr\}.
+m(f,[\alpha, \beta]) = \min \abs{f''([\alpha, \beta])}.
 \end{equation}
-Here the infimum and supremum exclude points where $f''$ is undefined. Note that
-$m(f,[x_1, x_3])$ is either $ \inf_{x_1 \le x \le x_3} \abs{f''(x)}$ or $0$
-depending on whether $f''$ takes on one sign or both signs on the interval
-$[x_1, x_3]$. Because of possible jump discontinuities in $f''$, $m(f,[x_1,
-x_3])$ may be $0$ even when $\inf_{x_1 \le x \le x_3} \abs{f''(x)} > 0$. Note
-that for any intervals $I , J \subseteq [a,b]$, it follows from the definition~\eqref{minfppdef}
+For any intervals $I , J \subseteq [a,b]$, it follows from the definition~\eqref{minfppdef}
 that
 \begin{equation} \label{mdec}
 m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
 \end{equation}
 
 We cannot determine $f''(x)$ for a specific $x$ based only on values of $f$. However,
-we can use values of $f$ to determine $f''(x)$ \emph{for some unknown $x$} in a
-specified interval via the Newton divided differences.
+we can use values of $f$ to provide an upper bound on $m(f,[\alpha, \beta])$ via the Newton divided differences.
 
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
@@ -204,29 +197,29 @@ bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
 non-decreasing function. The cone of functions for which our algorithms will
 apply only includes functions whose second derivatives do not change much in
-magnitude over a short distance, namely,\yuhannote{change the definition of cone}
+magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
 \nonumber \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm,
-\\  h = \max(h_{\pm}) \in [0, \fh], \  \limsup_{t \to x}\abs{f''(t)}  \le M(f,x,h_\pm) \Bigr \},
+\\  h = \max(h_{\pm}) \in [0, \fh], \  \max\abs{f''(x)}  \le M(f,x,h_\pm) \Bigr \},
 \end{multline}
 where
 \begin{multline*}
 M(f,x,h_\pm)=\\
 \begin{cases}
-  \max\bigl(\fC(h_{-}) m(f,[x_-,x]),\fC(h_{+}) m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b\\
-\fC(h_{-}) m(f,[x_-,x]), & a \le x_- \le b <  x_+\\
-\fC(h_{+}) m(f,[x,x_+]), & x_- < a \le x_+ \le b
+  \max\bigl(\fC(h_{-}) m(f,[x_-,x]),\fC(h_{+}) m(f,[x,x_+])\bigr), & a \le x_- \le x_+ \le b,\\
+\fC(h_{-}) m(f,[x_-,x]), & a \le x_- \le b <  x_+,\\
+\fC(h_{+}) m(f,[x,x_+]), & x_- < a \le x_+ \le b.
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
 The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
 one or both expands the cone to include more functions.
 
-A function $f$ with $f''(\alpha) = f''(\beta) = 0 \ne f''((\alpha+\beta)/2)$ may
+A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$ may
 lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Except near the endpoints of
 the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$
-to bound $\abs{f''(x)}$. This allows $\cc$ to include functions with step
+to bound $\max \abs{f''(x)}$. This allows $\cc$ to include functions with step
 discontinuities in their second derivatives, provided that these discontinuities
 do not occur too close to each other or too close to the ends of the interval.
 
@@ -234,16 +227,18 @@ To better understand $\cc$, we provide examples of functions lying outside $\cc$
 and similar functions lying inside $\cc$. Consider these two functions defined
 on $[-1,1]$ whose second derivatives oscillate wildly near $0$:
 \begin{gather*}
-f_1(x) = x^4 \sin(1/x), \qquad f_1''(x) = (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \\
+f_1(x) = x^4 \sin(1/x), \\
+ f_1''(x) = \begin{cases} (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), & x \ne 0 \\
+ [-1,1], & x = 0, \end{cases} \\
 f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
 These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
-it follows that \scnote{$f_1$}  $m(f,[-h_-,0]) = m(f,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
-However, $\limsup_{t \to 0} \abs{f''_1(t)} = 1$. Thus, $f_1$ cannot lie inside
+it follows that  $m(f_1,[-h_-,0]) = m(f_1,[0,h_+]) = 0$ for all $h_\pm \in [0,1]$.
+However, $\max\abs{f''_1(0)} = 1$, so $f_1$ cannot lie inside
 $\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
 $m(f_2,[\alpha, \beta]) \ge 10$ for all $-1 \le \alpha < \beta \le 1$, and
-$\limsup_{t \to x} \abs{f''_1(t)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
+$\max \abs{f''_2(x)} \le 20$ for all $x \in [-1,1]$, so $f_2 \in
 \cc$ if $\fC(0) \ge 2$.
 
 \begin{figure}[t]
