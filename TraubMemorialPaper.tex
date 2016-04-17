@@ -199,9 +199,9 @@ non-decreasing function. The cone of functions for which our algorithms will
 apply only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
-\nonumber \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:    \text{for all } x \in [a,b], \ x_\pm = x \pm h_\pm,
-\\  h = \max(h_{\pm}) \in [0, \fh], \  \max\abs{f''(x)}  \le M(f,x,h_\pm) \Bigr \},
+ \cc :=   \Bigl \{
+ f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le M(f,x,h_\pm)  \text{ for all } x \in [a,b], 
+\\ \text{with } x_{\pm} =x \pm h_{\pm}, \  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
 \end{multline}
 where
 \begin{multline*}
@@ -288,8 +288,32 @@ a spiky function that may still lie in $\cc$.
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
-derivative. Even if a function has sufficient smoothness, it \scnote{incomplete}
+derivative.  If a function has sufficient smoothness and the higher order derivatives are nicely behaved in a certain sense, then we can be certain that this function lies in $\cc$.   If  $f \in C^3[a,b]$ and for all $x \in [a,b]$, it happens that
+\begin{equation} \label{conesuffconda}
+\norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''} \le \frac{\abs{f''(x)}}{h} \left( 1 - \frac{1}{\fC(h)} \right) \ \ \forall h \in [0,\fh],
+\end{equation}
+then one must have $f \in \cc$.  Using a Taylor expansion it follows that.
+\begin{align*}
+m(f,\min(a,x-h),\max(x+h,b)) & = \inf \abs{f''(]\min(a,x-h),\max(x+h,b)[)} \\
+& \ge \abs{f''(x)}  - \norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''}h \\
+& \ge \abs{f''(x)}  - \abs{f''(x)}\left( 1 - \frac{1}{\fC(h)} \right) \\
+& \ge \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
+\end{align*}
+Thus, $f \in \cc$ by the definition of the cone in \eqref{conedef}.  
 
+Sufficient condition \eqref{conesuffconda} fails if $f''(x) = 0$ for some $x$.  For $x \in ]a + \fh, b-\fh[$ one may replace \eqref{conesuffconda} by an alternative sufficient condition if  $f \in C^4[a,b]$:
+\begin{multline} \label{conesuffcondb}
+\max_{0 \le s(t-x) \le h }{\abs{f''''(t)}} \le \frac{2\abs{f''(x)}}{h^2} \left( 1 - \frac{1}{\fC(h)} \right) +  \frac{2\abs{f'''(x)}}{h}  \\ \forall  h \in [0,\fh], \ s = \sign(f''(x)f'''(x)).
+\end{multline}
+Note that here $s$ depends on $x$.  For a particular $x$, suppose that $s = +1$.  Then it follows by a Taylor expansion that 
+\begin{align*}
+m(f,x,x+h) & = \inf \abs{f''(]x,x+h[)} \\
+& \ge \inf_{x < t < x+h} \biggl\{ \abs{f''(x)} + \abs{f'''(x)}(t-x)  - \frac{\norm[{[x,x+h]}]{f''''}(t-x)^2}{2} \biggr\}\\
+& \ge \inf_{x < t < x+h} \biggl\{ \abs{f''(x)} \biggl[ \frac{1}{\fC(h)} + \left(1 - \frac{(t-x)^2}{h^2}\right)\left(1 - \frac{1}{\fC(h)}\right) \biggr] \\
+& \qquad \qquad + \abs{f'''(x)}(t-x)\left(1 -  \frac{t-x}{h}\right)  \biggr\}\\
+& \ge  \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
+\end{align*}
+Thus, $f \in \cc$ by the definition of the cone in \eqref{conedef}.  A similar argument establishes the case $s = -1$.
 %--------------------------------------------------
 \subsection{The Linear Spline and Its Error}
 %--------------------------------------------------
