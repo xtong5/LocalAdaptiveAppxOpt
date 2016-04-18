@@ -326,7 +326,7 @@ $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
-The error of this approximation is bounded as follows
+The error of this approximation is bounded as follows \cite{??}
 \begin{equation} \label{appxerrbda}
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
 \end{equation}
@@ -370,7 +370,7 @@ the following upper bound for the norm of $f''$ in terms of function values:
  =  & \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
 \end{align}
 
-Similarly, we can obtain the same result for the sub-intervals on the left and right borders of the interval. Hence,
+By a similar argument, we can obtain \eqref{normbd} for the sub-intervals on the left and right borders of the interval. Hence,
 \eqref{normbd} is satisfied for all $i=1,\ldots,n$.
 The bound in \eqref{normbd} combined with \eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
@@ -396,10 +396,12 @@ n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
 \left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
 \end{equation}
 Define the
-following $n+1$ points and index set of intervals for which the error tolerance
-is not yet satisified: $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
-\mathcal{I} = \{1,2,\ldots,n-1,n\},$$ and choose $\fC$. Compute $f[x_{i-1},
-x_{i}, x_{i+1}]$ for $i = \{1,2,\ldots,n-1\}$ as in \eqref{divdiff}. Then do the
+following $n+1$ equally spaced points and the index set of intervals for which the error tolerance
+is not yet satisified: 
+$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
+\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$ 
+Choose the inflation function $\fC$. Compute the second-order divided difference, $f[x_{i-1},
+x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the
 following:
 \begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
