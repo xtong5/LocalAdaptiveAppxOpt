@@ -195,17 +195,17 @@ bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 %--------------------------------------------------
 
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
-non-decreasing function. The cone of functions for which our algorithms will
-apply only includes functions whose second derivatives do not change much in
+non-decreasing function. The parameters are used to define cone of functions for which our algorithms will
+apply.  This cone only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_\pm)  \text{ for all } x \in [a,b],
+ f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
 \\ \text{with } x_{\pm} =x \pm h_{\pm}, \  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
 \end{multline}
 where 
 \begin{multline*}
-\tB(f,x,h_\pm)=\\
+\tB(f,x,h_-,h_+)=\\
 \begin{cases}
   \max\bigl(\fC(h_{-}) m(f,x_-,x),\fC(h_{+}) m(f,x,x_+)\bigr), & a \le x_- \le x_+ \le b,\\
 \fC(h_{-}) m(f,x_-,x), & a \le x_- \le b <  x_+,\\
@@ -213,8 +213,7 @@ where
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
-The parameter $\fh$ and the function $\fC$ define the cone $\cc$; increasing
-one or both expands the cone to include more functions.
+Increasing either $\fh$ or the function $\fC$ expands the cone to include more functions.
 
 A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$ may
 lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have zeros two close to each other.  Except near the endpoints of
@@ -223,7 +222,7 @@ to bound $\max \abs{f''(x)}$. This allows $\cc$ to include functions with step
 discontinuities in their second derivatives, provided that these discontinuities
 do not occur too close to each other or too close to the ends of the interval.
 
-To better understand $\cc$, we provide examples of functions lying outside $\cc$
+We provide examples of functions lying outside $\cc$
 and similar functions lying inside $\cc$. Consider these two functions defined
 on $[-1,1]$ whose second derivatives oscillate wildly near $0$:
 \begin{gather*}
