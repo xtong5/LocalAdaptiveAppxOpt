@@ -36,9 +36,9 @@ Let us investigate these two conditions separately.
   Then
   \begin{align*}
   \abstol < & \frac{B_+(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 \\
-  \text{by } \eqref{bpf} \qquad \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2\\
+   \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by } \eqref{bpf} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-  \text{by } \eqref{conditionone} \qquad \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i},x_{i+2}]}]{f''} \\
+  \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by } \eqref{conditionone}  \\
      \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} \le \abstol.
   \end{align*}
   We can also use the similar argument to obtain
@@ -46,9 +46,9 @@ Let us investigate these two conditions separately.
   \abstol < \frac{B_-(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2  \le
       C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} \le \abstol.
   \end{align*}
-  In both cases, there is a contradiction. So w can't have $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.
+  In both cases, there is a contradiction. So we cannot have $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.
   \item $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$\\
-  There are four different cases in this situation. We firstly investigate $i \in \widehat{\mathcal{I}}_{+1} \cap \widetilde{\mathcal{I}}$
+  There are four different cases in this situation. We first consider $i \in \widehat{\mathcal{I}}_{+1} \cap \widetilde{\mathcal{I}}$.
   Thus
   \begin{equation} \label{conditiontwo}
   x_{i}-x_{i-1} \ge x_{j}-x_{j-1},\qquad j=i-1,i+1, \qquad [x_{i-1},x_{i+1}] \subseteq \bar{I}_{x,l}.
@@ -56,11 +56,11 @@ Let us investigate these two conditions separately.
   Then
   \begin{align*}
   \abstol \le & \frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 \\ 
-  \text{by } \eqref{bpf} \qquad \le  &\frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2\\
-  \text{by } \eqref{conditiontwo} \qquad  \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i-1},x_{i+1}]}]{f''} \\
+ \le  &\frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by } \eqref{bpf}   \\
+ \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i-1},x_{i+1}]}]{f''}  \qquad \text{by } \eqref{conditiontwo}    \\
      \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} < \abstol.
   \end{align*}
-  We can also get contradiction for other three cases. So we can't have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
+  We can also get contradiction for other three cases. So we cannot have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
 \end{enumerate}
 Hence, we prove $\ell(x) \le L(x)$. Next we want to investigate $2^{L(x)}$.
 \begin{align*}
