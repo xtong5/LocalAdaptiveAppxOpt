@@ -1,6 +1,8 @@
 \documentclass[review]{elsarticle}
 
 \usepackage{amsmath,amssymb,amsthm,xspace,mathtools,hyperref,color}
+\usepackage{mathrsfs,verbatim,xspace}
+
 
 \input{FJHDef.tex}
 
@@ -73,6 +75,9 @@
 \DeclareMathOperator{\ninit}{ninit}
 \DeclareMathOperator{\errest}{errest}
 \newtheorem{theorem}{Theorem}
+\newtheorem{exmp}{Example}
+\newcommand{\funappxg}{{\texttt{funappx\_g} \xspace}}
+
 
 \begin{document}
 
@@ -195,7 +200,8 @@ bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 %--------------------------------------------------
 
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
-non-decreasing function. The parameters are used to define cone of functions for which our algorithms will
+non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size~$h$. 
+The parameters are used to define cone of functions for which our algorithms will
 apply.  This cone only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
