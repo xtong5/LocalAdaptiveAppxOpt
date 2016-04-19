@@ -200,7 +200,7 @@ apply only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le M(f,x,h_\pm)  \text{ for all } x \in [a,b], 
+ f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le M(f,x,h_\pm)  \text{ for all } x \in [a,b],
 \\ \text{with } x_{\pm} =x \pm h_{\pm}, \  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
 \end{multline}
 where
@@ -273,7 +273,7 @@ any choice of $\fC : [0,b-a] \to [1,\infty)$ it follows that $f_3 \in \cc$.  We 
 \[
 \max\bigl(m(f_3,x_-,x),m(f_3,x,x_+)\bigr) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = 25.
 \]
-For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied. 
+For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
 However, if $\fh$ is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
 h_\pm$, then $m(f_3,x_-,-0.5)=m(f_3,-0.5,x_+)=0$. Since $f_3''(-0.5) = 25$,
 now $f_3 \notin \cc$. This example illustrates how $\fh$ determines the width of
@@ -299,13 +299,13 @@ m(f,\min(a,x-h),\max(x+h,b)) & = \inf \abs{f''(]\min(a,x-h),\max(x+h,b)[)} \\
 & \ge \abs{f''(x)}  - \abs{f''(x)}\left( 1 - \frac{1}{\fC(h)} \right) \\
 & \ge \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
 \end{align*}
-Thus, $f \in \cc$ by the definition of the cone in \eqref{conedef}.  
+Thus, $f \in \cc$ by the definition of the cone in \eqref{conedef}.
 
 Sufficient condition \eqref{conesuffconda} fails if $f''(x) = 0$ for some $x$.  For $x \in ]a + \fh, b-\fh[$ one may replace \eqref{conesuffconda} by an alternative sufficient condition if  $f \in C^4[a,b]$:
 \begin{multline} \label{conesuffcondb}
 \max_{0 \le s(t-x) \le h }{\abs{f''''(t)}} \le \frac{2\abs{f''(x)}}{h^2} \left( 1 - \frac{1}{\fC(h)} \right) +  \frac{2\abs{f'''(x)}}{h}  \\ \forall  h \in [0,\fh], \ s = \sign(f''(x)f'''(x)).
 \end{multline}
-Note that here $s$ depends on $x$.  For a particular $x$, suppose that $s = +1$.  Then it follows by a Taylor expansion that 
+Note that here $s$ depends on $x$.  For a particular $x$, suppose that $s = +1$.  Then it follows by a Taylor expansion that
 \begin{align*}
 m(f,x,x+h) & = \inf \abs{f''(]x,x+h[)} \\
 & \ge \inf_{x < t < x+h} \biggl\{ \abs{f''(x)} + \abs{f'''(x)}(t-x)  - \frac{\norm[{[x,x+h]}]{f''''}(t-x)^2}{2} \biggr\}\\
@@ -341,7 +341,7 @@ For all $ x \in [x_{i-1},x_i]$,  denote
  &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
 \end{align*}
 Let
-\begin{align*}
+\begin{align}\label{bpf}
 B_{+}(f,[x_{i-1},x_i])&=\begin{cases}
     \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
 \\ 0, & i=n-1,n.
@@ -350,7 +350,7 @@ B_{+}(f,[x_{i-1},x_i])&=\begin{cases}
    0,  & i=1,2,
 \\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n.
 \end{cases}
-\end{align*}
+\end{align}
 At first, we consider the case of an interior interval, i.e., $i \in \{3, \ldots, n-2\}$. Then it follows by the definition of the cone that
 \begin{equation*}
 \abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,x_{i-3},x),\fC(h_+)m(f,x,x_{i+2})\bigr)  \quad  \forall x \in [x_{i-1},x_i].
@@ -365,7 +365,7 @@ the following upper bound for the norm of $f''$ in terms of function values:
  %\nonumber & \qquad \qquad \times \max\bigl(m(f,x_{i-3},x),m(f,x,x_{i+2})\bigr] \\
 \nonumber
  \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,x_{i-3},x_{i-1}),\fC(x_{i+2}-x_{i-1})m(f,x_i,x_{i+2})\bigr) \\
-\nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.  
+\nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.
  \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{\pm}(f,[x_{i-1},x_i])\bigr).
 \end{align}
@@ -409,7 +409,8 @@ following:
 \begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 \item \label{stage1} Check for convergence.
-Let 
+Compute $B_\pm(f,[x_{i-1},x_i])$ as in \eqref{bpf} and \eqref{bmf}, where $i \in \mathcal{I}$.
+Let
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_\pm(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
@@ -418,8 +419,8 @@ Otherwise, continue to the next step.
 \item \label{stage2}
 Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 \begin{multline*}
-\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_\pm(f,[x_{j-1},x_j])}{8}  > \abstol,\right.\\
- \left.j=i\mp k, 0<j\le n, k=1,2. \right\},
+\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n_0\}: \frac{(x_j - x_{j-1})^2B_\pm(f,[x_{j-1},x_j])}{8}  > \abstol,\right.\\
+ \left.j=i\mp k, 0<j\le n_0, k=1,2. \right\},
 \end{multline*}
 \[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
 Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
@@ -436,7 +437,7 @@ Algorithm $A$ defined above solves problem \eqref{appxprob} for functions in the
 we need a theorem that works.\\
 Numerical examples.\\
 We need computational cost\\
-complexity bound 
+complexity bound
 
 \section{The Minimization Algorithm, $M$}
 
