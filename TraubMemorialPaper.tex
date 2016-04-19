@@ -200,12 +200,12 @@ apply only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le M(f,x,h_\pm)  \text{ for all } x \in [a,b],
+ f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_\pm)  \text{ for all } x \in [a,b],
 \\ \text{with } x_{\pm} =x \pm h_{\pm}, \  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
 \end{multline}
-where
+where 
 \begin{multline*}
-M(f,x,h_\pm)=\\
+\tB(f,x,h_\pm)=\\
 \begin{cases}
   \max\bigl(\fC(h_{-}) m(f,x_-,x),\fC(h_{+}) m(f,x,x_+)\bigr), & a \le x_- \le x_+ \le b,\\
 \fC(h_{-}) m(f,x_-,x), & a \le x_- \le b <  x_+,\\
