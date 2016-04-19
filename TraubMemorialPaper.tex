@@ -385,16 +385,19 @@ this error bound smaller than the desired tolerance.
 \section{The Function Approximation Algorithm, $A$}\label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{algoA}
-For some finite interval, $[a,b]$, some fixed $\fh >0$, and some non-decreasing
-$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs. Choose positive integers $n_{\lo}$ and $n_{\text{hi}}$ such that 
-$n_{\text{hi}} \ge n_{\lo}$ and let  $n=n_{\ninit}-1$ where
+\subsection{The Algorithm}
+Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points
 \begin{equation}
 \label{nodefinition}
 n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
 \left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
 \end{equation}
+that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the width $[a,b]$.  Then, we choose $\fh := (b-a)/n_{\ninit}$.  In this way, $n_{\ninit} + 1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem \eqref{appxprob}.
+
+\begin{algoA} \label{AlgoA}
+For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
+$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
+user inputs. Choose $\fh := (b-a)/n_{\ninit}$, where and $n_{\ninit}$ is defined in \eqref{nodefinition}, and let  $n=n_{\ninit}-1$.  
 Define the
 following $n+1$ equally spaced points and the index set of intervals for which the error tolerance
 is not yet satisified: 
@@ -406,11 +409,11 @@ following:
 \begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 \item \label{stage1} Check for convergence.
-Let $\mathcal{I}=\mathcal{I}_+ \cup \mathcal{I}_-$, where
+Let 
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_\pm(f,[x_{i-1},x_i])}{8}  > \abstol \right\}.
 \]
-If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
+The update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
 \item \label{stage2}
 Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
@@ -419,10 +422,14 @@ Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{
  \left.j=i\mp k, 0<j\le n, k=1,2. \right\},
 \end{multline*}
 \[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
-Split in half those intervals $[x_i,x_i-1]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
+Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
 Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
+
+\begin{theorem}
+Algorithm $A$ defined above solves problem \eqref{appxprob} for functions in the cone $\cc$ defined in \eqref{conedef}.
+\end{theorem}
 
 \input{localcost}
 
