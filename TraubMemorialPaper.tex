@@ -149,7 +149,7 @@ functions are key to the theoretically justified adpative algorithms in
 
 Functions in $\cw^{2,\infty}[a,b]$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
-f''(x) := \Bigl[\liminf_{t \to x} f''(t), \limsup_{t \to x} f''(t) \Bigr], \\
+f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
  f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha,\beta[} f''(x), \qquad  ]\alpha,\beta[ \subset [a,b].
 \end{gather*}
 Furthermore, $\abs{f''(]\alpha, \beta[)}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in ]\alpha,\beta[$.  We define a
@@ -293,7 +293,7 @@ a spiky function that may still lie in $\cc$.
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
-derivative.  If a function has sufficient smoothness and the higher order derivatives are nicely behaved in a certain sense, then we can be certain that this function lies in $\cc$.   If  $f \in C^3[a,b]$ and for all $x \in [a,b]$, it happens that
+derivative.  If a function has sufficient smoothness and the higher order derivatives are nicely behaved in a certain sense, then we can be sure that this function lies in $\cc$.   If  $f \in C^3[a,b]$ and for all $x \in [a,b]$, it happens that
 \begin{equation} \label{conesuffconda}
 \norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''} \le \frac{\abs{f''(x)}}{h} \left( 1 - \frac{1}{\fC(h)} \right) \ \ \forall h \in [0,\fh],
 \end{equation}
@@ -403,7 +403,7 @@ that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the widt
 \begin{algoA} \label{AlgoA}
 For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
 $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs. Choose $\fh := (b-a)/n_{\ninit}$, where and $n_{\ninit}$ is defined in \eqref{nodefinition}, and let  $n=n_{\ninit}-1$.  
+user inputs. Choose $\fh := (b-a)/n_{\ninit}$, where $n_{\ninit}$ is defined in \eqref{nodefinition}, and let  $n=n_{\ninit}-1$.  
 Define the
 following $n+1$ equally spaced points and the index set of intervals for which the error tolerance
 is not yet satisified: 
