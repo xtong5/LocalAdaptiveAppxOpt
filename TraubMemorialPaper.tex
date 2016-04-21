@@ -208,7 +208,7 @@ magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
-\\ \text{with }  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
+\\ \text{with }  \max(h_{\pm}) \in [0, \fh)  \Bigr \},
 \end{multline}
 where $\tB(f,x,h_-,h_+)$ is defined in terms of $x_{\pm} =x \pm h_{\pm}$ as follows:
 \begin{multline*}
@@ -220,7 +220,10 @@ where $\tB(f,x,h_-,h_+)$ is defined in terms of $x_{\pm} =x \pm h_{\pm}$ as foll
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
-Increasing either $\fh$ or the function $\fC$ expands the cone to include more functions.
+Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to include more functions.  An example of $\fC$ is 
+\begin{equation} \label{sampleC}
+\fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh), \qquad \fC(0) > 1,\ \fh \le b - a.
+\end{equation}
 
 A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$ may
 lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have zeros two close to each other.  Except near the endpoints of
@@ -541,29 +544,33 @@ The upper bound on computational cost tends to
 & =\sqrt{\frac{\fC\left(0\right)}{8\varepsilon}}\int_a^b \sqrt{|f''(x)|} dx +1\\
 & =\sqrt{\frac{\fC\left(0\right)}{8\varepsilon}}\norm[1]{\sqrt{|f''|}} dx +1,
 \end{align*}
-where $\norm[1]{g}=\int_a^b |g''(x)| dx$.
-However, when $\varepsilon$ is not that small, the computational cost does not only depend on $\int_a^b|f''(x)|dx$ but also depends on where and how the peaky parts are located.\\
+where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
+However, when $\varepsilon$ is not that small, the computational cost does not only depend on $\norm[1]{\sqrt{|f''|}}$ but also depends on where and how the peaky parts are located.\\
 
 For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
 
 \begin{prop} For all $f \in \cc$ it follows that
 \begin{equation}
-\norm{f''} \le \bignorm[1]{\sqrt{\abs{f''}}}^2 \le (b-a)\Bignorm[1]{\sqrt{\abs{f''}}}^2.
+\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \Bignorm[1]{\sqrt{\abs{f''}}}^2 \le (b-a)^2 \norm{f''}.
 \end{equation}
-Moreover, these bounds are tight.
 \end{prop}
 \begin{proof}
-Note that
+The right hand side inequality is true for all $f$, not only those in $\cc$, and follows directly from the definitions of the norms.  Note that
 \begin{equation} \label{onebdm}
-\bignorm[1]{\sqrt{\abs{f''}}}^2 \ge \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (\beta - \alpha)^2 m(f,\alpha,\beta)
+\Bignorm[1]{\sqrt{\abs{f''}}}^2 \ge \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (\beta - \alpha)^2 m(f,\alpha,\beta)
 \end{equation}
 The left hand side inequality comes from the definition of the cone:
 \begin{align*}
 \norm{f''} & = \sup_{a \le x \le b} \max \abs{f''(x)} \\
-& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : h \in [0,\fh], \ a \le x - h < x+h \le b \bigr \} \qquad \text{by } \eqref{conedef} \\
-& \le \sup_{a \le x \le b} \min\bigl\{\fC(h) : \max(h_\pm) \in [0,\fh] \bigr \} \qquad \text{by } \eqref{conedef} \\
+& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : h \in [0,\fh], \ a \le x - h < x+h \le b \bigr \} \quad \text{by } \eqref{conedef} \\
+& \le \min_{0 \le h \le \fh} \frac{\fC(h)}{h^2} \Bignorm[1]{\sqrt{\abs{f''}}}^2 \qquad \text{by } \eqref{conedef} \text{ and } \eqref{onebdm}.
 \end{align*}
-Note that the right hand
+
+If $\fC$ is defined as in \eqref{sampleC}, then
+\[
+\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} = \max_{0 \le h \le \fh} \frac{h^2(\fh - h)}{\fC(0)\fh} = \frac{4\fh^2}{29\fC(0)}.
+\]
+When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky. 
 \end{proof}
 
 \subsection{Lower Complexity Bound}
