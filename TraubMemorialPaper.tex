@@ -76,6 +76,7 @@
 \DeclareMathOperator{\errest}{errest}
 \newtheorem{theorem}{Theorem}
 \newtheorem{exmp}{Example}
+\newtheorem{prop}[theorem]{Proposition}
 \newcommand{\funappxg}{{\texttt{funappx\_g} \xspace}}
 \newcommand{\funming}{{\texttt{funmin\_g} \xspace}}
 \newcommand{\integralg}{{\texttt{integral\_g} \xspace}}
@@ -207,9 +208,9 @@ magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
-\\ \text{with } x_{\pm} =x \pm h_{\pm}, \  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
+\\ \text{with }  \max(h_{\pm}) \in [0, \fh]  \Bigr \},
 \end{multline}
-where 
+where $\tB(f,x,h_-,h_+)$ is defined in terms of $x_{\pm} =x \pm h_{\pm}$ as follows:
 \begin{multline*}
 \tB(f,x,h_-,h_+)=\\
 \begin{cases}
@@ -439,6 +440,27 @@ Algorithm $A$ defined above solves problem \eqref{appxprob} for functions in the
 \end{theorem}
 
 \input{localcost}
+
+For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
+
+\begin{prop} For all $f \in \cc$ it follows that 
+\begin{equation}
+\norm{f''} \le \bignorm[1]{\sqrt{\abs{f''}}}^2 \le (b-a)\Bignorm[1]{\sqrt{\abs{f''}}}^2.
+\end{equation}
+\end{prop} 
+\begin{proof}
+Note that 
+\begin{equation}
+\bignorm[1]{\sqrt{\abs{f''}}}^2 \ge \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (\beta - \alpha)^2 m(f,\alpha,\beta) = 
+\end{equation}
+The left hand side inequality comes from the definition of the cone:
+\begin{align*}
+\norm{f''} & = \sup_{a \le x \le b} \max \abs{f''(x)} \\
+& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : \max(h_\pm) \in [0,\fh] \bigr \} \qquad \text{by } \eqref{conedef} \\
+& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h_,h_+) : \max(h_\pm) \in [0,\fh] \bigr \} \qquad \text{by } \eqref{conedef} \\
+\end{align*}
+Note that the right hand
+\end{proof}
 
 \subsection{Lower Complexity Bound}
 
