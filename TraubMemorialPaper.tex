@@ -447,17 +447,18 @@ For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\s
 \begin{equation}
 \norm{f''} \le \bignorm[1]{\sqrt{\abs{f''}}}^2 \le (b-a)\Bignorm[1]{\sqrt{\abs{f''}}}^2.
 \end{equation}
+Moreover, these bounds are tight.
 \end{prop} 
 \begin{proof}
 Note that 
-\begin{equation}
-\bignorm[1]{\sqrt{\abs{f''}}}^2 \ge \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (\beta - \alpha)^2 m(f,\alpha,\beta) = 
+\begin{equation} \label{onebdm}
+\bignorm[1]{\sqrt{\abs{f''}}}^2 \ge \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (\beta - \alpha)^2 m(f,\alpha,\beta)
 \end{equation}
 The left hand side inequality comes from the definition of the cone:
 \begin{align*}
 \norm{f''} & = \sup_{a \le x \le b} \max \abs{f''(x)} \\
-& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : \max(h_\pm) \in [0,\fh] \bigr \} \qquad \text{by } \eqref{conedef} \\
-& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h_,h_+) : \max(h_\pm) \in [0,\fh] \bigr \} \qquad \text{by } \eqref{conedef} \\
+& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : h \in [0,\fh], \ a \le x - h < x+h \le b \bigr \} \qquad \text{by } \eqref{conedef} \\
+& \le \sup_{a \le x \le b} \min\bigl\{\fC(h) : \max(h_\pm) \in [0,\fh] \bigr \} \qquad \text{by } \eqref{conedef} \\
 \end{align*}
 Note that the right hand
 \end{proof}
