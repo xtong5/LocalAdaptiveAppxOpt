@@ -135,7 +135,7 @@ Here we demonstrate the following:
 \section{The Cone, $\cc$} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines will form the basis for our adaptive algorithms $A$ and $M$. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
+Linear splines form the basis for our adaptive algorithms $A$ and $M$. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
@@ -159,17 +159,17 @@ functions are key to the theoretically justified adpative algorithms in
 Functions in $\cw^{2,\infty}[a,b]$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
- f''([\alpha, \beta]) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  [\alpha, \beta] \subset [a,b].
+ f''(]\alpha, \beta[) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
 \end{gather*}
-Furthermore, $\abs{f''([\alpha, \beta])}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in [\alpha, \beta]$.  We define a
-measure of how small $\abs{f''(x)}$ can be for  $x \in [\alpha, \beta]$ as follows:
+Furthermore, $\abs{f''(]\alpha, \beta[)}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in ]\alpha, \beta[$.  We define a
+measure of how small $\abs{f''(x)}$ can be for  $x \in ]\alpha, \beta[$ as follows:
 \begin{equation} \label{minfppdef}
-m(f,\alpha, \beta) = \inf \abs{f''([\alpha, \beta])}.
+m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
 \end{equation}
-For any open intervals $I , J \subseteq [a,b]$, it follows from the definition~\eqref{minfppdef}
+It follows from this definition
 that
 \begin{equation} \label{mdec}
-m(f,I) \ge m(f,J) \qquad \forall I \subseteq J.
+m(f,\alpha,\beta) \ge m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
 \end{equation}
 
 We cannot determine $f''(x)$ for a specific $x$ based only on values of $f$. However,
@@ -191,15 +191,15 @@ For any $f \in
 $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval,
 i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
-that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in [x_1,
-x_3]$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
-second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by the definition of \eqref{minfppdef},
+that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
+x_3[$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
+second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by  definition  \eqref{minfppdef}:
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,x_1, x_3) (\xi_+  - \xi_-).
 \end{multline*}
 So the the data-based second-order divided difference provides an upper
-bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
+bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 \begin{equation}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,x_1, x_3).
 \end{equation}
@@ -209,14 +209,14 @@ bound on how small $\abs{f''}$ can be in the interval $[x_1, x_3]$:
 %--------------------------------------------------
 
 Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
-non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size~$h$.
-The parameters are used to define cone of functions for which our algorithms will
+non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size.
+These parameters are used to define cone of functions for which our algorithms will
 apply.  This cone only includes functions whose second derivatives do not change much in
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
-\\ \text{with }  \max(h_{\pm}) \in [0, \fh)  \Bigr \},
+\\ \text{with }  \max(h_{\pm}) \in ]0, \fh[  \Bigr \},
 \end{multline}
 where $\tB(f,x,h_-,h_+)$ is defined in terms of $x_{\pm} =x \pm h_{\pm}$ as follows:
 \begin{multline*}
@@ -234,7 +234,7 @@ Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to inc
 \end{equation}
 
 A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$ may
-lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have zeros two close to each other.  Except near the endpoints of
+lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have zeros too close to each other.  Except near the endpoints of
 the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$
 to bound $\max \abs{f''(x)}$. This allows $\cc$ to include functions with step
 discontinuities in their second derivatives, provided that these discontinuities
@@ -283,18 +283,22 @@ f''_3(x) & =
 \\ 0, & \text{otherwise}.
 \end{cases}
 \end{align*}
-Here $c$ and $\delta$ are parameters. This function and its second derivative
-are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$. For this choice of
-parameters, if $\fh < 0.1$, then for
-any choice of $\fC : [0,b-a] \to [1,\infty)$ it follows that $f_3 \in \cc$.  We see this by examining two cases.  If $x \in [-0.6, 0.2]$, then for $h_\pm \in [0,\fh]$, and $x_\pm = x\pm h_\pm$, it follows that $-1 \le x_- \le x_+ \le 1$, and
+Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta \le 1$. This function and its second derivative
+are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$.  
+
+If $\delta \ge 2 \fh$, then $f_3 \in \cc$ for
+any choice of $\fC : [0,b-a] \to [1,\infty)$.  We see this by examining two cases.  For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \, \subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.  Then
 \[
-\max\bigl(m(f_3,x_-,x),m(f_3,x,x_+)\bigr) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = 25.
+m(f_3,x_-,x) = m(f_3,x,x_+) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = \delta^{-2}.
 \]
-For $x \in [-1,1] \setminus [-0.6, 0.2]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
-However, if $\fh$ is too large, say, $0.1 < h_\pm \le \fh$, and $x_\pm = -0.5\pm
-h_\pm$, then $m(f_3,x_-,-0.5)=m(f_3,-0.5,x_+)=0$. Since $f_3''(-0.5) = 25$,
-now $f_3 \notin \cc$. This example illustrates how $\fh$ determines the width of
-a spiky function that may still lie in $\cc$.
+For $x \in [-1,1] \setminus [c - 2 \delta , c + 2 \delta]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
+
+However, if $\delta < 2 \fh$, then for $x = c-3\delta/2$ and $\delta/2 < h < \fh$, then regardless of how $\fc$ is defined,
+\[
+\fC(h)m(f_3,x - h,x)=\fC(h)m(f_3,x,x+h)=0 < \abs{f''_3(x)} = \delta^{-2},
+\]
+which violates the definition of $\cc$.  For $\delta < 2 \fh$ the function $f_3$ is too spiky to lie in the cone $\cc$.   This example illustrates how the choice of $\fh$ influences the width of
+a spiky function that may or may not lie in $\cc$.
 
 \begin{figure}[t]
 \centering
