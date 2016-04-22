@@ -121,7 +121,15 @@ Here $A$ and $M$ depend only on function values. They choose the data sites in $
 algorithms also automatically determine when to stop sampling the input function
 and return their answers.
 
+Here we demonstrate the following:
+\begin{itemize}
+\item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}.  See Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
 
+\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  The upper bounds in Theorems   are roughly proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$.
+
+\item Lower bounds on the computational complexity of problems \eqref{appxprob} and \eqref{optprob} are derived in Sections \ref{subsec:appxcomp} and \ref{subsec:optcomp}.  The lower bounds in Theorems   are also proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$, which makes our algorithms essentially asymptotically optimal.
+
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$} \label{sec:cone}
@@ -395,7 +403,7 @@ this error bound smaller than the desired tolerance.
 \section{The Function Approximation Algorithm, $A$}\label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{The Algorithm}
+\subsection{Algorithm $A$} \label{subsec:appxalgo}
 Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points
 \begin{equation}
 \label{nodefinition}
@@ -438,11 +446,11 @@ Update $n$, $\{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}
 \end{enumerate}
 \end{algoA}
 
-\begin{theorem}
+\begin{theorem} \label{thm:algAworks}
 Algorithm $A$ defined above solves problem \eqref{appxprob} for functions in the cone $\cc$ defined in \eqref{conedef}.
 \end{theorem}
 
-\subsection{Computational Cost}
+\subsection{Computational Cost} \label{subsec:appxcost}
 
 In this part, we investigate the computational cost of our locally adaptive algorithm. Let $n_0$ denote the initial number of intervals, and
  $h_0=(b-a)/{n_0}$ be the width of the subinterval. We firstly introduce one new notation $\Ixl$, which is the unique interval contains $x$ with
@@ -573,18 +581,29 @@ If $\fC$ is defined as in \eqref{sampleC}, then
 When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky. 
 \end{proof}
 
-\subsection{Lower Complexity Bound}
+\subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
 
 
-\section{The Minimization Algorithm, $M$}
+\section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
+\subsection{Algorithm $M$}  \label{sec:minalgo}
+
+\begin{theorem} \label{thm:algMworks}
+Algorithm $M$ defined above solves problem \eqref{optprob} for functions in the cone $\cc$ defined in \eqref{conedef}.
+\end{theorem}
 \xinnote{
 we need a theorem that works.\\
 Numerical examples.\\
 We need computational cost\\
 complexity bound
 }
+
+\subsection{Computational Cost} \label{subsec:optcost}
+
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}
+
+
 
 \section{Numerical Examples}
 
