@@ -2,10 +2,8 @@
 function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol,varargin)
 % user can choose absolut error tolerance, initial number of points, number
 % of iteration or can use the following parameters
-% nrep = 100; abstol = 1e-13; nlo = 100; nhi = 1000;
+% nrep = 10000; abstol = 1e-8;  
 % 
-% Compare funappx_g with funappxglobal_g:
-% [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol);
 %
 % Compare funappxNoPenalty_g with funappxglobal_g:
 % [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol,'funappxNoPenalty_g');
@@ -67,10 +65,10 @@ for i = 1:nrep
             elseif k==3 
                 try
                     splitting on
+                    lastwarn('') 
                     tic, fappx = chebfun(f,[a(j),b(j)]); t=toc;
                     if length(lastwarn) > 0
                       exceedmat(j,k,i) = 1;
-                      lastwarn('') 
                     end
                 end
                 npoints(j,k,i) = length(fappx);
@@ -175,15 +173,15 @@ if usejava('jvm') || MATLABVERSION <= 7.12
     end
 
     legend('f1','f2','f3', 'f4', 'f5', 'f6')
-    gail.save_eps('WorkoutFunappxOutput', 'testfun');
+    gail.save_eps('TraubPaperTestOutput', 'testfun');
     
     figure
     t =1:nrep*n;
     plot(t,timeratio,'r',t,npointsratio,'b:');
     legend('time ratio','points ratio');
-    gail.save_eps('WorkoutFunappxOutput', ['Workout',algoname,'Test']);
+    gail.save_eps('TraubPaperTestOutput', ['Workout',algoname,'Test']);
 end;
-gail.save_mat('WorkoutFunappxOutput', ['Workout',algoname,'Test'], true, npoints,time,...
+gail.save_mat('TraubPaperTestOutput', ['Workout',algoname,'Test'], true, npoints,time,...
     c,timeratio,npointsratio,npointslgratio,timelgratio);
 
 end
