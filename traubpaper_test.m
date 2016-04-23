@@ -4,11 +4,10 @@ function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nre
 % of iteration or can use the following parameters
 % nrep = 10000; abstol = 1e-8;  
 % 
-%
-% Compare funappxNoPenalty_g with funappxglobal_g:
+% Compare funappxNoPenalty_g with funappxglobal_g and chebfun:
 % [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol,'funappxNoPenalty_g');
 
-c = rand(nrep,1)*4;
+c = rand(nrep,1)*4; % number of simulations for each test function
 n = 6; % number of test functions
 m = 3; % number of methods
 npoints = zeros(n,m,nrep);
@@ -109,28 +108,33 @@ for i=1:length(fcns)
 end
  
 
-timeratio = zeros(nrep,n);
-npointsratio = zeros(nrep,n);
+timeratio = zeros(m-1,nrep,n);
+npointsratio = zeros(m-1,nrep,n);
 for i=1:nrep
     for j=1:n
-          timeratio(i,j) = time(j,1,i)/time(j,2,i);
+        for k = 1:m-1
+            timeratio(k,i,j) = time(j,1,i)/time(j,k+1,i);
+        end
     end
 end
-
 for i=1:nrep;
     for j=1:n;
-        npointsratio(i,j) = npoints(j,1,i)/npoints(j,2,i); 
+        for k = 1:m-1
+            npointsratio(k,i,j) = npoints(j,1,i)/npoints(j,k+1,i);
+        end
     end
 end
-
-timeratio = sort(timeratio(:));
-npointsratio = sort(npointsratio(:));
-
+sorted_timeratio = zeros(m-1,n*nrep);
+sorted_npointsratio = zeros(m-1,n*nrep);
+for k = 1:m-1
+    sorted_timeratio(k,:) = sort(timeratio(k,:));
+    sorted_npointsratio(k,:) = sort(npointsratio(k,:));
+end
 %% Output the table
 % To just re-display the output, load the .mat file and run this section
 % only
 display(' ')
-display('   Test         Number of Points                    Time Used                          Success                                      Failure')
+display('   Test         Number of Points                    Time Used                          Success (%)                                  Failure (%)')
 display('  Function   ----------------------------    -------------------------------     --------------------------------------   ----------------------------------------');
 display('             Local      Global    Chebfun    Local       Global      Chebfun     Local        Global         Chebfun       Local         Global        Chebfun')
 display('                                                                                 No Warn Warn No Warn Warn   No Warn Warn  No Warn Warn  No Warn Warn  No Warn Warn')
@@ -151,13 +155,15 @@ for i=1:n
     timelgratio(i) = mean(time(i,1,:))/mean(time(i,2,:));
 end
 
-idx=find(timeratio<1);
-max_idx_t = max(idx);
-timeratio(1:max_idx_t) = 1./timeratio(1:max_idx_t);
-idx=find(npointsratio<1);
-max_idx_n = max(idx);
-npointsratio(1:max_idx_n) = 1.0 ./npointsratio(1:max_idx_n);
- 
+for k=1:m-1
+    idx=find(timeratio(k,:,:)<1);
+    max_idx_t = max(idx);
+    timeratio(k,1:max_idx_t) = 1./timeratio(k,1:max_idx_t);
+    
+    idx=find(npointsratio(k,:,:)<1);
+    max_idx_n = max(idx);
+    npointsratio(k,1:max_idx_n) = 1.0 ./npointsratio(k,1:max_idx_n);
+end
 
 %% Output the table
 % To just re-display the output, load the .mat file and run this section
@@ -173,15 +179,22 @@ if usejava('jvm') || MATLABVERSION <= 7.12
     end
 
     legend('f1','f2','f3', 'f4', 'f5', 'f6')
-    gail.save_eps('TraubPaperTestOutput', 'testfun');
+    gail.save_eps('TraubPaperOutput', 'testfun');
     
     figure
     t =1:nrep*n;
-    plot(t,timeratio,'r',t,npointsratio,'b:');
-    legend('time ratio','points ratio');
-    gail.save_eps('TraubPaperTestOutput', ['Workout',algoname,'Test']);
+    for k =1:m-1
+        subplot(1,m-1,k)
+        semilogy(t,sorted_timeratio(k,:),'r-',t,sorted_npointsratio(k,:),'b:');
+        hold off
+        title([algoname, ' vs. ', func2str( methods{k+1})])
+        legend('time ratio', 'points ratio');
+    end
+   
+    
+    gail.save_eps('TraubPaperOutput', ['Workout',algoname,'Test']);
 end;
-gail.save_mat('TraubPaperTestOutput', ['Workout',algoname,'Test'], true, npoints,time,...
+gail.save_mat('TraubPaperOutput', ['Workout',algoname,'Test'], true, npoints,time,...
     c,timeratio,npointsratio,npointslgratio,timelgratio);
 
 end
