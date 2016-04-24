@@ -2,15 +2,12 @@
 function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol,varargin)
 % user can choose absolut error tolerance, initial number of points, number
 % of iteration or can use the following parameters
-% nrep = 100; abstol = 1e-13; nlo = 100; nhi = 1000;
+% nrep = 10000; abstol = 1e-8;  
 % 
-% Compare funappx_g with funappxglobal_g:
-% [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol);
-%
-% Compare funappxNoPenalty_g with funappxglobal_g:
+% Compare funappxNoPenalty_g with funappxglobal_g and chebfun:
 % [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_test(nrep,abstol,'funappxNoPenalty_g');
 
-c = rand(nrep,1)*4;
+c = rand(nrep,1)*4; % number of simulations for each test function
 n = 6; % number of test functions
 m = 3; % number of methods
 npoints = zeros(n,m,nrep);
@@ -67,10 +64,10 @@ for i = 1:nrep
             elseif k==3 
                 try
                     splitting on
+                    lastwarn('') 
                     tic, fappx = chebfun(f,[a(j),b(j)]); t=toc;
                     if length(lastwarn) > 0
                       exceedmat(j,k,i) = 1;
-                      lastwarn('') 
                     end
                 end
                 npoints(j,k,i) = length(fappx);
@@ -111,28 +108,34 @@ for i=1:length(fcns)
 end
  
 
-timeratio = zeros(nrep,n);
-npointsratio = zeros(nrep,n);
+timeratio = zeros(m-1,nrep,n);
+npointsratio = zeros(m-1,nrep,n);
 for i=1:nrep
     for j=1:n
-          timeratio(i,j) = time(j,1,i)/time(j,2,i);
+        for k = 1:m-1
+            timeratio(k,i,j) = time(j,1,i)/time(j,k+1,i);
+        end
     end
 end
-
 for i=1:nrep;
     for j=1:n;
-        npointsratio(i,j) = npoints(j,1,i)/npoints(j,2,i); 
+        for k = 1:m-1
+            npointsratio(k,i,j) = npoints(j,1,i)/npoints(j,k+1,i);
+        end
     end
 end
-
-timeratio = sort(timeratio(:));
-npointsratio = sort(npointsratio(:));
+sorted_timeratio = zeros(m-1,n*nrep);
+sorted_npointsratio = zeros(m-1,n*nrep);
+for k = 1:m-1
+    sorted_timeratio(k,:) = sort(timeratio(k,:));
+    sorted_npointsratio(k,:) = sort(npointsratio(k,:));
+end
 
 %% Output the table
 % To just re-display the output, load the .mat file and run this section
 % only
 display(' ')
-display('   Test         Number of Points                    Time Used                          Success                                      Failure')
+display('   Test         Number of Points                    Time Used                          Success (%)                                  Failure (%)')
 display('  Function   ----------------------------    -------------------------------     --------------------------------------   ----------------------------------------');
 display('             Local      Global    Chebfun    Local       Global      Chebfun     Local        Global         Chebfun       Local         Global        Chebfun')
 display('                                                                                 No Warn Warn No Warn Warn   No Warn Warn  No Warn Warn  No Warn Warn  No Warn Warn')
@@ -153,13 +156,15 @@ for i=1:n
     timelgratio(i) = mean(time(i,1,:))/mean(time(i,2,:));
 end
 
-idx=find(timeratio<1);
-max_idx_t = max(idx);
-timeratio(1:max_idx_t) = 1./timeratio(1:max_idx_t);
-idx=find(npointsratio<1);
-max_idx_n = max(idx);
-npointsratio(1:max_idx_n) = 1.0 ./npointsratio(1:max_idx_n);
- 
+for k=1:m-1
+    idx=find(timeratio(k,:,:)<1);
+    max_idx_t = max(idx);
+    timeratio(k,1:max_idx_t) = 1./timeratio(k,1:max_idx_t);
+    
+    idx=find(npointsratio(k,:,:)<1);
+    max_idx_n = max(idx);
+    npointsratio(k,1:max_idx_n) = 1.0 ./npointsratio(k,1:max_idx_n);
+end
 
 %% Output the table
 % To just re-display the output, load the .mat file and run this section
@@ -171,54 +176,38 @@ markers = {'--go', ':r*', '-.b*', '-g+', '--ro', '-.b'};
 if usejava('jvm') || MATLABVERSION <= 7.12
     figure
     for i=1:length(fcns)
-      plot(x{i},y{i}, markers{i}); hold on
+        plot(x{i},y{i}, markers{i}); hold on
     end
-
+    
     legend('f1','f2','f3', 'f4', 'f5', 'f6')
-    gail.save_eps('WorkoutFunappxOutput', 'testfun');
+    gail.save_eps('TraubPaperOutput', 'testfun');
     
     figure
     t =1:nrep*n;
-    plot(t,timeratio,'r',t,npointsratio,'b:');
-    legend('time ratio','points ratio');
-    gail.save_eps('WorkoutFunappxOutput', ['Workout',algoname,'Test']);
+    for k =1:m-1
+        subplot(1,m-1,k)
+        semilogy(t,sorted_timeratio(k,:),'r-',t,sorted_npointsratio(k,:),'b:');
+        title([algoname, ' vs. ', func2str( methods{k+1})])
+        legend('time ratio', 'points ratio');
+    end
+    
+    gail.save_eps('TraubPaperOutput', ['traub',algoname,'test']);
 end;
-gail.save_mat('WorkoutFunappxOutput', ['Workout',algoname,'Test'], true, npoints,time,...
-    c,timeratio,npointsratio,npointslgratio,timelgratio);
-
+gail.save_mat('TraubPaperOutput', ['traub',algoname,'test'], true, npoints, ...
+    time, c, timeratio, npointsratio, npointslgratio, timelgratio, ...
+    sorted_timeratio, sorted_npointsratio);
 end
 
-%% If funappx_g is used:
-% % Sample output for nrep=1000; abstol = 1e-7; nlo = 100; nhi = 1000;
-% %    Test      Number of Points       Time Used
-% %  Function   Local      Global     Local    Global
-% %         1     72452     200725   0.0169790    0.0351434
-% %         2    489265     401931   0.1527540    0.0790056
-% %         3    225006    2091097   0.0763022    0.4285055
+%% Sample printout
 
-% % 
-% % timelgratio =
-% % 
-% %        0.4831    1.9335    0.1781
-% % 
-% % 
-% % npointslgratio =
-% % 
-% %        0.3610    1.2173    0.1076
-%
-%% If funappxNoPenalty_g is used:
-% 
-%    Test      Number of Points       Time Used
-%  Function   Local      Global     Local    Global
-%         1      7781     194166   0.0045961    0.0379585
-%         2     53917     425327   0.0223668    0.0496360
-%         3     22875    2092566   0.0158381    0.2506039
-%
-% timelgratio =
-%
-%     0.1211    0.4506    0.0632
-%
-% npointslgratio =
-% 
-%     0.0401    0.1268    0.0109
+%    Test         Number of Points                    Time Used                          Success (%)                                  Failure (%)
+%   Function   ----------------------------    -------------------------------     --------------------------------------   ----------------------------------------
+%              Local      Global    Chebfun    Local       Global      Chebfun     Local        Global         Chebfun       Local         Global        Chebfun
+%                                                                                  No Warn Warn No Warn Warn   No Warn Warn  No Warn Warn  No Warn Warn  No Warn Warn
+%         1     40021    331916       5364       0.100        0.058       1.461       0     98    100      0     26       32      0      2      0      0      0     42
+%         2     42099    540010       5082       0.066        0.089       1.399      22     78    100      0     44       40      0      0      0      0      0     16
+%         3      5948     97651          2       0.024        0.016       0.022      76     24    100      0     96        0      0      0      0      0      4      0
+%         4     41926    608559          3       0.040        0.078       0.007       0    100    100      0    100        0      0      0      0      0      0      0
+%         5    305060   1412518         39       0.482        0.196       0.013     100      0    100      0    100        0      0      0      0      0      0      0
+%         6    112346   5315281        122       0.435        0.716       0.076       0    100    100      0     72        0      0      0      0      0     28      0
 
