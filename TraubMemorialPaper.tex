@@ -502,7 +502,7 @@ A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \wid
   \end{equation}
   Then
   \begin{align*}
-  \abstol & < \frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 \\
+  \abstol & < \frac{B_{i-1,+}(f,\cp)}{8}(x_{i-1}-x_{i-2})^2 \\
 & \le  \frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by } \eqref{bpf}   \\
  & \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by } \eqref{conditiontwo}  \\ 
      & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[\bar{I}_{x,L(x)}]{f''} \qquad \text{by } \eqref{conditiontwo}  \\
@@ -515,34 +515,22 @@ Hence, we prove $\ell(x) \le L(x)$. This fact is used to prove an upper bound on
 \begin{theorem}\label{thm:cost}
 Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by Algorithm $A$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem \eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
 \begin{equation*}
-\cost(S,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 \\
+\cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 \\
 \end{equation*}
 where $L(x)$ is defined in \eqref{eqn:defoflx} and 
-\begin{equation}
+\begin{equation*}
 2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
-\end{equation}
+\end{equation*}
 \end{theorem}
 
 \begin{proof}
-For subinterval $I_{x,\ell(x)}$, where $\ell(x)$ is defined as above,
-which means Algorithm \texttt{funappx\_g} satisfied error tolerance on $I_{x,\ell(x)}$ with two points.
-If we take out the right end point of the subinterval, then the density of the cost on $I_{x,\ell(x)}$ can be considered as
-$$\frac{n_0}{2^{-\ell(x)}(b-a)}.$$
-Thus, we obtain the cost on whole interval $[a,b]$ should be
-$$\cost(S,f,\varepsilon)  = \int_a^b \frac{n_0}{2^{-\ell(x)}(b-a)}dx +1= \frac{n_0}{(b-a)}\int_a^b 2^{\ell(x)}dx +1.
-$$
-If $L(x)$ is defined in~\eqref{eqn:defoflx}, then we know $\ell(x) \le L(x)$. Therefore we obtain an upper bound
-$$\cost(S,f,\varepsilon)  \le \frac{n_0}{(b-a)}\int_a^b 2^{L(x)}dx +1.
-$$
+Let $\cp=\{x_i\}_{i=0}^n$ be the final partition when $A(f,\abstol)$ successfully terminates. Note that $2^{\ell(x)}$ is constant on $I_{x_i,\ell(x_i)} = [x_{i},x_{i+1}[$ for $i=0, \ldots, n-1$.  Furthermore  $\int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x =  h_0$.  Then the number of function values requires is 
+\begin{equation*}
+n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
+\end{equation*}
+Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.  The formula for $2^{L(x)}$ follows from the definition of $L(x)$ in \eqref{eqn:defoflx}.
 \end{proof}
 
-Next we want to investigate $2^{L(x)}$.
-\begin{align*}
-2^{L(x)}&=2^{\min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\}} = \min\left\{2^l: l \in  \natzero, C_l \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\}\\
- & = \min\left\{2^l:  \fC\left(3\cdot 2^{-l} h_0\right) \frac{2^{-2l}h_0^2}{8} \norm[\bar{I}_{x,l}]{f''}  \le \varepsilon,  l \in  \natzero\right\}\nonumber \\
- & = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8\varepsilon}},  l \in  \natzero\right\}.
-\end{align*}
-We obtain the upper bound on computational cost of Algorithm \texttt{funappx\_g}.
 From Theorem~\ref{thm:cost}, we know for very small $\varepsilon$,
 $L(x)$ tends to $\infty$, $ \norm[\bar{I}_{x,L(x)}]{f''} $ tends to $|f''(x)|$ and $3\cdot 2^{-L(x)}h_0$ tends to 0.
 Thus we can have
