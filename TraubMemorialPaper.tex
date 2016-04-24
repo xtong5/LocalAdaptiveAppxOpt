@@ -421,7 +421,7 @@ that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the widt
 \begin{algoA} \label{AlgoA}
 For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
 $\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs. Choose $\fh := (b-a)/n_{\ninit}$, where $n_{\ninit}$ is defined in \eqref{nodefinition}, and let  $n=n_{\ninit}-1$.
+user inputs. Choose $\fh := (b-a)/n_{\ninit}$, where $n_{\ninit}$ is defined in \eqref{nodefinition}, and let  $n=n_{\ninit}+1$.
 Define the partition, $\cp$ of  equally spaced points and the index set of intervals for which the error tolerance
 is not yet satisified:
 $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
@@ -457,18 +457,19 @@ Algorithm $A$ defined above solves problem \eqref{appxprob} for functions in the
 
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
-Next, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} - 1$ denote the initial number of intervals, and
- $h_0=(b-a)/{n_0}$ be the initial width of the subintervals. To faciliate our derivation of the compuational cost of $A$, we  introduce the new notation $\Ixl$, which is the unique interval contains $x$ with
+Next, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} + 1$ denote the initial number of intervals, and
+ \[
+ h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}+1} = \frac{(b-a) \fh}{b - a + \fh}
+ \]
+be the initial width of the subintervals. To faciliate our derivation of the compuational cost of $A$, we introduce the new notation $\Ixl$, which is the unique half-open interval containing $x$ with
  the width $2^{-l}h_0$.
-\[\Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right), \qquad j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0.\]
+\[\Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \quad j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.\]
 Let
 $\ell(x)$ be defined such that
 $I_{x,\ell(x)}$ is the final subinterval in algorithm $A$ that contains $x$ when the algorithm terminates.
-Let $\bar{I}_{x,l}$ be a similar interval with generally five times the width:
-\[\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right],
-\] with the same $j$ as above. This is an interval with generally five times the length of $\Ixl$ that also contains $\Ixl$.
-
-Let
+Let $\bar{I}_{x,l}$ be a similar closed interval with generally five times the width:
+\[\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
+\] with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
 L(x) = \min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \abstol \right\},
 \end{equation}
@@ -477,33 +478,24 @@ where
 \]
 depends on $n_0$, $\fC$, and $l$, but not on $f$.
 
-We want to show that $\ell(x) \le L(x)$. If not, the interval $I_{x,L(x)}$ must be split. Let the closure of $\mathcal{I}_{x,L(x)}$ be
-denoted $[x_{i-1},x_i]$, where $x_i-x_{i-1}=2^{-L(x)}h_0$.
-By the algorithm, it is necessary that at least one of the following two conditions must hold:
-\[i \in \mathcal{I} \cap \widetilde{\mathcal{I}}
-\text{ or } \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}. \]
+We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and that by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step \ref{stage2} of $A$.  Let $\cp = \{x_i\}_{i=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-L(x)}h_0$.
+Referring to Step \ref{stage2} of $A$, it is necessary that $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ or  $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  We show that neither of these conditions can hold, thus contradicting the assumption that $\ell(x) > L(x)$.
+
 Let us investigate these two conditions separately.
 \begin{enumerate}
-  \item $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$\\
-  There are two different cases in this situation. We firstly investigate $i \in \mathcal{I}_+ \cap \widetilde{\mathcal{I}}$.
-  Thus
+  \item $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.  If $i \in \mathcal{I}_+ \cap \widetilde{\mathcal{I}}$, then
   \begin{equation}
   \label{conditionone} x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, \qquad   j=i+1,i+2, \qquad [x_i,x_{i+2}] \subseteq \bar{I}_{x,l}.
   \end{equation}
-  Then
+  This implies that
   \begin{align*}
-  \abstol < & \frac{B_+(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2 \\
+  \abstol < & \frac{B_{i,+}(f,\cp)}{8}(x_i-x_{i-1})^2 \\
    \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by } \eqref{bpf} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
   \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by } \eqref{conditionone}  \\
-     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} \le \abstol.
+     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} \le \abstol \qquad \text{by } \eqref{eqn:defoflx}.
   \end{align*}
-  We can also use the similar argument to obtain
-   \begin{align*}
-  \abstol < \frac{B_-(f,[x_{i-1},x_i])}{8}(x_i-x_{i-1})^2  \le
-      C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} \le \abstol.
-  \end{align*}
-  In both cases, there is a contradiction. So we cannot have $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.
+A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \widetilde{\mathcal{I}}$ as well.  Thus $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ is impossible.
   \item $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$\\
   There are four different cases in this situation. We first consider $i \in \widehat{\mathcal{I}}_{+1} \cap \widetilde{\mathcal{I}}$.
   Thus
