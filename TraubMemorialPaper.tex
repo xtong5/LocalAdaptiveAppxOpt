@@ -471,12 +471,9 @@ Let $\bar{I}_{x,l}$ be a similar closed interval with generally five times the w
 \[\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
 \] with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
-L(x) = \min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \abstol \right\},
+L(x) = \min \left\{ l \in \natzero :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
-where
-\[\qquad C_l=\fC\left(3\cdot2^{-l}h_0\right)\frac{(2^{-l}h_0)^2}{8}
-\]
-depends on $n_0$, $\fC$, and $l$, but not on $f$.
+Note that $L(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
 We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and that by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step \ref{stage2} of $A$.  Let $\cp = \{x_i\}_{i=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-L(x)}h_0$.
 Referring to Step \ref{stage2} of $A$, it is necessary that $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ or  $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  We show that neither of these conditions can hold, thus contradicting the assumption that $\ell(x) > L(x)$.
@@ -485,15 +482,16 @@ Let us investigate these two conditions separately.
 \begin{enumerate}
   \item $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.  If $i \in \mathcal{I}_+ \cap \widetilde{\mathcal{I}}$, then
   \begin{equation}
-  \label{conditionone} x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, \qquad   j=i+1,i+2, \qquad [x_i,x_{i+2}] \subseteq \bar{I}_{x,l}.
+  \label{conditionone} x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, \qquad   j=i+1,i+2, \qquad [x_i,x_{i+2}] \subseteq \bar{I}_{x,L(x)}.
   \end{equation}
   This implies that
   \begin{align*}
-  \abstol < & \frac{B_{i,+}(f,\cp)}{8}(x_i-x_{i-1})^2 \\
-   \le &\frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by } \eqref{bpf} \\
+  \abstol & <  \frac{B_{i,+}(f,\cp)}{8}(x_i-x_{i-1})^2 \\
+  & \le \frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by } \eqref{bpf} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-  \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by } \eqref{conditionone}  \\
-     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} \le \abstol \qquad \text{by } \eqref{eqn:defoflx}.
+  &\le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by } \eqref{conditionone} \\
+     & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by } \eqref{conditionone} \\
+     & \le    \abstol \qquad \text{by } \eqref{eqn:defoflx} .
   \end{align*}
 A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \widetilde{\mathcal{I}}$ as well.  Thus $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ is impossible.
   \item $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$\\
@@ -504,26 +502,25 @@ A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \wid
   \end{equation}
   Then
   \begin{align*}
-  \abstol \le & \frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 \\
- \le  &\frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by } \eqref{bpf}   \\
- \le & \fC\left(3\cdot2^{-L(x)}h_0\right) \frac{2^{-2L(x)}h_0^2}{8}\norm[{[x_{i-1},x_{i+1}]}]{f''}  \qquad \text{by } \eqref{conditiontwo}    \\
-     \le & C_{L(x)} \norm[\bar{I}_{x,L(x)}]{f''} < \abstol.
+  \abstol & < \frac{B_+(f,[x_{i-2},x_{i-1}])}{8}(x_{i-1}-x_{i-2})^2 \\
+& \le  \frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by } \eqref{bpf}   \\
+ & \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by } \eqref{conditiontwo}  \\ 
+     & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[\bar{I}_{x,L(x)}]{f''} \qquad \text{by } \eqref{conditiontwo}  \\
+     & \le  \abstol \qquad \text{by } \eqref{eqn:defoflx}.
   \end{align*}
-  We can also get contradiction for other three cases. So we cannot have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
+  We also get contradiction for other three cases. So we cannot have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
 \end{enumerate}
-Hence, we prove $\ell(x) \le L(x)$. Next we want to investigate $2^{L(x)}$.
-\begin{align*}
-2^{L(x)}&=2^{\min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\}} = \min\left\{2^l: l \in  \natzero, C_l \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\}\\
- & = \min\left\{2^l:  \fC\left(3\cdot 2^{-l} h_0\right) \frac{2^{-2l}h_0^2}{8} \norm[\bar{I}_{x,l}]{f''}  \le \varepsilon,  l \in  \natzero\right\}\nonumber \\
- & = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8\varepsilon}},  l \in  \natzero\right\}.
-\end{align*}
-We obtain the upper bound on computational cost of Algorithm \texttt{funappx\_g}.
+Hence, we prove $\ell(x) \le L(x)$. This fact is used to prove an upper bound on the computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
-Let $A(f,\varepsilon)$ be the adaptive linear spline defined by Algorithm \textnormal{\texttt{funappx\_g}}, and let $n_0 = n_{\ninit} - 1$, and $\varepsilon$ be the inputs and parameters described there. Let $\cc$ be the cone of functions defined in~\eqref{conedef}.
-Let $L(x)$ is defined in~\eqref{eqn:defoflx}.
-Then it follows that Algorithm \textnormal{\texttt{funappx\_g}} is successful for all functions in $\cc$,  i.e.,  $\norm[\infty]{f - S(f, \cdot)} \le \varepsilon$.  Moreover, the cost of this algorithm is bounded above as follows:
-$$\cost(S,f,\varepsilon) \le \frac{n_0}{b-a}\int_a^b 2^{L(x)} dx +1.$$
+Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by Algorithm $A$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem \eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
+\begin{equation*}
+\cost(S,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 \\
+\end{equation*}
+where $L(x)$ is defined in \eqref{eqn:defoflx} and 
+\begin{equation}
+2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
+\end{equation}
 \end{theorem}
 
 \begin{proof}
@@ -539,6 +536,13 @@ $$\cost(S,f,\varepsilon)  \le \frac{n_0}{(b-a)}\int_a^b 2^{L(x)}dx +1.
 $$
 \end{proof}
 
+Next we want to investigate $2^{L(x)}$.
+\begin{align*}
+2^{L(x)}&=2^{\min \left\{ l \in \natzero : C_l  \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\}} = \min\left\{2^l: l \in  \natzero, C_l \norm[\bar{I}_{x,l}]{f''} \le \varepsilon\right\}\\
+ & = \min\left\{2^l:  \fC\left(3\cdot 2^{-l} h_0\right) \frac{2^{-2l}h_0^2}{8} \norm[\bar{I}_{x,l}]{f''}  \le \varepsilon,  l \in  \natzero\right\}\nonumber \\
+ & = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8\varepsilon}},  l \in  \natzero\right\}.
+\end{align*}
+We obtain the upper bound on computational cost of Algorithm \texttt{funappx\_g}.
 From Theorem~\ref{thm:cost}, we know for very small $\varepsilon$,
 $L(x)$ tends to $\infty$, $ \norm[\bar{I}_{x,L(x)}]{f''} $ tends to $|f''(x)|$ and $3\cdot 2^{-L(x)}h_0$ tends to 0.
 Thus we can have
