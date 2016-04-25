@@ -1,4 +1,4 @@
-
+% examples.tex
 
 In computer graphics, 3D objects can often be parametrized by functions.
 Moreover, low to medium accuracy interpolation is usually sufficient to project
@@ -6,19 +6,19 @@ satisfactory visual preceptions. In the following example, we use \funappxg to
 interpolate the surface of a seashell, leading to a sufficiently accurate
 three-dimensional reconstruction.
 
-\begin{figure}[th]
+\begin{figure}[tbh]
   \centering
   \begin{tabular}{cc}
   \includegraphics[width=35mm]{figure/funappxseashell.eps} & \includegraphics[width=83mm]{figure/seashellsurferror.eps}\\
   a) & b)
   \end{tabular}
- \caption{a) Approximate seashell; b) Error estimation of seashell with tolerance $0.1$.}
+ \caption{a) Approximate seashell; b) Error estimation of seashell with tolerance $0.1$. This figure is reproducible by \texttt{traub\_funappxseashell.m}.}
   \label{fig:funappxseashell}
 \end{figure}
 \begin{exmp}
  
-Figure~\ref{fig:funappxseashell}a) is an approximation of a pretty Florida
-seashell, portrayed as a parametric surface in 3D. Let $a=-0.2$, $b=0.5$,
+Figure~\ref{fig:funappxseashell}a) is an approximation of a 
+seashell portrayed as a parametric surface in 3D. Let $a=-0.2$, $b=0.5$,
 $c=0.1$, $n = 2$, $u,v \in [0, 2 \pi]$, and $w(v) =
 a\left(1-\frac{v}{2\pi}\right)$. The parametric surface is defined by the
 following equations in~\cite{DavEtal05}:
@@ -36,38 +36,39 @@ $y(u,v)$, and $z(u,v)$ can not be represented by the form mentioned above.
 Instead,
 \end{comment}
 %We approximate $\sin(x)$ and $\cos(x)$ on the interval $[0,4\pi]$. Denote
-$sinappx(x)$ and $cosappx(x)$ as the approximate functions of $\sin(x)$ and
+Denote $\sinappx(x)$ and $\cosappx (x)$ the approximate functions of $\sin(x)$ and
 $\cos(x)$ on the interval $[0,4\pi]$, respectively; and let the resultant
-approximants of $x(u,v)$, $y(u,v)$, and $z(u,v)$ as $\hat{x}(u,v)$,
+approximants of $x(u,v)$, $y(u,v)$, and $z(u,v)$ be $\hat{x}(u,v)$,
 $\hat{y}(u,v)$, and $\hat{z}(u,v)$, respectively.
 \begin{comment}
 Then we have
 \begin{align*}
-    \hat{x}(u,v) & =  \left[a\left(1-\frac{v}{2\pi}\right)\left(1+cosappx(u)\right) + c\right]cosappx(nv),\\
-\hat{y}(u,v) & = \left[a\left(1-\frac{v}{2\pi}\right)(1+cosappx(u)) + c\right] sinappx(nv),\\
-\hat{z}(u,v) & = \frac{bv}{2\pi} + a\left(1-\frac{v}{2\pi}\right)sinappx(u).
+    \hat{x}(u,v) & =  \left[a\left(1-\frac{v}{2\pi}\right)\left(1+\cosappx(u)\right) + c\right]\cosappx(nv),\\
+\hat{y}(u,v) & = \left[a\left(1-\frac{v}{2\pi}\right)(1+\cosappx(u)) + c\right] \sinappx(nv),\\
+\hat{z}(u,v) & = \frac{bv}{2\pi} + a\left(1-\frac{v}{2\pi}\right)\sinappx(u).
 \end{align*}
 \end{comment}
-Define the overall error measure as
+Define the overall approximation error measure as
 \begin{align*}
 \mathscr{E} =  \max\limits_{u,v \in [0, 2 \pi] } & \left\{   |x(u,v)-\hat{x}(u,v)|,\right.
    \left.  |y(u,v)-\hat{y}(u,v)|, 
                                   \ \    |z(u,v)-\hat{z}(u,v)|\right\}.
 \end{align*}
-Even if we set the error tolerance as big as $0.1$, we still can obtain
-Figure~\ref{fig:funappxseashell}a), which is very similar to the original
-seashell image. The associated error plot is presented in
-Figure~\ref{fig:funappxseashell}b), which shows that the approximation error
-$\mathscr{E}=2 \times 10^{-4}$.
+Even if we set the error tolerance $\abstol$ to be as big as $0.1$ for computing
+$\sinappx$ and $\cosappx$, we can still obtain a much diminished error
+$\mathscr{E}\approx 9 \times 10^{-4}$; see the error plot in
+Figure~\ref{fig:funappxseashell}b). The reconstructed surface in
+Figure~\ref{fig:funappxseashell}a) is very similar to the original seashell
+image.
+
 \end{exmp}
 
 In digital animation, frames of images are produced to represent movements of
 objects over small discrete time. To automatically insert frames between a
-beginning frame and an ending frame, interpolation can be applied to estimating
+beginning frame and an ending frame, temporal interpolation can often be applied to estimate
 the object's positions by using parametric curves that represent a trajectory in
-3D as $(x(t), y(t), z(t))$, where each of the three coordinates in space is
+3D as $(x(t), y(t), z(t))$, where each of the Cartesian coordinates in space is
 parametrized by time $t$.  We refer readers to Example~5 in \cite{Din15a}, for instance.
-
 
 
 \begin{exmp}
