@@ -1,4 +1,4 @@
-%% Create Pictures for Traub Memorial Issue Paper
+%% TraubMemorial: Create Pictures for Traub Memorial Issue Paper
 % This script creates figures for 
 %
 % S.-C. T. Choi, Y. Ding, F. J. Hickernell, X. Tong, " ...
@@ -62,6 +62,7 @@ axis([-1 1 -0.2 1.2])
 xlabel('\(x\)')
 legend(h,{'\(f_3(x)\)'},'location', 'northeast','box','off')
 print -depsc f3plot.eps
+gail.save_eps('TraubPaperOutput', 'f3plot');
 
 figure
 h = plot(xplot,f3pp(xplot),'-','color',MATLABPurple);
@@ -69,4 +70,5 @@ h = plot(xplot,f3pp(xplot),'-','color',MATLABPurple);
 xlabel('\(x\)')
 legend(h,{'\(f_3''''(x)\)'},'location', 'northeast','box','off')
 print -depsc f3ppplot.eps
+gail.save_eps('TraubPaperOutput', 'f3ppplot');
 
