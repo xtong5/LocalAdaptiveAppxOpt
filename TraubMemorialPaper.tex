@@ -437,7 +437,7 @@ Let
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
 \]
-Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\varepsilon) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
+Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\abstol) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
 Otherwise, continue to the next step.
 \item \label{stage2}
 Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
@@ -531,13 +531,20 @@ n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_
 Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.  The formula for $2^{L(x)}$ follows from the definition of $L(x)$ in \eqref{eqn:defoflx}.
 \end{proof}
 
-From Theorem~\ref{thm:cost}, we know for very small $\varepsilon$,
+The definition of $L(x)$ in \eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  We may derive a more explicit upper bound on the computational cost of $A$ by noting that 
+\begin{equation*}
+\norm[\bar{I}_{x,l}]{f''}
+\end{equation*}
+
+upper bound in theorem \ref{thm:cost} provides a 
+
+From Theorem~\ref{thm:cost}, we know for very small $\abstol$,
 $L(x)$ tends to $\infty$, $ \norm[\bar{I}_{x,L(x)}]{f''} $ tends to $|f''(x)|$ and $3\cdot 2^{-L(x)}h_0$ tends to 0.
 Thus we can have
 $$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.$$
 The upper bound on computational cost tends to
 \begin{align*}
-\cost(S,f,\varepsilon)  & \lesssim \frac{n_0}{(b-a)}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
+\cost(S,f,\abstol)  & \lesssim \frac{n_0}{(b-a)}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
 & =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\int_a^b \sqrt{|f''(x)|} \, \dif x  +1\\
 & =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\norm[1]{\sqrt{|f''|}} \, \dif x +1,
 \end{align*}
