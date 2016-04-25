@@ -471,7 +471,7 @@ Let $\bar{I}_{x,l}$ be a similar closed interval with generally five times the w
 \[\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
 \] with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
-L(x) = \min \left\{ l \in \natzero :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
+L(x) = \min \left\{ l \in \{4, 5, \ldots\} :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
 Note that $L(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
@@ -534,15 +534,15 @@ Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
 From Theorem~\ref{thm:cost}, we know for very small $\varepsilon$,
 $L(x)$ tends to $\infty$, $ \norm[\bar{I}_{x,L(x)}]{f''} $ tends to $|f''(x)|$ and $3\cdot 2^{-L(x)}h_0$ tends to 0.
 Thus we can have
-$$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\varepsilon}}.$$
+$$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.$$
 The upper bound on computational cost tends to
 \begin{align*}
-\cost(S,f,\varepsilon)  & \lesssim \frac{n_0}{(b-a)}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\varepsilon}} dx +1 \\
-& =\sqrt{\frac{\fC\left(0\right)}{8\varepsilon}}\int_a^b \sqrt{|f''(x)|} dx +1\\
-& =\sqrt{\frac{\fC\left(0\right)}{8\varepsilon}}\norm[1]{\sqrt{|f''|}} dx +1,
+\cost(S,f,\varepsilon)  & \lesssim \frac{n_0}{(b-a)}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
+& =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\int_a^b \sqrt{|f''(x)|} \, \dif x  +1\\
+& =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\norm[1]{\sqrt{|f''|}} \, \dif x +1,
 \end{align*}
 where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
-However, when $\varepsilon$ is not that small, the computational cost does not only depend on $\norm[1]{\sqrt{|f''|}}$ but also depends on where and how the peaky parts are located.\\
+However, when $\abstol$ is not that small, the computational cost does not only depend on $\norm[1]{\sqrt{|f''|}}$ but also depends on where and how the peaky parts are located.\\
 
 For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
 
