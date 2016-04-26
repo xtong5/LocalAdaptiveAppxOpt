@@ -66,24 +66,29 @@ image.
 \end{exmp}
 
 In digital animation, frames of images are produced to represent movements of
-objects over small discrete time. To automatically insert frames between a
-beginning frame and an ending frame for better visual effects, temporal
+objects over small discrete time. To automatically insert additional frames between 
+two consecutives frames for better visual effects, temporal
 interpolation can often be applied to estimate an object's positions by using
-parametric curves that represent a trajectory in 3D as $(x(t), y(t), z(t))$,
+parametric curves that represent its trajectory in 3D as $(x(t), y(t), z(t))$,
 where each Cartesian coordinate in space is parametrized by time $t$. We refer
-readers to Example~5 in \cite{Din15a}, for instance.
+readers to Example~5 in \cite[Section 3.6]{Din15a} for an illustration.
 
 %% Example 3.2
 
+The next example showcases the merits and demerits of our algorithm and an
+existing method for high-accuracy function approximation.
+
 \begin{exmp}
-Chebfun~\cite{TrefEtal15a} is a MATLAB toolbox known for using (piecewise)
-Chebyshev polynomial basis for approximating given functions to machine
-precision ($\approx 10^{-15}$). In this example, we show that it is challenged
-by $f_3$ defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some
-pointwise errors spike to more than $10^{-5}$ as shown in Figure~\ref{f3fig}a).
-Regretably Chebfun did not give any warning about the inaccurate representation
-in this case. In contrast, the errors of the interpolant from \funappxg{} are
-uniformly below $10^{-14}$.
+Chebfun~\cite{TrefEtal15a} is a MATLAB toolbox known for using Chebyshev
+polynomial basis for approximating given functions to machine precision
+($\approx 10^{-15}$). In this example, we show that it is challenged by~$f_3$
+defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some pointwise
+errors of the piecewise Chebyshev interpolant spike to more than $10^{-5}$ as
+shown in Figure~\ref{f3fig}a). Regretably Chebfun did not issue any warning
+about the inaccurate representation in this case. In contrast, the errors of the
+piecewise linear interpolant from \funappxg{} are uniformly below $10^{-14}$.
+Nonetheless the time taken by \funappxg{} was close to 7 seconds for such an 
+accurate approximation.
 
 \begin{figure}[t]
 \centering
