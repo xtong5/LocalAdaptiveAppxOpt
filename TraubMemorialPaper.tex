@@ -159,12 +159,12 @@ functions are key to the theoretically justified adpative algorithms in
 Functions in $\cw^{2,\infty}[a,b]$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
- f''([\alpha, \beta]) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  [\alpha, \beta] \subset [a,b].
+ f''(]\alpha, \beta[) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
 \end{gather*}
-Furthermore, $\abs{f''([\alpha, \beta])}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in [\alpha, \beta]$.  We define a
+Furthermore, $\abs{f''(]\alpha, \beta[)}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in ]\alpha, \beta[$.  We define a
 measure of how small $\abs{f''(x)}$ can be for  $x \in ]\alpha, \beta[$ as follows:
 \begin{equation} \label{minfppdef}
-m(f,\alpha, \beta) = \inf \abs{f''([\alpha, \beta])}.
+m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
 \end{equation}
 It follows from this definition
 that
