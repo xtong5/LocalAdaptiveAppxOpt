@@ -293,7 +293,7 @@ m(f_3,x_-,x) = m(f_3,x,x_+) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = \delta^{-2
 \]
 For $x \in [-1,1] \setminus [c - 2 \delta , c + 2 \delta]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
 
-However, if $\delta < 2 \fh$, then for $x = c-3\delta/2$ and $\delta/2 < h < \fh$, then regardless of how $\fc$ is defined,
+However, if $\delta < 2 \fh$, then for $x = c-3\delta/2$ and $\delta/2 < h < \fh$, then regardless of how $\fC$ is defined,
 \[
 \fC(h)m(f_3,x - h,x)=\fC(h)m(f_3,x,x+h)=0 < \abs{f''_3(x)} = \delta^{-2},
 \]
@@ -533,29 +533,19 @@ n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_
 Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.  The formula for $2^{L(x)}$ follows from the definition of $L(x)$ in \eqref{eqn:defoflx}.
 \end{proof}
 
-The definition of $L(x)$ in \eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  We may derive a more explicit upper bound on the computational cost of $A$ by noting that 
-\begin{equation*}
-\norm[\bar{I}_{x,l}]{f''}
-\end{equation*}
-
-upper bound in theorem \ref{thm:cost} provides a 
-
-From Theorem~\ref{thm:cost}, we know for very small $\abstol$,
-$L(x)$ tends to $\infty$, $ \norm[\bar{I}_{x,L(x)}]{f''} $ tends to $|f''(x)|$ and $3\cdot 2^{-L(x)}h_0$ tends to 0.
-Thus we can have
+The definition of $L(x)$ in \eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  For small $\abstol$, $L(x)$ becomes large,  $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and $3\cdot 2^{-L(x)}h_0$ tends to $0$.  Thus, for small $\abstol$, we have
 $$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.$$
-The upper bound on computational cost tends to
-\begin{align*}
-\cost(S,f,\abstol)  & \lesssim \frac{n_0}{(b-a)}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
-& =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\int_a^b \sqrt{|f''(x)|} \, \dif x  +1\\
+Under this approximation, the upper bound on computational cost becomes
+\begin{align} \label{costbdapprox}
+\nonumber
+\cost(S,f,\abstol)  &\lesssim \frac{1}{h_0}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
 & =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\norm[1]{\sqrt{|f''|}} \, \dif x +1,
-\end{align*}
+\end{align}
 where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
-However, when $\abstol$ is not that small, the computational cost does not only depend on $\norm[1]{\sqrt{|f''|}}$ but also depends on where and how the peaky parts are located.\\
 
 For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
 
-\begin{prop} For all $f \in \cc$ it follows that
+\begin{prop} \label{equivnormprop} For all $f \in \cc$ it follows that
 \begin{equation}
 \max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \Bignorm[1]{\sqrt{\abs{f''}}}^2 \le (b-a)^2 \norm{f''}.
 \end{equation}
@@ -578,6 +568,12 @@ If $\fC$ is defined as in \eqref{sampleC}, then
 \]
 When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky. 
 \end{proof}
+
+Although $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}[a,b]$.  The hump function $f_3$ defined above satisfies
+\[
+\norm{f_3''} = \delta^{-2}, \qquad \Bignorm[1]{\sqrt{\abs{f''}}}^2 = 16.
+\]
+By making $\delta$ small enough, we may make $\norm{f_3''}/\Bignorm[1]{\sqrt{\abs{f''}}}^2$ arbitrarily large.  However, since $f_3 \notin \cc$ for $\delta < 2\fh$, this does not violate Proposition  \ref{equivnormprop}.
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
