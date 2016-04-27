@@ -111,43 +111,43 @@ Some ideas to get us going
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal is to solve two problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+The goal is to solve the problems of function approximation and optimization by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
 real-valued functions on the finite interval $[a,b]$, we  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
 \begin{gather}
-\norm[\infty]{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
+\norm{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-The algorithms $A$ and $M$ depend only on function values. They choose the data sites in $[a,b]$ adaptively, depending on the function values already obtained at the data sites chosen previously.  The algorithms sample more densely where needed.  These
+Here, $\norm{\cdot}$ denotes the sup-norm.  The algorithms $A$ and $M$ depend only on function values. They choose the data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  The algorithms sample more densely where needed, i.e., they are locally adaptive.  These
 algorithms also automatically determine when to stop sampling the input function
 and return the correct answers.
 
-We demonstrate the following:
+We accomplish the following:
 \begin{itemize}
 
-\item The set $\cc$ is defined in Section \ref{sec:conedef} as a cone containing some functions whose second derivatives have finite sup-norms.  Drawing on Newton's divided diffrences in Section \ref{sec:ndd}, we construct a data-based upper bound on the sup-norms of these second derivatives and ultimately a data-based upper bound on the error of the linear spline in \eqref{appxerrbdb} towards the end of Section \ref{subsec:spline}.
+\item The set $\cc$ is defined in Section \ref{sec:conedef} to be a cone containing functions whose second derivatives have finite sup-norms.  Moreover, functions in $\cc$ are not too spiky.  Drawing on Newton's divided differences in Section \ref{sec:ndd}, we construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in \eqref{normbd} and ultimately a data-based upper bound on the error of the linear spline in \eqref{appxerrbdb}.
 
 \item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}.  Guarantees of success are provided by Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
 
-\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  The upper bounds in Theorems ??  are roughly proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$.  See \eqref{costbdapprox}.
+\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  The upper bounds in Theorems \ref{thm:cost}  and  ?? are roughly proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$ (see \eqref{costbdapprox}).  This asymptotic behavior can be much less than the $\sqrt{\norm{f''}/\abstol}$ that one might expect (see Proposition \ref{equivnormprop}).  
 
 \item Lower bounds on the computational complexity of problems \eqref{appxprob} and \eqref{optprob} are derived in Sections \ref{subsec:appxcomp} and \ref{subsec:optcomp}.  The lower bounds in Theorems   are also proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$, which makes our algorithms essentially asymptotically optimal.
 
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Cone, $\cc$} \label{sec:cone}
+\section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Linear splines form the basis for adaptive algorithms $A$ and $M$. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
-\cw^{2,\infty}[a,b] : = \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
+\cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
 
 To bound the error of the linear spline, our adaptive algorithms construct data-based upper bounds on $\norm[{[\alpha,
 \beta]}]{f''}$ in terms of function values.  In \eqref{normbd} below, we derive an upper bound that depends only on values of $f$ sampled in the neighborhood of $[\alpha,
-\beta]$. The set $\cc \subset \cw^{2,\infty}[a,b]$, for which this bound applies and for which our algorithms are guaranteed to succeed, consists of functions that are \emph{not too spiky}.  Our upper bound is homogeneous in the function, i.e., multiplying the function by $c$ multiplies the bound by $\abs{c}$.  Thus, $\cc$ is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
+\beta]$. The set $\cc \subset \cw^{2,\infty}$, for which this bound applies and for which our algorithms are guaranteed to succeed, consists of functions that are \emph{not too spiky}.  Our upper bound is homogeneous in the function, i.e., multiplying the function by $c$ multiplies the bound by $\abs{c}$.  Thus, $\cc$ is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
 $c$. The precise definition of $\cc$ is given below in \eqref{conedef}. Cones of
 functions are key to the theoretically justified adpative algorithms in
 \cite{HicEtal14b}, \cite{Ton14a}, \cite{Din15a}, and \cite{HicRazYun15a}.
@@ -156,7 +156,7 @@ functions are key to the theoretically justified adpative algorithms in
 \subsection{Newton's Divided Differences} \label{sec:ndd}
 %--------------------------------------------------
 
-Functions in $\cw^{2,\infty}[a,b]$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
+Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
  f''(]\alpha, \beta[) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
@@ -187,12 +187,12 @@ f[x_1] = f(x_1), \qquad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \\
 f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
 \end{gather}
 For any $f \in
-\cw^{2,\infty}[a,b]$, the function $f - p$ has at least three distinct zeros on
+\cw^{2,\infty}$, the function $f - p$ has at least three distinct zeros on
 $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval,
 i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
 that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
-x_3[$. However, $\cw^{2,\infty}[a,b]$ contains functions without continuous
+x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous
 second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by  definition  \eqref{minfppdef}:
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
@@ -215,7 +215,7 @@ apply.  This cone only includes functions whose second derivatives do not change
 magnitude over a short distance, namely,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}[a,b]:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
+ f  \in    \cw^{2,\infty}:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
 \\ \text{with }  \max(h_{\pm}) \in ]0, \fh[  \Bigr \},
 \end{multline}
 where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of $x_{\pm} =x \pm h_{\pm}$ as follows:
@@ -545,10 +545,13 @@ where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
 
 For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
 
-\begin{prop} \label{equivnormprop} For all $f \in \cc$ it follows that
-\begin{equation}
-\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \Bignorm[1]{\sqrt{\abs{f''}}}^2 \le (b-a)^2 \norm{f''}.
-\end{equation}
+\begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as follows:
+	\begin{subequations}
+		\begin{gather}
+		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \Bignorm[1]{\sqrt{\abs{f''}}}^2 \qquad \forall f \in \cc \\
+		 \Bignorm[1]{\sqrt{\abs{f''}}}^2  \le (b-a)^2 \norm{f''} \qquad \forall f \in \cw^{2,\infty}.
+		\end{gather}
+	\end{subequations}
 \end{prop}
 \begin{proof}
 The right hand side inequality is true for all $f$, not only those in $\cc$, and follows directly from the definitions of the norms.  Note that
@@ -569,7 +572,7 @@ If $\fC$ is defined as in \eqref{sampleC}, then
 When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky. 
 \end{proof}
 
-Although $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}[a,b]$.  The hump function $f_3$ defined above satisfies
+Although $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}$.  The hump function $f_3$ defined above satisfies
 \[
 \norm{f_3''} = \delta^{-2}, \qquad \Bignorm[1]{\sqrt{\abs{f''}}}^2 = 16.
 \]

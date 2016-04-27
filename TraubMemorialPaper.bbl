@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{5}
+\begin{thebibliography}{7}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
@@ -20,12 +20,22 @@
   algorithms: Cones, not balls}.
 \newblock \bibinfo{journal}{J Complexity}
   \bibinfo{year}{2014};\bibinfo{volume}{30}:\bibinfo{pages}{21--45}.
+%Type = Book
+\bibitem[{Davis and Sigmon(2005)}]{DavEtal05}
+\bibinfo{author}{Davis\xfnm[ T.A.]}, \bibinfo{author}{Sigmon\xfnm[ K.]}.
+\newblock \bibinfo{title}{MATLAB Primer, 7th Edition}.
+\newblock \bibinfo{publisher}{CRC Press}, \bibinfo{year}{2005}.
 %Type = Phdthesis
 \bibitem[{Ding(2015)}]{Din15a}
 \bibinfo{author}{Ding\xfnm[ Y.]}.
 \newblock \bibinfo{title}{Guaranteed Adaptive Univariate Function
   Approximation}.
 \newblock Ph.D. thesis; Illinois Institute of Technology; \bibinfo{year}{2015}.
+%Type = Manual
+\bibitem[{Hale et~al.(2015)Hale, Trefethen and Driscoll}]{TrefEtal15a}
+\bibinfo{author}{Hale\xfnm[ N.]}, \bibinfo{author}{Trefethen\xfnm[ L.N.]},
+  \bibinfo{author}{Driscoll\xfnm[ T.A.]}.
+\newblock \bibinfo{title}{Chebfun Version 5.2}; \bibinfo{year}{2015}. .
 %Type = Misc
 \bibitem[{\HickernellFJ et~al.(2015+)\HickernellFJ, Razo and
   Yun}]{HicRazYun15a}
