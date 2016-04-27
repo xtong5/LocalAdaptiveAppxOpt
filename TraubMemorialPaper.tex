@@ -156,12 +156,12 @@ functions are key to the theoretically justified adpative algorithms in
 \subsection{Newton's Divided Differences} \label{sec:ndd}
 %--------------------------------------------------
 
-Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined at countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
+Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
  f''(]\alpha, \beta[) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
 \end{gather*}
-Furthermore, $\abs{f''(]\alpha, \beta[)}$ is the interval containing all values of $\abs{f''(x)}$ for $x \in ]\alpha, \beta[$.  We define a
+We define a
 measure of how small $\abs{f''(x)}$ can be for  $x \in ]\alpha, \beta[$ as follows:
 \begin{equation} \label{minfppdef}
 m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
@@ -169,7 +169,7 @@ m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
 It follows from this definition
 that
 \begin{equation} \label{mdec}
-m(f,\alpha,\beta) \ge m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
+m(f,\alpha,\beta) \le m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
 \end{equation}
 
 We cannot determine $f''(x)$ for a specific $x$ based only on values of $f$. However,
@@ -188,7 +188,7 @@ f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
 \end{gather}
 For any $f \in
 \cw^{2,\infty}$, the function $f - p$ has at least three distinct zeros on
-$[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on this interval,
+$[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on $]x_1, x_3[$
 i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
 that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
@@ -196,7 +196,7 @@ x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous
 second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by  definition  \eqref{minfppdef}:
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
-= \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,x_1, x_3) (\xi_+  - \xi_-).
+= \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,\xi_-, \xi_+) (\xi_+  - \xi_-)  \ge m(f,x_1, x_3) (\xi_+  - \xi_-) .
 \end{multline*}
 So the the data-based second-order divided difference provides an upper
 bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
