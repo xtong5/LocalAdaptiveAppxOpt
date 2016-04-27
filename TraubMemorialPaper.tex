@@ -130,7 +130,7 @@ We accomplish the following:
 
 \item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}.  Guarantees of success are provided by Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
 
-\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  The upper bounds in Theorems \ref{thm:cost}  and  ?? are roughly proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$ (see \eqref{costbdapprox}).  This asymptotic behavior can be much less than the $\sqrt{\norm{f''}/\abstol}$ that one might expect (see Proposition \ref{equivnormprop}).  
+\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  The upper bounds in Theorems \ref{thm:cost}  and  ?? are roughly proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$ (see \eqref{costbdapprox}).  This asymptotic behavior can be much less than the $\sqrt{\norm{f''}/\abstol}$ that one might expect (see Proposition \ref{equivnormprop}).
 
 \item Lower bounds on the computational complexity of problems \eqref{appxprob} and \eqref{optprob} are derived in Sections \ref{subsec:appxcomp} and \ref{subsec:optcomp}.  The lower bounds in Theorems   are also proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$, which makes our algorithms essentially asymptotically optimal.
 
@@ -228,7 +228,7 @@ where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of $x_{
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
-Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to include more functions.  An example of $\fC$ is 
+Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to include more functions.  An example of $\fC$ is
 \begin{equation} \label{sampleC}
 \fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh), \qquad \fC(0) > 1,\ \fh \le b - a.
 \end{equation}
@@ -284,7 +284,7 @@ f''_3(x) & =
 \end{cases}
 \end{align*}
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta \le 1$. This function and its second derivative
-are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$.  
+are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$.
 
 If $\delta \ge 2 \fh$, then $f_3 \in \cc$ for
 any choice of $\fC : [0,b-a] \to [1,\infty)$.  We see this by examining two cases.  For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \, \subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.  Then
@@ -367,7 +367,7 @@ B_{i+}(f,\cp)&:=\begin{cases}
     \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
 \\ 0, & i=n-1,n.
 \end{cases} \\
-\label{bmf} 
+\label{bmf}
  B_{i-}(f,\cp)&: =\begin{cases}
    0,  & i=1,2,
 \\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
@@ -397,7 +397,7 @@ Applying the fact that $\fC$ is non-decreasing and property \eqref{mdec} yields
  \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{i,\pm}(f,\cp)\bigr) = B_i(f,\cp).
 \end{align*}
-A similar argument applied for the sub-intervals on the left and right borders of the interval. 
+A similar argument applied for the sub-intervals on the left and right borders of the interval.
 The bound in \eqref{normbd} combined with \eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{equation} \label{appxerrbdb}
@@ -444,7 +444,7 @@ Otherwise, continue to the next step.
 \item \label{stage2}
 Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 \begin{multline*}
-\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n_0\}: \frac{(x_j - x_{j-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol,\right.\\
+\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n_0\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\right.\\
  \left.j=i\mp k, 0<j\le n_0, k=1,2. \right\},
 \end{multline*}
 \[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
@@ -506,7 +506,7 @@ A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \wid
   \begin{align*}
   \abstol & < \frac{B_{i-1,+}(f,\cp)}{8}(x_{i-1}-x_{i-2})^2 \\
 & \le  \frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by } \eqref{bpf}   \\
- & \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by } \eqref{conditiontwo}  \\ 
+ & \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by } \eqref{conditiontwo}  \\
      & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[\bar{I}_{x,L(x)}]{f''} \qquad \text{by } \eqref{conditiontwo}  \\
      & \le  \abstol \qquad \text{by } \eqref{eqn:defoflx}.
   \end{align*}
@@ -519,14 +519,14 @@ Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 \\
 \end{equation*}
-where $L(x)$ is defined in \eqref{eqn:defoflx} and 
+where $L(x)$ is defined in \eqref{eqn:defoflx} and
 \begin{equation*}
 2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
 \end{equation*}
 \end{theorem}
 
 \begin{proof}
-Let $\cp=\{x_i\}_{i=0}^n$ be the final partition when $A(f,\abstol)$ successfully terminates. Note that $2^{\ell(x)}$ is constant on $I_{x_i,\ell(x_i)} = [x_{i},x_{i+1}[$ for $i=0, \ldots, n-1$.  Furthermore  $\int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x =  h_0$.  Then the number of function values requires is 
+Let $\cp=\{x_i\}_{i=0}^n$ be the final partition when $A(f,\abstol)$ successfully terminates. Note that $2^{\ell(x)}$ is constant on $I_{x_i,\ell(x_i)} = [x_{i},x_{i+1}[$ for $i=0, \ldots, n-1$.  Furthermore  $\int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x =  h_0$.  Then the number of function values requires is
 \begin{equation*}
 n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
 \end{equation*}
@@ -569,7 +569,7 @@ If $\fC$ is defined as in \eqref{sampleC}, then
 \[
 \max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} = \max_{0 \le h \le \fh} \frac{h^2(\fh - h)}{\fC(0)\fh} = \frac{4\fh^2}{29\fC(0)}.
 \]
-When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky. 
+When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky.
 \end{proof}
 
 Although $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}$.  The hump function $f_3$ defined above satisfies
@@ -580,7 +580,61 @@ By making $\delta$ small enough, we may make $\norm{f_3''}/\Bignorm[1]{\sqrt{\ab
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
+Suppose that one has the sample points
+$(\xi_i)_{i=1}^n$ for arbitrary $\xi_i$, where $a=\xi_0 \le \xi_1 < \cdots < \xi_n \le \xi_{n+1} = b$.  There must be some $j=0, \ldots, n$ such that $$\xi_{j+1} - \xi_j \ge \frac{b-a}{n+1}.$$  The function $f_{3}$ is defined as a bump having piecewise constant second derivative on $[\xi_j, \xi_{j+1}]$ and zero elsewhere. Thus, we have
+\[a\le c-2\delta < c+2\delta \le b \qquad 4\delta \ge \frac{b-a}{n+1}.\]
 
+To derive the lower complexity bound for a cone, we
+choose a parabola
+\begin{equation}
+\label{assumpfzero}
+f_0(x) =\frac{x^2}{2}.
+\end{equation}
+
+\begin{theorem} \label{complowbdconeappr}
+For $n^*>1$, the complexity of the function recovery problem over the cone of functions  is bounded below as
+The adaptive linear spline Algorithm \ref{AlgoA} has optimal order for recovering functions in $\cc$.
+\end{theorem}
+
+\begin{proof}   Define two fooling functions, $f_{\pm}=c_1(f_{0} \pm c_2 f_3)$, in terms of $f_0$ defined as \eqref{assumpfzero} and $f_3$ defined before, where $c_1$ and $c_2$ are positive.
+Then for both fooling functions, we have
+\begin{align*}
+\norm[\infty]{f''_{\pm}} = c_1\left(1+\frac{c_2}{\delta^2}\right).
+\end{align*}
+When $x \in [\xi_{j},\xi_{j+1}],$ we have
+\[m(f''_{\pm},\cdot,x) \ge c_1\left(1-\frac{c_2}{\delta^2}\right).\]
+
+As these fooling functions must lie inside the cone $\cc$, we have
+\begin{align*}
+& c_1\left(1+\frac{c_2}{\delta^2}\right)\le \fC(0)c_1\left(1-\frac{c_2}{\delta^2}\right) \\
+\Leftrightarrow &¡¡\fC(0)\ge \frac{1+\frac{c_2}{\delta^2}}{1-\frac{c_2}{\delta^2}} \\
+\Leftrightarrow & c_2 \le \frac{\fC(0)-1}{\fC(0)+1}\delta^2.
+\end{align*}
+
+Moreover, we know
+\begin{align*}
+\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}} & =\int_a^b\sqrt{\abs{f_{\pm}''(t)}} dt \\
+& = \sqrt{c_1}(b-a-4\delta)+\sqrt{c_1\left(1+\frac{c_2}{\delta^2}\right)}\cdot 2\delta+\sqrt{c_1\left(1-\frac{c_2}{\delta^2}\right)}\cdot 2\delta\\
+& =\sqrt{c_1}\left[b-a-4\delta+2\delta\left(\sqrt{1+\frac{c_2}{\delta^2}}+\sqrt{1-\frac{c_2}{\delta^2}}\right) \right]\\
+&\le \sqrt{c_1}(b-a).
+\end{align*}
+Thus \[c_1 \ge \frac{\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}}^2}{(b-a)^2}.\]
+
+We note that the data used by algorithm $A$ for both fooling functions is the same, so $A(f_{\pm})=A(c_0f_0)$.  Consequently,
+\begin{align*}
+\varepsilon & \ge \max(\norm[\infty]{f_+-A(f_+)},\norm[\infty]{f_--A(f_-)}) \\
+& \ge \frac{1}{2} \left[ \norm[\infty]{c_1f_0+c_1c_2f_3-A(c_1f_0)}+ \norm[\infty]{c_1f_0-c_1c_2f_3-A(c_1f_0)} \right] \\
+& \ge \frac{1}{2} \left[ \norm[\infty]{c_1f_0+c_1c_2f_3-A(c_1f_0)}+ \norm[\infty]{c_1c_2f_3-c_1f_0+A(c_1f_0)} \right] \\
+& \ge \frac{1}{2} \norm[\infty]{[c_1f_0+c_1c_2f_3-A(c_1f_0)]+[c_1c_2f_3-c_1f_0+A(c_1f_0))]} \\
+& = \norm[\infty]{c_1c_2f_3}= c_1c_2\norm[\infty]{f_3}  \\
+& = c_1c_2 \\
+& \ge \frac{\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}}^2}{(b-a)^2}\cdot\frac{(\fC(0)-1)(b-a)^2}{16(\fC(0)+1)(n+1)^2}\\
+& = \frac{(\fC(0)-1)}{16(\fC(0)+1)(n+1)^2}\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}}^2
+\end{align*}
+Since $A$ is successful for these two fooling functions and $f_\pm \in \cc$, it follows that the cost of this arbitrary algorithm $A$ is bounded below by
+\[ \sqrt{\frac{(\fC(0)-1)}{16(\fC(0)+1)\varepsilon}}\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}} -1.\]
+This then implies the lower bound on the complexity of the problem.
+\end{proof}
 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
