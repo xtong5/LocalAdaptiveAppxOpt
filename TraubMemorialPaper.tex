@@ -543,10 +543,11 @@ Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
 The definition of $L(x)$ in \eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  For small $\abstol$, $L(x)$ becomes large,  $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and $3\cdot 2^{-L(x)}h_0$ tends to $0$.  Thus, for small $\abstol$, we have
 $$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.$$
 Under this approximation, the upper bound on computational cost becomes
-\begin{align} \label{costbdapprox}
+\begin{align} 
 \nonumber
 \cost(S,f,\abstol)  &\lesssim \frac{1}{h_0}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
-& =\sqrt{\frac{\fC\left(0\right)}{8\abstol}}\norm[1]{\sqrt{|f''|}} \, \dif x +1,
+& =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{8\abstol}} +1 \label{costbdapprox} \\
+& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{8\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf}}.
 \end{align}
 where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
 
@@ -555,7 +556,9 @@ For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\s
 \begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
 		\begin{gather}
+		\label{inflesshalf}
 		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc \\
+		\label{halflessinf}
 		\norm[\frac 12]{f''}  \le (b-a)^2 \norm{f''} \qquad \forall f \in \cw^{2,\infty}.
 		\end{gather}
 	\end{subequations}
@@ -595,25 +598,31 @@ The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an u
 	
 	\begin{enumerate}
 		\renewcommand{\labelenumi}{\roman{enumi}.}
-		\item  If $A^*$ solves the problem for all $f \in \cc$, then for any $\sigma, \abstol >0$,
-		\begin{gather*}
-		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge , \\
-		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .
-		\end{gather*} 
+		\item  If $A^*$ solves  \eqref{appxprob} for all $f \in \cc$, then for any $\sigma, \abstol >0$,
+		\begin{subequations} \label{lowbdC}
+		\begin{gather}
+		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge , \label{lowbdChalf}\\
+		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \label{lowbdCinf}.
+		\end{gather} 
+		\end{subequations}
 		
-		\item If $A^*$ solves the problem for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$,  
-		\begin{gather*}
-		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > \abstol,\\
-		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .\\
-		\end{gather*}
+		\item If $A^*$ solves  \eqref{appxprob} for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$, 
+		\begin{subequations} \label{lowbdW}
+		\begin{gather}
+		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > \abstol, \label{lowbdWhalf}\\
+		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .  \label{lowbdWinf}
+		\end{gather}
+		\end{subequations} 
 				
 	\end{enumerate}
 	
 \end{theorem}
 
-The conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input.  Also not that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the $\cc$ can strongly affect the lower complexity bounds.
+Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the upper bound on the computational cost of $A$ is asymptotically  However, one can easily construct an algorithm 
 
 \begin{proof}
+	
+	\end{proof}
 
 Suppose that one has the sample points
 $(\xi_i)_{i=1}^n$ for arbitrary $\xi_i$, where $a=\xi_0 \le \xi_1 < \cdots < \xi_n \le \xi_{n+1} = b$.  There must be some $j=0, \ldots, n$ such that $$\xi_{j+1} - \xi_j \ge \frac{b-a}{n+1}.$$  The function $f_{3}$ is defined as a bump having piecewise constant second derivative on $[\xi_j, \xi_{j+1}]$ and zero elsewhere. Thus, we have
