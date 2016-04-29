@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{7}
+\begin{thebibliography}{11}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
@@ -44,6 +44,28 @@
 \newblock \bibinfo{title}{Reliable adaptive numerical integration}.
 \newblock \bibinfo{year}{2015+}.
 \newblock \bibinfo{note}{Submitted for publication}.
+%Type = Article
+\bibitem[{Novak(1996)}]{Nov96a}
+\bibinfo{author}{Novak\xfnm[ E.]}.
+\newblock \bibinfo{title}{On the power of adaption}.
+\newblock \bibinfo{journal}{J Complexity}
+  \bibinfo{year}{1996};\bibinfo{volume}{12}:\bibinfo{pages}{199--237}.
+%Type = Article
+\bibitem[{Plaskota and Wasilkowski(2005)}]{PlaWas05a}
+\bibinfo{author}{Plaskota\xfnm[ L.]}, \bibinfo{author}{Wasilkowski\xfnm[
+  G.W.]}.
+\newblock \bibinfo{title}{Adaption allows efficient integration of functions
+  with unknown singularities}.
+\newblock \bibinfo{journal}{Numer\ Math}
+  \bibinfo{year}{2005};\bibinfo{volume}{102}:\bibinfo{pages}{123--144}.
+%Type = Article
+\bibitem[{Plaskota et~al.(2008)Plaskota, Wasilkowski and Zhao}]{PlaEtal08a}
+\bibinfo{author}{Plaskota\xfnm[ L.]}, \bibinfo{author}{Wasilkowski\xfnm[
+  G.W.]}, \bibinfo{author}{Zhao\xfnm[ Y.]}.
+\newblock \bibinfo{title}{The power of adaption for approximating functions
+  with singularities}.
+\newblock \bibinfo{journal}{Math Comput}
+  \bibinfo{year}{2008};\bibinfo{volume}{77}:\bibinfo{pages}{2309--2338}.
 %Type = Masterthesis
 \bibitem[{Tong(2014)}]{Ton14a}
 \bibinfo{author}{Tong\xfnm[ X.]}.
@@ -51,5 +73,13 @@
   Univariate Function Minimization}.
 \newblock Master's thesis; Illinois Institute of Technology;
   \bibinfo{year}{2014}.
+%Type = Book
+\bibitem[{Traub et~al.(1988)Traub, Wasilkowski and
+  Wo\'zniakowski}]{TraWasWoz88}
+\bibinfo{author}{Traub\xfnm[ J.F.]}, \bibinfo{author}{Wasilkowski\xfnm[ G.W.]},
+  \bibinfo{author}{Wo\'zniakowski\xfnm[ H.]}.
+\newblock \bibinfo{title}{Information-Based Complexity}.
+\newblock \bibinfo{address}{Boston}: \bibinfo{publisher}{Academic Press},
+  \bibinfo{year}{1988}.
 
 \end{thebibliography}

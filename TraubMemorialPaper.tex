@@ -111,7 +111,7 @@ Some ideas to get us going
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal is to solve the problems of function approximation and optimization by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+The goal is to solve  function approximation and optimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
 real-valued functions on the finite interval $[a,b]$, we  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
@@ -119,40 +119,39 @@ algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \norm{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-Here, $\norm{\cdot}$ denotes the sup-norm.  The algorithms $A$ and $M$ depend only on function values. They choose the data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  The algorithms sample more densely where needed, i.e., they are locally adaptive.  These
-algorithms also automatically determine when to stop sampling the input function
-and return the correct answers.
+Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling 
+and return the correct answer.  These algorithms sample more densely where needed, i.e., they are locally adaptive. 
 
-Adaptive algorithms relieve the user of having to specify the number of samples required or some equivalent information.  The user only needs to be satisfied with the parameters that define $\cc$ and so determine the robustness of the algorithms.
+
+Adaptive algorithms relieve the user of having to specify the number of samples required.  The user only needs to provide the error tolerance and be satisfied with the parameters that define $\cc$ and thereby specify the robustness of the algorithms.
 
 We accomplish the following:
 \begin{itemize}
 
-\item The set $\cc$ is defined in Section \ref{sec:conedef} to be a cone containing functions whose second derivatives have finite sup-norms.  Moreover, functions in $\cc$ are not too spiky.  Drawing on Newton's divided differences in Section \ref{sec:ndd}, we construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in \eqref{normbd} and ultimately a data-based upper bound on the error of the linear spline in \eqref{appxerrbdb}.
+\item The set $\cc$ is defined in Section \ref{sec:conedef} to be a cone contained in $\cw^{2,\infty}$, the Sobolev space of functions whose second derivatives have finite sup-norms.  Because any algorithm can be fooled by a function that is sufficiently spiky, this $\cc$ is defined to exclude functions that are too spiky.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in \eqref{normbd} in terms of second-order divided differences and this provides a data-based upper bound on the error of the linear spline in \eqref{appxerrbdb}.
 
-\item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}.  Guarantees of success are provided by Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
+\item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}, respectively.  Guarantees of success are provided by Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
 
-\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  The upper bounds in Theorems \ref{thm:cost}  and  ?? are roughly proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$ (see \eqref{costbdapprox}).  This asymptotic behavior can be much less than the $\sqrt{\norm{f''}/\abstol}$ that one might expect (see Proposition \ref{equivnormprop}).
+\item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  These upper bounds in Theorems \ref{thm:cost}  and  ?? are roughly proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$ (see \eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-norm.  Since $\norm[\frac12]{f''}$ can be much smaller than $\norm[\frac12]{\cdot}$ (see Proposition \ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.
 
-\item Lower bounds on the computational complexity of problems \eqref{appxprob} and \eqref{optprob} are derived in Sections \ref{subsec:appxcomp} and \ref{subsec:optcomp}.  The lower bounds in Theorems   are also proportional to $\Bignorm[1]{\sqrt{\abs{f''}}}/\sqrt{\abstol}$, which makes our algorithms essentially asymptotically optimal.
+\item Lower bounds on the computational complexity of problems \eqref{appxprob} and \eqref{optprob} are derived in Sections \ref{subsec:appxcomp} and \ref{subsec:optcomp}.  The lower bounds in Theorems   are also proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithms essentially asymptotically optimal.
 
 \end{itemize}
+
+\cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as \eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88} \cite[Theorem 1]{Nov96a}.  The $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  \cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines form the basis for adaptive algorithms $A$ and $M$. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
+Linear splines are the foundation for adaptive algorithms $A$ and $M$. The best linear spline error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
 \cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
 
 To bound the error of the linear spline, our adaptive algorithms construct data-based upper bounds on $\norm[{[\alpha,
 \beta]}]{f''}$ in terms of function values.  In \eqref{normbd} below, we derive an upper bound that depends only on values of $f$ sampled in the neighborhood of $[\alpha,
-\beta]$. The set $\cc \subset \cw^{2,\infty}$, for which this bound applies and for which our algorithms are guaranteed to succeed, consists of functions that are \emph{not too spiky}.  Our upper bound is homogeneous in the function, i.e., multiplying the function by $c$ multiplies the bound by $\abs{c}$.  Thus, $\cc$ is chosen to be a cone: $f \in \cc \implies cf \in \cc$ for all real
-$c$. The precise definition of $\cc$ is given below in \eqref{conedef}. Cones of
-functions are key to the theoretically justified adpative algorithms in
-\cite{HicEtal14b}, \cite{Ton14a}, \cite{Din15a}, and \cite{HicRazYun15a}.
+\beta]$.
 
 %--------------------------------------------------
 \subsection{Newton's Divided Differences} \label{sec:ndd}
@@ -214,7 +213,7 @@ Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
 non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size.
 These parameters are used to define cone of functions for which our algorithms will
 apply.  This cone only includes functions whose second derivatives do not change much in
-magnitude over a short distance, namely,
+magnitude over a short distance.  Thus, they are \emph{not too spiky}.  Specifically,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
@@ -234,6 +233,11 @@ Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to inc
 \begin{equation} \label{sampleC}
 \fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh), \qquad \fC(0) > 1,\ \fh \le b - a.
 \end{equation}
+
+This $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real
+$c$. Cones of
+functions are key to the theoretically justified adaptive algorithms in
+\cite{HicEtal14b}, \cite{Ton14a}, and \cite{Din15a}.
 
 A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$ may
 lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have zeros too close to each other.  Except near the endpoints of
@@ -337,6 +341,7 @@ m(f,x,x+h) & = \inf \abs{f''(]x,x+h[)} \\
 & \ge  \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
 \end{align*}
 Thus, $f \in \cc$ by the definition of the cone in \eqref{conedef}.  A similar argument establishes the case $s = -1$.
+
 %--------------------------------------------------
 \subsection{The Linear Spline and Its Error} \label{subsec:spline}
 %--------------------------------------------------
