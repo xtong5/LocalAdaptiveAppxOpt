@@ -201,7 +201,7 @@ second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally u
 \end{multline*}
 So the the data-based second-order divided difference provides an upper
 bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
-\begin{equation}
+\begin{equation} \label{NDDbdm}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,x_1, x_3).
 \end{equation}
 
@@ -552,40 +552,66 @@ where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
 
 For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
 
-\begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as follows:
+\begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
 		\begin{gather}
-		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \Bignorm[1]{\sqrt{\abs{f''}}}^2 \qquad \forall f \in \cc \\
-		 \Bignorm[1]{\sqrt{\abs{f''}}}^2  \le (b-a)^2 \norm{f''} \qquad \forall f \in \cw^{2,\infty}.
+		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc \\
+		\norm[\frac 12]{f''}  \le (b-a)^2 \norm{f''} \qquad \forall f \in \cw^{2,\infty}.
 		\end{gather}
 	\end{subequations}
 \end{prop}
 \begin{proof}
-The right hand side inequality is true for all $f$, not only those in $\cc$, and follows directly from the definitions of the norms.  Note that
-\begin{equation} \label{onebdm}
-\Bignorm[1]{\sqrt{\abs{f''}}}^2 \ge \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (\beta - \alpha)^2 m(f,\alpha,\beta)
-\end{equation}
-The left hand side inequality comes from the definition of the cone:
+The first inequality comes from the definition of the cone:
 \begin{align*}
 \norm{f''} & = \sup_{a \le x \le b} \max \abs{f''(x)} \\
 & \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : h \in [0,\fh], \ a \le x - h < x+h \le b \bigr \} \quad \text{by } \eqref{conedef} \\
-& \le \min_{0 \le h \le \fh} \frac{\fC(h)}{h^2} \Bignorm[1]{\sqrt{\abs{f''}}}^2 \qquad \text{by } \eqref{conedef} \text{ and } \eqref{onebdm}.
+& \le \min_{0 \le h \le \fh} \frac{\fC(h)}{h^2}\norm[\frac 12]{f''} \qquad \text{by } \eqref{conedef} \text{ and } \eqref{onebdm}.
 \end{align*}
+The second inequality follows directly from the definitions of the (quasi-) norms:
+\begin{equation} \label{onebdm}
+\norm[\frac 12]{f''} \ge \biggl\{ \int_{a}^{b} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \ge  (b - a)^2 m(f,a,b)  \ge  (b - a)^2 \norm{f''}.
+\end{equation}
+\end{proof}
 
 If $\fC$ is defined as in \eqref{sampleC}, then
 \[
 \max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} = \max_{0 \le h \le \fh} \frac{h^2(\fh - h)}{\fC(0)\fh} = \frac{4\fh^2}{29\fC(0)}.
 \]
-When $\fh$ is small, it is possible for $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is spiky.
-\end{proof}
+When $\fh$ is small, it is possible for $\norm[\frac 12]{f''} $ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is rather spiky.
 
-Although $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}$.  The hump function $f_3$ defined above satisfies
+
+Although $\norm{f''}$ and $\norm[\frac 12]{f''} $ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}$.  The hump function $f_3$ defined above satisfies
 \[
-\norm{f_3''} = \delta^{-2}, \qquad \Bignorm[1]{\sqrt{\abs{f''}}}^2 = 16.
+\norm{f_3''} = \delta^{-2}, \qquad \norm[\frac 12]{f_3''}  = 16.
 \]
-By making $\delta$ small enough, we may make $\norm{f_3''}/\Bignorm[1]{\sqrt{\abs{f''}}}^2$ arbitrarily large.  However, since $f_3 \notin \cc$ for $\delta < 2\fh$, this does not violate Proposition  \ref{equivnormprop}.
+By making $\delta$ small enough, we may make $\norm[\frac 12]{f_3''}/\norm{f_3''} = 16\delta^2$ arbitrarily small.  However, since $f_3 \notin \cc$ for $\delta < 2\fh$, this does not violate Proposition  \ref{equivnormprop}.
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
+
+The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an upper bound on the complexity of problem \eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same aysmptotic behavior as the computational cost of Algorithm \ref{AlgoA}.
+
+\begin{theorem}
+	Consider problem \eqref{appxprob}, and let $A^*$ be any deterministic algorithm that successfully solves this problem.  We consider two cases.
+	
+	\begin{enumerate}
+		\renewcommand{\labelenumi}{\roman{enumi}.}
+		\item  The problem is solved for $f \in \cc$.  Then for any $\sigma >0$ and $\abstol >0$, there exists an $f \in \cc$ with $\norm[\frac12]{f''} = \sigma$ such that 
+		\[
+		\cost(A^*,f,\abstol) \ge .
+		\] 
+		
+		\item The problem is solved for $f \in \cw^{2,\infty}$.  Then for any $\sigma >0$ and $\abstol >0$, there exists an $f \in \cw^{2,\infty}$ with $\norm{f''} = \sigma$ such that 
+		\[
+		\cost(A^*,f,\abstol) \ge .
+		\] 
+		For any $\sigma > \abstol >0$ and any $n \in \naturals$, there exists an $f \in  \cw^{2,\infty}$ with $\norm[\frac12]{f''} = \sigma$ such that 
+    	\[
+				\cost(A^*,f,\abstol) \ge n.
+		\] 
+				
+	\end{enumerate}
+	
+\end{theorem}
 
 Suppose that one has the sample points
 $(\xi_i)_{i=1}^n$ for arbitrary $\xi_i$, where $a=\xi_0 \le \xi_1 < \cdots < \xi_n \le \xi_{n+1} = b$.  There must be some $j=0, \ldots, n$ such that $$\xi_{j+1} - \xi_j \ge \frac{b-a}{n+1}.$$  The function $f_{3}$ is defined as a bump having piecewise constant second derivative on $[\xi_j, \xi_{j+1}]$ and zero elsewhere. Thus, we have
