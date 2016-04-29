@@ -591,27 +591,29 @@ By making $\delta$ small enough, we may make $\norm[\frac 12]{f_3''}/\norm{f_3''
 The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an upper bound on the complexity of problem \eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same aysmptotic behavior as the computational cost of Algorithm \ref{AlgoA}.
 
 \begin{theorem}
-	Consider problem \eqref{appxprob}, and let $A^*$ be any deterministic algorithm that successfully solves this problem.  We consider two cases.
+	Let $A^*$ be any deterministic algorithm that successfully solves problem \eqref{appxprob}. 
 	
 	\begin{enumerate}
 		\renewcommand{\labelenumi}{\roman{enumi}.}
-		\item  The problem is solved for $f \in \cc$.  Then for any $\sigma >0$ and $\abstol >0$, there exists an $f \in \cc$ with $\norm[\frac12]{f''} = \sigma$ such that 
-		\[
-		\cost(A^*,f,\abstol) \ge .
-		\] 
+		\item  If $A^*$ solves the problem for all $f \in \cc$, then for any $\sigma, \abstol >0$,
+		\begin{gather*}
+		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge , \\
+		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .
+		\end{gather*} 
 		
-		\item The problem is solved for $f \in \cw^{2,\infty}$.  Then for any $\sigma >0$ and $\abstol >0$, there exists an $f \in \cw^{2,\infty}$ with $\norm{f''} = \sigma$ such that 
-		\[
-		\cost(A^*,f,\abstol) \ge .
-		\] 
-		For any $\sigma > \abstol >0$ and any $n \in \naturals$, there exists an $f \in  \cw^{2,\infty}$ with $\norm[\frac12]{f''} = \sigma$ such that 
-    	\[
-				\cost(A^*,f,\abstol) \ge n.
-		\] 
+		\item If $A^*$ solves the problem for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$,  
+		\begin{gather*}
+		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > \abstol,\\
+		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .\\
+		\end{gather*}
 				
 	\end{enumerate}
 	
 \end{theorem}
+
+The conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input.  Also not that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the $\cc$ can strongly affect the lower complexity bounds.
+
+\begin{proof}
 
 Suppose that one has the sample points
 $(\xi_i)_{i=1}^n$ for arbitrary $\xi_i$, where $a=\xi_0 \le \xi_1 < \cdots < \xi_n \le \xi_{n+1} = b$.  There must be some $j=0, \ldots, n$ such that $$\xi_{j+1} - \xi_j \ge \frac{b-a}{n+1}.$$  The function $f_{3}$ is defined as a bump having piecewise constant second derivative on $[\xi_j, \xi_{j+1}]$ and zero elsewhere. Thus, we have
