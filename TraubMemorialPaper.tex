@@ -160,7 +160,7 @@ To bound the error of the linear spline, our adaptive algorithms construct data-
 Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
- f''(]\alpha, \beta[) := \bigcup_ {x \in [\alpha, \beta]} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
+ f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
 \end{gather*}
 We define a
 measure of how small $\abs{f''(x)}$ can be for  $x \in ]\alpha, \beta[$ as follows:
@@ -209,7 +209,7 @@ bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 \subsection{The Cone Definition}  \label{sec:conedef}
 %--------------------------------------------------
 
-Let $\fh$ be some positive number, and let $\fC : [0,b-a] \to [1,\infty)$ be any
+Let $\fh$ be some positive number, and let $\fC : [0,\fh[ \to [1,\infty[$ be any
 non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size.
 These parameters are used to define cone of functions for which our algorithms will
 apply.  This cone only includes functions whose second derivatives do not change much in
@@ -231,7 +231,7 @@ where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of $x_{
 \end{multline*}
 Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to include more functions.  An example of $\fC$ is
 \begin{equation} \label{sampleC}
-\fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh), \qquad \fC(0) > 1,\ \fh \le b - a.
+\fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh[, \qquad \fC(0) > 1,\ \fh \le b - a.
 \end{equation}
 
 This $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real
@@ -593,7 +593,7 @@ By making $\delta$ small enough, we may make $\norm[\frac 12]{f_3''}/\norm{f_3''
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
-The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an upper bound on the complexity of problem \eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same aysmptotic behavior as the computational cost of Algorithm \ref{AlgoA}.
+The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an upper bound on the complexity of problem \eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same aysmptotic behavior as the computational cost of algorithm $A$.
 
 \begin{theorem}
 	Let $A^*$ be any deterministic algorithm that successfully solves problem \eqref{appxprob}.
