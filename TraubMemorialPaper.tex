@@ -545,15 +545,15 @@ Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
 The definition of $L(x)$ in \eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  For small $\abstol$, $L(x)$ becomes large,  $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and $3\cdot 2^{-L(x)}h_0$ tends to $0$.  Thus, for small $\abstol$, we have
 $$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.$$
 Under this approximation, the upper bound on computational cost becomes
-\begin{align} 
+\begin{align}
 \nonumber
 \cost(S,f,\abstol)  &\lesssim \frac{1}{h_0}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
 & =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{8\abstol}} +1 \label{costbdapprox} \\
-& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{8\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf}}.
+& \le (b-a)\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{8\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf}}.
 \end{align}
 where $\norm[1]{g}=\int_a^b |g(x)| \, \dif x$.
 
-For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\Bignorm[1]{\sqrt{\abs{f''}}}^2$ bound each other as is claimed in the following proposition.
+For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as is claimed in the following proposition.
 
 \begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
@@ -603,83 +603,89 @@ The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an u
 		\item  If $A^*$ solves  \eqref{appxprob} for all $f \in \cc$, then for any $\sigma, \abstol >0$,
 		\begin{subequations} \label{lowbdC}
 		\begin{gather}
-		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge , \label{lowbdChalf}\\
-		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \label{lowbdCinf}.
-		\end{gather} 
+		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma}{16(\fC(0)+1)\abstol}} -1, \label{lowbdChalf}\\
+		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma(b-a)^2}{16(\fC(0)+1)\abstol}} -1 \label{lowbdCinf}.
+		\end{gather}
 		\end{subequations}
 		
-		\item If $A^*$ solves  \eqref{appxprob} for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$, 
+		\item If $A^*$ solves  \eqref{appxprob} for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$,
 		\begin{subequations} \label{lowbdW}
 		\begin{gather}
 		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > \abstol, \label{lowbdWhalf}\\
 		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .  \label{lowbdWinf}
 		\end{gather}
-		\end{subequations} 
+		\end{subequations}
 				
 	\end{enumerate}
 	
 \end{theorem}
 
-Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the upper bound on the computational cost of $A$ is asymptotically  However, one can easily construct an algorithm 
+Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the upper bound on the computational cost of $A$ is asymptotically  However, one can easily construct an algorithm
 
 \begin{proof}
-	
-	\end{proof}
-
-Suppose that one has the sample points
-$(\xi_i)_{i=1}^n$ for arbitrary $\xi_i$, where $a=\xi_0 \le \xi_1 < \cdots < \xi_n \le \xi_{n+1} = b$.  There must be some $j=0, \ldots, n$ such that $$\xi_{j+1} - \xi_j \ge \frac{b-a}{n+1}.$$  The function $f_{3}$ is defined as a bump having piecewise constant second derivative on $[\xi_j, \xi_{j+1}]$ and zero elsewhere. Thus, we have
-\[a\le c-2\delta < c+2\delta \le b \qquad 4\delta \ge \frac{b-a}{n+1}.\]
-
-To derive the lower complexity bound for a cone, we
-choose a parabola
+We firstly try to prove the lower complexity bound for the function in cone $\cc$ and $\norm[\frac12]{f''} \le \sigma$.
+We choose a parabola satisfied the above conditions
 \begin{equation}
 \label{assumpfzero}
-f_0(x) =\frac{x^2}{2}.
+f_0(x) =\frac{x^2}{2}, \qquad \norm[\frac12]{f_0''} \le \sigma  \qquad x \in [a,b].
+\end{equation}
+Thus $A^*$ successfully approximate $f_0$.
+
+Suppose that one has the sample points
+$(\xi_i)_{i=1}^n$ for arbitrary $\xi_i$, where $a=\xi_0 \le \xi_1 < \cdots < \xi_n \le \xi_{n+1} = b$.  There must be some $j=0, \ldots, n$ such that $$\xi_{j+1} - \xi_j \ge \frac{b-a}{n+1}.$$  For any fixed $\abstol>0$, let $\left(\xi_i\right)_{i=1}^n$ be the design used by $A^*$ for the function
+$f_0$.  Thus, we obtain $\cost(A^*,f_0,\abstol) =n.$
+
+Consider the function $f_{3}$ is defined as a bump having piecewise constant second derivative on $[\xi_j, \xi_{j+1}]$ and zero elsewhere, where
+\begin{equation}\label{deltan}
+a\le c-2\delta < c+2\delta \le b \qquad 4\delta \ge \frac{b-a}{n+1}.
+\end{equation}
+Next, we introduce two fooling functions, $f_{\pm}=c_1(f_{0} \pm c_2 f_3)$, in terms of $f_0$ defined as \eqref{assumpfzero} and $f_3$ defined before, where
+\begin{equation}
+\label{defofc1c2}
+c_1=\frac{\norm[\frac 12]{f_0''}}{(b-a)^2}, \qquad c_2 =\frac{\fC(0)-1}{\fC(0)+1}\delta^2.
 \end{equation}
 
-\begin{theorem} \label{complowbdconeappr}
-For $n^*>1$, the complexity of the function recovery problem over the cone of functions  is bounded below as
-The adaptive linear spline Algorithm \ref{AlgoA} has optimal order for recovering functions in $\cc$.
-\end{theorem}
+Therefore, for both fooling functions we have
+\[
+\norm[\infty]{f''_{\pm}} = c_1\left(1+\frac{c_2}{\delta^2}\right), \qquad m(f''_{\pm},\alpha,\beta) \ge c_1\left(1-\frac{c_2}{\delta^2}\right), \
+ [\alpha,\beta] \subset [a,b].\]
 
-\begin{proof}   Define two fooling functions, $f_{\pm}=c_1(f_{0} \pm c_2 f_3)$, in terms of $f_0$ defined as \eqref{assumpfzero} and $f_3$ defined before, where $c_1$ and $c_2$ are positive.
-Then for both fooling functions, we have
+Moveover, we have
 \begin{align*}
-\norm[\infty]{f''_{\pm}} = c_1\left(1+\frac{c_2}{\delta^2}\right).
-\end{align*}
-When $x \in [\xi_{j},\xi_{j+1}],$ we have
-\[m(f''_{\pm},\cdot,x) \ge c_1\left(1-\frac{c_2}{\delta^2}\right).\]
-
-As these fooling functions must lie inside the cone $\cc$, we have
-\begin{align*}
-& c_1\left(1+\frac{c_2}{\delta^2}\right)\le \fC(0)c_1\left(1-\frac{c_2}{\delta^2}\right) \\
-\Leftrightarrow &¡¡\fC(0)\ge \frac{1+\frac{c_2}{\delta^2}}{1-\frac{c_2}{\delta^2}} \\
-\Leftrightarrow & c_2 \le \frac{\fC(0)-1}{\fC(0)+1}\delta^2.
+\max\abs{f_{\pm}''(x)} \le \norm[\infty]{f''_{\pm}} & = c_1\left(1+\frac{c_2}{\delta^2}\right) \\
+&  = \fC(0)c_1\left(1-\frac{c_2}{\delta^2}\right) \qquad \text{by } \eqref{defofc1c2}\\
+& \le \fC(0) m(f''_{\pm},\alpha,\beta) \\
+& \le \begin{cases}
+\fC(h_-) m(f''_{\pm},x-h_-,x) & a \le x-h_-\le x \le h,\\
+\fC(h_+) m(f''_{\pm},x,x+h_+) & a \le x\le x+h_+ \le h.
+\end{cases}
 \end{align*}
 
-Moreover, we know
+Thus,
+\[ \max\abs{f_{\pm}''(x)}  \le \tB(f_{\pm},x,h_-,h_+) \qquad \forall  \max(h_{\pm}) \in ]0, \fh[. \] We obtain $f_{\pm} \in \cc.$
+Hence, algorithm $A^*$ also works for $f_{\pm}$.
+We note that the data used by algorithm $A^*$ for both fooling functions is the same, so $A(f_{\pm},\abstol)=A(c_1f_0,\abstol)$.  Consequently,
 \begin{align*}
-\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}} & =\int_a^b\sqrt{\abs{f_{\pm}''(t)}} dt \\
-& = \sqrt{c_1}(b-a-4\delta)+\sqrt{c_1\left(1+\frac{c_2}{\delta^2}\right)}\cdot 2\delta+\sqrt{c_1\left(1-\frac{c_2}{\delta^2}\right)}\cdot 2\delta\\
-& =\sqrt{c_1}\left[b-a-4\delta+2\delta\left(\sqrt{1+\frac{c_2}{\delta^2}}+\sqrt{1-\frac{c_2}{\delta^2}}\right) \right]\\
-&\le \sqrt{c_1}(b-a).
-\end{align*}
-Thus \[c_1 \ge \frac{\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}}^2}{(b-a)^2}.\]
-
-We note that the data used by algorithm $A$ for both fooling functions is the same, so $A(f_{\pm})=A(c_0f_0)$.  Consequently,
-\begin{align*}
-\varepsilon & \ge \max(\norm[\infty]{f_+-A(f_+)},\norm[\infty]{f_--A(f_-)}) \\
+\abstol & \ge \max(\norm[\infty]{f_+-A(f_+)},\norm[\infty]{f_--A(f_-)}) \\
 & \ge \frac{1}{2} \left[ \norm[\infty]{c_1f_0+c_1c_2f_3-A(c_1f_0)}+ \norm[\infty]{c_1f_0-c_1c_2f_3-A(c_1f_0)} \right] \\
 & \ge \frac{1}{2} \left[ \norm[\infty]{c_1f_0+c_1c_2f_3-A(c_1f_0)}+ \norm[\infty]{c_1c_2f_3-c_1f_0+A(c_1f_0)} \right] \\
 & \ge \frac{1}{2} \norm[\infty]{[c_1f_0+c_1c_2f_3-A(c_1f_0)]+[c_1c_2f_3-c_1f_0+A(c_1f_0))]} \\
 & = \norm[\infty]{c_1c_2f_3}= c_1c_2\norm[\infty]{f_3}  \\
-& = c_1c_2 \\
-& \ge \frac{\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}}^2}{(b-a)^2}\cdot\frac{(\fC(0)-1)(b-a)^2}{16(\fC(0)+1)(n+1)^2}\\
-& = \frac{(\fC(0)-1)}{16(\fC(0)+1)(n+1)^2}\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}}^2
+& = c_1c_2= \frac{\norm[\frac 12]{f_0''}}{(b-a)^2}\cdot\frac{(\fC(0)-1)\delta^2}{\fC(0)+1} \qquad\text{ by } \eqref{defofc1c2}\\
+& \ge \frac{\norm[\frac 12]{f_0''}}{(b-a)^2}\cdot\frac{(\fC(0)-1)(b-a)^2}{16(\fC(0)+1)(n+1)^2} \qquad \text{ by } \eqref{deltan}\\
+& =\frac{\fC(0)-1}{16(\fC(0)+1)(n+1)^2}\norm[\frac 12]{f_0''}
 \end{align*}
-Since $A$ is successful for these two fooling functions and $f_\pm \in \cc$, it follows that the cost of this arbitrary algorithm $A$ is bounded below by
-\[ \sqrt{\frac{(\fC(0)-1)}{16(\fC(0)+1)\varepsilon}}\Bignorm[1]{\sqrt{\abs{f_{\pm}''}}} -1.\]
-This then implies the lower bound on the complexity of the problem.
+Thus, we have
+\[ \cost(A^*,f_0,\abstol) =n \ge \sqrt{\frac{(\fC(0)-1)\norm[\frac 12]{f_0''}}{16(\fC(0)+1)\abstol}} -1.\]
+Hence,
+\[\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma}{16(\fC(0)+1)\abstol}} -1. \]
+
+Similarly, we can let $c_1=\norm{f_0''}$, then we obtain
+\[ \cost(A^*,f_0,\abstol) =n \ge \sqrt{\frac{(\fC(0)-1)\norm{f_0''}}{16(\fC(0)+1)\abstol}} -1.\]
+Hence,
+\[\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma(b-a)^2}{16(\fC(0)+1)\abstol}} -1. \]
+
+We proved \eqref{lowbdC}. Next we consider algorithms works for the functions not inside the cone.
 \end{proof}
 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
