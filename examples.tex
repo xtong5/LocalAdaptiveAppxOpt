@@ -71,7 +71,7 @@ two consecutives frames for better visual effects, temporal
 interpolation can often be applied to estimate an object's positions by using
 parametric curves that represent its trajectory in 3D as $(x(t), y(t), z(t))$,
 where each Cartesian coordinate in space is parametrized by time $t$. We refer
-readers to Example~5 in \cite[Section 3.6]{Din15a} for an illustration.
+readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 
 %% Example 3.2
 
@@ -140,7 +140,7 @@ simulating the following families of test functions:
 \end{align*}
 where $c$ for defining $g_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
 $d$ for other functions from $[0,4]$. If $c=d=1$, then $g_i$ reduces to $f_i$
-for $i=1,2, \mbox{and } 3$. Figure~\ref{fig:testfunction} shows the shapes of
+for $i=1,2, \mbox{and } 3$. Figure~\ref{fig:testfunctions}a) shows the shapes of
 the test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and
 use \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
 functions on interval $[a,b]=[0,1]$ for $g_1,g_2, \mbox{and } g_3$ and
@@ -151,11 +151,16 @@ adaptive method in all cases.
 
 %
 \begin{figure}[th]
-\centering
-\includegraphics[width=65mm]{figure/traub_funappxNoPenalty_g_testfun.eps}
-\caption{Test functions for comparing \texttt{funappx\_g},
-\texttt{funappxglobal\_g}, and Chebfun.}
-  \label{fig:testfunction}
+  \centering
+  \begin{tabular}{cc}
+\includegraphics[width=59mm]{figure/traub_funappxNoPenalty_g_testfun.eps} & \hspace{-3ex}
+\includegraphics[width=60mm]{figure/traub_funappxNoPenalty_g_test}
+  \\ a)  & b) 
+  \end{tabular}
+\caption{a) Test functions for comparing \funappxg, \funappxglobalg, and
+Chebfun. b)  Ratios of run time and number of nodes used by \funappxg{} to \funappxglobalg{} (LEFT)
+to Chebfun (RIGHT).}
+  \label{fig:testfunctions}
 \end{figure}
 
 %
@@ -187,15 +192,18 @@ sofwtare. This table can be conditionally reproduced by
 %
 
 From Table~\ref{tab:localVsGlobalVsChebfun}, we see that both \funappxg{} and
-\funappxglobalg{} achieved 100\% success rates. The former worke better than
-\funappxglobalg{} for all test cases in terms of average number of sampling points.
-It is also more \emph{cautionary} as it issued more warnings than \funappxglobalg.
+\funappxglobalg{} achieved total success. The former worked better than
+\funappxglobalg{} for all test cases in terms of \emph{average} number of run
+time and number of sampling points. It was also more \emph{cautionary} since it
+issued more warnings than \funappxglobalg.
 %
-We can see that Chebfun are particularly challenged by the highly oscillatory
-functions $g_1$ and $g_2$ in terms of run time and success rates. In some
-instances of the peaky functions $g_3$ and $g_6$, it failed to approximate them
-satisfactorily for about 10\% of the cases.
- 
+In contrast, Chebfun generally used substantially less number of node points
+than \funappxg{} even though the run time was not shorter in about~30\% of the
+test cases; see Figure~\ref{fig:testfunctions}b)(RIGHT). However it was
+particularly challenged by the highly oscillatory functions $g_1$ and $g_2$ in
+terms of run time and success rates. In some instances of the peaky functions
+$g_3$ and $g_6$, it failed to approximate them satisfactorily for about~10\% of
+the cases.
 \end{exmp} 
 
 \begin{comment}

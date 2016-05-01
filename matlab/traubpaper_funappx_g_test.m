@@ -128,17 +128,17 @@ end
 
 timeratio = zeros(m-1,nrep,n);
 npointsratio = zeros(m-1,nrep,n);
-for i=1:nrep
-    for j=1:n
+for i=1:nrep  % each test function
+    for j=1:n % jth family of test functions
         for k = 1:m-1
-            timeratio(k,i,j) = time(j,1,i)/time(j,k+1,i);
+            timeratio(k,i,j) = time(j,1,i)/time(j,k+1,i); % first method compared to k+1 th method
         end
     end
 end
-for i=1:nrep;
-    for j=1:n;
+for i=1:nrep  % each test function
+    for j=1:n % jth family of test functions
         for k = 1:m-1
-            npointsratio(k,i,j) = npoints(j,1,i)/npoints(j,k+1,i);
+            npointsratio(k,i,j) = npoints(j,1,i)/npoints(j,k+1,i); % first method compared to k+1 th method
         end
     end
 end
@@ -163,13 +163,13 @@ timelgratio = zeros(1,n);
 for i=1:n
     display(sprintf('%9.0f %9.0f %9.0f  %9.0f %11.3f  %11.3f %11.3f  %6.0f %6.0f %6.0f %6.0f %6.0f   %6.0f %6.0f %6.0f %6.0f %6.0f %6.0f %6.0f',...
         [i mean(npoints(i,1,:)) mean(npoints(i,2,:)) mean(npoints(i,3,:))...
-           mean(time(i,1,:)) mean(time(i,2,:)) mean(time(i,3,:))...
-           100.0*sum(trueerrormat(i,1,:)<=abstol & (~exceedmat(i,1,:)))/nrep 100.0*sum(trueerrormat(i,1,:)<=abstol & (exceedmat(i,1,:)))/nrep ...
-           100.0*sum(trueerrormat(i,2,:)<=abstol & (~exceedmat(i,2,:)))/nrep 100.0*sum(trueerrormat(i,2,:)<=abstol & (exceedmat(i,2,:)))/nrep ...
-           100.0*sum(trueerrormat(i,3,:)<=abstol & (~exceedmat(i,3,:)))/nrep 100.0*sum(trueerrormat(i,3,:)<=abstol & (exceedmat(i,3,:)))/nrep...
-           100.0*sum(trueerrormat(i,1,:)>abstol & (~exceedmat(i,1,:)))/nrep  100.0*sum(trueerrormat(i,1,:)>abstol & (exceedmat(i,1,:)))/nrep ...
-           100.0*sum(trueerrormat(i,2,:)>abstol & (~exceedmat(i,2,:)))/nrep  100.0*sum(trueerrormat(i,2,:)>abstol & (exceedmat(i,2,:)))/nrep ...
-           100.0*sum(trueerrormat(i,3,:)>abstol & (~exceedmat(i,3,:)))/nrep  100.0*sum(trueerrormat(i,3,:)>abstol & (exceedmat(i,3,:)))/nrep]))
+        mean(time(i,1,:)) mean(time(i,2,:)) mean(time(i,3,:))...
+        100.0*sum(trueerrormat(i,1,:)<=abstol)/nrep 100.0*sum(trueerrormat(i,1,:)<=abstol & (exceedmat(i,1,:)))/nrep ...
+        100.0*sum(trueerrormat(i,2,:)<=abstol)/nrep 100.0*sum(trueerrormat(i,2,:)<=abstol & (exceedmat(i,2,:)))/nrep ...
+        100.0*sum(trueerrormat(i,3,:)<=abstol)/nrep 100.0*sum(trueerrormat(i,3,:)<=abstol & (exceedmat(i,3,:)))/nrep...
+        100.0*sum(trueerrormat(i,1,:)>abstol)/nrep  100.0*sum(trueerrormat(i,1,:)>abstol & (exceedmat(i,1,:)))/nrep ...
+        100.0*sum(trueerrormat(i,2,:)>abstol)/nrep  100.0*sum(trueerrormat(i,2,:)>abstol & (exceedmat(i,2,:)))/nrep ...
+        100.0*sum(trueerrormat(i,3,:)>abstol)/nrep  100.0*sum(trueerrormat(i,3,:)>abstol & (exceedmat(i,3,:)))/nrep]))
     npointslgratio(i) = mean(npoints(i,1,:))/mean(npoints(i,2,:));
     timelgratio(i) = mean(time(i,1,:))/mean(time(i,2,:));
 end
@@ -227,4 +227,4 @@ end
 %         3       867     14640          4       0.046        0.014       0.094      66     34    100      0     96        0      0      0      0      0      4      0
 %         4      5011     46049          3       0.026        0.029       0.011       0    100    100      0    100        0      0      0      0      0      0      0
 %         5     29671    110027         37       0.059        0.032       0.016     100      0    100      0    100        0      0      0      0      0      0      0
-%         6     11580    509263        127       0.037        0.138       0.129       0    100    100      0     82        0      0      0      0      0     18      0
+%         6     11580    509263        127       0.037        0.138       0.129       0        100    100      0     82        0      0      0      0      0     18      0
