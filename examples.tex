@@ -84,7 +84,7 @@ polynomial basis for approximating given functions to machine precision
 ($\approx 10^{-15}$). In this example, we show that it is challenged by~$f_3$
 defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some pointwise
 errors of the piecewise Chebyshev interpolant spike to more than $10^{-5}$ as
-shown in Figure~\ref{f3fig}a). Regretably Chebfun did not issue any warning
+shown in Figure~\ref{f3chebfig}a). Regretably Chebfun did not issue any warning
 about the inaccurate representation in this case. In contrast, the errors of the
 piecewise linear interpolant from \funappxg{} are uniformly below $10^{-14}$.
 Nonetheless the time taken by \funappxg{} was close to 7 seconds for such an 
@@ -99,8 +99,7 @@ accurate approximation.
 \end{tabular}
 \caption{Approximating $f_3(x)$ with errors of interpolants returned from a)
 Chebfun and b) \funappxg. This figure is reproducible by
-\texttt{cf\_chebfun.m}.}
-\label{f3fig}
+\texttt{cf\_chebfun.m}. \label{f3chebfig}}
 \end{figure}
 \end{exmp}
 

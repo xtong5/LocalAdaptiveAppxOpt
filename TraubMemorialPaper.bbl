@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{11}
+\begin{thebibliography}{13}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
@@ -20,11 +20,11 @@
   algorithms: Cones, not balls}.
 \newblock \bibinfo{journal}{J Complexity}
   \bibinfo{year}{2014};\bibinfo{volume}{30}:\bibinfo{pages}{21--45}.
-%Type = Book
-\bibitem[{Davis and Sigmon(2005)}]{DavEtal05}
-\bibinfo{author}{Davis\xfnm[ T.A.]}, \bibinfo{author}{Sigmon\xfnm[ K.]}.
-\newblock \bibinfo{title}{MATLAB Primer, 7th Edition}.
-\newblock \bibinfo{publisher}{CRC Press}, \bibinfo{year}{2005}.
+%Type = Proceedings
+\bibitem[{Cools and Nuyens(2015+)}]{CooNuy16a}
+\bibinfo{editor}{Cools\xfnm[ R.]}, \bibinfo{editor}{Nuyens\xfnm[ D.]}, editors.
+\newblock \bibinfo{title}{{M}onte {C}arlo and Quasi-{M}onte {C}arlo Methods
+  2014}. \bibinfo{publisher}{Springer-Verlag, Berlin}; \bibinfo{year}{2015+}.
 %Type = Phdthesis
 \bibitem[{Ding(2015)}]{Din15a}
 \bibinfo{author}{Ding\xfnm[ Y.]}.
@@ -36,28 +36,45 @@
 \bibinfo{author}{Hale\xfnm[ N.]}, \bibinfo{author}{Trefethen\xfnm[ L.N.]},
   \bibinfo{author}{Driscoll\xfnm[ T.A.]}.
 \newblock \bibinfo{title}{Chebfun Version 5.2}; \bibinfo{year}{2015}. .
-%Type = Misc
-\bibitem[{\HickernellFJ et~al.(2015+)\HickernellFJ, Razo and
-  Yun}]{HicRazYun15a}
-\bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{Razo\xfnm[ M.]},
-  \bibinfo{author}{Yun\xfnm[ S.]}.
-\newblock \bibinfo{title}{Reliable adaptive numerical integration}.
-\newblock \bibinfo{year}{2015+}.
-\newblock \bibinfo{note}{Submitted for publication}.
+%Type = Inproceedings
+\bibitem[{\HickernellFJ et~al.(2013)\HickernellFJ, Jiang, Liu and
+  Owen}]{HicEtal14a}
+\bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{Jiang\xfnm[ L.]},
+  \bibinfo{author}{Liu\xfnm[ Y.]}, \bibinfo{author}{Owen\xfnm[ A.B.]}.
+\newblock \bibinfo{title}{Guaranteed conservative fixed width confidence
+  intervals via {M}onte {C}arlo sampling}.
+\newblock In: \bibinfo{editor}{Dick\xfnm[ J.]}, \bibinfo{editor}{Kuo\xfnm[
+  F.Y.]}, \bibinfo{editor}{Peters\xfnm[ G.W.]}, \bibinfo{editor}{Sloan\xfnm[
+  I.H.]}, editors. \bibinfo{booktitle}{{M}onte {C}arlo and Quasi-{M}onte
+  {C}arlo Methods 2012}. \bibinfo{publisher}{Springer-Verlag, Berlin};
+  \bibinfo{year}{2013}. p. \bibinfo{pages}{105--128}.
+%Type = Inproceedings
+\bibitem[{\HickernellFJ and {Jim\'enez Rugama}(2015+)}]{HicJim16a}
+\bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{{Jim\'enez
+  Rugama}\xfnm[ {\relax Ll}.A.]}.
+\newblock \bibinfo{title}{Reliable adaptive cubature using digital sequences}.
+\newblock In:  \cite{CooNuy16a}; \bibinfo{year}{2015+}. \bibinfo{note}{To
+  appear, arXiv:1410.8615 [math.NA]}.
+%Type = Phdthesis
+\bibitem[{Jiang(2016)}]{Jia16a}
+\bibinfo{author}{Jiang\xfnm[ L.]}.
+\newblock \bibinfo{title}{Guaranteed Adaptive {M}onte {C}arlo Methods for
+  Estimating Means of Random Variables}.
+\newblock Ph.D. thesis; Illinois Institute of Technology; \bibinfo{year}{2016}.
+%Type = Inproceedings
+\bibitem[{{Jim\'enez Rugama} and \HickernellFJ(2015+)}]{JimHic16a}
+\bibinfo{author}{{Jim\'enez Rugama}\xfnm[ {\relax Ll}.A.]},
+  \bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}.
+\newblock \bibinfo{title}{Adaptive multidimensional integration based on rank-1
+  lattices}.
+\newblock In:  \cite{CooNuy16a}; \bibinfo{year}{2015+}. \bibinfo{note}{To
+  appear, arXiv:1411.1966}.
 %Type = Article
 \bibitem[{Novak(1996)}]{Nov96a}
 \bibinfo{author}{Novak\xfnm[ E.]}.
 \newblock \bibinfo{title}{On the power of adaption}.
 \newblock \bibinfo{journal}{J Complexity}
   \bibinfo{year}{1996};\bibinfo{volume}{12}:\bibinfo{pages}{199--237}.
-%Type = Article
-\bibitem[{Plaskota and Wasilkowski(2005)}]{PlaWas05a}
-\bibinfo{author}{Plaskota\xfnm[ L.]}, \bibinfo{author}{Wasilkowski\xfnm[
-  G.W.]}.
-\newblock \bibinfo{title}{Adaption allows efficient integration of functions
-  with unknown singularities}.
-\newblock \bibinfo{journal}{Numer\ Math}
-  \bibinfo{year}{2005};\bibinfo{volume}{102}:\bibinfo{pages}{123--144}.
 %Type = Article
 \bibitem[{Plaskota et~al.(2008)Plaskota, Wasilkowski and Zhao}]{PlaEtal08a}
 \bibinfo{author}{Plaskota\xfnm[ L.]}, \bibinfo{author}{Wasilkowski\xfnm[

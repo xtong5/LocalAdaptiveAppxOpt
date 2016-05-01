@@ -122,7 +122,6 @@ M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling
 and return the correct answer.  These algorithms sample more densely where needed, i.e., they are locally adaptive.
 
-
 Adaptive algorithms relieve the user of having to specify the number of samples required.  The user only needs to provide the error tolerance and be satisfied with the parameters that define $\cc$ and thereby specify the robustness of the algorithms.
 
 We accomplish the following:
@@ -130,7 +129,7 @@ We accomplish the following:
 
 \item The set $\cc$ is defined in Section \ref{sec:conedef} to be a cone contained in $\cw^{2,\infty}$, the Sobolev space of functions whose second derivatives have finite sup-norms.  Because any algorithm can be fooled by a function that is sufficiently spiky, this $\cc$ is defined to exclude functions that are too spiky.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in \eqref{normbd} in terms of second-order divided differences and this provides a data-based upper bound on the error of the linear spline in \eqref{appxerrbdb}.
 
-\item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}, respectively.  Guarantees of success are provided by Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
+\item Algorithms $A$ and $M$ are constructed in Sections \ref{subsec:appxalgo} and \ref{sec:minalgo}, which solve problems \eqref{appxprob} and \eqref{optprob}, respectively.  These algorithms are based on linear splines.  Guarantees of success are provided by Theorems  \ref{thm:algAworks} and \ref{thm:algMworks}.
 
 \item Upper bounds on the computational costs of these algorithms  are derived in Sections \ref{subsec:appxcost} and \ref{subsec:optcost}.  These upper bounds in Theorems \ref{thm:cost}  and  ?? are roughly proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$ (see \eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-norm.  Since $\norm[\frac12]{f''}$ can be much smaller than $\norm[\frac12]{\cdot}$ (see Proposition \ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.
 
@@ -139,6 +138,8 @@ We accomplish the following:
 \end{itemize}
 
 \cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as \eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88} \cite[Theorem 1]{Nov96a}.  The $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  \cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities.
+
+This work emulates the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  \cite{Ton14a} extends these ideas to optimization, and \cite{Din15a} develops a locally adaptive function approximation algorithm.  Here we build upon the ideas of \cite{Din15a} and apply to a somewhat different cone of functions to obtain algorithms whose cost does not increase drastically as they are made more robust to spiky input functions.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
@@ -150,8 +151,7 @@ Linear splines are the foundation for adaptive algorithms $A$ and $M$. The best 
 \]
 
 To bound the error of the linear spline, our adaptive algorithms construct data-based upper bounds on $\norm[{[\alpha,
-\beta]}]{f''}$ in terms of function values.  In \eqref{normbd} below, we derive an upper bound that depends only on values of $f$ sampled in the neighborhood of $[\alpha,
-\beta]$.
+\beta]}]{f''}$ in terms of function values.  Such bounds are given in  \eqref{normbd} below.  These data-based bounds arise from Newton's divided differences, introduced in the next section.  For these bounds to hold, we must  assume that $f''(x)$ does not change drastically with a small change in $x$.  These assumptions define our cone, $\cc$, of functions for which our algorithms ultimately apply.  This cone is defined in Section \ref{sec:conedef} in \eqref{conedef}. 
 
 %--------------------------------------------------
 \subsection{Newton's Divided Differences} \label{sec:ndd}
@@ -271,8 +271,7 @@ $\max \abs{f''_2(x)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 \includegraphics[width=5.6cm]{figure/f1ppf2ppplot.eps} \quad
 \includegraphics[width=5.9cm]{figure/f2closeplot.eps}
 \caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
-$f_2''(x) = f_1''(x) + 20$.}
-\label{f1f2fig}
+$f_2''(x) = f_1''(x) + 20$. \label{f1f2fig}}
 \end{figure}
 
 Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
@@ -310,8 +309,7 @@ a spiky function that may or may not lie in $\cc$.
 \centering
 \includegraphics[width=5.7cm]{figure/f3plot.eps} \quad
 \includegraphics[width=5.7cm]{figure/f3ppplot.eps}
-\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.}
-\label{f3fig}
+\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative. \label{f3fig}}
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
