@@ -1,4 +1,4 @@
-%% Set the display parameters to make the display beautiful
+%% InitializeDisplay: Set the display parameters to make the display beautiful
 format compact %eliminate blank lines in output
 close all %close all figures
 set(0,'defaultaxesfontsize',24,'defaulttextfontsize',24, ... %make font larger

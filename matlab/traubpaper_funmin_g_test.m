@@ -1,4 +1,4 @@
-%comparison between funmin_g, fminbnd, and chebfun
+%traubpaper_funmin_g_test: comparison between funmin_g, fminbnd, and chebfun
 function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_funmin_g_test(nrep,abstol,varargin)
 % user can choose absolut error tolerance, initial number of points, number
 % of iteration or can use the following parameters

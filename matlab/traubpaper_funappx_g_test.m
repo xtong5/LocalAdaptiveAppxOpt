@@ -1,4 +1,4 @@
-%comparison between funappx_g and funappxlocal_g
+% traubpaper_funappx_g_test: comparison between funappx_g and funappxlocal_g
 function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_funappx_g_test(nrep,abstol,varargin)
 % user can choose absolut error tolerance, initial number of points, number
 % of iteration or can use the following parameters
