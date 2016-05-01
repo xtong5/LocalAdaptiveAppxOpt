@@ -255,7 +255,7 @@ f_1(x) = x^4 \sin(1/x), \\
  [-1,1], & x = 0, \end{cases} \\
 f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
-These functions are plotted in Figure \ref{f1f2fig}. Because the $f''_1(x)$
+These functions are plotted in Figure~\ref{f1f2fig}. Because the $f''_1(x)$
 takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
 it follows that  $m(f_1,-h_-,0) = m(f_1,0,h_+) = 0$ for all $h_\pm \in [0,1]$.
 However, $\max\abs{f''_1(0)} = 1$, so $f_1$ cannot lie inside
@@ -266,10 +266,10 @@ $\max \abs{f''_2(x)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=5.6cm]{f1f2plot.eps} \quad
-\includegraphics[width=5.9cm]{f1closeplot.eps} \\
-\includegraphics[width=5.6cm]{f1ppf2ppplot.eps} \quad
-\includegraphics[width=5.9cm]{f2closeplot.eps}
+\includegraphics[width=5.6cm]{figure/f1f2plot.eps} \quad
+\includegraphics[width=5.9cm]{figure/f1closeplot.eps} \\
+\includegraphics[width=5.6cm]{figure/f1ppf2ppplot.eps} \quad
+\includegraphics[width=5.9cm]{figure/f2closeplot.eps}
 \caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
 $f_2''(x) = f_1''(x) + 20$.}
 \label{f1f2fig}
@@ -290,7 +290,7 @@ f''_3(x) & =
 \end{cases}
 \end{align*}
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta \le 1$. This function and its second derivative
-are shown in Figure \ref{f3fig} for $-c=\delta = 0.2$.
+are shown in Figure~\ref{f3fig} for $-c=\delta = 0.2$.
 
 If $\delta \ge 2 \fh$, then $f_3 \in \cc$ for
 any choice of $\fC : [0,b-a] \to [1,\infty)$.  We see this by examining two cases.  For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \, \subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.  Then
@@ -308,8 +308,8 @@ a spiky function that may or may not lie in $\cc$.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=5.7cm]{f3plot.eps} \quad
-\includegraphics[width=5.7cm]{f3ppplot.eps}
+\includegraphics[width=5.7cm]{figure/f3plot.eps} \quad
+\includegraphics[width=5.7cm]{figure/f3ppplot.eps}
 \caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative.}
 \label{f3fig}
 \end{figure}
