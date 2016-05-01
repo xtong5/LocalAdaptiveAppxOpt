@@ -7,7 +7,11 @@ function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_funappx_
 % Compare funappxNoPenalty_g with funappxglobal_g and chebfun:
 % [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_funappx_g_test(nrep,abstol,'funappxNoPenalty_g');
 
-c = rand(nrep,1)*4; % number of simulations for each test function
+set(0,'defaultaxesfontsize',14,'defaulttextfontsize',14, ... %make font larger
+      'defaultLineLineWidth',2); %thick lines
+    %  'defaultLineMarkerSize',8)
+cc = rand(nrep,1);  
+c = cc*4; % number of simulations for each test function
 n = 6; % number of test functions
 m = 3; % number of methods
 npoints = zeros(n,m,nrep);
@@ -32,24 +36,30 @@ warning('off',['GAIL:',algoname,':fSmallerThanAbstol'])
 warning('off','GAIL:funappxglobal_g:peaky')
 warning('off','GAIL:funappxglobal_g:exceedbudget')
 
+g1 = @(x,c) x.^4 .* sin(c./x);
+g2 = @(x,c) g1(x,c) + c.*x.^2;
+delta = .2; B = 1./(2*delta.^2);  
+g3 = @(x,cc) B*(4*delta.^2 + (x-cc).^2 + (x-cc-delta).*abs(x-cc-delta) ...
+        - (x-cc+delta).*abs(x-cc+delta)).*(abs(x-cc) <= 2*delta);
+g4 = @(x,c) (x-c).^2;
+g5 = @(x,c) c*sin(c*pi*x);
+g6 = @(x,c) 10*exp(-1000*(x-c).^2);  
+
 a = zeros(1,n);
 b = zeros(1,n);
 a(1:3) = [-1,-1,-1];
 b(1:3) = [1,1,1];
 for i = 1:nrep
-    f1 = @(x) x.^4 .* sin(c(i)./x);
-    f2 = @(x) f1(x) + c(i).*x.^2;
-    delta = .2; B = 1./(2*delta.^2); cc = -c(i);
-    f3 = @(x) B*(4*delta.^2 + (x-cc).^2 + (x-cc-delta).*abs(x-cc-delta) ...
-        - (x-cc+delta).*abs(x-cc+delta)).*(abs(x-cc) <= 2*delta);
-    f4 = @(x) (x-c(i)).^2;
-    f5 = @(x) c(i)*sin(c(i)*pi*x);
-    f6 = @(x) 10*exp(-1000*(x-c(i)).^2);
+    f1 = @(x) g1(x,c(i));
+    f2 = @(x) g2(x,c(i));
+    f3 = @(x) g3(x,cc(i)*0.6);
+    f4 = @(x) g4(x,c(i));
+    f5 = @(x) g5(x,c(i));
+    f6 = @(x) g6(x,c(i));
+    fcns = {f1, f2, f3, f4, f5, f6};
     %          f4 = @(x) 1/4*c(i)*exp(-2*x).*(c(i)-2*exp(x).*(-1 +...
     %              c(i)*cos(x) - c(i)*sin(x))+exp(2*x).*(c(i) + 2*cos(x)...
     %              - 2* sin(x) - c(i)*sin(2*x)));
-    fcns = {f1, f2, f3, f4, f5, f6};
-
     for j = 1:length(fcns)
         f = fcns{j};
         if j > 3,     
@@ -99,7 +109,15 @@ warning('on',['GAIL:',algoname,':peaky'])
 warning('on',['GAIL:',algoname,':exceedbudget'])
 warning('on',['GAIL:',algoname,':fSmallerThanAbstol'])
 
-cc = 2.5;
+d = 2.5;
+cc = d/4;
+f1 = @(x) g1(x,d);
+f2 = @(x) g2(x,d);
+f3 = @(x) g3(x,cc*0.6);
+f4 = @(x) g4(x,d);
+f5 = @(x) g5(x,d);
+f6 = @(x) g6(x,d);
+fcns = {f1, f2, f3, f4, f5, f6};
 x = cell(length(fcns));
 y = cell(length(fcns));
 for i=1:length(fcns)
@@ -110,17 +128,17 @@ end
 
 timeratio = zeros(m-1,nrep,n);
 npointsratio = zeros(m-1,nrep,n);
-for i=1:nrep
-    for j=1:n
+for i=1:nrep  % each test function
+    for j=1:n % jth family of test functions
         for k = 1:m-1
-            timeratio(k,i,j) = time(j,1,i)/time(j,k+1,i);
+            timeratio(k,i,j) = time(j,1,i)/time(j,k+1,i); % first method compared to k+1 th method
         end
     end
 end
-for i=1:nrep;
-    for j=1:n;
+for i=1:nrep  % each test function
+    for j=1:n % jth family of test functions
         for k = 1:m-1
-            npointsratio(k,i,j) = npoints(j,1,i)/npoints(j,k+1,i);
+            npointsratio(k,i,j) = npoints(j,1,i)/npoints(j,k+1,i); % first method compared to k+1 th method
         end
     end
 end
@@ -145,13 +163,13 @@ timelgratio = zeros(1,n);
 for i=1:n
     display(sprintf('%9.0f %9.0f %9.0f  %9.0f %11.3f  %11.3f %11.3f  %6.0f %6.0f %6.0f %6.0f %6.0f   %6.0f %6.0f %6.0f %6.0f %6.0f %6.0f %6.0f',...
         [i mean(npoints(i,1,:)) mean(npoints(i,2,:)) mean(npoints(i,3,:))...
-           mean(time(i,1,:)) mean(time(i,2,:)) mean(time(i,3,:))...
-           100.0*sum(trueerrormat(i,1,:)<=abstol & (~exceedmat(i,1,:)))/nrep 100.0*sum(trueerrormat(i,1,:)<=abstol & (exceedmat(i,1,:)))/nrep ...
-           100.0*sum(trueerrormat(i,2,:)<=abstol & (~exceedmat(i,2,:)))/nrep 100.0*sum(trueerrormat(i,2,:)<=abstol & (exceedmat(i,2,:)))/nrep ...
-           100.0*sum(trueerrormat(i,3,:)<=abstol & (~exceedmat(i,3,:)))/nrep 100.0*sum(trueerrormat(i,3,:)<=abstol & (exceedmat(i,3,:)))/nrep...
-           100.0*sum(trueerrormat(i,1,:)>abstol & (~exceedmat(i,1,:)))/nrep  100.0*sum(trueerrormat(i,1,:)>abstol & (exceedmat(i,1,:)))/nrep ...
-           100.0*sum(trueerrormat(i,2,:)>abstol & (~exceedmat(i,2,:)))/nrep  100.0*sum(trueerrormat(i,2,:)>abstol & (exceedmat(i,2,:)))/nrep ...
-           100.0*sum(trueerrormat(i,3,:)>abstol & (~exceedmat(i,3,:)))/nrep  100.0*sum(trueerrormat(i,3,:)>abstol & (exceedmat(i,3,:)))/nrep]))
+        mean(time(i,1,:)) mean(time(i,2,:)) mean(time(i,3,:))...
+        100.0*sum(trueerrormat(i,1,:)<=abstol)/nrep 100.0*sum(trueerrormat(i,1,:)<=abstol & (exceedmat(i,1,:)))/nrep ...
+        100.0*sum(trueerrormat(i,2,:)<=abstol)/nrep 100.0*sum(trueerrormat(i,2,:)<=abstol & (exceedmat(i,2,:)))/nrep ...
+        100.0*sum(trueerrormat(i,3,:)<=abstol)/nrep 100.0*sum(trueerrormat(i,3,:)<=abstol & (exceedmat(i,3,:)))/nrep...
+        100.0*sum(trueerrormat(i,1,:)>abstol)/nrep  100.0*sum(trueerrormat(i,1,:)>abstol & (exceedmat(i,1,:)))/nrep ...
+        100.0*sum(trueerrormat(i,2,:)>abstol)/nrep  100.0*sum(trueerrormat(i,2,:)>abstol & (exceedmat(i,2,:)))/nrep ...
+        100.0*sum(trueerrormat(i,3,:)>abstol)/nrep  100.0*sum(trueerrormat(i,3,:)>abstol & (exceedmat(i,3,:)))/nrep]))
     npointslgratio(i) = mean(npoints(i,1,:))/mean(npoints(i,2,:));
     timelgratio(i) = mean(time(i,1,:))/mean(time(i,2,:));
 end
@@ -172,7 +190,7 @@ end
 
 %% Save Output
 [~,~,MATLABVERSION] = GAILstart(false);
-markers = {'--go', ':r*', '-.b*', '-g+', '--ro', '-.b'};
+markers = {'--go', ':r*', '-.b.', '-g+', '--ro', '-.b'};
 if usejava('jvm') || MATLABVERSION <= 7.12
     figure
     for i=1:length(fcns)
@@ -209,4 +227,4 @@ end
 %         3       867     14640          4       0.046        0.014       0.094      66     34    100      0     96        0      0      0      0      0      4      0
 %         4      5011     46049          3       0.026        0.029       0.011       0    100    100      0    100        0      0      0      0      0      0      0
 %         5     29671    110027         37       0.059        0.032       0.016     100      0    100      0    100        0      0      0      0      0      0      0
-%         6     11580    509263        127       0.037        0.138       0.129       0    100    100      0     82        0      0      0      0      0     18      0
+%         6     11580    509263        127       0.037        0.138       0.129       0        100    100      0     82        0      0      0      0      0     18      0
