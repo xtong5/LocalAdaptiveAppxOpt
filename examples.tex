@@ -10,8 +10,8 @@ three-dimensional reconstruction.
 \begin{figure}[tbh]
   \centering
   \begin{tabular}{cc}
-     \includegraphics[width=35mm]{figure/funappxseashell.pdf} 
-  & \includegraphics[width=83mm]{figure/seashellsurferror.pdf}
+     \includegraphics[width=30mm]{figure/funappxseashell.pdf} 
+  & \includegraphics[width=70mm]{figure/seashellsurferror.pdf}
   \\ a)  & b) 
   \end{tabular}
 \caption{a) Approximate seashell; b) Error estimation of seashell with tolerance
@@ -90,7 +90,8 @@ piecewise linear interpolant from \funappxg{} are uniformly below $10^{-14}$.
 Nonetheless the time taken by \funappxg{} was close to 7 seconds for such an 
 accurate approximation.
 
-\begin{figure}[t]
+%
+\begin{figure}[tbh]
 \centering
 \begin{tabular}{cc}
 \includegraphics[width=5.9cm]{figure/chebfun_errors.pdf} \hspace{-2ex} &
@@ -102,33 +103,137 @@ Chebfun and b) \funappxg. This figure is reproducible by
 \texttt{cf\_chebfun.m}.}
 \label{f3fig}
 \end{figure}
+%
+
 \end{exmp}
 
 \begin{comment}
 Our algorithm is readily extensible to the following complex-valued function.
-\begin{exmp}
-This example is taken from MATLAB's documentation for \texttt{interp1}. 
-Define the complex valued function
-$v(x) = 5x + x^2 i$ for $x \in [1,10]$.  It is clear that the real part of $v$ 
-is $5x$ and the imaginary part is $x^2$. We could  
-apply \funappxg  to approximate the two parts separately. However, it is unnecessary.
-
+\begin{exmp} This example is taken from MATLAB's documentation for
+\texttt{interp1}. Define the complex valued function $v(x) = 5x + x^2 i$ for $x
+\in [1,10]$. It is clear that the real part of $v$ is $5x$ and the imaginary
+part is $x^2$. We could apply \funappxg to approximate the two parts separately.
+However, it is unnecessary.
 \end{exmp}
 \end{comment}
 
+%% Example 3.3
+
 \begin{exmp}
-In this example, we consider the function $f_4(x) = sin(10 \pi x^4) + x$, which is increasing oscillating over the interval $[0,2]$.
-We use \funappxg, \funming, and \integralg to approximate the function, locate its global minimum, and estimate its integral with $\abstol = 10^{-8}$.
-With $1,972,359$ points, \funappxg can approximate $f_4$ uniformly accurate as shown in Figure~\ref{f4fig}(a).
-The true global minimum is $(0.6212340312, -0.3782149854)$ and the absolute approximation error of \funming using $n=2,022,621$ points is      
-$(1.4\times 10^{-7}, 4.7\times 10^{-11})$. The integral 
-$\int_{0}^{2} f_4 (x) dx = 2.145517314$ and the approximation error of \integralg is $4.7\times10^{-10}$ using $4,965,641$ points.
+In this example, we want to compare our adaptive algorithms with Chebfun by
+simulating the following families of test functions:
+
+\begin{align*}
+ g_1(x) &= x^4 \sin(d/x), \qquad
+ g_2(x) = 10  x^2 + g_1(x),
+\\ g_3(x) &= \begin{cases} \displaystyle
+   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
+\\ \qquad \qquad
+    - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
+\\ 0, & \text{otherwise},
+\end{cases} \\
+ g_4(x) & = (x-d)^2, \qquad
+ g_5(x)= d\sin(d\pi x), \qquad
+ g_6(x)= 10\exp\left(-1000(x-d)^2\right), \qquad
+% \\ f_4(x)&= \frac{c}{4}\exp(-2x)(c-2\exp(x)(-1 + c\cos(x) - c\sin(x)) \\
+%  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
+\end{align*}
+where $c$ for defining $g_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
+$d$ for other functions from $[0,4]$. If $c=d=1$, then $g_i$ reduces to $f_i$
+for $i=1,2, \mbox{and } 3$. Figure~\ref{fig:testfunction} shows the shapes of
+the test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and
+use \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
+functions on interval $[a,b]=[0,1]$ for $g_1,g_2, \mbox{and } g_3$ and
+$[a,b]=[a,c+1]$ for $g_4,g_5, \mbox{and } g_6$. We summarize the approximation
+results in Table~\ref{tab:localVsGlobalVsChebfun}, in which we can see that the
+locally adaptive method save computational cost compared to the globally
+adaptive method in all cases.
+
+%
+\begin{figure}[th]
+\centering
+  \includegraphics[width=65mm]{figure/traub_funappxNoPenalty_g_testfun.eps}
+  \caption{Test functions for comparing \texttt{funappx\_g}, \texttt{funappxglobal\_g}, and Chebfun.}  
+  \label{fig:testfunction}
+\end{figure}
+
+%
+\begin{table}[bth]
+\centering
+\caption{Comparison of number of sample points, computational time, success and
+failure rates of \funappxg, \funappxglobalg, and
+Chebfun. We also report the number of warnings in parentheses issued by the
+sofwtare. This table can be conditionally reproduced by
+\texttt{traubpaper\_funappx\_g\_test.m}.}
+\label{tab:localVsGlobalVsChebfun}
+{\footnotesize
+\setlength{\tabcolsep}{.2em} % set table width
+\begin{tabular}{l|rrr|rrr|rrr|r}
+\hline
+\hline
+     $f$ &     \multicolumn{3}{c|}{Number of Points}  & \multicolumn{3}{c|}{Time Used}  & \multicolumn{3}{c|}{Success}  &  Failure
+\\   &  Local  &  Global    &  Chebfun & Local       &  Global  & Chebfun    & Local   &  Global  & Chebfun  &   Chebfun  
+\\ \hline
+      $g_1$ &   4152  &   30357  & 5069   &   0.052   &  0.030  &  3.989  &    100 (100) &  100   (0) &     61   (24)  &    39   (39) 
+\\    $g_2$ &   4223  &   51050  & 4720   &   0.057   &  0.038  &  3.563  &    100 ( 72) &  100   (0) &    100   (51)  &     0   ( 0) 
+\\    $g_3$ &    867  &   14640  &    4   &   0.046   &  0.014  &  0.094  &    100 ( 34) &  100   (0) &     96   ( 0)  &     4   ( 0) 
+\\    $g_4$ &   5011  &   46049  &    3   &   0.026   &  0.029  &  0.011  &    100 (100) &  100   (0) &    100   ( 0)  &     0   ( 0) 
+\\    $g_5$ &  29671  &  110027  &   37   &   0.059   &  0.032  &  0.016  &    100 (  0) &  100   (0) &    100   ( 0)  &     0   ( 0) 
+\\    $g_6$ &  11580  &  509263  &  127   &   0.037   &  0.138  &  0.129  &    100 (100) &  100   (0) &     82   ( 0)  &    18   ( 0) 
+\\ \hline
+\end{tabular}
+}
+\end{table}
+%
+
+From Table~\ref{tab:localVsGlobalVsChebfun}, we see that both \funappxg{} and
+\funappxglobalg{} achieved 100\% success rates. The former worke better than
+\funappxglobalg{} for all test cases in terms of average number of sampling points.
+It is also more \emph{cautionary} as it issued more warnings than \funappxglobalg.
+%
+We can see that Chebfun are particularly challenged by the highly oscillatory
+functions $g_1$ and $g_2$ in terms of run time and success rates. In some
+instances of the peaky functions $g_3$ and $g_6$, it failed to approximate them
+satisfactorily for about 10\% of the cases.
+ 
+\end{exmp} 
+
+\begin{comment}
+\begin{exmp}
+In this example, we consider the function $f_4(x) = sin(10 \pi x^4) + x$, which
+is increasing oscillating over the interval $[0,2]$. We use \funappxg, \funming,
+and \integralg to approximate the function, locate its global minimum, and
+estimate its integral with $\abstol = 10^{-8}$. With $1,972,359$ points,
+\funappxg can approximate $f_4$ uniformly accurate as shown in
+Figure~\ref{f4fig}(a). The true global minimum is $(0.6212340312,
+-0.3782149854)$ and the absolute approximation error of \funming using
+$n=2,022,621$ points is $(1.4\times 10^{-7}, 4.7\times 10^{-11})$. The integral
+$\int_{0}^{2} f_4 (x) dx = 2.145517314$ and the approximation error of
+\integralg is $4.7\times10^{-10}$ using $4,965,641$ points.
 
 \begin{figure}[bt]
 \centering
 \includegraphics[width=6.2cm]{figure/f4_funappx_error.eps} \hspace{-5ex}
 \includegraphics[width=6.2cm]{figure/f4_funmin_g.eps}
-\caption{The example $f_4$ with errors of interpolants from \funappxg (left) and minimum found by \funming (right).}
+\caption{The example $f_4$ with errors of interpolants from \funappxg (left) and
+minimum found by \funming (right).}
 \label{f4fig}
 \end{figure}
 \end{exmp}
+\end{comment}
+
+
+     
+\begin{comment}
+Our algorithm is readily extensible to the following complex-valued function.
+\begin{exmp}
+This example is taken from MATLAB's documentation for \texttt{interp1}. Define
+the complex valued function $v(x) = 5x + x^2 i$ for $x \in [1,10]$. It is clear
+that the real part of $v$ is $5x$ and the imaginary part is $x^2$. We could
+apply \funappxg to approximate the two parts separately. However, it is
+unnecessary.
+\end{exmp}
+\end{comment}
+
+ 
+
