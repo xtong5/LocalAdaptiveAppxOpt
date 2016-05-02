@@ -51,13 +51,14 @@ print('-depsc',[whichdir 'f1ppf2ppplot.eps'])
 gail.save_eps('TraubPaperOutput', 'f1ppf2ppplot');
 
 %% Sample functions with piecwise constant second derivatives
-delta = 0.2;
-B = 1./(2*delta.^2);
-c = -0.2;
-f3 = @(x) B*(4*delta.^2 + (x-c).^2 + (x-c-delta).*abs(x-c-delta) ...
+f3param = @(x,delta,c) (1./(2*delta.^2))*(4*delta.^2 + (x-c).^2 + (x-c-delta).*abs(x-c-delta) ...
    - (x-c+delta).*abs(x-c+delta)).*(abs(x-c) <= 2*delta);
-f3pp = @(x) 2*B*(1 + sign(x-c-delta) - sign(x-c+delta)) ...
+f3ppparam = @(x,delta,c) (1./(delta.^2))*(1 + sign(x-c-delta) - sign(x-c+delta)) ...
    .*(abs(x-c) <= 2*delta);
+c = -0.2;
+delta = 0.2;
+f3 = @(x) f3param(x,delta,c);
+f3pp = @(x) f3ppparam(x,delta,c);
 figure
 h = plot(xplot,f3(xplot),'-','color',MATLABPurple);
 axis([-1 1 -0.2 1.2])
@@ -73,4 +74,38 @@ xlabel('\(x\)')
 legend(h,{'\(f_3''''(x)\)'},'location', 'northeast','box','off')
 print('-depsc',[whichdir 'f3ppplot.eps'])
 gail.save_eps('TraubPaperOutput', 'f3ppplot');
+
+%% Lower Complexity Bounds Fooling Functions
+rng(29);
+n = 15;
+%xpt = [-1 -1+2*sort(rand(1,n)) 1]; %points on [-1, 1]
+xpt = [-1 (-1:2/n:1-2/n)+2*rand(1,n)/n 1]; %points on [-1, 1]
+[~,wh] = max(diff(xpt));
+c = (xpt(wh)+xpt(wh+1))/2;
+delta = 1/(2*(n+1));
+f3 = @(x) f3param(x,delta,c);
+f3pp = @(x) f3ppparam(x,delta,c);
+figure
+h = plot(xplot,f3(xplot),'-','color',MATLABBlue);
+hold on
+h = [h; plot(xplot,-f3(xplot),'-','color',MATLABGreen)];
+h = [h; plot(xpt(2:end-1),f3(xpt(2:end-1)),'.','color',MATLABOrange)];
+axis([-1 1 -1.2 1.2])
+xlabel('\(x\)')
+legend(h,{'\(f_3(x)\)','\(-f_3(x)\)','\(\pm f_3(x_i)\)'}, ...
+   'location', 'northeast','box','off')
+print('-depsc',[whichdir 'f3foolplot.eps'])
+gail.save_eps('TraubPaperOutput', 'f3foolplot');
+
+figure
+f0 = @(x) (x.^2)/2;
+C0 = 2;
+tgamma = (C0-1)/(C0+1) * delta.^2;
+h = plot(xplot,f0(xplot)+tgamma*f3(xplot),'-','color',MATLABBlue);
+hold on
+h = [h; plot(xplot,f0(xplot)-tgamma*f3(xplot),'-','color',MATLABGreen)];
+h = [h; plot(xpt(2:end-1),f0(xpt(2:end-1)),'.','color',MATLABOrange)];
+
+
+
 
