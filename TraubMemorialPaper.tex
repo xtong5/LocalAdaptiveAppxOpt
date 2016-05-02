@@ -1,4 +1,5 @@
 \documentclass[review]{elsarticle}
+%\documentclass[final]{elsarticle}
 
 \usepackage{amsmath,amssymb,amsthm,xspace,mathtools,hyperref,color}
 \usepackage{mathrsfs,verbatim,xspace}
@@ -429,13 +430,13 @@ this error bound smaller than the desired tolerance.
 
 
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
-Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points
+Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points depending on the width $[a,b]$:
 \begin{equation}
 \label{nodefinition}
-n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
-\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
+n_{\ninit} = \left\lceil n_{\text{hi}}
+\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil, \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2},
 \end{equation}
-that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the width $[a,b]$.  Then, we choose $\fh := 5(b-a)/(n_{\ninit}-1)$.  In this way, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
+where $n_{\lo}$ and $n_{\text{hi}}$ are integers satisfying $5 \le n_{\lo} \le n_{\text{hi}}$.  In this way, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
 
 \begin{algoA} \label{AlgoA}
 For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
@@ -762,7 +763,7 @@ complexity bound
 
 \section{Discussion}
 
-%\input{discussion}
+\input{discussion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{References}
