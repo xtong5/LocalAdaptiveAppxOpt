@@ -1,0 +1,33 @@
+Software packages such as Chebfun and MATLAB's functions including \texttt{interp1},
+\texttt{griddedInterpolant}, and \texttt{fminbnd} are some of the most popular
+and useful function interpolation and optimization methods. However, it is
+important for users to be vigilant in applying these and other similar tools, which 
+often do not inform users of whether the approximants meet the user's
+required accuracy. The reasons may range from an absence of rigorous theoretical
+frameworks for error estimatation to understandable challenges in efficient
+implementation. 
+
+Function approximation and minimization methods are not necessarily precise
+enough unless we use a sufficiently large number of sampling points. This paper
+is an effort to provide a unifying framework covering adaptive data sampling of
+the original function $f$, construction of an interpolant $\hat{f}$, and an
+estimation of maximum error bound. Our locally adaptive strategy is to sample
+$f$ more frequently in subintervals where (an upper bound of) $f''$ is large in
+magnitude and when the maximum error bound over the subintervals are not meeting
+user required tolerance. Hence a novelty of our algorithms is its capability to
+choose a suitable granularity of distinct data points $\{(x_i,
+f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
+user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
+
+Our approach is not necessarily fast for all functions $f$ or in high precision
+setting as we are simply using linear splines. However, it is embrassingly easy
+to parallelize by applying the methods to a contigous partition of the domain
+followed by some post processing. In fact, we have implemented the serial and
+parallel versions of our algorithms in a MATLAB toolbox we call
+GAIL~\cite{ChoEtal15a}.
+
+
+Our linear interpolants are not smooth. For future work, better choices of basis
+functions for coming up with a function approximant are important for enhancing
+smoothness and reducing number of sampling nodes. Cubic splines, radial basis
+functions and Chebyshev polynomials are some potential candidates.
