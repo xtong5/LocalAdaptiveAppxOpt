@@ -279,19 +279,20 @@ $f_2''(x) = f_1''(x) + 20$. \label{f1f2fig}}
 \end{figure}
 
 Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
-\begin{align*}
+\begin{align} \label{f3def}
 f_3(x) & = \begin{cases} \displaystyle
    \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
 \\ \qquad \qquad
     - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise},
 \end{cases} \\
+\nonumber
 f''_3(x) & =
 \begin{cases} \displaystyle
     \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise}.
 \end{cases}
-\end{align*}
+\end{align}
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta \le 1$. This function and its second derivative
 are shown in Figure~\ref{f3fig} for $-c=\delta = 0.2$.
 
@@ -613,8 +614,8 @@ The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an u
 		\item If $A^*$ solves  \eqref{appxprob} for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$,
 		\begin{subequations} \label{lowbdW}
 		\begin{gather}
-		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > \abstol, \label{lowbdWhalf}\\
-		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge .  \label{lowbdWinf}
+		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > 16 \abstol, \label{lowbdWhalf}\\
+		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \frac{(b-a)}{4} \sqrt{\frac{\sigma}{\abstol}} - 1.  \label{lowbdWinf}
 		\end{gather}
 		\end{subequations}
 				
@@ -625,6 +626,28 @@ The upper bound on the computational cost of Algorithm \ref{AlgoA} provides an u
 Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the upper bound on the computational cost of $A$ is asymptotically  However, one can easily construct an algorithm
 
 \begin{proof}
+	All of these lower bounds are proved by constructing fooling functions for which algorithm $A$ succeeds, and then showing that at least a certain number of samples must be used.  The proofs of lower bounds \eqref{lowbdW} are simpler, so we start with them first.
+	
+	Let $A^*$ be a successful algorithm for all $f \in  \cw^{2,\infty}$, and consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute  $A^*(0,\abstol)$.    Choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1} \le (b-a)/(n+1)$.  Let $f_3$ be defined as in \eqref{f3def} with $c = (x_j+x_{j-1})/2$, and $\delta  = (b-a)/[4(n+1)]$.  Note that in general
+	\begin{equation}
+	\norm{f_3''} = \frac{1}{\delta^{2}}, \qquad \norm[\frac 12]{f_3''} = 16.
+	\end{equation}
+
+For any real $\gamma$, it follows that $\gamma f_3(x_i)=0$ for $i=0, \ldots, n+1$.  Since $0$ and $\pm \gamma f_3$ share the same values at the data sites, then they must share the same approximation: $A^*(\pm \gamma f_3,\abstol) = A^*(0,\abstol)$.  This implies  that $\gamma$ must be no greater than $\abstol$
+	\begin{align*}
+	\abstol  &\ge \max(\norm{\gamma f_3 - A^*(\gamma f_3,\abstol)}, \norm{-\gamma f_3 - A^*(-\gamma f_3,\abstol)}) \\
+	&= \max(\norm{\gamma f_3 - A^*(0,\abstol)}, \norm{-\gamma f_3 - A^*(0,\abstol)}) \\
+	& \ge \frac{1}{2} [\norm{\gamma f_3 - A^*(0,\abstol)} + \norm{-\gamma f_3 - A^*(0,\abstol)}] \\
+	& \ge \frac{1}{2} \norm{\gamma f_3 - (-\gamma f_3)} =  \norm{\gamma f_3} = \gamma \\
+	& = \begin{cases} \displaystyle \frac{ \norm[\frac 12]{\gamma f_3''}}{16} , \\
+	\displaystyle \delta^2 	\norm{\gamma f_3''} =  \frac{(b-a)^2 \norm{\gamma f_3''}}{16(n+1)^2}.
+	\end{cases}
+	\end{align*}
+The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma f_3''}$ is small enough.  Solving the bottom inequality for $n$ in terms of $\sigma = (b-a)^2 \norm{\gamma f_3''}/[16(n+1)^2]$ establishes  \eqref{lowbdWinf}.
+
+	
+	
+	
 We firstly try to prove the lower complexity bound for the function in cone $\cc$ and $\norm[\frac12]{f''} \le \sigma$.
 We choose a parabola satisfied the above conditions
 \begin{equation}
