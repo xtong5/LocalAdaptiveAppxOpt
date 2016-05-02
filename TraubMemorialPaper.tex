@@ -142,7 +142,7 @@ and~\ref{thm:algMworks}.
 Proposition~\ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.
 
 \item Lower bounds on the computational complexity of problems~\eqref{appxprob} and \eqref{optprob} are derived in Sections~\ref{subsec:appxcomp} 
-and~\ref{subsec:optcomp}.  The lower bounds in Theorems   are also proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithms essentially asymptotically optimal.
+and~\ref{subsec:optcomp}.  The lower bounds in Theorems~\ref{thm:A_cost} and~\ref{??} are also proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithms essentially asymptotically optimal.
 
 \end{itemize}
 
@@ -626,7 +626,7 @@ The upper bound on the computational cost of Algorithm~\ref{AlgoA} provides an u
 		\end{subequations}
 				
 	\end{enumerate}
-	
+	\label{thm:A_cost}
 \end{theorem}
 
 Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the upper bound on the computational cost of $A$ is asymptotically  However, one can easily construct an algorithm
