@@ -719,7 +719,15 @@ that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the widt
 		\]
 		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \text{fmin}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
-		\item \label{stagemin2}	
+		\item \label{stagemin2}
+		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
+		\begin{multline*}
+		\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}:  \minfii -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \text{fmin}-\abstol,\right.\\
+		\left.j=i\mp k, 0<j\le n, k=1,2. \right\},
+		\end{multline*}
+		\[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
+		Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
+		Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stagemin1}.
 	\end{enumerate}
 \end{algoM}
 
