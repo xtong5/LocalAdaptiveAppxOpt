@@ -169,8 +169,9 @@ To bound the error of the linear spline, our adaptive algorithms construct data-
 Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
- f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b].
+ f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b],
 \end{gather*}
+where $]\alpha, \beta[$ denotes the open interval  $\{x:\alpha<x<\beta\}$. 
 We define a
 measure of how small $\abs{f''(x)}$ can be for  $x \in ]\alpha, \beta[$ as follows:
 \begin{equation} \label{minfppdef}
