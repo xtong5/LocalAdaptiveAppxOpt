@@ -5,7 +5,12 @@ TraubMemorialPaper.spl
 TraubMemorialPaper.aux
 TraubMemorialPaper.blg
 tmpbib.tex
-TraubMemorialPaper.log
-discussion.log
-examples.log
-localcost.log
+*.log
+*.aux
+*.bbl
+*.blg
+*.out
+*.gz
+*.spl
+*.dvi
+ecrc-template.pdf
