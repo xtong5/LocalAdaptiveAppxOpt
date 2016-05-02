@@ -87,7 +87,7 @@
 \newcommand{\cosappx}{\operatorname*{cosappx}}
 \newcommand{\sinappx}{\operatorname*{sinappx}}
 \newcommand{\minfi}{\min\limits_{1\le i \le n} f(x_i)} %minf(xi)
-\newcommand{\minfii}{\min\{f(x_{i-1}, f(x_i)\}} %min{f(x_i-1),f(x_i)}
+\newcommand{\minfii}{\min\{f(x_{i-1}), f(x_i)\}} %min{f(x_i-1),f(x_i)}
 \begin{document}
 
 \begin{frontmatter}
@@ -722,17 +722,17 @@ that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the widt
 	Choose the inflation function $\fC$. Compute the second-order divided difference, $f[x_{i-1},x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the following:
 	\begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
 		\item \label{stagemin1} Check for convergence.
-		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$. Compute $\text{fmin} = \minfi$.
+		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$. Compute $\widehat{M} = \minfi$.
 		Let
 		\[
-		\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  < \text{fmin}-\abstol \right\}.
+		\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol \right\}.
 		\]
-		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \text{fmin}$ and terminate the algorithm.
+		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
 		\item \label{stagemin2}
 		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 		\begin{multline*}
-		\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}:  \minfii -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \text{fmin}-\abstol,\right.\\
+		\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}:  \minfii -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\right.\\
 		\left.j=i\mp k, 0<j\le n, k=1,2. \right\},
 		\end{multline*}
 		\[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
