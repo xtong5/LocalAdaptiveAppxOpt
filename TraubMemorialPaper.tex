@@ -49,6 +49,7 @@
 %\newdefinition{algo}{Algorithm}
 \theoremstyle{definition}
 \newtheorem*{algoA}{Algorithm $A$}
+\newtheorem*{algoM}{Algorithm $M$}
 \newcommand{\vastl}{\mathopen\vast}
 \newcommand{\vastm}{\mathrel\vast}
 \newcommand{\vastr}{\mathclose\vast}
@@ -83,6 +84,8 @@
 \newcommand{\integralg}{\texttt{integral\_g\xspace}}
 \newcommand{\cosappx}{\operatorname*{cosappx}}
 \newcommand{\sinappx}{\operatorname*{sinappx}}
+\newcommand{\minfi}{\min\limits_{1\le i \le n} f(x_i)} %minf(xi)
+\newcommand{\minfii}{\min\{f(x_{i-1}, f(x_i)\}} %min{f(x_i-1),f(x_i)}
 \begin{document}
 
 \begin{frontmatter}
@@ -690,6 +693,35 @@ We proved \eqref{lowbdC}. Next we consider algorithms works for the functions no
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
 \subsection{Algorithm $M$}  \label{sec:minalgo}
+\xinnote{This is the same assumption and description as section 3.1}\\
+Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points
+\begin{equation*}
+	n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
+	\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
+\end{equation*}
+that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the width $[a,b]$.  Then, we choose $\fh := 5(b-a)/(n_{\ninit}-1)$.  In this way, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function minimization problem \eqref{optprob}.
+
+\begin{algoM} \label{AlgoM}
+	For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
+	$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
+	user inputs. Choose $\fh := 5(b-a)/(n_{\ninit}-1)$, where $n_{\ninit}$ is defined in \eqref{nodefinition}, and let  $n=n_{\ninit}-1$.
+	Define the partition, $\cp$ of  equally spaced points and the index set of intervals for which the error tolerance
+	is not yet satisfied:
+	$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
+	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
+	Choose the inflation function $\fC$. Compute the second-order divided difference, $f[x_{i-1},x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the following:
+	\begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
+		\item \label{stagemin1} Check for convergence.
+		Compute $B_{i,\pm}(f,\cp)$ as in \eqref{bpf} and \eqref{bmf}, where $i \in \mathcal{I}$. Compute $\text{fmin} = \minfi$.  
+		Let
+		\[
+		\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  < \text{fmin}-\abstol \right\}.
+		\]
+		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \text{fmin}$ and terminate the algorithm.
+		Otherwise, continue to the next step.
+		\item \label{stagemin2}	
+	\end{enumerate}
+\end{algoM}
 
 \begin{theorem} \label{thm:algMworks}
 Algorithm $M$ defined above solves problem \eqref{optprob} for functions in the cone $\cc$ defined in \eqref{conedef}.
