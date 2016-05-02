@@ -198,8 +198,8 @@ f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
 \end{gather}
 For any $f \in
 \cw^{2,\infty}$, the function $f - p$ has at least three distinct zeros on
-$[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on $]x_1, x_3[$
-i.e., there exist $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
+$[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on $]x_1, x_3[$,
+i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
 that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
 x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous
@@ -220,7 +220,7 @@ bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 
 Let $\fh$ be some positive number, and let $\fC : [0,\fh[ \to [1,\infty[$ be any
 non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size.
-These parameters are used to define cone of functions for which our algorithms will
+These parameters are used to define a cone of functions for which our algorithms will
 apply.  This cone only includes functions whose second derivatives do not change much in
 magnitude over a short distance.  Thus, they are \emph{not too spiky}.  Specifically,
 \begin{multline} \label{conedef}
