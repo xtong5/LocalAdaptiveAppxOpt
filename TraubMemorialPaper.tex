@@ -86,8 +86,8 @@
 \newcommand{\integralg}{\texttt{integral\_g\xspace}}
 \newcommand{\cosappx}{\widehat{cos}}
 \newcommand{\sinappx}{\widehat{sin}}
-\newcommand{\minfi}{\min\limits_{1\le i \le n} f(x_i)} %minf(xi)
-\newcommand{\minfii}{\min\{f(x_{i-1}), f(x_i)\}} %min{f(x_i-1),f(x_i)}
+\newcommand{\minfi}{\min\limits_{i=1, \ldots,  n} f(x_i)} %minf(xi)
+\newcommand{\minfii}{\min(f(x_{i-1}), f(x_i))} %min{f(x_i-1),f(x_i)}
 \begin{document}
 
 \begin{frontmatter}
@@ -139,11 +139,13 @@ We accomplish the following:
 and~\eqref{optprob}, respectively.  These algorithms are based on linear splines.  Guarantees of success are provided by Theorems~\ref{thm:algAworks}
 and~\ref{thm:algMworks}.
 
-\item Upper bounds on the computational costs of these algorithms  are derived in Sections~\ref{subsec:appxcost} and~\ref{subsec:optcost}.  These upper bounds in Theorems~\ref{thm:cost} and~\ref{??} are roughly proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-norm.  Since $\norm[\frac12]{f''}$ can be much smaller than $\norm[\frac12]{\cdot}$ (see
+\item Upper bounds on the computational costs of these algorithms  are derived in Sections~\ref{subsec:appxcost} and~\ref{subsec:optcost}.  These upper bounds in Theorems~\ref{thm:cost} and~\ref{??} are roughly proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$ (see
 Proposition~\ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.
 
 \item Lower bounds on the computational complexity of problems~\eqref{appxprob} and \eqref{optprob} are derived in Sections~\ref{subsec:appxcomp}
 and~\ref{subsec:optcomp}.  The lower bounds in Theorems~\ref{thm:A_cost} and~\ref{??} are also proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithms essentially asymptotically optimal.
+
+\item GAIL
 
 \end{itemize}
 
@@ -378,7 +380,7 @@ For all $ x \in [x_{i-1},x_i]$,  denote
 &h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
  &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
 \end{align*}
-Let $\cp$ be a shorthand notation for the partition $\{x_i\}_{i=1}^\infty$, and define the following data based quantities.
+Let $\cp$ be a shorthand notation for the partition $\{x_i\}_{i=0}^n$, and define the following data based quantities.
 \begin{align}\label{bpf}
 B_{i+}(f,\cp)&:=\begin{cases}
     \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
@@ -430,44 +432,42 @@ this error bound smaller than the desired tolerance.
 
 
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
-Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points depending on the width $[a,b]$:
+Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points, $n_{\ninit}$, depending on the width of $[a,b]$ and two positive integers, $n_{\lo}$ and $n_{\text{hi}}$:
 \begin{equation}
 \label{nodefinition}
-n_{\ninit} = \left\lceil n_{\text{hi}}
-\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil, \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2},
+5 \le n_{\lo} \le n_{\text{hi}}, \qquad n_{\ninit} = \left\lceil n_{\text{hi}}
+\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil,  \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2}.
 \end{equation}
-where $n_{\lo}$ and $n_{\text{hi}}$ are integers satisfying $5 \le n_{\lo} \le n_{\text{hi}}$.  In this way, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
+Then, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
-$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs. Choose $n_{\ninit}$ and $\fh$ defined in~\eqref{nodefinition}, and let  $n=n_{\ninit}-1$.
-Define the partition, $\cp$ of  equally spaced points and the index set of intervals for which the error tolerance
+For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
+user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_i\}_{i=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
 is not yet satisfied:
 $$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-Choose the inflation function $\fC$. Compute the second-order divided difference, $f[x_{i-1},
+Compute the second-order divided differences, $f[x_{i-1},
 x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the
 following:
-\begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
+\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
-\item \label{stage1} Check for convergence.
+\item \label{stage1} \emph{Check for convergence.}
 Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$.
 Let
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
 \]
-Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\abstol) = S(f, \{x_i\}_{i=0}^n)$ and terminate the algorithm.
+Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\abstol) = S(f, \cp)$ and terminate the algorithm.
 Otherwise, continue to the next step.
-\item \label{stage2}
-Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
+\item \label{stage2} \emph{Split the subintervals as needed.}
+Let $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 \begin{multline*}
-\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\right.\\
- \left.j=i\mp k, 0<j\le n, k=1,2. \right\},
+\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
+ j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 \end{multline*}
-\[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
+\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stage1}.
+Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
 
@@ -481,7 +481,7 @@ Next, we investigate the computational cost of our locally adaptive algorithm. L
  \[
  h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
  \]
-be the initial width of the subintervals. To faciliate our derivation of the computational cost of $A$, we introduce the new notation $\Ixl$, which is the unique half-open interval containing $x$ with
+be the initial width of the subintervals. To faciliate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
  the width $2^{-l}h_0$.
 \[\Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \quad j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.\]
 Let
@@ -711,32 +711,34 @@ Instead of defining the cone in terms of $\fh$ directly, we choose an initial nu
 that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the width $[a,b]$.  Then, we choose $\fh := 5(b-a)/(n_{\ninit}-1)$.  In this way, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function minimization problem~\eqref{optprob}.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval, $[a,b]$, some fixed integers $n_{\lo}, n_{\text{hi}}$ satisfying $5 \le n_{\lo} \le n_{\text{hi}}$, and some non-decreasing
-	$\fC:[0,b-a] \to [1, \infty)$, let $f:[a,b] \to \reals$ and $\abstol >0$ be
-	user inputs. Choose $\fh := 5(b-a)/(n_{\ninit}-1)$, where $n_{\ninit}$ is defined in~\eqref{nodefinition}, and let  $n=n_{\ninit}-1$.
-	Define the partition, $\cp$ of  equally spaced points and the index set of intervals for which the error tolerance
+	For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
+	user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_i\}_{i=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
 	is not yet satisfied:
 	$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Choose the inflation function $\fC$. Compute the second-order divided difference, $f[x_{i-1},x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the following:
-	\begin{enumerate}[\bf Step 1.]%\hspace{8.5ex}
+	Compute $\widehat{M} = \minfi$ and the $f[x_{i-1},
+	x_{i}, x_{i+1}]$,  $i = \{1,2,\ldots,n-1\}$. Then do the
+	following:
+	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 		\item \label{stagemin1} Check for convergence.
-		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$. Compute $\widehat{M} = \minfi$.
+		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$. 
 		Let
-		\[
-		\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol \right\}.
-		\]
+		\begin{multline*}
+		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
+		< \widehat{M}-\abstol \biggr\}.
+		\end{multline*}
 		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
 		\item \label{stagemin2}
 		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 		\begin{multline*}
-		\widehat{\mathcal{I}}_{\pm k} = \left\{i \in \{1,2,\ldots,n\}:  \minfii -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\right.\\
-		\left.j=i\mp k, 0<j\le n, k=1,2. \right\},
+		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  \\
+		\minfii -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
+		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 		\end{multline*}
-		\[\widetilde{\mathcal{I}}=\left\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \right\}.\]
+		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 		Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-		Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  Return to Step~\ref{stagemin1}.
+		Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stagemin1}.
 	\end{enumerate}
 \end{algoM}
 
