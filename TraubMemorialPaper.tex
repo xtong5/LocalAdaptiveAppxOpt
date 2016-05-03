@@ -885,7 +885,7 @@ simulating the following families of test functions:
 \begin{align*}
  g_1(x) &= x^4 \sin(d/x), \qquad
  g_2(x) = 10  x^2 + g_1(x),
-\\ g_3(x) &= \begin{cases} \displaystyle
+\\ f_3(x) &= \begin{cases} \displaystyle
    \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
 \\ \qquad \qquad
     - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
@@ -897,13 +897,13 @@ simulating the following families of test functions:
 % \\ f_4(x)&= \frac{c}{4}\exp(-2x)(c-2\exp(x)(-1 + c\cos(x) - c\sin(x)) \\
 %  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
 \end{align*}
-where $c$ for defining $g_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
-$d$ for other functions from $[0,4]$. If $c=d=1$, then $g_i$ reduces to $f_i$
-for $i=1,2, \mbox{and } 3$. Figure~\ref{fig:testfunctions}a) shows the shapes of
+where $c$ for defining $f_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
+$d$ for other functions from $[0,4]$. If $d=1$, then $g_i$ reduces to $f_i$
+for $i=1, \mbox{and } 2$. Figure~\ref{fig:testfunctions}a) shows the shapes of
 the test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and
 use \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
-functions on interval $[a,b]=[0,1]$ for $g_1,g_2, \mbox{and } g_3$ and
-$[a,b]=[a,c+1]$ for $g_4,g_5, \mbox{and } g_6$. We summarize the approximation
+functions on interval $[a,b]=[0,1]$ for $g_1$, $g_2$, and $f_3$ and
+$[a,b]=[a,c+1]$ for $g_4$, $g_5$, and $g_6$. We summarize the approximation
 results in Table~\ref{tab:localVsGlobalVsChebfun}, in which we can see that the
 locally adaptive method save computational cost compared to the globally
 adaptive method in all cases.
@@ -940,9 +940,9 @@ sofwtare. This table can be conditionally reproduced by
     Test      &     \multicolumn{3}{c|}{Number of Points} & \multicolumn{3}{c|}{Time Used}  & \multicolumn{6}{|c|}{Success (\%)} &  \multicolumn{2}{c|}{Failure (\%)}
 \\  functions &  Local  &  Global    &  Chebfun & Local       &  Global  & Chebfun              & \multicolumn{2}{c}{Local}   &  \multicolumn{2}{c}{Global}  & \multicolumn{2}{c}{Chebfun}  & \multicolumn{2}{|c|}{Chebfun}  
 \\ \hline
-      $g_1$ &   4152  &   30357  & 5069   &   0.052   &  0.030  &  3.989  &    100  & (100) &  100  &  (0) &     61 &   (24)  &    39  &  (39) 
+      $f_3$ &    867  &   14640  &    4   &   0.046   &  0.014  &  0.094  &    100  & ( 34) &  100  &  (0) &     96 &   ( 0)  &     4  &  ( 0) 
+\\    $g_1$ &   4152  &   30357  & 5069   &   0.052   &  0.030  &  3.989  &    100  & (100) &  100  &  (0) &     61 &   (24)  &    39  &  (39) 
 \\    $g_2$ &   4223  &   51050  & 4720   &   0.057   &  0.038  &  3.563  &    100  & ( 72) &  100  &  (0) &    100 &   (51)  &     0  &  ( 0) 
-\\    $g_3$ &    867  &   14640  &    4   &   0.046   &  0.014  &  0.094  &    100  & ( 34) &  100  &  (0) &     96 &   ( 0)  &     4  &  ( 0) 
 \\    $g_4$ &   5011  &   46049  &    3   &   0.026   &  0.029  &  0.011  &    100  & (100) &  100  &  (0) &    100 &   ( 0)  &     0  &  ( 0) 
 \\    $g_5$ &  29671  &  110027  &   37   &   0.059   &  0.032  &  0.016  &    100  & (  0) &  100  &  (0) &    100 &   ( 0)  &     0  &  ( 0) 
 \\    $g_6$ &  11580  &  509263  &  127   &   0.037   &  0.138  &  0.129  &    100  & (100) &  100  &  (0) &     82 &   ( 0)  &    18  &  ( 0) 
@@ -963,7 +963,7 @@ than \funappxg{} even though the run time was longer than \funappxg{} in about~6
 test cases; see Figure~\ref{fig:testfunctions}b)(RIGHT). However it was
 particularly challenged by the highly oscillatory functions $g_1$ and $g_2$ in
 terms of run time and success rates. In some instances of the peaky functions
-$g_3$ and $g_6$, it failed to approximate them satisfactorily for about~10\% of
+$f_3$ and $g_6$, it failed to approximate them satisfactorily for about~10\% of
 the cases.
 \end{exmp} 
 
