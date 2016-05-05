@@ -74,6 +74,7 @@
 \newcommand{\tell}{\tilde{\ell}}
 \newcommand{\rell}{\mathring{\ell}}
 \newcommand{\tgamma}{\widetilde{\gamma}}
+\newcommand{\hM}{\widehat{M}}
 \DeclareMathOperator{\lo}{lo}
 \DeclareMathOperator{\ninit}{ninit}
 \DeclareMathOperator{\errest}{errest}
@@ -419,10 +420,14 @@ Applying the fact that $\fC$ is non-decreasing and property~\eqref{mdec} yields
 A similar argument applied for the sub-intervals on the left and right borders of the interval.
 The bound in~\eqref{normbd} combined with~\eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
-\begin{equation} \label{appxerrbdb}
+\begin{subequations} \label{appxerrbdb}
+\begin{gather} 
+\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} , \\
 \norm{f - S(f,\datasites)} \le
 \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} .
-\end{equation}
+\end{gather}
+\end{subequations}
+
 The goal is to increase the number of nodes in the partition as needed to make
 this error bound smaller than the desired tolerance.
 
@@ -478,18 +483,24 @@ Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
 Next, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of intervals, and
- \[
+\begin{subequations} \label{h0Ixletcdef}
+ \begin{equation} \label{h0def}
  h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
- \]
+ \end{equation}
 be the initial width of the subintervals. To faciliate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
  the width $2^{-l}h_0$.
-\[\Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \quad j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.\]
+\begin{multline}\label{Ixldef}
+\Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \\ j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.
+\end{multline}
 Let
 $\ell(x)$ be defined such that
 $I_{x,\ell(x)}$ is the final subinterval in algorithm $A$ that contains $x$ when the algorithm terminates.
 Let $\bar{I}_{x,l}$ be a similar closed interval with generally five times the width:
-\[\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
-\] with the same $j$ as above.  Let
+\begin{equation}
+\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
+\end{equation}
+\end{subequations}
+with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
 L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
@@ -603,7 +614,7 @@ By making $\delta$ small enough, we may make $\norm[\frac 12]{f_3''}/\norm{f_3''
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
-The upper bound on the computational cost of Algorithm~\ref{AlgoA} provides an upper bound on the complexity of problem~\eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same asymptotic behavior as the computational cost of algorithm $A$.
+The upper bound on the computational cost of Algorithm~$A$ provides an upper bound on the complexity of problem~\eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same asymptotic behavior as the computational cost of Algorithm $A$.
 
 \begin{theorem}
 	Let $A^*$ be any deterministic algorithm that successfully solves problem~\eqref{appxprob}.
@@ -702,13 +713,22 @@ The right hand side of this inequality does depend on how far $\fC(0)$ is above 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
 \subsection{Algorithm $M$}  \label{sec:minalgo}
-\xinnote{This is the same assumption and description as section 3.1}\\
-Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points
-\begin{equation*}
-	n_{\ninit} = \max\left\{\left\lceil n_{\text{hi}}
-	\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil ,5\right\}.
-\end{equation*}
-that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the width $[a,b]$.  Then, we choose $\fh := 5(b-a)/(n_{\ninit}-1)$.  In this way, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function minimization problem~\eqref{optprob}.
+The minimization algorithm relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.  
+
+At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that 
+\[
+\min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
+\]
+Then we may return as our answer $M(f,\abstol) = \hM$.
+For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline in \eqref{appxerrbdb} that 
+\begin{equation} \label{minsubintbd}
+\min_{x_{i-1} \le x \le x_i} f(x) \ge \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}.
+\end{equation}
+If the right hand side of the above inequality is no less than $\hM - \abstol$, then this already implies that 
+\[
+\min_{x_{i-1} \le x \le x_i} f(x) \ge M(f,\abstol) - \abstol
+\]
+In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller error bound on the linear linear spline approximation for that subinterval.  However if the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then the interval $[x_{i-1}, x_i]$ should be split.  Also, the two intervals to the immediate left and right of this interval are candidates to be split, since they affect $B_{i,\pm}$.
 
 \begin{algoM} \label{AlgoM}
 	For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
@@ -716,11 +736,12 @@ that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the widt
 	is not yet satisfied:
 	$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Compute $\widehat{M} = \minfi$ and the $f[x_{i-1},
-	x_{i}, x_{i+1}]$,  $i = \{1,2,\ldots,n-1\}$. Then do the
+	Compute $\hM= \minfi$ and the second-order divided differences, $f[x_{i-1},
+	x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the
 	following:
+	
 	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
-		\item \label{stagemin1} Check for convergence.
+		\item \label{stagemin1} \emph{Check for convergence.}
 		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$.
 		Let
 		\begin{multline*}
@@ -729,33 +750,37 @@ that lies somewhere between $n_{\lo}$ and $n_{\text{hi}}$, depending on the widt
 		\end{multline*}
 		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
-		\item \label{stagemin2}
+		\item \label{stagemin2} \emph{Split the subintervals as needed.}
 		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 		\begin{multline*}
 		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  \\
-		\minfii -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
+		\min(f(x_{j-1}),f(x_{j})) -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
 		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 		\end{multline*}
 		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 		Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-		Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stagemin1}.
+		Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, $\hM = \minfi$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
 	\end{enumerate}
 \end{algoM}
 
 \begin{theorem} \label{thm:algMworks}
 Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
-\xinnote{
-we need a theorem that works.\\
-Numerical examples.\\
-We need computational cost\\
-complexity bound
-}
 
 \subsection{Computational Cost} \label{subsec:optcost}
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Let
+\[
+\tM(l) : = \min_{i=0, \ldots, 2^l} f(a+ih_0 2^{-l})
+\]
+be the minimum value of $f$ on a uniform grid with distance $h_0 2^{-l}$ between data sites.
+Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}  To hard to do.
 
+\xinnote{
+	Numerical examples.\\
+	We need computational cost\\
+}
 
 
 \section{Numerical Examples}
