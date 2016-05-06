@@ -409,11 +409,11 @@ Applying the fact that $\fC$ is non-decreasing and property~\eqref{mdec} yields
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
 \nonumber
- \le  & \sup_{x_{i-1} \le x \le x_i} \bigl[\max\bigl(\fC(x-x_{i-3})m(f,x_{i-3},x),\fC(x_{i+2}-x)m(f,x,x_{i+2})\bigr)\bigr]  \\
+ \le  & \sup_{x_{i-1} \le x \le x_i} \max\bigl(\fC(x-x_{i-3})m(f,x_{i-3},x),\fC(x_{i+2}-x)m(f,x,x_{i+2})\bigr)  \\
  %\nonumber & \qquad \qquad \times \max\bigl(m(f,x_{i-3},x),m(f,x,x_{i+2})\bigr] \\
 \nonumber
  \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,x_{i-3},x_{i-1}),\fC(x_{i+2}-x_{i-1})m(f,x_i,x_{i+2})\bigr) \\
-\nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])},\bigr.
+\nonumber  \le & \max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}]},\bigr.
  \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{i,\pm}(f,\cp)\bigr) = B_i(f,\cp).
 \end{align*}

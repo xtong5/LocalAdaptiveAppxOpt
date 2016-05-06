@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{14}
+\begin{thebibliography}{15}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
@@ -95,6 +95,11 @@
   with singularities}.
 \newblock \bibinfo{journal}{Math Comput}
   \bibinfo{year}{2008};\bibinfo{volume}{77}:\bibinfo{pages}{2309--2338}.
+%Type = Book
+\bibitem[{Sigmon and Davis(2004)}]{DavEtal04}
+\bibinfo{author}{Sigmon\xfnm[ K.]}, \bibinfo{author}{Davis\xfnm[ T.A.]}.
+\newblock \bibinfo{title}{MATLAB Primer, Seventh Edition}.
+\newblock \bibinfo{publisher}{CRC Press}, \bibinfo{year}{2004}.
 %Type = Masterthesis
 \bibitem[{Tong(2014)}]{Ton14a}
 \bibinfo{author}{Tong\xfnm[ X.]}.
