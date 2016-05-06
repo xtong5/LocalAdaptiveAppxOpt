@@ -788,11 +788,12 @@ Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
 %% examples.tex
 
 %% Example 3.1
-In computer graphics, 3D objects can often be parameterized by functions.
-Moreover, low to medium accuracy interpolation is usually sufficient to project
-satisfactory visual perceptions. In the following example, we use \funappxg{} to
-interpolate the surface of a seashell, leading to a sufficiently accurate
-three-dimensional reconstruction.
+In computer graphics, three-dimensional (3D) objects can often be parameterized
+by functions. Moreover, low to medium accuracy interpolation is usually
+sufficient to project satisfactory visual perceptions on devices such as
+wearables with limited-memory and relatively low-resolution display. In the
+following example, we use \funappxg{} to interpolate the surface of a seashell,
+resulting to a sufficiently accurate~3D reconstruction.
 
 \begin{figure}[tbh]
   \centering
@@ -811,7 +812,7 @@ Figure~\ref{fig:funappxseashell}a) is an approximation of a
 seashell portrayed as a parametric surface in 3D. Let $a=-0.2$, $b=0.5$,
 $c=0.1$, $n = 2$, $u,v \in [0, 2 \pi]$, and $w(v) =
 a\left(1-\frac{v}{2\pi}\right)$. The parametric surface is defined by the
-following equations~\cite{DavEtal05}:
+following equations~\cite{DavEtal04}:
 \begin{align*}
 x(u,v) & =   \left[ w(v) \left(1+\cos(u)\right) + c\right]\cos(nv),\\
 y(u,v) & = \left[w(v) (1+\cos(u)) + c\right] \sin(nv),\\
@@ -1066,10 +1067,12 @@ parallel versions of our algorithms in a MATLAB toolbox we call
 GAIL~\cite{ChoEtal15a}.
 
 
-Our linear interpolants are not smooth. For future work, better choices of basis
+Our linear interpolants are not smooth and may require a sizable number of
+data points for tiny tolerance or spiky functions. For future work, better choices of basis
 functions for coming up with a function approximant are important for enhancing
-smoothness and reducing number of sampling nodes. Cubic splines, radial basis
-functions and Chebyshev polynomials are some potential candidates.
+smoothness and data efficiency. Cubic splines, radial  basis
+functions and Chebyshev polynomials are some potential promising candidates.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
