@@ -118,7 +118,7 @@ Some ideas to get us going \scnote{TODO}
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal is to solve  function approximation and optimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+The goal is to solve univariate function approximation and optimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
 real-valued functions on a finite interval $[a,b]$, we  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
@@ -129,12 +129,12 @@ M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling
 and return the correct answer.  These algorithms sample more densely where needed, i.e., they are locally adaptive.
 
-Adaptive algorithms relieve the user of having to specify the number of samples required.  The user only needs to provide the error tolerance and be satisfied with the parameters that define $\cc$ and thereby specify the robustness of the algorithms.
+Adaptive algorithms relieve the user of having to specify the number of samples required.  The user only needs to provide the error tolerance desired and be satisfied with the parameters that define $\cc$ and thereby specify the robustness of the algorithms.
 
 We accomplish the following:
 \begin{itemize}
 
-\item The set $\cc$ is defined in Section~\ref{sec:conedef} to be a cone contained in $\cw^{2,\infty}$, the Sobolev space of functions whose second derivatives have finite sup-norms.  Because any algorithm can be fooled by a function that is sufficiently spiky, this $\cc$ is defined to exclude functions that are too spiky.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of second-order divided differences and this provides a data-based upper bound on the error of the linear spline in~\eqref{appxerrbdb}.
+\item The set $\cc$ is defined in Section~\ref{sec:conedef} to be a cone contained in $\cw^{2,\infty}$, the Sobolev space of functions whose second derivatives have finite sup-norms.  Because any algorithm can be fooled by a function that is sufficiently spiky, this $\cc$ is defined to exclude functions that are too spiky.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of second-order divided differences, which leads to a data-based upper bound on the error of the linear spline in~\eqref{appxerrbdb}.
 
 \item Algorithms $A$ and $M$ are constructed in Sections~\ref{subsec:appxalgo} and~\ref{sec:minalgo}, which solve problems~\eqref{appxprob}
 and~\eqref{optprob}, respectively.  These algorithms are based on linear splines.  Guarantees of success are provided by Theorems~\ref{thm:algAworks}
