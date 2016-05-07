@@ -85,8 +85,8 @@
 \newcommand{\funappxglobalg}{\texttt{funappxglobal\_g\xspace}}
 \newcommand{\funming}{\texttt{funmin\_g\xspace}}
 \newcommand{\integralg}{\texttt{integral\_g\xspace}}
-\newcommand{\cosappx}{\widehat{cos}}
-\newcommand{\sinappx}{\widehat{sin}}
+\newcommand{\cosappx}{\widehat{\operatorname*{cos}}}
+\newcommand{\sinappx}{\widehat{\operatorname*{sin}}}
 \newcommand{\minfi}{\min\limits_{i=1, \ldots,  n} f(x_i)} %minf(xi)
 \newcommand{\minfii}{\min(f(x_{i-1}), f(x_i))} %min{f(x_i-1),f(x_i)}
 \begin{document}
@@ -792,11 +792,11 @@ Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
 
 %% Example 3.1
 In computer graphics, three-dimensional (3D) objects can often be parameterized
-by functions. Moreover, low to medium accuracy interpolation is usually
-sufficient to project satisfactory visual perceptions on devices such as
-wearables with limited-memory and relatively low-resolution display. In the
-following example, we use \funappxg{} to interpolate the surface of a seashell,
-resulting to a sufficiently accurate~3D reconstruction.
+by functions. Moreover, interpolation at low to medium accuracy is usually
+sufficient to project satisfactory visual perceptions on devices that have
+relatively limited memory and low-resolution display, for example, cellphones
+and wearables. In the following example, we use \funappxg{} to interpolate the
+surface of a seashell, resulting in a sufficiently accurate~3D reconstruction.
 
 \begin{figure}[tbh]
   \centering
@@ -871,22 +871,22 @@ existing method for high-accuracy function approximation.
 
 \begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox known for using Chebyshev
-polynomial basis for approximating given functions to machine precision
-($\approx 10^{-15}$). In this example, we show that it is challenged by~$f_3$
-defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some pointwise
-errors of the piecewise Chebyshev interpolant spike to more than $10^{-5}$ as
-shown in Figure~\ref{f3chebfig}a). Regretably Chebfun did not issue any warning
-about the inaccurate representation in this case. In contrast, the errors of the
-piecewise linear interpolant from \funappxg{} are uniformly below $10^{-14}$.
-Nonetheless the time taken by \funappxg{} was close to 7 seconds for such an
-accurate approximation.
+polynomial basis for approximating given functions to the level of machine
+precision ($\approx 10^{-15}$). In this example, we show that it is challenged
+by~$f_3$ defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some
+pointwise errors of the piecewise Chebyshev interpolant spiked to more than
+$10^{-5}$ as shown in Figure~\ref{f3chebfig}a). Regretably Chebfun did not issue
+any warning about the inaccurate representation in this case. In contrast, the
+errors of the piecewise linear interpolant from \funappxg{} were uniformly below
+$10^{-14}$. Nonetheless the time taken by \funappxg{} was close to~30 seconds
+for such an accurate approximation.
 
 %
 \begin{figure}[tbh]
 \centering
 \begin{tabular}{cc}
-\includegraphics[width=5.9cm]{figure/chebfun_errors.pdf} \hspace{-2ex} &
-\includegraphics[width=5.9cm]{figure/funappx_g_errors.pdf}
+\includegraphics[width=5.9cm]{figure/chebfun_errors.eps} \hspace{-2ex} &
+\includegraphics[width=5.9cm]{figure/funappx_g_errors.eps}
 \\ a) & b)
 \end{tabular}
 \caption{Approximating $f_3(x)$ with errors of interpolants returned from a)
