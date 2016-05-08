@@ -791,12 +791,13 @@ Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
 %% examples.tex
 
 %% Example 3.1
-In computer graphics, three-dimensional (3D) objects can often be parameterized
-by functions. Moreover, interpolation at low to medium accuracy is usually
-sufficient to project satisfactory visual perceptions on devices that have
-relatively limited memory and low-resolution display, for example, cellphones
-and wearables. In the following example, we use \funappxg{} to interpolate the
-surface of a seashell, resulting in a sufficiently accurate~3D reconstruction.
+In computer graphics, three-dimensional objects can often be parameterized by
+functions. Moreover, interpolation at low to medium accuracy is often found to
+be sufficient for projecting satisfactory visual perceptions on devices that
+have relatively limited memory and low-resolution display, for example,
+cellphones and wearables. In the following example, we use \funappxg{} to
+interpolate the surface of a seashell, resulting in a sufficiently accurate
+reconstruction in $\mathbb{R}^3$.
 
 \begin{figure}[tbh]
   \centering
@@ -842,15 +843,16 @@ Then we have
 \\ \hat{z}(u,v) & = \frac{bv}{2\pi} + a\left(1-\frac{v}{2\pi}\right)\sinappx(u).
 \end{align*}
 \end{comment}
-Define the overall approximation error measure as
+Define the \emph{overall} approximation error measure as the supremum norm 
 \begin{align*}
-\mathscr{E} =  \max\limits_{u,v \in [0, 2 \pi] } & \left\{   |x(u,v)-\hat{x}(u,v)|,\right.
+%\mathscr{E} =  
+   \max\limits_{u,v \in [0, 2 \pi] } & \left\{   |x(u,v)-\hat{x}(u,v)|,\right.
    \left.  |y(u,v)-\hat{y}(u,v)|,
                                   \ \    |z(u,v)-\hat{z}(u,v)|\right\}.
 \end{align*}
 Even if we set the error tolerance $\abstol$ to be as big as $0.1$ for computing
-$\sinappx$ and $\cosappx$, we can still obtain a much diminished error
-$\mathscr{E}\approx 9 \times 10^{-4}$; see the error plot in
+$\sinappx$ and $\cosappx$, we can still obtain a much diminished overall error
+in the order of $9 \times 10^{-4}$; see the error plot in
 Figure~\ref{fig:funappxseashell}b). The reconstructed surface in
 Figure~\ref{fig:funappxseashell}a) is very similar to the original seashell
 image.
@@ -929,22 +931,22 @@ simulating the following families of test functions in addition to $f_3$:
 %  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
 \end{align*}
 where $c$ for defining $f_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
-$d$ for other functions from $[0,4]$. If $d=1$, then $g_i$ reduces to $f_i$
-for $i=1, \mbox{and } 2$. Figure~\ref{fig:testfunctions}a) shows the shapes of
-the test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and
-use \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
+$d$ for other functions from $[0,4]$. If $d=1$, then $g_i$ reduces to $f_i$ for
+$i=1, \mbox{and } 2$. Figure~\ref{fig:testfunctions}a) shows the shapes of the
+test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and $\fC
+(h) = \frac{ 3 f_h}{f_h-h}$ where $f_h = \frac{5(b-a)}{n_0-1}$, and we use
+\texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
 functions on interval $[a,b]=[0,1]$ for $g_1$, $g_2$, and $f_3$ and
-$[a,b]=[a,c+1]$ for $g_3$, $g_4$, and $g_5$. We summarize the approximation
-results in Table~\ref{tab:localVsGlobalVsChebfun}, in which we can see that the
-locally adaptive method save computational cost compared to the globally
-adaptive method in all cases.
+$[a,b]=[a,c+1]$ for $g_3$, $g_4$, and $g_5$. The approximation results are
+summarized in Table~\ref{tab:localVsGlobalVsChebfun}. We switch on the splitting
+feature in Chebfun to use piecewise Chebyshev polynomials for approximation.
 
 %
 \begin{figure}[th]
   \centering
   \begin{tabular}{cc}
 \includegraphics[width=59mm]{figure/traub_funappxNoPenalty_g_testfun.eps} & \hspace{-3ex}
-\includegraphics[width=60mm]{figure/traub_funappxNoPenalty_g_test}
+\includegraphics[width=70mm]{figure/traub_funappxNoPenalty_g_test.eps}
   \\ a)  & b)
   \end{tabular}
 \caption{a) Test functions for comparing \funappxg, \funappxglobalg, and Chebfun
@@ -969,14 +971,14 @@ sofwtare. This table can be conditionally reproduced by
 \begin{tabular}{|c|rrr|rrr|rrrrrr|rr|}
 \hline
     Test      &     \multicolumn{3}{c|}{Number of Points} & \multicolumn{3}{c|}{Time Used}  & \multicolumn{6}{|c|}{Success (\%)} &  \multicolumn{2}{c|}{Failure (\%)}
-\\  functions &  Local  &  Global    &  Chebfun & Local       &  Global  & Chebfun              & \multicolumn{2}{c}{Local}   &  \multicolumn{2}{c}{Global}  & \multicolumn{2}{c}{Chebfun}  & \multicolumn{2}{|c|}{Chebfun}
+\\  functions &  Local  &  Global    &  Chebfun    & Local     &  Global     & Chebfun      & \multicolumn{2}{c}{Local} & \multicolumn{2}{c}{Global} & \multicolumn{2}{c}{Chebfun}  & \multicolumn{2}{|c|}{Chebfun}
 \\ \hline
-      $f_3$ &    867  &   14640  &    4   &   0.046   &  0.014  &  0.094  &    100  & ( 34) &  100  &  (0) &     96 &   ( 0)  &     4  &  ( 0)
-\\    $g_1$ &   4152  &   30357  & 5069   &   0.052   &  0.030  &  3.989  &    100  & (100) &  100  &  (0) &     61 &   (24)  &    39  &  (39)
-\\    $g_2$ &   4223  &   51050  & 4720   &   0.057   &  0.038  &  3.563  &    100  & ( 72) &  100  &  (0) &    100 &   (51)  &     0  &  ( 0)
-\\    $g_3$ &   5011  &   46049  &    3   &   0.026   &  0.029  &  0.011  &    100  & (100) &  100  &  (0) &    100 &   ( 0)  &     0  &  ( 0)
-\\    $g_4$ &  29671  &  110027  &   37   &   0.059   &  0.032  &  0.016  &    100  & (  0) &  100  &  (0) &    100 &   ( 0)  &     0  &  ( 0)
-\\    $g_5$ &  11580  &  509263  &  127   &   0.037   &  0.138  &  0.129  &    100  & (100) &  100  &  (0) &     82 &   ( 0)  &    18  &  ( 0)
+          f3   &   2904  &   46439   &      11    &   0.020   &     0.020    &   0.229 &    100   &  (0) &  100   &  (0) &   97   &   ( 0)   &   3   & (0) 
+\\        g1   &   3849  &   30090   &    5639    &   0.018   &     0.019    &   2.569 &    100   &  (0) &  100   &  (0) &  100   &   (86)   &   0   & (0) 
+\\        g2   &   3927  &   48674   &    2131    &   0.033   &     0.020    &   1.455 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
+\\        g3   &   4666  &   42398   &       3    &   0.015   &     0.016    &   0.011 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
+\\        g4   &  23870  &   95174   &      34    &   0.049   &     0.017    &   0.013 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
+\\        g5   &  11492  &  471983   &     154    &   0.019   &     0.077    &   0.180 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
 \\ \hline
 \end{tabular}
 }
@@ -985,17 +987,13 @@ sofwtare. This table can be conditionally reproduced by
 
 From Table~\ref{tab:localVsGlobalVsChebfun}, we see that both \funappxg{} and
 \funappxglobalg{} achieved total success. The former worked better than
-\funappxglobalg{} for all test cases in terms of \emph{average} number of run
-time and number of sampling points. It was also more \emph{cautionary} since it
-issued more warnings than \funappxglobalg.
-%
+\funappxglobalg{} for all test cases in terms of number of sampling points and
+\emph{average} run time as evidenced by Figure~\ref{fig:testfunctions}b)(LEFT).
 In contrast, Chebfun generally used substantially less number of node points
-than \funappxg{} even though the run time was longer than \funappxg{} in about~60\% of the
-test cases; see Figure~\ref{fig:testfunctions}b)(RIGHT). However it was
-particularly challenged by the highly oscillatory functions $g_1$ and $g_2$ in
-terms of run time and success rates. In some instances of the peaky functions
-$f_3$ and $g_5$, it failed to approximate them satisfactorily for about~10\% of
-the cases.
+than \funappxg{} even though the run time was longer than \funappxg{} in
+about~60\% of the test cases; see Figure~\ref{fig:testfunctions}b)(RIGHT).
+But it failed to approximate satisfactorily three instances of the spiky
+function family~$g_3$.
 \end{exmp}
 
 \begin{comment}
@@ -1041,14 +1039,14 @@ unnecessary.
 
 \section{Discussion}
 
-Software packages such as Chebfun and MATLAB's functions including \texttt{interp1},
-\texttt{griddedInterpolant}, and \texttt{fminbnd} are some of the most popular
-and useful function interpolation and optimization methods. However, it is
-important for users to be vigilant in applying these and other similar tools, which
-often do not inform users of whether the approximants meet the user's
-required accuracy. The reasons may range from an absence of rigorous theoretical
-frameworks for error estimation to understandable challenges in efficient
-implementation.
+Software packages such as Chebfun and MATLAB's functions including
+\texttt{interp1}, \texttt{griddedInterpolant}, and \texttt{fminbnd} are some of
+the most popular and useful function interpolation and optimization methods.
+However, it is important for users to be vigilant in applying these and other
+similar tools, which often do not inform users of whether the approximants meet
+the user's required accuracy. The reasons may range from an absence of rigorous
+theoretical frameworks for error estimation to understandable challenges in
+efficient implementation.
 
 Function approximation and minimization methods are not necessarily precise
 enough unless we use a sufficiently large number of sampling points. This paper
@@ -1063,18 +1061,18 @@ f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
 user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
 
 Our approach is not necessarily fast for all functions $f$ or in high precision
-setting as we are simply using linear splines. However, it is embarrassingly easy
-to parallelize by applying the methods to a contiguous partition of the domain
-followed by some post processing. In fact, we have implemented the serial and
-parallel versions of our algorithms in a MATLAB toolbox we call
+setting as we are simply using linear splines. However, it is embarrassingly
+easy to parallelize by applying the methods to a contiguous partition of the
+domain followed by some post processing. In fact, we have implemented the serial
+and parallel versions of our algorithms in a MATLAB toolbox we call
 GAIL~\cite{ChoEtal15a}.
 
 
-Our linear interpolants are not smooth and may require a sizable number of
-data points for tiny tolerance or spiky functions. For future work, better choices of basis
-functions for coming up with a function approximant are important for enhancing
-smoothness and data efficiency. Cubic splines, radial  basis
-functions and Chebyshev polynomials are some potential promising candidates.
+Our linear interpolants are not smooth and may require a sizable number of data
+points for tiny tolerance or spiky functions. For future work, better choices of
+basis functions for coming up with a function approximant are important for
+enhancing smoothness and data efficiency. Cubic splines, radial basis functions
+and Chebyshev polynomials are some potential promising candidates.
 
 
 
