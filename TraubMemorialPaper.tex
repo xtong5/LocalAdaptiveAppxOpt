@@ -94,7 +94,7 @@
 
 \begin{frontmatter}
 
-\title{Local Adpation for Approximation and Optimization of Univariate Functions}
+\title{Local Adaption for Approximation and Optimization of Univariate Functions}
 
 
 %% Group authors per affiliation:
@@ -325,7 +325,7 @@ a spiky function that may or may not lie in $\cc$.
 \centering
 \includegraphics[width=5.7cm]{figure/f3plot.eps} \quad
 \includegraphics[width=5.7cm]{figure/f3ppplot.eps}
-\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecwise constant second derivative. \label{f3fig}}
+\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecewise constant second derivative. \label{f3fig}}
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
@@ -422,7 +422,7 @@ A similar argument applied for the sub-intervals on the left and right borders o
 The bound in~\eqref{normbd} combined with~\eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{subequations} \label{appxerrbdb}
-\begin{gather} 
+\begin{gather}
 \norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} , \\
 \norm{f - S(f,\datasites)} \le
 \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} .
@@ -488,7 +488,7 @@ Next, we investigate the computational cost of our locally adaptive algorithm. L
  \begin{equation} \label{h0def}
  h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
  \end{equation}
-be the initial width of the subintervals. To faciliate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
+be the initial width of the subintervals. To facilitate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
  the width $2^{-l}h_0$.
 \begin{multline}\label{Ixldef}
 \Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \\ j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.
@@ -714,18 +714,18 @@ The right hand side of this inequality does depend on how far $\fC(0)$ is above 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
 \subsection{Algorithm $M$}  \label{sec:minalgo}
-The minimization algorithm relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.  
+The minimization algorithm relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.
 
-At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that 
+At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that
 \[
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
 \]
 Then we may return as our answer $M(f,\abstol) = \hM$.
-For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline in \eqref{appxerrbdb} that 
+For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline in \eqref{appxerrbdb} that
 \begin{equation} \label{minsubintbd}
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}.
 \end{equation}
-If the right hand side of the above inequality is no less than $\hM - \abstol$, then this already implies that 
+If the right hand side of the above inequality is no less than $\hM - \abstol$, then this already implies that
 \[
 \min_{x_{i-1} \le x \le x_i} f(x) \ge M(f,\abstol) - \abstol
 \]
@@ -769,7 +769,7 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \end{theorem}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e., 
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e.,
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
@@ -806,7 +806,7 @@ In computer graphics, three-dimensional objects can often be parameterized by
 functions. Moreover, interpolation at low to medium accuracy is often found to
 be sufficient for projecting satisfactory visual perceptions on devices that
 have relatively limited memory and low-resolution display, for example,
-cellphones and wearables. In the following example, we use \funappxg{} to
+cell phones and wearables. In the following example, we use \funappxg{} to
 interpolate the surface of a seashell, resulting in a sufficiently accurate
 reconstruction in $\mathbb{R}^3$.
 
@@ -854,9 +854,9 @@ Then we have
 \\ \hat{z}(u,v) & = \frac{bv}{2\pi} + a\left(1-\frac{v}{2\pi}\right)\sinappx(u).
 \end{align*}
 \end{comment}
-Define the \emph{overall} approximation error measure as the supremum norm 
+Define the \emph{overall} approximation error measure as the supremum norm
 \begin{align*}
-%\mathscr{E} =  
+%\mathscr{E} =
    \max\limits_{u,v \in [0, 2 \pi] } & \left\{   |x(u,v)-\hat{x}(u,v)|,\right.
    \left.  |y(u,v)-\hat{y}(u,v)|,
                                   \ \    |z(u,v)-\hat{z}(u,v)|\right\}.
@@ -984,11 +984,11 @@ sofwtare. This table can be conditionally reproduced by
     Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)} &  \multicolumn{2}{c|}{Failure (\%)}
 \\  family &  Local  &  Global    &  Chebfun    & Local     &  Global     & Chebfun      & \multicolumn{2}{c}{Local} & \multicolumn{2}{c}{Global} & \multicolumn{2}{c}{Chebfun}  & \multicolumn{2}{|c|}{Chebfun}
 \\ \hline
-          f3   &   2904  &   46439   &      11    &   0.020   &     0.020    &   0.229 &    100   &  (0) &  100   &  (0) &   97   &   ( 0)   &   3   & (0) 
-\\        g1   &   3849  &   30090   &    5639    &   0.018   &     0.019    &   2.569 &    100   &  (0) &  100   &  (0) &  100   &   (86)   &   0   & (0) 
-\\        g2   &   3927  &   48674   &    2131    &   0.033   &     0.020    &   1.455 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
-\\        g3   &   4666  &   42398   &       3    &   0.015   &     0.016    &   0.011 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
-\\        g4   &  23870  &   95174   &      34    &   0.049   &     0.017    &   0.013 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
+          f3   &   2904  &   46439   &      11    &   0.020   &     0.020    &   0.229 &    100   &  (0) &  100   &  (0) &   97   &   ( 0)   &   3   & (0)
+\\        g1   &   3849  &   30090   &    5639    &   0.018   &     0.019    &   2.569 &    100   &  (0) &  100   &  (0) &  100   &   (86)   &   0   & (0)
+\\        g2   &   3927  &   48674   &    2131    &   0.033   &     0.020    &   1.455 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
+\\        g3   &   4666  &   42398   &       3    &   0.015   &     0.016    &   0.011 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
+\\        g4   &  23870  &   95174   &      34    &   0.049   &     0.017    &   0.013 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
 \\        g5   &  11492  &  471983   &     154    &   0.019   &     0.077    &   0.180 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
 \\ \hline
 \end{tabular}
@@ -1023,12 +1023,12 @@ sofwtare. This table can be conditionally reproduced by
     Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)} &  \multicolumn{2}{c|}{Failure (\%)}
 \\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd     & \texttt{min}      & \multicolumn{2}{c}{\funming} & \multicolumn{2}{c}{\fminbnd} & \multicolumn{2}{c}{\texttt{min}}  & \multicolumn{2}{|c|}{\fminbnd}
 \\ \hline
-         -f3   &  2913   &   8   &      11    &   0.003   &    0.002    &  0.223  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
-\\        g1   &  2341   &  22   &    5249    &   0.003   &    0.002    &  2.534  &    100   &  (0) &  24    &  (0) &  100   &   (71)   &   76  & (0) 
-\\        g2   &  2552   &  10   &    1489    &   0.003   &    0.002    &  1.069  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
-\\        g3   &  1747   &   6   &       3    &   0.002   &    0.002    &  0.012  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
-\\        g4   &  5421   &  18   &      22    &   0.003   &    0.002    &  0.012  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
-\\       -g5   &  9160   &  14   &     151    &   0.006   &    0.002    &  0.152  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0) 
+         -f3   &  2913   &   8   &      11    &   0.003   &    0.002    &  0.223  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
+\\        g1   &  2341   &  22   &    5249    &   0.003   &    0.002    &  2.534  &    100   &  (0) &  24    &  (0) &  100   &   (71)   &   76  & (0)
+\\        g2   &  2552   &  10   &    1489    &   0.003   &    0.002    &  1.069  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
+\\        g3   &  1747   &   6   &       3    &   0.002   &    0.002    &  0.012  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
+\\        g4   &  5421   &  18   &      22    &   0.003   &    0.002    &  0.012  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
+\\       -g5   &  9160   &  14   &     151    &   0.006   &    0.002    &  0.152  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
 
 \\ \hline
 \end{tabular}
@@ -1098,7 +1098,7 @@ the most popular and useful function interpolation and optimization methods.
 However, it is important for users to be vigilant in applying these and other
 similar tools, which often do not inform users of whether the approximants meet
 the user's required accuracy. The reasons may range from an absence of rigorous
-theoretical frameworks (e.g., no method in MATLAB's Global Optimizaton Toolbox  
+theoretical frameworks (e.g., no method in MATLAB's Global Optimizaton Toolbox
 provides any certification of global solutions) for error estimation to
 understandable challenges in efficient implementation.
 
@@ -1121,7 +1121,7 @@ domain followed by some post processing. In fact, we have implemented the serial
 and parallel versions of our algorithms in a MATLAB toolbox we call
 GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
 guided by the latest theoretical developments of cones of functions and
-constructed acording to our best knowledge of good practices of MATLAB
+constructed according to our best knowledge of good practices of MATLAB
 programming, which include interfaces for input parsing, doc tests and unit
 tests, as well as code comments and searchable HTML user guide and
 documentation.
