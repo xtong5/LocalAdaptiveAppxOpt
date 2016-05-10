@@ -768,15 +768,25 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \end{theorem}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Let
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e., 
+\[
+f(x^*)  = \min_{a \le x \le b} f(x).
+\]
+Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
+\begin{multline}\label{eqn:defofltx}
+\tL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \frac{(2^{-l}h_0)^2}{8} \{[\fC\left(3\cdot2^{-l}h_0\right) + 1]\norm[\bar{I}_{x,l}]{f''} + \norm[\bar{I}_{x^*,l}]{f''}\} \\
+\le f(x) - f(x^*) + \abstol  \biggr\}.
+\end{multline}
+
+
+
+
+
+
 \[
 \tM_l : = \min_{i=0, \ldots, 2^l} f(a+ih_0 2^{-l})
 \]
 be the minimum value of $f$ on a uniform grid with distance $h_0 2^{-l}$ between data sites.
-Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
-\begin{equation}\label{eqn:defofltx}
-\tL(x) = \min \left\{ l \in \mathbb{N}_0 :  \tM_l + \frac{1}{4} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le f(x) + \abstol  \right\}.
-\end{equation}
 
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}  To hard to do.
 
