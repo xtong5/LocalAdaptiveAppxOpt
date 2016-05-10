@@ -368,10 +368,15 @@ $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
-The error of this approximation is bounded as follows \cite{??}
-\begin{equation} \label{appxerrbda}
+The error of this approximation is bounded as follows from \cite{??}
+\begin{subequations} \label{appxerrbda}
+\begin{gather} 
+\label{appxerrbdapc}
+\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
-\end{equation}
+\end{gather}
+\end{subequations}
+
 To construct an adaptive algorithm, one requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
@@ -769,18 +774,76 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \end{theorem}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e., 
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in algorithm $A$ that contains $x$ when the algorithm terminates.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e., 
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
-Instead of $L(x)$ defined in \eqref{eqn:defoflx}, we define
+Analogous to $L(x)$ in \eqref{eqn:defoflx}, we define
 \begin{multline}\label{eqn:defofltx}
 \tL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \frac{(2^{-l}h_0)^2}{8} \{[\fC\left(3\cdot2^{-l}h_0\right) + 1]\norm[\bar{I}_{x,l}]{f''} + \norm[\bar{I}_{x^*,l}]{f''}\} \\
 \le f(x) - f(x^*) + \abstol  \biggr\}.
 \end{multline}
+Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.
+
+We now show that $\tell(x) \le \tL(x)$ by a similar argument to that used to derive an upper bound on the computational cost of Algorithm $A$.  If $\tell(x) > \tL(x)$, then at some iteration $I_{x,\tL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_i\}_{i=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,\tL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\tL(x)}h_0$. Referring to Step~\ref{stage2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,\tL(x)}$ to be split.  We show that this is impossible.
+
+First we bound certain terms in $\ci_{\pm}$ and $\ci{\pm k}$ in Algorithm $M$.  Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
+\[
+f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8},
+\]
+and so
+\begin{align*}
+\hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
+& \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8}.
+\end{align*}
+There are two possibilities regarding $i^*$.  If $i \in \ci$, then $x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, 
+\begin{align*}
+\hM  & \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8} \\
+& \le  f(x^*) .
+\end{align*}
 
 
 
+
+
+
+
+
+Referring to Step~\ref{stage2} of $M$, it is necessary that $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ or  $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  We show that neither of these conditions can hold, thus contradicting the assumption that $\ell(x) > L(x)$.
+
+Let us investigate these two conditions separately.
+\begin{enumerate}
+	\item $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.  If $i \in \mathcal{I}_+ \cap \widetilde{\mathcal{I}}$, then
+	\begin{equation}
+	\label{conditionone} x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, \qquad   j=i+1,i+2, \qquad [x_i,x_{i+2}] \subseteq \bar{I}_{x,L(x)}.
+	\end{equation}
+	This implies that
+	\begin{align*}
+	\abstol & <  \frac{B_{i,+}(f,\cp)}{8}(x_i-x_{i-1})^2 \\
+	& \le \frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by}~\eqref{bpf} \\
+	%\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
+	&\le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by}~\eqref{conditionone} \\
+	& \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{conditionone} \\
+	& \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
+	\end{align*}
+	A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \widetilde{\mathcal{I}}$ as well.  Thus $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ is impossible.
+	\item $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$\\
+	There are four different cases in this situation. We first consider $i \in \widehat{\mathcal{I}}_{+1} \cap \widetilde{\mathcal{I}}$.
+	Thus
+	\begin{equation} \label{conditiontwo}
+	x_{i}-x_{i-1} \ge x_{j}-x_{j-1},\qquad j=i-1,i+1, \qquad [x_{i-1},x_{i+1}] \subseteq \bar{I}_{x,l}.
+	\end{equation}
+	Then
+	\begin{align*}
+	\abstol & < \frac{B_{i-1,+}(f,\cp)}{8}(x_{i-1}-x_{i-2})^2 \\
+	& \le  \frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by}~\eqref{bpf}   \\
+	& \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by}~\eqref{conditiontwo}  \\
+	& \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[\bar{I}_{x,L(x)}]{f''} \qquad \text{by}~\eqref{conditiontwo}  \\
+	& \le  \abstol \qquad \text{by}~\eqref{eqn:defoflx}.
+	\end{align*}
+	We also get contradiction for other three cases. So we cannot have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
+\end{enumerate}
+Hence, we prove $\ell(x) \le L(x)$. This fact is used to prove an upper bound on the computational cost of Algorithm $A$.
 
 
 
