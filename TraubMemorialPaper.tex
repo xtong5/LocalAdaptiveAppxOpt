@@ -368,9 +368,9 @@ $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
-The error of this approximation is bounded as follows from \cite{??}
+The error of this approximation is bounded as follows (Theorem 3.3 in \cite{a})
 \begin{subequations} \label{appxerrbda}
-\begin{gather} 
+\begin{gather}
 \label{appxerrbdapc}
 \norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
