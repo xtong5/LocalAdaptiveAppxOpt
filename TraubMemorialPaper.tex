@@ -368,9 +368,9 @@ $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
-The error of this approximation is bounded as follows from \cite{??}
+The error of this approximation is bounded as follows (Theorem 3.3 in \cite{a})
 \begin{subequations} \label{appxerrbda}
-\begin{gather} 
+\begin{gather}
 \label{appxerrbdapc}
 \norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
 \norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
@@ -774,7 +774,7 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \end{theorem}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in algorithm $A$ that contains $x$ when the algorithm terminates.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e., 
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in algorithm $A$ that contains $x$ when the algorithm terminates.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e.,
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
@@ -796,7 +796,7 @@ and so
 \hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
 & \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8}.
 \end{align*}
-There are two possibilities regarding $i^*$.  If $i \in \ci$, then $x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, 
+There are two possibilities regarding $i^*$.  If $i \in \ci$, then $x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$,
 \begin{align*}
 \hM  & \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8} \\
 & \le  f(x^*) .
