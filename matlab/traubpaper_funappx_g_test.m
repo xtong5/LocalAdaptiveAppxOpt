@@ -7,9 +7,10 @@ function [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_funappx_
 % Compare funappxNoPenalty_g with funappxglobal_g and chebfun:
 % [timeratio,timelgratio,npointsratio,npointslgratio]=traubpaper_funappx_g_test(nrep,abstol,'funappxNoPenalty_g');
 
-set(0,'defaultaxesfontsize',14,'defaulttextfontsize',14, ... %make font larger
-      'defaultLineLineWidth',2); %thick lines
-    %  'defaultLineMarkerSize',8)
+InitializeDisplay
+% set(0,'defaultaxesfontsize',14,'defaulttextfontsize',14, ... %make font larger
+%       'defaultLineLineWidth',2); %thick lines
+%     %  'defaultLineMarkerSize',8)
 cc = rand(nrep,1);  
 c = cc*4; % number of simulations for each test function
 n = 6; % number of test functions
@@ -194,7 +195,8 @@ markers = {'--go', ':r*', '-.b.', '-g+', '--ro', '-.b'};
 if usejava('jvm') || MATLABVERSION <= 7.12
     figure
     for i=1:length(fcns)
-        plot(x{i},y{i}, markers{i}); hold on
+%        plot(x{i},y{i}, markers{i}); hold on
+        plot(x{i},y{i}); hold on
     end
     
     legend('f1','f2','f3', 'f4', 'f5', 'f6')
