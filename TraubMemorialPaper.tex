@@ -387,7 +387,7 @@ For all $ x \in [x_{i-1},x_i]$,  denote
 &h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
  &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
 \end{align*}
-Let $\cp$ be a shorthand notation for the partition $\{x_i\}_{i=0}^n$, and define the following data based quantities.
+Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and define the following data based quantities.
 \begin{align}\label{bpf}
 B_{i+}(f,\cp)&:=\begin{cases}
     \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
@@ -453,15 +453,16 @@ Then, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the al
 
 \begin{algoA} \label{AlgoA}
 For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_i\}_{i=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
+user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
 is not yet satisfied:
-$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
+$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-Compute the second-order divided differences, $f[x_{i-1},
-x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the
+Compute the second-order divided differences, $f[x_{j-1},
+x_{j}, x_{j+1}]$, for $j= \{1,2,\ldots,n-1\}$. Then do the
 following:
 \begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
+
 \item \label{stage1} \emph{Check for convergence.}
 Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$.
 Let
@@ -470,15 +471,21 @@ Let
 \]
 Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\abstol) = S(f, \cp)$ and terminate the algorithm.
 Otherwise, continue to the next step.
+
 \item \label{stage2} \emph{Split the subintervals as needed.}
-Let $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
-\begin{multline*}
-\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
- j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
-\end{multline*}
-\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
+Let %$\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
+\begin{gather*}
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
+\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
+\end{gather*}
+%\begin{multline*}
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
+%j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
+%\end{multline*}
+%\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
+Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
 
@@ -493,7 +500,7 @@ Next, we investigate the computational cost of our locally adaptive algorithm. L
  \begin{equation} \label{h0def}
  h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
  \end{equation}
-be the initial width of the subintervals. To facilitate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
+be the initial width of the subintervals. Fix $x \in [a,b[$.  To facilitate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
  the width $2^{-l}h_0$.
 \begin{multline}\label{Ixldef}
 \Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \\ j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.
@@ -510,45 +517,36 @@ with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
 L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
-
 Note that $L(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
-We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and that by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_i\}_{i=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-L(x)}h_0$.
-Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ or  $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  We show that neither of these conditions can hold, thus contradicting the assumption that $\ell(x) > L(x)$.
+We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0$.
+We show that such a scenario is impossible, thus contradicting the assumption that $\ell(x) > L(x)$.
 
-Let us investigate these two conditions separately.
-\begin{enumerate}
-  \item $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.  If $i \in \mathcal{I}_+ \cap \widetilde{\mathcal{I}}$, then
-  \begin{equation}
-  \label{conditionone} x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, \qquad   j=i+1,i+2, \qquad [x_i,x_{i+2}] \subseteq \bar{I}_{x,L(x)}.
-  \end{equation}
-  This implies that
+Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that 
+\begin{equation} \label{Blenorm}
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}.
+\end{equation}
+We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that 
+\begin{equation} \label{conditionone}
+2^{-L(x)}h_0 = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
+\end{equation}
+In particular, $(x_j-x_{j-1})^2 \le (2^{-L(x)}h_0)^2$, which is part of the proof of \eqref{Blenorm}.  Also, note that
   \begin{align*}
-  \abstol & <  \frac{B_{i,+}(f,\cp)}{8}(x_i-x_{i-1})^2 \\
-  & \le \frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by}~\eqref{bpf} \\
+  B_{j,+}(f,\cp)
+  & \le \fC(x_{j+2}-x_{j-1})f[x_{j},x_{j+1},x_{j+2}] \qquad \text{by}~\eqref{bpf} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-  &\le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by}~\eqref{conditionone} \\
-     & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{conditionone} \\
-     & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
+  &\le  \fC\left(3\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{conditionone} \\
+  & \le   \fC\left(3\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
   \end{align*}
-A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \widetilde{\mathcal{I}}$ as well.  Thus $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ is impossible.
-  \item $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$\\
-  There are four different cases in this situation. We first consider $i \in \widehat{\mathcal{I}}_{+1} \cap \widetilde{\mathcal{I}}$.
-  Thus
-  \begin{equation} \label{conditiontwo}
-  x_{i}-x_{i-1} \ge x_{j}-x_{j-1},\qquad j=i-1,i+1, \qquad [x_{i-1},x_{i+1}] \subseteq \bar{I}_{x,l}.
-  \end{equation}
-  Then
-  \begin{align*}
-  \abstol & < \frac{B_{i-1,+}(f,\cp)}{8}(x_{i-1}-x_{i-2})^2 \\
-& \le  \frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by}~\eqref{bpf}   \\
- & \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by}~\eqref{conditiontwo}  \\
-     & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[\bar{I}_{x,L(x)}]{f''} \qquad \text{by}~\eqref{conditiontwo}  \\
-     & \le  \abstol \qquad \text{by}~\eqref{eqn:defoflx}.
-  \end{align*}
-  We also get contradiction for other three cases. So we cannot have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
-\end{enumerate}
-Hence, we prove $\ell(x) \le L(x)$. This fact is used to prove an upper bound on the computational cost of Algorithm $A$.
+This completes the proof of  \eqref{Blenorm}.
+
+Now we use inequality \eqref{Blenorm} to show a contradiction:
+ \begin{align*}
+ \abstol & <  \frac{B_{j,s}(f,\cp)}{8}(x_j-x_{j-1})^2 \qquad \text{since}~j \in \ci_s\\
+ & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
+ & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
+ \end{align*}
+ Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows that $\ell(x) \le  L(x)$, which is used to prove an upper bound on the computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
 Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by Algorithm $A$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
@@ -562,7 +560,7 @@ where $L(x)$ is defined in~\eqref{eqn:defoflx} and
 \end{theorem}
 
 \begin{proof}
-Let $\cp=\{x_i\}_{i=0}^n$ be the final partition when $A(f,\abstol)$ successfully terminates. Note that $2^{\ell(x)}$ is constant on $I_{x_i,\ell(x_i)} = [x_{i},x_{i+1}[$ for $i=0, \ldots, n-1$.  Furthermore  $\int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x =  h_0$.  Then the number of function values requires is
+Let $\cp=\{x_j\}_{j=0}^n$ be the final partition when $A(f,\abstol)$ successfully terminates. Note that $2^{\ell(x)}$ is constant for  $x \in I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}[$ for $i=1, \ldots, n$.  Furthermore  $\int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif  x =  h_0$.  Then the number of function values required is
 \begin{equation*}
 n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
 \end{equation*}
@@ -738,12 +736,12 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 
 \begin{algoM} \label{AlgoM}
 	For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
-	user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_i\}_{i=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
+	user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
 	is not yet satisfied:
-	$$x_i=a+\frac{i}{n}(b-a), \ i=0,\ldots,n, \qquad
+	$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Compute $\hM= \minfi$ and the second-order divided differences, $f[x_{i-1},
-	x_{i}, x_{i+1}]$, for $i = \{1,2,\ldots,n-1\}$. Then do the
+	Compute $\hM= \minfi$ and the second-order divided differences, $f[x_{j-1},
+	x_{j}, x_{j+1}]$, for $j = \{1,2,\ldots,n-1\}$. Then do the
 	following:
 	
 	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
@@ -751,21 +749,30 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$.
 		Let
 		\begin{multline*}
-		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
-		< \widehat{M}-\abstol \biggr\}.
+		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}:  \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
+		> \minfii - \widehat{M} + \abstol \biggr\}.
 		\end{multline*}
+%		\begin{multline*}
+%		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
+%		< \widehat{M}-\abstol \biggr\}.
+%		\end{multline*}
 		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
 		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 		\begin{multline*}
-		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  \\
-		\min(f(x_{j-1}),f(x_{j})) -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
+		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  
+		\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8} \\ > \min(f(x_{j-1}),f(x_{j})) - \widehat{M}+\abstol,\\
 		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 		\end{multline*}
+%		\begin{multline*}
+%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  \\
+%		\min(f(x_{j-1}),f(x_{j})) -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
+%		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
+%		\end{multline*}
 		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 		Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-		Update $n$, $\cp = \{x_i\}_{i=0}^n$, $\mathcal{I}$, $\hM = \minfi$, and the $f[x_{i-1}, x_{i}, x_{i+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
+		Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, $\hM = \minfi$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
 	\end{enumerate}
 \end{algoM}
 
@@ -774,7 +781,7 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \end{theorem}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in algorithm $A$ that contains $x$ when the algorithm terminates.  Let $x^*$ be a place where the minimum of $f$ is obtained, i.e., 
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e., 
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
@@ -785,9 +792,16 @@ Analogous to $L(x)$ in \eqref{eqn:defoflx}, we define
 \end{multline}
 Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
-We now show that $\tell(x) \le \tL(x)$ by a similar argument to that used to derive an upper bound on the computational cost of Algorithm $A$.  If $\tell(x) > \tL(x)$, then at some iteration $I_{x,\tL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_i\}_{i=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,\tL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\tL(x)}h_0$. Referring to Step~\ref{stage2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,\tL(x)}$ to be split.  We show that this is impossible.
+We now show that $\tell(x) \le \tL(x)$ by a similar argument to that used to derive an upper bound on the computational cost of Algorithm $A$.  Fix $x \in [a,b]$.  If $\tell(x) > \tL(x)$, then at some iteration $I_{x,\tL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,\tL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\tL(x)}h_0$. 
 
-First we bound certain terms in $\ci_{\pm}$ and $\ci{\pm k}$ in Algorithm $M$.  Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
+
+\textbf{start fixing here}
+
+
+Referring to Step~\ref{stage2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,\tL(x)}$ to be split.  We show that this is impossible.
+
+First we bound $\min(f_{x_{j-1}},x_j) - \widehat{M}$, $j=i-2, \ldots, i+2$, which must be non-negative by definition, and which appears in the definitions of $\ci_{\pm}$ and $\ci_{\pm k}$ in Algorithm $M$.  
+Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
 \[
 f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8},
 \]
@@ -796,11 +810,35 @@ and so
 \hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
 & \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8}.
 \end{align*}
-There are two possibilities regarding $i^*$.  If $i \in \ci$, then $x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, 
+There are two possibilities regarding $i^*$.  If $i^* \in \ci$, then $x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
 \begin{align*}
 \hM  & \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8} \\
-& \le  f(x^*) .
+& \le  f(x^*) + \frac{(2^{-\tL(x)} h_0)^2\norm[{\bar{I}_{x^*,\tL(x)}}]{f''}}{8}.
 \end{align*}
+Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of Algorithm $M$,
+\begin{align*}
+\hM  & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)}{8} + \abstol   \\
+& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8} + \abstol   \\ 
+& \le  f(x^*) +\abstol.
+\end{align*}
+Thus, we have
+\begin{equation}
+\hM \le f(x^*) + \max\biggl(\abstol, \frac{(2^{-\tL(x)} h_0)^2\norm[{\bar{I}_{x^*,\tL(x)}}]{f''}}{8}\biggr).
+\end{equation}
+
+
+
+
+
+
+
+Note that by \eqref{appxerrbdapc} it follows that
+\[
+f(t) \ge \min(f(x_{j-1}),f(x_{j})) - \frac{(x_{j} - x_{j-1})^2\norm[{[x_{j-1}, x_j]}]{f''}}{8}, \quad \forall t \in [x_{j-1}, x_j]
+\]
+
+
+
 
 
 
