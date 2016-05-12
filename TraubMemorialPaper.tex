@@ -368,7 +368,7 @@ $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
-The error of this approximation is bounded as follows (Theorem 3.3 in \cite{a})
+The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiBur16a}:
 \begin{subequations} \label{appxerrbda}
 \begin{gather}
 \label{appxerrbdapc}
@@ -388,19 +388,21 @@ For all $ x \in [x_{i-1},x_i]$,  denote
  &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
 \end{align*}
 Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and define the following data based quantities.
+\begin{subequations} \label{bpdef}
 \begin{align}\label{bpf}
 B_{i+}(f,\cp)&:=\begin{cases}
-    \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
+\fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
 \\ 0, & i=n-1,n.
 \end{cases} \\
 \label{bmf}
- B_{i-}(f,\cp)&: =\begin{cases}
-   0,  & i=1,2,
+B_{i-}(f,\cp)&: =\begin{cases}
+0,  & i=1,2,
 \\ \fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
 \end{cases} \\
 \nonumber
 B_i(f,\cp) & : = \max\bigl(B_{i,\pm}(f,\cp) \bigr).
 \end{align}
+\end{subequations}
 We now show that these give us a data-based upper bound on the norm of $f''$, namely,
 \begin{equation}\label{normbd}
 \norm[{[x_{i-1},x_i]}]{f''} \le B_i(f,\cp), \qquad i =1, \ldots, n.
@@ -464,7 +466,7 @@ following:
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 
 \item \label{stage1} \emph{Check for convergence.}
-Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$.
+Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef}, where $i \in \mathcal{I}$.
 Let
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
@@ -473,7 +475,7 @@ Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \
 Otherwise, continue to the next step.
 
 \item \label{stage2} \emph{Split the subintervals as needed.}
-Let %$\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
+Let
 \begin{gather*}
 \widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
@@ -533,7 +535,7 @@ We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \
 In particular, $(x_j-x_{j-1})^2 \le (2^{-L(x)}h_0)^2$, which is part of the proof of \eqref{Blenorm}.  Also, note that
   \begin{align*}
   B_{j,+}(f,\cp)
-  & \le \fC(x_{j+2}-x_{j-1})f[x_{j},x_{j+1},x_{j+2}] \qquad \text{by}~\eqref{bpf} \\
+  & \le \fC(x_{j+2}-x_{j-1})f[x_{j},x_{j+1},x_{j+2}] \qquad \text{by}~\eqref{bpdef} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
   &\le  \fC\left(3\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{conditionone} \\
   & \le   \fC\left(3\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
@@ -746,7 +748,7 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 	
 	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 		\item \label{stagemin1} \emph{Check for convergence.}
-		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpf} and~\eqref{bmf}, where $i \in \mathcal{I}$.
+		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef}, where $i \in \mathcal{I}$.
 		Let
 		\begin{multline*}
 		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}:  \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
@@ -759,18 +761,24 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
-		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
-		\begin{multline*}
-		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  
-		\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8} \\ > \min(f(x_{j-1}),f(x_{j})) - \widehat{M}+\abstol,\\
-		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
-		\end{multline*}
+Let
+\begin{gather*}
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
+\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
+\end{gather*}
+%		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
+%		\begin{multline*}
+%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  
+%		\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8} \\ > \min(f(x_{j-1}),f(x_{j})) - \widehat{M}+\abstol,\\
+%		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
+%		\end{multline*}
 %		\begin{multline*}
 %		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  \\
 %		\min(f(x_{j-1}),f(x_{j})) -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
 %		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 %		\end{multline*}
-		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
+%		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 		Split in half those intervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
 		Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, $\hM = \minfi$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old intervals or halves of old intervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
 	\end{enumerate}
@@ -792,16 +800,23 @@ Analogous to $L(x)$ in \eqref{eqn:defoflx}, we define
 \end{multline}
 Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
-We now show that $\tell(x) \le \tL(x)$ by a similar argument to that used to derive an upper bound on the computational cost of Algorithm $A$.  Fix $x \in [a,b]$.  If $\tell(x) > \tL(x)$, then at some iteration $I_{x,\tL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ at this iteration, and then identify the closure of $I_{x,\tL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\tL(x)}h_0$. 
+We now show that $\tell(x) \le \tL(x)$ by a similar argument to that used to derive an upper bound on the computational cost of Algorithm $A$.  Fix $x \in [a,b]$.  If $\tell(x) > \tL(x)$, then at some iteration $I_{x,\tL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\tL(x)}$ is to be split, and then identify the closure of $I_{x,\tL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\tL(x)}h_0$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \tL(x)$.
 
+
+Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog: 
+\begin{equation} \label{Blenormt}
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3\cdot2^{-\tL(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,\tL(x)}]{f''}.
+\end{equation}
 
 \textbf{start fixing here}
 
+Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\tL(x)}$.  Then a Taylor expansion about $x \in [x_{i-1},x_i [$, establishes that 
+\begin{multline} \label{minfjjm1bd}
+\min\bigl(f(x_{j-1}),f(x_j) \bigr) \ge f(x) - \abs{f'(x)}3 \cdot 2^{-\tL(x)}h_0 - \frac{\norm[\bar{I}_{x,\tL(x)}]{f''}\bigl(3 \cdot 2^{-\tL(x)}h_0\bigr)^2}{6}
+\end{multline}
+The same bound also holds for the $s = -$ case.
 
-Referring to Step~\ref{stage2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,\tL(x)}$ to be split.  We show that this is impossible.
-
-First we bound $\min(f_{x_{j-1}},x_j) - \widehat{M}$, $j=i-2, \ldots, i+2$, which must be non-negative by definition, and which appears in the definitions of $\ci_{\pm}$ and $\ci_{\pm k}$ in Algorithm $M$.  
-Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
+Finally, we bound $ \widehat{M}$.  Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
 \[
 f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8},
 \]
@@ -822,9 +837,17 @@ Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of Alg
 & \le  f(x^*) +\abstol.
 \end{align*}
 Thus, we have
-\begin{equation}
-\hM \le f(x^*) + \max\biggl(\abstol, \frac{(2^{-\tL(x)} h_0)^2\norm[{\bar{I}_{x^*,\tL(x)}}]{f''}}{8}\biggr).
+\begin{equation} \label{Mhatbd}
+\hM \le f(x^*) + \max\biggl(\abstol, \frac{(2^{-\tL(x)} h_0)^2\norm[{I_{x^*,\tL(x^*)}}]{f''}}{8}\biggr).
 \end{equation}
+
+Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption that $\tell(x) > \tL(x)$:
+\begin{multline}
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM - \min(f(x_{i^*-1}),f(x_{i^*})) \\
+\le  \fC\left(3\cdot2^{-\tL(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,\tL(x)}]{f''} \\
++ f(x^*) + \max\biggl(\abstol, \frac{(2^{-\tL(x)} h_0)^2\norm[{I_{x^*,\tL(x^*)}}]{f''}}{8}\biggr) \\
++   f(x) -  \abs{f'(x)}3 \cdot 2^{-\tL(x)}h_0 - \frac{\norm[\bar{I}_{x,\tL(x)}]{f''}\bigl(3 \cdot 2^{-\tL(x)}h_0\bigr)^2}{6} .
+\end{multline}
 
 
 

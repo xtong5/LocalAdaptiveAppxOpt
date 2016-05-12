@@ -1,8 +1,15 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Book
+\bibitem[{Burden et~al.(2016)Burden, Faires and Burden}]{BurFaiBur16a}
+\bibinfo{author}{Burden\xfnm[ R.L.]}, \bibinfo{author}{Faires\xfnm[ J.D.]},
+  \bibinfo{author}{Burden\xfnm[ A.M.]}.
+\newblock \bibinfo{title}{Numerical Analysis}.
+\newblock \bibinfo{edition}{Tenth} ed.
+\newblock \bibinfo{publisher}{Brooks/Cole}, \bibinfo{year}{2016}.
 %Type = Book
 \bibitem[{Cheney and Kincaid(2013)}]{CheKin12a}
 \bibinfo{author}{Cheney\xfnm[ W.]}, \bibinfo{author}{Kincaid\xfnm[ D.]}.
@@ -108,12 +115,10 @@
 \newblock Master's thesis; Illinois Institute of Technology;
   \bibinfo{year}{2014}.
 %Type = Book
-\bibitem[{Traub et~al.(1988)Traub, Wasilkowski and
-  Wo\'zniakowski}]{TraWasWoz88}
+\bibitem[{Traub et~al.()Traub, Wasilkowski and Wo\'zniakowski}]{TraWasWoz88}
 \bibinfo{author}{Traub\xfnm[ J.F.]}, \bibinfo{author}{Wasilkowski\xfnm[ G.W.]},
   \bibinfo{author}{Wo\'zniakowski\xfnm[ H.]}.
 \newblock \bibinfo{title}{Information-Based Complexity}.
-\newblock \bibinfo{address}{Boston}: \bibinfo{publisher}{Academic Press},
-  \bibinfo{year}{1988}.
+\newblock \bibinfo{address}{Boston}: \bibinfo{publisher}{Academic Press}, .
 
 \end{thebibliography}
