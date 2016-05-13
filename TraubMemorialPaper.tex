@@ -72,6 +72,8 @@
 \newcommand{\Ixhlx}{I_{x,\hell(x)}}
 \newcommand{\hell}{\hat{\ell}}
 \newcommand{\tell}{\tilde{\ell}}
+\newcommand{\ttL}{\widetilde{\widetilde{L}}}
+\newcommand{\chL}{\widehat{L}}
 \newcommand{\rell}{\mathring{\ell}}
 \newcommand{\tgamma}{\widetilde{\gamma}}
 \newcommand{\hM}{\widehat{M}}
@@ -789,30 +791,46 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \end{theorem}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e., 
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being optimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
+
+Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e., 
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
-Analogous to $L(x)$ in \eqref{eqn:defoflx}, we define
-\begin{multline}\label{eqn:defofltx}
-\tL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \frac{(2^{-l}h_0)^2}{8} \{[\fC\left(3\cdot2^{-l}h_0\right) + 1]\norm[\bar{I}_{x,l}]{f''} + \norm[\bar{I}_{x^*,l}]{f''}\} \\
+Let 
+\begin{equation}\label{eqn:defofltx}
+\tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b[,
+\end{equation}
+where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
+\begin{multline}\label{eqn:defoflt1x}
+\chL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \frac{(2^{-l}h_0)^2}{8} \{[\fC\left(3\cdot2^{-l}h_0\right) + 1]\norm[\bar{I}_{x,l}]{f''} + \norm[\bar{I}_{x^*,l}]{f''}\} \\
 \le f(x) - f(x^*) + \abstol  \biggr\}.
 \end{multline}
 Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
-We now show that $\tell(x) \le \tL(x)$ by a similar argument to that used to derive an upper bound on the computational cost of Algorithm $A$.  Fix $x \in [a,b]$.  If $\tell(x) > \tL(x)$, then at some iteration $I_{x,\tL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\tL(x)}$ is to be split, and then identify the closure of $I_{x,\tL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\tL(x)}h_0$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \tL(x)$.
+\begin{theorem}\label{thm:Mcost}
+	Let $\cost(M,f,\abstol)$ denote the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
+	\begin{equation*}
+	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1 \\
+	\end{equation*}
+	where $\tL(x)$ is defined in~\eqref{eqn:defofltx}.
+\end{theorem}
+
+\begin{proof}
+	Using the same argument as for Theorem \ref{thm:cost}, we only need to show that $\tell(x) \le \tL(x)$ for all $x \in [a,b[$.  Since $\minfii - \widehat{M} \ge 0$, the index sets $\ci_{\pm}$ and $\widehat{\ci}_{\pm}$ in Algorithm $M$ are subsets of the corresponding index sets in Algorithm $A$.  Thus $\tell(x) \le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}.  Thus, we only need to show that $\tell(x) \le \chL(x)$.
+	
+	For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration $I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
 
 
 Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog: 
 \begin{equation} \label{Blenormt}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3\cdot2^{-\tL(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,\tL(x)}]{f''}.
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3\cdot2^{-\chL(x)}h_0\right) (2^{-\chL(x)}h_0)^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
 \end{equation}
-
-\textbf{start fixing here}
 
 Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\tL(x)}$.  Then a Taylor expansion about $x \in [x_{i-1},x_i [$, establishes that 
 \begin{multline} \label{minfjjm1bd}
-\min\bigl(f(x_{j-1}),f(x_j) \bigr) \ge f(x) - \abs{f'(x)}3 \cdot 2^{-\tL(x)}h_0 - \frac{\norm[\bar{I}_{x,\tL(x)}]{f''}\bigl(3 \cdot 2^{-\tL(x)}h_0\bigr)^2}{6}
+\min\bigl(f(x_{j-1}),f(x_j) \bigr) \\
+\ge f(x) - \abs{f'(x)}3 \cdot 2^{-\chL(x)}h_0 - \frac{\norm[\bar{I}_{x,\chL(x)}]{f''}\bigl(3 \cdot 2^{-\chL(x)}h_0\bigr)^2}{6}
 \end{multline}
 The same bound also holds for the $s = -$ case.
 
@@ -912,6 +930,8 @@ Hence, we prove $\ell(x) \le L(x)$. This fact is used to prove an upper bound on
 \tM_l : = \min_{i=0, \ldots, 2^l} f(a+ih_0 2^{-l})
 \]
 be the minimum value of $f$ on a uniform grid with distance $h_0 2^{-l}$ between data sites.
+
+\end{proof}
 
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}  To hard to do.
 
