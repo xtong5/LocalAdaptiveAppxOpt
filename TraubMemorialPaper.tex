@@ -523,18 +523,18 @@ L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\r
 \end{equation}
 Note that $L(x)$ does depend on $f$, although this dependence is suppressed in the notation.
 
-We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0$.
+We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0 = : h$.
 We show that such a scenario is impossible, thus contradicting the assumption that $\ell(x) > L(x)$.
 
 Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that 
 \begin{equation} \label{Blenorm}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}.
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
 We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that 
 \begin{equation} \label{conditionone}
-2^{-L(x)}h_0 = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
+h = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
 \end{equation}
-In particular, $(x_j-x_{j-1})^2 \le (2^{-L(x)}h_0)^2$, which is part of the proof of \eqref{Blenorm}.  Also, note that
+In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of \eqref{Blenorm}.  Also, note that
   \begin{align*}
   B_{j,+}(f,\cp)
   & \le \fC(x_{j+2}-x_{j-1})f[x_{j},x_{j+1},x_{j+2}] \qquad \text{by}~\eqref{bpdef} \\
@@ -547,7 +547,7 @@ This completes the proof of  \eqref{Blenorm}.
 Now we use inequality \eqref{Blenorm} to show a contradiction:
  \begin{align*}
  \abstol & <  \frac{B_{j,s}(f,\cp)}{8}(x_j-x_{j-1})^2 \qquad \text{since}~j \in \ci_s\\
- & \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
+ & \le   \frac 1 8 \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
  & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
  \end{align*}
  Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows that $\ell(x) \le  L(x)$, which is used to prove an upper bound on the computational cost of Algorithm $A$.
@@ -803,10 +803,12 @@ Let
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \frac{(2^{-l}h_0)^2}{8} \{[\fC\left(3\cdot2^{-l}h_0\right) + 1]\norm[\bar{I}_{x,l}]{f''} + \norm[\bar{I}_{x^*,l}]{f''}\} \\
-\le f(x) - f(x^*) + \abstol  \biggr\}.
+\chL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l(x)}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''} \\
++ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\} \Bigl(2^{-l}h_0\Bigr)^2 
++  3 \abs{f'(x)} \Bigl( 2^{-l}h_0 \Bigr) \\
+\le f(x) - f(x^*)   \biggr\}.
 \end{multline}
-Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.
+Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.  
 
 \begin{theorem}\label{thm:Mcost}
 	Let $\cost(M,f,\abstol)$ denote the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
@@ -817,123 +819,56 @@ Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in th
 \end{theorem}
 
 \begin{proof}
-	Using the same argument as for Theorem \ref{thm:cost}, we only need to show that $\tell(x) \le \tL(x)$ for all $x \in [a,b[$.  Since $\minfii - \widehat{M} \ge 0$, the index sets $\ci_{\pm}$ and $\widehat{\ci}_{\pm}$ in Algorithm $M$ are subsets of the corresponding index sets in Algorithm $A$.  Thus $\tell(x) \le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}.  Thus, we only need to show that $\tell(x) \le \chL(x)$.
+	Using the same argument as for Theorem \ref{thm:cost}, we only need to show that $\tell(x) \le \tL(x)$ for all $x \in [a,b[$.  Since $\minfii - \widehat{M} \ge 0$ for all $i$, the index sets $\ci_{\pm}$ and $\widehat{\ci}_{\pm}$ in Algorithm $M$ are subsets of the corresponding index sets in Algorithm $A$.  Thus $\tell(x) \le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}.  Thus, we only need to show that $\tell(x) \le \chL(x)$.
 	
-	For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration $I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
+	For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration $I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0 =: h$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
 
 
 Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog: 
 \begin{equation} \label{Blenormt}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3\cdot2^{-\chL(x)}h_0\right) (2^{-\chL(x)}h_0)^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
 \end{equation}
 
-Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\tL(x)}$.  Then a Taylor expansion about $x \in [x_{i-1},x_i [$, establishes that 
-\begin{multline} \label{minfjjm1bd}
-\min\bigl(f(x_{j-1}),f(x_j) \bigr) \\
-\ge f(x) - \abs{f'(x)}3 \cdot 2^{-\chL(x)}h_0 - \frac{\norm[\bar{I}_{x,\chL(x)}]{f''}\bigl(3 \cdot 2^{-\chL(x)}h_0\bigr)^2}{6}
-\end{multline}
+Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\chL(x)}$.  Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$ with $x_{j+2} - x_{j-1} \le 3h$, establishes that 
+\begin{equation} \label{minfjjm1bd}
+\min\bigl(f(x_{j-1}),f(x_j) \bigr)
+\ge f(x) - 3\abs{f'(x)}h - \frac32  \norm[\bar{I}_{x,\chL(x)}]{f''} h^2
+\end{equation}
 The same bound also holds for the $s = -$ case.
 
-Finally, we bound $ \widehat{M}$.  Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
-\[
-f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8},
-\]
-and so
+Finally, we bound $ \widehat{M}-\abstol$.  Let $[x_{i^*-1}, x^*_i[$ be the interval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
+\begin{equation} \label{fxstarlowbd}
+f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}.
+\end{equation}
+There are two possibilities regarding $i^*$.  If $i^* \in \ci$, then $h = x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
 \begin{align*}
 \hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
-& \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8}.
-\end{align*}
-There are two possibilities regarding $i^*$.  If $i^* \in \ci$, then $x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
-\begin{align*}
-\hM  & \le f(x^*) + \frac{(x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8} \\
-& \le  f(x^*) + \frac{(2^{-\tL(x)} h_0)^2\norm[{\bar{I}_{x^*,\tL(x)}}]{f''}}{8}.
+& \le f(x^*) + \frac18  (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''} \\
+& \le  f(x^*) + \frac18 \norm[{\bar{I}_{x^*,\chL(x)}}]{f''} h^2
 \end{align*}
 Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of Algorithm $M$,
 \begin{align*}
-\hM  & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)}{8} + \abstol   \\
-& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac{(x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}}{8} + \abstol   \\ 
-& \le  f(x^*) +\abstol.
+\hM   - \abstol & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)  \\
+& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\ 
+& \le  f(x^*) \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
 Thus, we have
 \begin{equation} \label{Mhatbd}
-\hM \le f(x^*) + \max\biggl(\abstol, \frac{(2^{-\tL(x)} h_0)^2\norm[{I_{x^*,\tL(x^*)}}]{f''}}{8}\biggr).
+\hM - \abstol \le f(x^*) + \frac 18 \norm[{I_{x^*,\chL(x)}}]{f''} h^2.
 \end{equation}
 
-Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption that $\tell(x) > \tL(x)$:
-\begin{multline}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM - \min(f(x_{i^*-1}),f(x_{i^*})) \\
-\le  \fC\left(3\cdot2^{-\tL(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,\tL(x)}]{f''} \\
-+ f(x^*) + \max\biggl(\abstol, \frac{(2^{-\tL(x)} h_0)^2\norm[{I_{x^*,\tL(x^*)}}]{f''}}{8}\biggr) \\
-+   f(x) -  \abs{f'(x)}3 \cdot 2^{-\tL(x)}h_0 - \frac{\norm[\bar{I}_{x,\tL(x)}]{f''}\bigl(3 \cdot 2^{-\tL(x)}h_0\bigr)^2}{6} .
-\end{multline}
-
-
-
-
-
-
-
-Note that by \eqref{appxerrbdapc} it follows that
-\[
-f(t) \ge \min(f(x_{j-1}),f(x_{j})) - \frac{(x_{j} - x_{j-1})^2\norm[{[x_{j-1}, x_j]}]{f''}}{8}, \quad \forall t \in [x_{j-1}, x_j]
-\]
-
-
-
-
-
-
-
-
-
-
-
-Referring to Step~\ref{stage2} of $M$, it is necessary that $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ or  $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  We show that neither of these conditions can hold, thus contradicting the assumption that $\ell(x) > L(x)$.
-
-Let us investigate these two conditions separately.
-\begin{enumerate}
-	\item $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$.  If $i \in \mathcal{I}_+ \cap \widetilde{\mathcal{I}}$, then
-	\begin{equation}
-	\label{conditionone} x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, \qquad   j=i+1,i+2, \qquad [x_i,x_{i+2}] \subseteq \bar{I}_{x,L(x)}.
-	\end{equation}
-	This implies that
-	\begin{align*}
-	\abstol & <  \frac{B_{i,+}(f,\cp)}{8}(x_i-x_{i-1})^2 \\
-	& \le \frac{\fC(x_{i+2}-x_{i-1})f[x_{i},x_{i+1},x_{i+2}]}{8}(x_{i}-x_{i-1})^2 \qquad \text{by}~\eqref{bpf} \\
-	%\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-	&\le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2\norm[{[x_{i},x_{i+2}]}]{f''} \qquad \text{by}~\eqref{conditionone} \\
-	& \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{conditionone} \\
-	& \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
-	\end{align*}
-	A similar argument yields $\abstol < \abstol$ for $i \in \mathcal{I}_- \cap \widetilde{\mathcal{I}}$ as well.  Thus $i \in \mathcal{I} \cap \widetilde{\mathcal{I}}$ is impossible.
-	\item $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$\\
-	There are four different cases in this situation. We first consider $i \in \widehat{\mathcal{I}}_{+1} \cap \widetilde{\mathcal{I}}$.
-	Thus
-	\begin{equation} \label{conditiontwo}
-	x_{i}-x_{i-1} \ge x_{j}-x_{j-1},\qquad j=i-1,i+1, \qquad [x_{i-1},x_{i+1}] \subseteq \bar{I}_{x,l}.
-	\end{equation}
-	Then
-	\begin{align*}
-	\abstol & < \frac{B_{i-1,+}(f,\cp)}{8}(x_{i-1}-x_{i-2})^2 \\
-	& \le  \frac{\fC(x_{i+1}-x_{i-2})f[x_{i-1},x_{i},x_{i+1}]}{8}(x_{i-1}-x_{i-2})^2 \qquad  \text{by}~\eqref{bpf}   \\
-	& \le  \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[{[x_{i-1},x_{i+1}]}]{f''}  \text{by}~\eqref{conditiontwo}  \\
-	& \le   \frac 1 8 \fC\left(3\cdot2^{-L(x)}h_0\right) (2^{-L(x)}h_0)^2 \norm[\bar{I}_{x,L(x)}]{f''} \qquad \text{by}~\eqref{conditiontwo}  \\
-	& \le  \abstol \qquad \text{by}~\eqref{eqn:defoflx}.
-	\end{align*}
-	We also get contradiction for other three cases. So we cannot have $i \in \widehat{\mathcal{I}}\cap \widetilde{\mathcal{I}}$.
-\end{enumerate}
-Hence, we prove $\ell(x) \le L(x)$. This fact is used to prove an upper bound on the computational cost of Algorithm $A$.
-
-
-
-\[
-\tM_l : = \min_{i=0, \ldots, 2^l} f(a+ih_0 2^{-l})
-\]
-be the minimum value of $f$ on a uniform grid with distance $h_0 2^{-l}$ between data sites.
-
+Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption that $\tell(x) > \chL(x)$:
+\begin{multline*}
+\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j})) \\
+\le \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2 \\
++  3 \abs{f'(x)} h + [f(x^*) - f(x)].
+\end{multline*}
+For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which implies that the left hand side of this inequality is positive.  However, the definition of $\chL(x)$ implies that the right hand side of this inequality is non-positive.  This is a contradiction, so $\tell(x) \le \chL(x)$.
 \end{proof}
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}  To hard to do.
+If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large or $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the the computational cost for minimization may significantly smaller than that for function approximation. 
+
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}  Too hard to do.
 
 \xinnote{
 	Numerical examples.\\
