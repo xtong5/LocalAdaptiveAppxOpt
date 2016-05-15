@@ -468,7 +468,7 @@ following:
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 
 \item \label{stage1} \emph{Check for convergence.}
-Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef}, where $i \in \mathcal{I}$.
+Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef} for all $i \in \mathcal{I}$.
 Let
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
@@ -750,7 +750,7 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 	
 	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 		\item \label{stagemin1} \emph{Check for convergence.}
-		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef}, where $i \in \mathcal{I}$.
+		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef} for all $i \in \mathcal{I}$.
 		Let
 		\begin{multline*}
 		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}:  \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
