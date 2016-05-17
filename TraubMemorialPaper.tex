@@ -59,6 +59,7 @@
 \newcommand{\Vastl}{\mathopen\Vast}
 \newcommand{\Vastm}{\mathrel\Vast}
 \newcommand{\Vastr}{\mathclose\Vast}
+\renewcommand{\cw}{W}
 
 \definecolor{orange}{rgb}{1.0,0.3,0.0}
 \definecolor{violet}{rgb}{0.75,0,1}
@@ -85,7 +86,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{exmp}{Example}
 \newtheorem{prop}[theorem]{Proposition}
-\newcommand{\funappxg}{\texttt{funappx\_g\xspace}}
+\newcommand{\funappxg}{\texttt{funappx\_g}\xspace}
 \newcommand{\funappxglobalg}{\texttt{funappxglobal\_g\xspace}}
 \newcommand{\funming}{\texttt{funmin\_g\xspace}}
 \newcommand{\fminbnd}{\texttt{fminbnd\xspace}}
@@ -105,15 +106,16 @@
 \author{Sou-Cheng T.~Choi}
 \author{Yuhan Ding}
 \author{Fred J.~Hickernell}
-\author{Xin Tong}
+\author{Xin Tong \xinnote{Add address}}
 \address{Department of Applied Mathematics, Illinois Institute of Technology, RE 208, 10 West 32$^{\text{nd}}$ Street, Chicago, Illinois, 60616, USA}
+
 
 \begin{abstract}
 Existing adaptive algorithms for function approximation and optimization lack theoretical guarantees.  Our new locally adaptive algorithms are guaranteed to provide answers to these two problems that satisfy a user-specified absolute error tolerance for a cone of non-spiky functions in $\cw^{2,\infty}$.  These algorithms automatically determine where to sample the function---sampling more densely where needed.  The computational cost to approximate a function with $L^{\infty}$ error no greater than $\abstol$ is $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the same order as that of the best function approximation algorithm for this cone of functions. The computational cost of the new optimization algorithm is asymptotically no worse than that for function approximation and can be much smaller if the function is significantly larger than its minimum value over much of its domain.  Our new algorithms have been implemented in a software library.  Numerical examples are presented to illustrate the advantages of these new algorithms.
 \end{abstract}
 
 \begin{keyword}
-adaption \sep automatic \sep compuational complexity \sep function approximation \sep function recovery \sep minimization \sep optimization
+adaption \sep automatic \sep computational complexity \sep function approximation \sep function recovery \sep minimization \sep optimization
 \MSC[2010]  65D05 \sep 65D07 \sep 65K05 \sep 68Q25
 \end{keyword}
 
@@ -152,7 +154,7 @@ The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subse
 
 \item A lower bound on the computational complexity of problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}.  This lower bound in Theorem~\ref{thm:A_cost} is proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially asymptotically optimal.  A lower bound for the computational complexity of  \eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp} explains the challenge in doing so.
 
-\item GAIL
+\item GAIL \frednote{Add}
 
 \end{itemize}
 
@@ -502,6 +504,8 @@ Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, and the $f[x_{j-1}, x_{j}, x
 Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
+\scnote{A simple example showing the non-uniform sampling density}
+
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
 Next, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of intervals, and
@@ -797,6 +801,8 @@ Let
 Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
+\scnote{Example where computational cost of minimization is significantly less that approximation.}
+
 \subsection{Computational Cost} \label{subsec:optcost}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being optimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
 
@@ -868,7 +874,8 @@ Thus, we have
 Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption that $\tell(x) > \chL(x)$:
 \begin{align*}
 \MoveEqLeft{\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j}))} \\
-& \le Ch^2 +  3 \abs{f'(x)} h + [f(x^*) - f(x)] \\
+& \le \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2 \\
+& \qquad \qquad +  3 \abs{f'(x)} h + [f(x^*) - f(x)] \\
 &  \le -[f(x) - f(x^*)] \left( 1 - \frac{3\abs{f'(x)}h}{2[f(x) - f(x^*)] } \right)^2  \\
 & \qquad \qquad  +  \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2.
 \end{align*}
@@ -890,6 +897,7 @@ The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ 
 
 \section{Numerical Examples}
 
+\frednote{Say a bit about GAIL.  Make a correspondence between Algorithms $A$, $M$ and \funappxg{} etc.}
 
 %% Example 3.1
 In computer graphics, three-dimensional objects can often be parameterized by
@@ -1036,7 +1044,7 @@ where $c$ for defining $f_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
 $d$ for other functions from $[0,4]$. If $d=1$, then $g_i$ reduces to $f_i$ for
 $i=1, \mbox{and } 2$. Figure~\ref{fig:testfunctions}a) shows the shapes of the
 test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and $\fC
-(h) = \frac{ 3 f_h}{f_h-h}$ where $f_h = \frac{5(b-a)}{n_0-1}$, and we use
+(h) = \frac{ 3 \fh}{\fh-h}$ where $\fh = \frac{5(b-a)}{n_0-1}$, and we use
 \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
 functions on interval $[a,b]=[0,1]$ for $g_1$, $g_2$, and $f_3$ and
 $[a,b]=[0,d+1]$ for $g_3$, $g_4$, and $g_5$. The approximation results are
@@ -1225,13 +1233,13 @@ basis functions for coming up with a function approximant are important for
 enhancing smoothness and data efficiency. Cubic splines, radial basis functions
 and Chebyshev polynomials are some potential promising candidates.
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section*{References}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
 \scnote{TODO}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibliography{FJH23,FJHOwn23}
 
