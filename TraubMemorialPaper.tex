@@ -875,24 +875,20 @@ If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of 
 
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}  The optimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the optimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the optimization problem \eqref{optprob} for functions in  $\cc$.  
 
-\xinnote{
-	Numerical examples.
-}
-
 
 \section{Numerical Examples}
 
-%% examples.tex
 
 %% Example 3.1
 In computer graphics, three-dimensional objects can often be parameterized by
 functions. Moreover, interpolation at low to medium accuracy is often found to
 be sufficient for projecting satisfactory visual perceptions on devices that
 have relatively limited memory and low-resolution display, for example,
-cell phones and wearables. In the following example, we use \funappxg{} to
+cell phones and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{} to
 interpolate the surface of a seashell, resulting in a sufficiently accurate
 reconstruction in $\mathbb{R}^3$.
 
+\begin{comment}
 \begin{figure}[tbh]
   \centering
   \begin{tabular}{cc}
@@ -904,8 +900,8 @@ reconstruction in $\mathbb{R}^3$.
 $0.1$. This figure is reproducible by \texttt{traub\_funappxseashell.m}.}
 \label{fig:funappxseashell}
 \end{figure}
-\begin{exmp}
 
+\begin{exmp}
 Figure~\ref{fig:funappxseashell}a) is an approximation of a
 seashell portrayed as a parametric surface in 3D. Let $a=-0.2$, $b=0.5$,
 $c=0.1$, $n = 2$, $u,v \in [0, 2 \pi]$, and $w(v) =
@@ -917,26 +913,24 @@ y(u,v) & = \left[w(v) (1+\cos(u)) + c\right] \sin(nv),\\
 z(u,v) & = {bv}/{2\pi} + w(v)\sin(u).
 \end{align*}
 %
-\begin{comment}
+
 If a function of two variables $f(x,y)$ can be separated, such as
 $$f(x,y)=f_1(x)+f_2(y) \text{ or } f(x,y)=f_1(x)f_2(y),$$ we can apply
 \texttt{funappx\_g} directly to $f_1(x)$ and $f_2(y)$. However, $x(u,v)$,
 $y(u,v)$, and $z(u,v)$ can not be represented by the form mentioned above.
 Instead,
-\end{comment}
+
 %We approximate $\sin(x)$ and $\cos(x)$ on the interval $[0,4\pi]$. Denote
 Denote $\sinappx(x)$ and $\cosappx (x)$ the approximate functions of $\sin(x)$ and
 $\cos(x)$ on the interval $[0,4\pi]$, respectively; and let the resultant
 approximants of $x(u,v)$, $y(u,v)$, and $z(u,v)$ be $\hat{x}(u,v)$,
 $\hat{y}(u,v)$, and $\hat{z}(u,v)$, respectively.
-\begin{comment}
 Then we have
 \begin{align*}
    \hat{x}(u,v) & =  \left[a\left(1-\frac{v}{2\pi}\right)\left(1+\cosappx(u)\right) + c\right]\cosappx(nv),
 \\ \hat{y}(u,v) & = \left[a\left(1-\frac{v}{2\pi}\right)(1+\cosappx(u)) + c\right] \sinappx(nv),
 \\ \hat{z}(u,v) & = \frac{bv}{2\pi} + a\left(1-\frac{v}{2\pi}\right)\sinappx(u).
 \end{align*}
-\end{comment}
 Define the \emph{overall} approximation error measure as the supremum norm
 \begin{align*}
 %\mathscr{E} =
@@ -951,8 +945,10 @@ Figure~\ref{fig:funappxseashell}b). The reconstructed surface in
 Figure~\ref{fig:funappxseashell}a) is very similar to the original seashell
 image.
 \end{exmp}
+\end{comment}
 
-In digital animation, frames of images are produced to represent movements of
+Yet another application of function approximation are readily found in digital animation, 
+in which frames of images are produced to represent movements of
 objects over small discrete time. To automatically insert additional frames between
 two consecutive frames for better visual effects, temporal
 interpolation can often be applied to estimate an object's positions by using
@@ -962,7 +958,7 @@ readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 
 %% Example 3.2
 
-The next example showcases the merits and demerits of our algorithm and an
+The following example showcases the merits and demerits of our algorithm and an
 existing method for high-accuracy function approximation.
 
 \begin{exmp}
