@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{16}
+\begin{thebibliography}{20}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
@@ -8,7 +8,7 @@
 \bibinfo{author}{Burden\xfnm[ R.L.]}, \bibinfo{author}{Faires\xfnm[ J.D.]},
   \bibinfo{author}{Burden\xfnm[ A.M.]}.
 \newblock \bibinfo{title}{Numerical Analysis}.
-\newblock \bibinfo{edition}{Tenth} ed.
+\newblock \bibinfo{edition}{{Tenth }} ed.
 \newblock \bibinfo{publisher}{Brooks/Cole}, \bibinfo{year}{2016}.
 %Type = Book
 \bibitem[{Cheney and Kincaid(2013)}]{CheKin12a}
@@ -88,6 +88,13 @@
   lattices}.
 \newblock In:  \cite{CooNuy16a}; \bibinfo{year}{2015+}. \bibinfo{note}{To
   appear, arXiv:1411.1966}.
+%Type = Book
+\bibitem[{Moore et~al.(2009)Moore, Kearfott and Cloud}]{MoKeCl09}
+\bibinfo{author}{Moore\xfnm[ R.]}, \bibinfo{author}{Kearfott\xfnm[ R.]},
+  \bibinfo{author}{Cloud\xfnm[ M.]}.
+\newblock \bibinfo{title}{Introduction To Interval Analysis}.
+\newblock \bibinfo{address}{Cambridge}: \bibinfo{publisher}{Cambridge
+  University Press}, \bibinfo{year}{2009}.
 %Type = Article
 \bibitem[{Novak(1996)}]{Nov96a}
 \bibinfo{author}{Novak\xfnm[ E.]}.
@@ -102,11 +109,32 @@
   with singularities}.
 \newblock \bibinfo{journal}{Math Comput}
   \bibinfo{year}{2008};\bibinfo{volume}{77}:\bibinfo{pages}{2309--2338}.
+%Type = Incollection
+\bibitem[{Rump(1999)}]{Rum99a}
+\bibinfo{author}{Rump\xfnm[ S.M.]}.
+\newblock \bibinfo{title}{{INTLAB - INTerval LABoratory}}.
+\newblock In: \bibinfo{editor}{Csendes\xfnm[ T.]}, editor.
+  \bibinfo{booktitle}{{Developments~in~Reliable Computing}}.
+  \bibinfo{address}{Dordrecht}: \bibinfo{publisher}{Kluwer Academic
+  Publishers}; \bibinfo{year}{1999}. p. \bibinfo{pages}{77--104}.
+\newblock \bibinfo{note}{\url{http://www.ti3.tuhh.de/rump/}}.
+%Type = Article
+\bibitem[{Rump(2010)}]{Rum10a}
+\bibinfo{author}{Rump\xfnm[ S.M.]}.
+\newblock \bibinfo{title}{Verification methods: {R}igorous results using
+  floating-point arithmetic}.
+\newblock \bibinfo{journal}{Acta Numer}
+  \bibinfo{year}{2010};\bibinfo{volume}{19}:\bibinfo{pages}{287--449}.
 %Type = Book
 \bibitem[{Sigmon and Davis(2004)}]{DavEtal04}
 \bibinfo{author}{Sigmon\xfnm[ K.]}, \bibinfo{author}{Davis\xfnm[ T.A.]}.
 \newblock \bibinfo{title}{MATLAB Primer, Seventh Edition}.
 \newblock \bibinfo{publisher}{CRC Press}, \bibinfo{year}{2004}.
+%Type = Manual
+\bibitem[{{The MathWorks, Inc.}(2016)}]{MAT9.0}
+\bibinfo{author}{{The MathWorks, Inc.}\xfnm[]}.
+\newblock \bibinfo{title}{{MATLAB} 9.0}.
+\newblock \bibinfo{address}{Natick, MA}; \bibinfo{year}{2016}. .
 %Type = Masterthesis
 \bibitem[{Tong(2014)}]{Ton14a}
 \bibinfo{author}{Tong\xfnm[ X.]}.
@@ -115,10 +143,12 @@
 \newblock Master's thesis; Illinois Institute of Technology;
   \bibinfo{year}{2014}.
 %Type = Book
-\bibitem[{Traub et~al.()Traub, Wasilkowski and Wo\'zniakowski}]{TraWasWoz88}
+\bibitem[{Traub et~al.(1988)Traub, Wasilkowski and
+  Wo\'zniakowski}]{TraWasWoz88}
 \bibinfo{author}{Traub\xfnm[ J.F.]}, \bibinfo{author}{Wasilkowski\xfnm[ G.W.]},
   \bibinfo{author}{Wo\'zniakowski\xfnm[ H.]}.
 \newblock \bibinfo{title}{Information-Based Complexity}.
-\newblock \bibinfo{address}{Boston}: \bibinfo{publisher}{Academic Press}, .
+\newblock \bibinfo{address}{Boston}: \bibinfo{publisher}{Academic Press},
+  \bibinfo{year}{1988}.
 
 \end{thebibliography}
