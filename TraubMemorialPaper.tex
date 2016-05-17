@@ -578,7 +578,9 @@ in~\eqref{eqn:defoflx}.
 \end{proof}
 
 The definition of $L(x)$ in~\eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  For small $\abstol$, $L(x)$ becomes large,  $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and $3\cdot 2^{-L(x)}h_0$ tends to $0$.  Thus, for small $\abstol$, we have
-$$ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.$$
+\begin{equation} \label{twoLxapprox}
+ 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.
+ \end{equation}
 Under this approximation, the upper bound on computational cost becomes
 \begin{align}
 \nonumber
@@ -808,12 +810,13 @@ Let
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l(x)}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''} \\
-+ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\} \Bigl(2^{-l}h_0\Bigr)^2 
-+  3 \abs{f'(x)} \Bigl( 2^{-l}h_0 \Bigr) \\
-\le f(x) - f(x^*)   \biggr\}.
+\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\ 
++  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''} 
++ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\}.
 \end{multline}
-Again, $\tL(x)$ does depend on $f$, although this dependence is suppressed in the notation.  
+
+Note that $\chL(x)$ does not depend on $\abstol$.  
+As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.  
 
 \begin{theorem}\label{thm:Mcost}
 	Let $\cost(M,f,\abstol)$ denote the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
@@ -863,15 +866,24 @@ Thus, we have
 \end{equation}
 
 Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption that $\tell(x) > \chL(x)$:
-\begin{multline*}
-\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j})) \\
-\le \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2 \\
-+  3 \abs{f'(x)} h + [f(x^*) - f(x)].
-\end{multline*}
+\begin{align*}
+\MoveEqLeft{\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j}))} \\
+& \le Ch^2 +  3 \abs{f'(x)} h + [f(x^*) - f(x)] \\
+&  \le -[f(x) - f(x^*)] \left( 1 - \frac{3\abs{f'(x)}h}{2[f(x) - f(x^*)] } \right)^2  \\
+& \qquad \qquad  +  \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2.
+\end{align*}
 For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which implies that the left hand side of this inequality is positive.  However, the definition of $\chL(x)$ implies that the right hand side of this inequality is non-positive.  This is a contradiction, so $\tell(x) \le \chL(x)$.
 \end{proof}
 
-If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large or $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation. 
+If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation. 
+
+This becomes more obvious if we can simplify the formula for $\chL(x)$ by assuming that $\fC\left(3\cdot2^{-l}h_0\right) \approx \fC(0)$ and that $\norm[\bar{I}_{t,l}]{f''} \approx \abs{f''(t)}$ for all $t$.  In a similar manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
+\begin{equation*}
+ 2^{\chL(x)} 
+\approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]} 
++  \sqrt{\frac{\Bigl[\frac {\fC\left(0\right)}8  + \frac 32 \Bigr]  \abs{f''(x)} + \frac18\abs{f''(x^*)} }{f(x) - f(x^*)}} \vastr].
+\end{equation*}
+The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ is and the smaller the computational cost of Algorithm $M$.
 
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}  The optimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the optimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the optimization problem \eqref{optprob} for functions in  $\cc$.  
 
