@@ -148,7 +148,7 @@ and~\eqref{optprob}, respectively.  These algorithms are based on linear splines
 and~\ref{thm:algMworks}.
 
 \item The upper bound on the computational costs of Algorithm $A$ is derived in Section~\ref{subsec:appxcost},  Theorem~\ref{thm:cost}, and is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$ (see
-Proposition~\ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.  
+Proposition~\ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.
 
 The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subsec:optcost}, is no more than the computational cost of Algorithm $A$.  However, it is observed that this cost can be substantially less than that of Algorithm $A$ if there is a large portion of $[a,b]$ where $f$ significantly exceeds its minimum value.
 
@@ -162,7 +162,7 @@ The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subse
 
 There is a significant literature on theoretically justified algorithms based on interval arithmetic---described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach is based on functions whose inputs and outputs are intervals.  We stick with the more common situation where the inputs and outputs of functions are points.
 
-Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  \cite{Ton14a} extends these ideas to optimization, and \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.  
+Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  \cite{Ton14a} extends these ideas to optimization, and \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs do not rise drastically as they are made more robust to spiky input functions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
@@ -486,8 +486,8 @@ Otherwise, continue to the next step.
 \item \label{stage2} \emph{Split the subintervals as needed.}
 Let
 \begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
 \widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
 \end{gather*}
 %\begin{multline*}
@@ -535,11 +535,11 @@ Note that $L(x)$ does depend on $f$, although this dependence is suppressed in t
 We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0 = : h$.
 We show that such a scenario is impossible, thus contradicting the assumption that $\ell(x) > L(x)$.
 
-Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that 
+Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that
 \begin{equation} \label{Blenorm}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
-We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that 
+We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that
 \begin{equation} \label{conditionone}
 h = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
 \end{equation}
@@ -776,13 +776,13 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
 Let
 \begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
 \widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
 \end{gather*}
 %		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 %		\begin{multline*}
-%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  
+%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:
 %		\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8} \\ > \min(f(x_{j-1}),f(x_{j})) - \widehat{M}+\abstol,\\
 %		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 %		\end{multline*}
@@ -804,25 +804,25 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \scnote{Example where computational cost of minimization is significantly less that approximation.}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being optimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being optimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.
 
-Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e., 
+Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e.,
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
-Let 
+Let
 \begin{equation}\label{eqn:defofltx}
 \tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b[,
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\ 
-+  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''} 
+\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\
++  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''}
 + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\}.
 \end{multline}
 
-Note that $\chL(x)$ does not depend on $\abstol$.  
-As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.  
+Note that $\chL(x)$ does not depend on $\abstol$.
+As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
 	Let $\cost(M,f,\abstol)$ denote the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
@@ -838,12 +838,12 @@ As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although
 	For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration $I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0 =: h$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
 
 
-Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog: 
+Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog:
 \begin{equation} \label{Blenormt}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
 \end{equation}
 
-Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\chL(x)}$.  Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$ with $x_{j+2} - x_{j-1} \le 3h$, establishes that 
+Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\chL(x)}$.  Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$ with $x_{j+2} - x_{j-1} \le 3h$, establishes that
 \begin{equation} \label{minfjjm1bd}
 \min\bigl(f(x_{j-1}),f(x_j) \bigr)
 \ge f(x) - 3\abs{f'(x)}h - \frac32  \norm[\bar{I}_{x,\chL(x)}]{f''} h^2
@@ -863,7 +863,7 @@ There are two possibilities regarding $i^*$.  If $i^* \in \ci$, then $h = x_i - 
 Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of Algorithm $M$,
 \begin{align*}
 \hM   - \abstol & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)  \\
-& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\ 
+& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\
 & \le  f(x^*) \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
 Thus, we have
@@ -882,17 +882,17 @@ Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqre
 For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which implies that the left hand side of this inequality is positive.  However, the definition of $\chL(x)$ implies that the right hand side of this inequality is non-positive.  This is a contradiction, so $\tell(x) \le \chL(x)$.
 \end{proof}
 
-If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation. 
+If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation.
 
 This becomes more obvious if we can simplify the formula for $\chL(x)$ by assuming that $\fC\left(3\cdot2^{-l}h_0\right) \approx \fC(0)$ and that $\norm[\bar{I}_{t,l}]{f''} \approx \abs{f''(t)}$ for all $t$.  In a similar manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
 \begin{equation*}
- 2^{\chL(x)} 
-\approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]} 
+ 2^{\chL(x)}
+\approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]}
 +  \sqrt{\frac{\Bigl[\frac {\fC\left(0\right)}8  + \frac 32 \Bigr]  \abs{f''(x)} + \frac18\abs{f''(x^*)} }{f(x) - f(x^*)}} \vastr].
 \end{equation*}
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ is and the smaller the computational cost of Algorithm $M$.
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The optimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the optimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the optimization problem \eqref{optprob} for functions in  $\cc$.  
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The optimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the optimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the optimization problem \eqref{optprob} for functions in  $\cc$.
 
 
 \section{Numerical Examples}
@@ -967,7 +967,7 @@ image.
 \end{exmp}
 \end{comment}
 
-Yet another application of function approximation are readily found in digital animation, 
+Yet another application of function approximation are readily found in digital animation,
 in which frames of images are produced to represent movements of
 objects over small discrete time. To automatically insert additional frames between
 two consecutive frames for better visual effects, temporal
