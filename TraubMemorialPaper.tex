@@ -1056,7 +1056,7 @@ feature in Chebfun to use piecewise Chebyshev polynomials for approximation.
   \centering
 %  \begin{tabular}{cc}
 %\includegraphics[width=58mm]{figure/traub_funappxNoPenalty_g_testfun.eps} & \hspace{-4ex}
-\includegraphics[width=100mm]{figure/traub_funappxNoPenalty_g_test.eps}
+\includegraphics[width=80mm]{figure/traub_funappxNoPenalty_g_test.eps}
 %  \\ a)  & b)
 %  \end{tabular}
 \caption{Sorted ratios of run time and number of nodes
@@ -1070,9 +1070,9 @@ functions. This figure is conditionally reproduced by
 \begin{table}[bth]
 \centering
 \caption{Comparison of number of sample points, computational time,  and success
-rates of \funappxg, \funappxglobalg, and
-Chebfun. We also report the number of warnings in parentheses issued by the
-sofwtare. This table can be conditionally reproduced by
+rates of \funappxg, \funappxglobalg, and Chebfun. 
+%We also report the number of warnings in parentheses issued by the sofwtare. 
+This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m}.}
 \label{tab:localVsGlobalVsChebfun}
 {\footnotesize
@@ -1105,39 +1105,39 @@ functions.
 
 
 %
-\begin{table}[bth]
-\centering
-\caption{Comparison of number of sample points, computational time,  and success
-rates of \funming, \fminbnd, and
-Chebfun's \texttt{min}. We also report the number of warnings in parentheses issued by the
-sofwtare. This table can be conditionally reproduced by
-\texttt{traubpaper\_funmin\_g\_test.m}.}
-\label{tab:funmingVsfminbndVsChebfun}
-{\footnotesize
-\setlength{\tabcolsep}{.38em} % set table width
-\begin{tabular}{|c|rrr|rrr|rrrrrr|}
-\hline
-    Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}  
-\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd  & \texttt{min}   & \multicolumn{2}{r}{\funming} & \multicolumn{2}{r}{\fminbnd} & \multicolumn{2}{r|}{\texttt{min}}   
-\\ \hline
-             -f3   &  2913   &   8   &      11    &   0.003   &    0.002    &  0.223  &    100   &  &  100   &   &  100 &
-\\ \phantom{-}g1   &  2341   &  22   &    5249    &   0.003   &    0.002    &  2.534  &    100   &  &  24    &   &  100 &   (71)    
-\\ \phantom{-}g2   &  2552   &  10   &    1489    &   0.003   &    0.002    &  1.069  &    100   &  &  100   &   &  100 &  
-%\\           -g5   &  9160   &  14   &     151    &   0.006   &    0.002    &  0.152  &    100   &  &  100   &   &  100 &  
-\\ \hline
-\end{tabular}
-}
+\begin{table}[tbh]
+	\centering
+	\caption{Comparison of number of sample points, computational time,  and success
+		rates of \funming, \fminbnd, and
+		Chebfun's \texttt{min}. 
+		%We also report the number of warnings in parentheses issued by the sofwtare. 
+		This table can be conditionally reproduced by
+		\texttt{traubpaper\_funmin\_g\_test.m}.}
+	\label{tab:funmingVsfminbndVsChebfun}
+	{\footnotesize
+		\setlength{\tabcolsep}{.38em} % set table width
+		\begin{tabular}{|c|rrr|rrr|rrrrrr|}
+			\hline
+			Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}  
+			\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd  & \texttt{min}   & \multicolumn{2}{r}{\funming} & \multicolumn{2}{r}{\fminbnd} & \multicolumn{2}{r|}{\texttt{min}}   
+			\\ \hline
+			-f3   &  274   &   8   &   113    &   0.006   &    0.004    &  0.196  &    100   &  &  100   &   &  12 &
+			\\ \phantom{-}g1   &  230   &  22   &    44    &   0.005   &    0.006    &  0.044  &    100   &  &   24   &   &  54 &      
+			\\ \phantom{-}g2   &  273   &   9   &    24    &   0.006   &    0.005    &  0.025  &    100   &  &  100   &   &  34 &  
+			\\ \hline
+		\end{tabular}
+	}
 \end{table}
 %
 
 We conducted similar simulation test run for comparing \funming, \fminbnd, and
 Chebfun's \texttt{min} and reported the results in
-Table~\ref{tab:funmingVsfminbndVsChebfun}. Chebfun and \funming{} achieved 100\%
-success rates in every case, whereas \fminbnd{} could not locate the global
-minimum at the left boundary point of $g_1$, which is actually a known
-limitation of the method (see documentation of the method in MATLAB). We also
-note that \funming{} took substantially less average run time than \funappxg{}
-and Chebfun.
+Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\%
+success rates in every case with substantially less sampling points and run time than \funappxg. 
+In contrast, \fminbnd{} could not locate the global
+minimum at the boundary point for 76\% test functions from $g_1$, that is actually a known
+limitation of the method (see documentation of the method in MATLAB). Chebfun's  
+{\tt min} performed better than its function approximation function but still failed in most of the cases.
 
 
 
