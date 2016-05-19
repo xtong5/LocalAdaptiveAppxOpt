@@ -389,7 +389,7 @@ The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiB
 To construct an adaptive algorithm, one requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
-second derivative in~\eqref{minfppdef}.
+second derivative in~\eqref{NDDbdm}.
 
 For all $ x \in [x_{i-1},x_i]$,  denote
 \begin{align*}
@@ -488,7 +488,7 @@ Let
 \begin{gather*}
 \widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
-\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
+\widetilde{\mathcal{I}}=\biggl\{i \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ } x_j-x_{j-1} \biggr\}.
 \end{gather*}
 %\begin{multline*}
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
