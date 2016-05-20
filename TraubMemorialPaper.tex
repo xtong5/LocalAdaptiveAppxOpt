@@ -296,7 +296,7 @@ $\max \abs{f''_2(x)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 $f_2''(x) = f_1''(x) + 20$. \label{f1f2fig}}
 \end{figure}
 
-Consider the following function defined on $[-1,1]$, whose second derivative has jump discontinuities:
+Consider the following hump-shaped function defined on $[-1,1]$, whose second derivative has jump discontinuities:
 \begin{align} \label{f3def}
 f_3(x) & = \begin{cases} \displaystyle
    \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
@@ -314,14 +314,14 @@ f''_3(x) & =
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta \le 1$. This function and its second derivative
 are shown in Figure~\ref{f3fig} for $-c=\delta = 0.2$.
 
-If $\delta \ge 2 \fh$, then $f_3 \in \cc$ for
+If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_3 \in \cc$ for
 any choice of $\fC : [0,b-a] \to [1,\infty)$.  We see this by examining two cases.  For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \, \subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.  Then
 \[
 m(f_3,x_-,x) = m(f_3,x,x_+) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = \delta^{-2}.
 \]
 For $x \in [-1,1] \setminus [c - 2 \delta , c + 2 \delta]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
 
-However, if $\delta < 2 \fh$, then for $x = c-3\delta/2$ and $\delta/2 < h < \fh$, then regardless of how $\fC$ is defined,
+However, if hump is too narrow, i.e.,  $\delta < 2 \fh$, then for $x = c-3\delta/2$ and $\delta/2 < h < \fh$, then regardless of how $\fC$ is defined,
 \[
 \fC(h)m(f_3,x - h,x)=\fC(h)m(f_3,x,x+h)=0 < \abs{f''_3(x)} = \delta^{-2},
 \]
@@ -369,8 +369,8 @@ Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}.  A similar a
 
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
 an ordered sequence of points that includes the endpoints of the interval,
-$a=:x_0 < x_1 < \cdots < x_{n-1} < x_{n}:=b$, where $x_{i+1}-x_{i-2} <\fh, \forall i=2,\ldots, n-1$.  The linear spline
-approximation to a function $f$ based on the partition $\datasites$ is denoted,
+$a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$.  The linear spline
+approximation to a function $f$ based on the partition $\datasites$ of distinct points is denoted,
 $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
@@ -389,6 +389,10 @@ $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{NDDbdm}.
 
+Now assume that the points in the partition are not too far apart, namely 
+\begin{equation} \label{widthrestrict}
+x_{i+2} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-2.
+\end{equation} 
 For all $ x \in [x_{i-1},x_i]$,  denote
 \begin{align*}
 &h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
@@ -419,7 +423,7 @@ First, we consider the case of an interior interval, i.e., $i \in \{3, \ldots, n
 \begin{equation*}
 \abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,x_{i-3},x),\fC(h_+)m(f,x,x_{i+2})\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
-Applying the fact that $\fC$ is non-decreasing and property~\eqref{mdec} yields
+Applying the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that relates the second derivative to the divided differences, and inequality~\eqref{widthrestrict} that ensures that the points in the partition are not too far apart yields
 \begin{align*}
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
@@ -432,7 +436,8 @@ Applying the fact that $\fC$ is non-decreasing and property~\eqref{mdec} yields
  \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{i,\pm}(f,\cp)\bigr) = B_i(f,\cp).
 \end{align*}
-A similar argument applied for the sub-intervals on the left and right borders of the interval.
+A similar argument applies for the sub-intervals on the left and right borders of the interval.
+
 The bound in~\eqref{normbd} combined with~\eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
 \begin{subequations} \label{appxerrbdb}
@@ -442,7 +447,6 @@ data-driven error bound for the linear spline:
 \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} .
 \end{gather}
 \end{subequations}
-
 The goal is to increase the number of nodes in the partition as needed to make
 this error bound smaller than the desired tolerance.
 
@@ -458,7 +462,7 @@ Instead of defining the cone in terms of $\fh$ directly, we choose an initial nu
 5 \le n_{\lo} \le n_{\text{hi}}, \qquad n_{\ninit} = \left\lceil n_{\text{hi}}
 \left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil,  \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2}.
 \end{equation}
-Then, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm.  A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
+Then, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm, which is a more intuitive notion than $\fh$.  The parameters $n_{\lo}$ and $n_{\text{hi}}$ allow $n_{\ninit}$ to depend on the width of the interval $[a,b]$.  A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
 
 \begin{algoA} \label{AlgoA}
 For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
