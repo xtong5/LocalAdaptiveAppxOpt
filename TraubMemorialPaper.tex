@@ -387,7 +387,7 @@ The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiB
 To construct an adaptive algorithm, one requires an upper bound on
 $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
-second derivative in~\eqref{minfppdef}.
+second derivative in~\eqref{NDDbdm}.
 
 For all $ x \in [x_{i-1},x_i]$,  denote
 \begin{align*}
@@ -484,9 +484,9 @@ Otherwise, continue to the next step.
 \item \label{stage2} \emph{Split the subintervals as needed.}
 Let
 \begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
-\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
+\widetilde{\mathcal{I}}=\biggl\{i \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ } x_j-x_{j-1} \biggr\}.
 \end{gather*}
 %\begin{multline*}
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
@@ -533,11 +533,11 @@ Note that $L(x)$ does depend on $f$, although this dependence is suppressed in t
 We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0 = : h$.
 We show that such a scenario is impossible, thus contradicting the assumption that $\ell(x) > L(x)$.
 
-Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that 
+Referring to Step~\ref{stage2} of $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that
 \begin{equation} \label{Blenorm}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
-We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that 
+We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that
 \begin{equation} \label{conditionone}
 h = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
 \end{equation}
@@ -737,7 +737,8 @@ At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
 \]
 Then we may return as our answer $M(f,\abstol) = \hM$.
-For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline in \eqref{appxerrbdb} that
+For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline 
+in~\eqref{appxerrbdb} that
 \begin{equation} \label{minsubintbd}
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}.
 \end{equation}
@@ -774,13 +775,13 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
 Let
 \begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\ 
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\ 
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
 \widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
 \end{gather*}
 %		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 %		\begin{multline*}
-%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  
+%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:
 %		\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8} \\ > \min(f(x_{j-1}),f(x_{j})) - \widehat{M}+\abstol,\\
 %		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 %		\end{multline*}
@@ -804,23 +805,23 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \subsection{Computational Cost} \label{subsec:optcost}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
 
-Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e., 
+Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e.,
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
-Let 
+Let
 \begin{equation}\label{eqn:defofltx}
 \tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b[,
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\ 
-+  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''} 
+\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\
++  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''}
 + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\}.
 \end{multline}
 
-Note that $\chL(x)$ does not depend on $\abstol$.  
-As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.  
+Note that $\chL(x)$ does not depend on $\abstol$.
+As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
 	Let $\cost(M,f,\abstol)$ denote the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
@@ -836,12 +837,12 @@ As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although
 	For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration $I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0 =: h$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
 
 
-Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog: 
+Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog:
 \begin{equation} \label{Blenormt}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
 \end{equation}
 
-Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\chL(x)}$.  Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$ with $x_{j+2} - x_{j-1} \le 3h$, establishes that 
+Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\chL(x)}$.  Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$ with $x_{j+2} - x_{j-1} \le 3h$, establishes that
 \begin{equation} \label{minfjjm1bd}
 \min\bigl(f(x_{j-1}),f(x_j) \bigr)
 \ge f(x) - 3\abs{f'(x)}h - \frac32  \norm[\bar{I}_{x,\chL(x)}]{f''} h^2
@@ -861,7 +862,7 @@ There are two possibilities regarding $i^*$.  If $i^* \in \ci$, then $h = x_i - 
 Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of Algorithm $M$,
 \begin{align*}
 \hM   - \abstol & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)  \\
-& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\ 
+& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\
 & \le  f(x^*) \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
 Thus, we have
@@ -880,12 +881,12 @@ Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqre
 For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which implies that the left hand side of this inequality is positive.  However, the definition of $\chL(x)$ implies that the right hand side of this inequality is non-positive.  This is a contradiction, so $\tell(x) \le \chL(x)$.
 \end{proof}
 
-If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation. 
+If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation.
 
 This becomes more obvious if we can simplify the formula for $\chL(x)$ by assuming that $\fC\left(3\cdot2^{-l}h_0\right) \approx \fC(0)$ and that $\norm[\bar{I}_{t,l}]{f''} \approx \abs{f''(t)}$ for all $t$.  In a similar manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
 \begin{equation*}
- 2^{\chL(x)} 
-\approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]} 
+ 2^{\chL(x)}
+\approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]}
 +  \sqrt{\frac{\Bigl[\frac {\fC\left(0\right)}8  + \frac 32 \Bigr]  \abs{f''(x)} + \frac18\abs{f''(x^*)} }{f(x) - f(x^*)}} \vastr].
 \end{equation*}
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ is and the smaller the computational cost of Algorithm $M$.
@@ -965,7 +966,7 @@ image.
 \end{exmp}
 \end{comment}
 
-Yet another application of function approximation are readily found in digital animation, 
+Yet another application of function approximation are readily found in digital animation,
 in which frames of images are produced to represent movements of
 objects over small discrete time. To automatically insert additional frames between
 two consecutive frames for better visual effects, temporal
@@ -982,7 +983,7 @@ existing method for high-accuracy function approximation.
 \begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox known for using Chebyshev
 polynomial basis for approximating given functions to the level of machine
-precision ($\approx 10^{-15}$). In this example, we show that it is challenged
+precision ($\approx 10^{-15}$) by default. In this example, we show that it is challenged
 by~$f_3$ defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some
 pointwise errors of the piecewise Chebyshev interpolant spiked to more than
 $10^{-5}$ as shown in Figure~\ref{f3chebfig}a). Regretably Chebfun did not issue
@@ -1032,34 +1033,32 @@ simulating the following families of test functions in addition to $f_3$:
 %    - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
 %\\ 0, & \text{otherwise},
 %\end{cases} \\
-\\ g_3(x) & = (x-d)^2,  \qquad
- g_4(x)= d\sin(d\pi x), \qquad
- g_5(x)= 10\exp\left(-1000(x-d)^2\right), \qquad
+%\\ g_3(x) & = (x-d)^2,  \qquad
+% g_4(x)= d\sin(d\pi x), \qquad
+%\\ g_5(x) &= 10\exp\left(-1000(x-d)^2\right), \qquad
 % \\ f_4(x)&= \frac{c}{4}\exp(-2x)(c-2\exp(x)(-1 + c\cos(x) - c\sin(x)) \\
 %  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
 \end{align*}
 where $c$ for defining $f_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
-$d$ for other functions from $[0,4]$. If $d=1$, then $g_i$ reduces to $f_i$ for
-$i=1, \mbox{and } 2$. Figure~\ref{fig:testfunctions}a) shows the shapes of the
-test functions when $c=2.5$ and $d=0.375$. We set $\abstol = 10^{-6}$ and $\fC
+$d$ for other functions from $[0,2]$. If $d=1$, then  $g_i$ reduces to $f_i$ for
+$i=1 \mbox{ and } 2$. 
+We set $\abstol = 10^{-6}$ and $\fC
 (h) = \frac{ 3 \fh}{\fh-h}$ where $\fh = \frac{5(b-a)}{n_0-1}$, and we use
 \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
-functions on interval $[a,b]=[0,1]$ for $g_1$, $g_2$, and $f_3$ and
-$[a,b]=[0,d+1]$ for $g_3$, $g_4$, and $g_5$. The approximation results are
+functions on interval $[a,b]=[-1,1]$. The approximation results are
 summarized in Table~\ref{tab:localVsGlobalVsChebfun}. We switch on the splitting
 feature in Chebfun to use piecewise Chebyshev polynomials for approximation.
 
 %
 \begin{figure}[th]
   \centering
-  \begin{tabular}{cc}
-\includegraphics[width=58mm]{figure/traub_funappxNoPenalty_g_testfun.eps} & \hspace{-4ex}
-\includegraphics[width=65mm]{figure/traub_funappxNoPenalty_g_test.eps}
-  \\ a)  & b)
-  \end{tabular}
-\caption{a) Test functions for comparing \funappxg, \funappxglobalg, and Chebfun
-with $c=2.5$ and $d=0.375$. b) Sorted ratios of run time and number of nodes
-used by \funappxg{} to \funappxglobalg{} (LEFT) to Chebfun (RIGHT) for 600 simulated test
+%  \begin{tabular}{cc}
+%\includegraphics[width=58mm]{figure/traub_funappxNoPenalty_g_testfun.eps} & \hspace{-4ex}
+\includegraphics[width=80mm]{figure/traub_funappxNoPenalty_g_test.eps}
+%  \\ a)  & b)
+%  \end{tabular}
+\caption{Sorted ratios of run time and number of nodes
+used by \funappxg{} to \funappxglobalg{} to Chebfun for~300 simulated test
 functions. This figure is conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m}.}
   \label{fig:testfunctions}
@@ -1068,79 +1067,75 @@ functions. This figure is conditionally reproduced by
 %
 \begin{table}[bth]
 \centering
-\caption{Comparison of number of sample points, computational time, success and
-failure rates of \funappxg, \funappxglobalg, and
-Chebfun. We also report the number of warnings in parentheses issued by the
-sofwtare. This table can be conditionally reproduced by
+\caption{Comparison of number of sample points, computational time,  and success
+rates of \funappxg, \funappxglobalg, and Chebfun. 
+%We also report the number of warnings in parentheses issued by the sofwtare. 
+This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m}.}
 \label{tab:localVsGlobalVsChebfun}
 {\footnotesize
-\setlength{\tabcolsep}{.18em} % set table width
-\begin{tabular}{|c|rrr|rrr|rrrrrr|rr|}
+\setlength{\tabcolsep}{.5em} % set table width
+\begin{tabular}{|c|rrr|rrr|rrrrrr|}
 \hline
-    Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)} &  \multicolumn{2}{c|}{Failure (\%)}
-\\  family &  Local  &  Global    &  Chebfun    & Local     &  Global     & Chebfun      & \multicolumn{2}{c}{Local} & \multicolumn{2}{c}{Global} & \multicolumn{2}{c}{Chebfun}  & \multicolumn{2}{|c|}{Chebfun}
+    Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)} 
+\\  family &  Local  &  Global    &  Chebfun    & Local     &  Global     & Chebfun      & \multicolumn{2}{r}{Local} & \multicolumn{2}{r}{Global} & \multicolumn{2}{r|}{Chebfun}
 \\ \hline
-          f3   &   2904  &   46439   &      11    &   0.020   &     0.020    &   0.229 &    100   &  (0) &  100   &  (0) &   97   &   ( 0)   &   3   & (0)
-\\        g1   &   3849  &   30090   &    5639    &   0.018   &     0.019    &   2.569 &    100   &  (0) &  100   &  (0) &  100   &   (86)   &   0   & (0)
-\\        g2   &   3927  &   48674   &    2131    &   0.033   &     0.020    &   1.455 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\        g3   &   4666  &   42398   &       3    &   0.015   &     0.016    &   0.011 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\        g4   &  23870  &   95174   &      34    &   0.049   &     0.017    &   0.013 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\        g5   &  11492  &  471983   &     154    &   0.019   &     0.077    &   0.180 &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\ \hline
+          f3   &   2904  &   46439   &   113    &   0.016   &     0.028    &   0.185 &    100   &    &  100   &   &  0   &     
+\\        g1   &   2996  &   27380   &    44    &   0.024   &     0.021    &   0.037 &    100   &    &  100   &   &  4   &  
+\\        g2   &   6926  &   97438   &    24    &   0.020   &     0.041    &   0.021 &    100   &    &  100   &   &  4   &          
+\\ \hline	
 \end{tabular}
 }
 \end{table}
 %
 
 From Table~\ref{tab:localVsGlobalVsChebfun}, we see that both \funappxg{} and
-\funappxglobalg{} achieved total success. The former worked better than
+\funappxglobalg{} achieved total successes---they suceeded
+even for  $g_1$ outside the cone even though there are no theoretical guarantees.
+The former worked better than
 \funappxglobalg{} for all test cases in terms of number of sampling points and
-\emph{average} run time as evidenced by Figure~\ref{fig:testfunctions}b)(LEFT).
+\emph{average} run time as evidenced by Figure~\ref{fig:testfunctions}.
 In contrast, Chebfun generally used substantially less number of node points
 than \funappxg{} even though the run time was longer than \funappxg{} in
-about~60\% of the test cases; see Figure~\ref{fig:testfunctions}b)(RIGHT).
-But it failed to approximate satisfactorily three instances of the spiky
-function family~$g_3$.
+about~60\% of the test cases; see Figure~\ref{fig:testfunctions}.
+However, it approximated satisfactorily only eight percent of the~300 test
+functions.
 
 
 %
-\begin{table}[bth]
-\centering
-\caption{Comparison of number of sample points, computational time, success and
-failure rates of \funming, \fminbnd, and
-Chebfun's \texttt{min}. We also report the number of warnings in parentheses issued by the
-sofwtare. This table can be conditionally reproduced by
-\texttt{traubpaper\_funmin\_g\_test.m}.}
-\label{tab:funmingVsfminbndVsChebfun}
-{\footnotesize
-\setlength{\tabcolsep}{.11em} % set table width
-\begin{tabular}{|c|rrr|rrr|rrrrrr|rr|}
-\hline
-    Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)} &  \multicolumn{2}{c|}{Failure (\%)}
-\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd     & \texttt{min}      & \multicolumn{2}{c}{\funming} & \multicolumn{2}{c}{\fminbnd} & \multicolumn{2}{c}{\texttt{min}}  & \multicolumn{2}{|c|}{\fminbnd}
-\\ \hline
-         -f3   &  2913   &   8   &      11    &   0.003   &    0.002    &  0.223  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\        g1   &  2341   &  22   &    5249    &   0.003   &    0.002    &  2.534  &    100   &  (0) &  24    &  (0) &  100   &   (71)   &   76  & (0)
-\\        g2   &  2552   &  10   &    1489    &   0.003   &    0.002    &  1.069  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\        g3   &  1747   &   6   &       3    &   0.002   &    0.002    &  0.012  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\        g4   &  5421   &  18   &      22    &   0.003   &    0.002    &  0.012  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-\\       -g5   &  9160   &  14   &     151    &   0.006   &    0.002    &  0.152  &    100   &  (0) &  100   &  (0) &  100   &   ( 0)   &   0   & (0)
-
-\\ \hline
-\end{tabular}
-}
+\begin{table}[tbh]
+	\centering
+	\caption{Comparison of number of sample points, computational time,  and success
+		rates of \funming, \fminbnd, and
+		Chebfun's \texttt{min}. 
+		%We also report the number of warnings in parentheses issued by the sofwtare. 
+		This table can be conditionally reproduced by
+		\texttt{traubpaper\_funmin\_g\_test.m}.}
+	\label{tab:funmingVsfminbndVsChebfun}
+	{\footnotesize
+		\setlength{\tabcolsep}{.38em} % set table width
+		\begin{tabular}{|c|rrr|rrr|rrrrrr|}
+			\hline
+			Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}  
+			\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd  & \texttt{min}   & \multicolumn{2}{r}{\funming} & \multicolumn{2}{r}{\fminbnd} & \multicolumn{2}{r|}{\texttt{min}}   
+			\\ \hline
+			-f3   &  274   &   8   &   113    &   0.006   &    0.004    &  0.196  &    100   &  &  100   &   &  12 &
+			\\ \phantom{-}g1   &  230   &  22   &    44    &   0.005   &    0.006    &  0.044  &    100   &  &   24   &   &  54 &      
+			\\ \phantom{-}g2   &  273   &   9   &    24    &   0.006   &    0.005    &  0.025  &    100   &  &  100   &   &  34 &  
+			\\ \hline
+		\end{tabular}
+	}
 \end{table}
 %
 
 We conducted similar simulation test run for comparing \funming, \fminbnd, and
 Chebfun's \texttt{min} and reported the results in
-Table~\ref{tab:funmingVsfminbndVsChebfun}. Chebfun and \funming{} achieved 100\%
-success rates in every case, whereas \fminbnd{} could not locate the global
-minimum at the left boundary point of $g_1$, which is actually a known
-limitation of the method (see documentation of the method in MATLAB). We also
-note that \funming{} took substantially less average run time than \funappxg{}
-and Chebfun.
+Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\%
+success rates in every case with substantially less sampling points and run time than \funappxg. 
+In contrast, \fminbnd{} could not locate the global
+minimum at the boundary point for 76\% test functions from $g_1$, that is actually a known
+limitation of the method (see documentation of the method in MATLAB). Chebfun's  
+{\tt min} performed better than its function approximation function but still failed in most of the cases.
 
 
 
