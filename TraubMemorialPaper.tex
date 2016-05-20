@@ -29,14 +29,13 @@
 %\usepackage{numcompress}\bibliographystyle{model3-num-names}
 
 %% Vancouver name/year
-%\usepackage{numcompress}
-\bibliographystyle{model4-names}\biboptions{authoryear}
+%\usepackage{numcompress} \bibliographystyle{model4-names}\biboptions{authoryear}
 
 %% APA style
 %\bibliographystyle{model5-names}\biboptions{authoryear}
 
 %% AMA style
-%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+\usepackage{numcompress}\bibliographystyle{model6-num-names}
 
 %% `Elsevier LaTeX' style
 %\bibliographystyle{elsarticle-num}
@@ -99,7 +98,7 @@
 
 \begin{frontmatter}
 
-\title{Local Adaption for Approximation and Optimization of Univariate Functions}
+\title{Local Adaption for Approximation and Minimization of Univariate Functions}
 
 
 %% Group authors per affiliation:
@@ -111,7 +110,7 @@
 
 
 \begin{abstract}
-Existing adaptive algorithms for function approximation and optimization lack theoretical guarantees.  Our new locally adaptive algorithms are guaranteed to provide answers to these two problems that satisfy a user-specified absolute error tolerance for a cone of non-spiky functions in $\cw^{2,\infty}$.  These algorithms automatically determine where to sample the function---sampling more densely where needed.  The computational cost to approximate a function with $L^{\infty}$ error no greater than $\abstol$ is $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the same order as that of the best function approximation algorithm for this cone of functions. The computational cost of the new optimization algorithm is asymptotically no worse than that for function approximation and can be much smaller if the function is significantly larger than its minimum value over much of its domain.  Our new algorithms have been implemented in a software library.  Numerical examples are presented to illustrate the advantages of these new algorithms.
+Existing adaptive algorithms for function approximation and minimization lack theoretical guarantees.  Our new locally adaptive algorithms are guaranteed to provide answers that satisfy a user-specified absolute error tolerance for a cone, $\cc$, of non-spiky functions in $\cw^{2,\infty}$.  These algorithms automatically determine where to sample the function---sampling more densely where needed.  The computational cost to approximate a function with $L^{\infty}$ error no greater than $\abstol$ is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$.  This is the same order as that of the best function approximation algorithm for functions in $\cc$. The computational cost of the new minimization algorithm is no worse than that for function approximation and can be much smaller if the function significantly exceeds its minimum value over much of its domain.  Our new algorithms have been implemented in the GAIL software library.  Numerical examples are presented to illustrate the advantages of these new algorithms.
 \end{abstract}
 
 \begin{keyword}
@@ -125,7 +124,7 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal is to solve univariate function approximation and optimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+The goal is to solve univariate function approximation and minimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
 real-valued functions defined on a finite interval $[a,b]$, we  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
@@ -133,36 +132,35 @@ algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \norm{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling
+Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling
 and return the correct answer.  These algorithms sample more densely where needed, i.e., they are locally adaptive.
 
-Adaptive algorithms relieve the user of having to specify the number of samples required.  Only the desired error tolerance is needed.  Existing adaptive numerical algorithms for function approximation, such as the MATLAB toolbox Chebfun \citep{TrefEtal16a}, are successful for some $f$, but fail for other $f$.  Moreover, there is no theory that provides sufficient conditions for the success of these algorithms.  A corresponding situation exists for optimization algorithms, such as \texttt{min} in Chebfun or MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
+Adaptive algorithms relieve the user of having to specify the number of samples required.  Only the desired error tolerance is needed.  Existing adaptive numerical algorithms for function approximation, such as the MATLAB toolbox Chebfun \citep{TrefEtal16a}, are successful for some $f$, but fail for other $f$.  No theory explains for which $f$ Chebfun succeeds.   A corresponding situation exists for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
 
-Our aim is to provide practical algorithms with theoretical justification.  Here we accomplish the following:
+Our aim is to provide practical algorithms for \eqref{appxprob} and  \eqref{optprob} with theoretical justification.  Here we accomplish the following:
 \begin{itemize}
 
-\item The set $\cc$ for which our algorithms must succeed is defined in Section~\ref{sec:conedef} to be a cone contained in $\cw^{2,\infty}$, the Sobolev space of functions whose second derivatives have finite sup-norms.  Because any algorithm can be fooled by a function that is sufficiently spiky, this $\cc$ is defined to exclude functions that are too spiky.  The parameters that define $\cc$ may be chosen to reflect the user's desire for robustness.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of second-order divided differences, which leads to a data-based upper bound on the error of the linear spline in~\eqref{appxerrbdb}.
+\item The set $\cc$ for which our algorithms succeed is defined in Section~\ref{sec:conedef} to be a cone contained in $\cw^{2,\infty}$, the Sobolev space of functions whose second derivatives have finite sup-norms.  Because any algorithm can be fooled by a function that is sufficiently spiky, this $\cc$ is defined to exclude functions that are too spiky.  The parameters that define $\cc$ may be chosen to reflect the user's desire for robustness.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of second-order divided differences.  This leads to a data-based upper bound on the error of the linear spline in~\eqref{appxerrbdb}.
 
-\item Algorithms $A$ and $M$ are constructed in Sections~\ref{subsec:appxalgo} and~\ref{sec:minalgo}, which solve problems~\eqref{appxprob}
+\item Algorithms $A$ and $M$ are constructed in Sections~\ref{subsec:appxalgo} and~\ref{sec:minalgo} to solve problems~\eqref{appxprob}
 and~\eqref{optprob}, respectively.  These algorithms are based on linear splines.  Guarantees of success are provided by Theorems~\ref{thm:algAworks}
 and~\ref{thm:algMworks}.
 
-\item The upper bound on the computational costs of Algorithm $A$ is derived in Section~\ref{subsec:appxcost},  Theorem~\ref{thm:cost}, and is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$ (see
-Proposition~\ref{equivnormprop}), it becomes apparent how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.  
+\item The upper bound on the computational costs of Algorithm $A$ is derived in Section~\ref{subsec:appxcost},  Theorem~\ref{thm:cost}, and is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Proposition~\ref{equivnormprop} demonstrates how $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$.  This explains how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.  
 
-The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subsec:optcost}, is no more than the computational cost of Algorithm $A$.  However, it is observed that this cost can be substantially less than that of Algorithm $A$ if there is a large portion of $[a,b]$ where $f$ significantly exceeds its minimum value.
+The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subsec:optcost}, is no more than the computational cost of Algorithm $A$.  However, it is observed that Algorithm $M$ can be substantially cheaper than Algorithm $A$ if $f$ significantly exceeds its minimum value over a large portion of $[a,b]$.
 
-\item A lower bound on the computational complexity of problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}.  This lower bound in Theorem~\ref{thm:A_cost} is proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially asymptotically optimal.  A lower bound for the computational complexity of  \eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp} explains the challenge in doing so.
+\item A lower bound on the computational complexity of problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}.  This lower bound in Theorem~\ref{thm:A_cost} is proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially asymptotically optimal.  A lower bound for the computational complexity of  \eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp} explains the difficulties in doing so.
 
 \item GAIL \frednote{Add}
 
 \end{itemize}
 
-\cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as~\eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88} \cite[Theorem 1]{Nov96a}.  The $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  \cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities.
+Novak \cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as~\eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex  \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88}.  The $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  Plaskota et al \cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities.
 
-There is a significant literature on theoretically justified algorithms based on interval arithmetic---described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach is based on functions whose inputs and outputs are intervals.  We stick with the more common situation where the inputs and outputs of functions are points.
+There is a significant literature on theoretically justified algorithms based on interval arithmetic---described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach is based on functions whose inputs and outputs are intervals.  We focus on the more common situation where the inputs and outputs of functions are points.
 
-Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  \cite{Ton14a} extends these ideas to optimization, and \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.  
+Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
@@ -804,7 +802,7 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \scnote{Example where computational cost of minimization is significantly less that approximation.}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being optimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
 
 Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e., 
 \[
@@ -892,7 +890,7 @@ This becomes more obvious if we can simplify the formula for $\chL(x)$ by assumi
 \end{equation*}
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ is and the smaller the computational cost of Algorithm $M$.
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The optimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the optimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the optimization problem \eqref{optprob} for functions in  $\cc$.  
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The minimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the minimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the minimization problem \eqref{optprob} for functions in  $\cc$.  
 
 
 \section{Numerical Examples}
@@ -1194,7 +1192,7 @@ unnecessary.
 
 Software packages such as Chebfun and MATLAB's functions including
 \texttt{interp1}, \texttt{griddedInterpolant}, and \texttt{fminbnd} are some of
-the most popular and useful function interpolation and optimization methods.
+the most popular and useful function interpolation and minimization methods.
 However, it is important for users to be vigilant in applying these and other
 similar tools, which often do not inform users of whether the approximants meet
 the user's required accuracy. The reasons may range from an absence of rigorous
