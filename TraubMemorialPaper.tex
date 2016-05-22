@@ -130,7 +130,7 @@ algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
 \begin{gather}
 \norm{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
-M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
+0 \le M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in $[a,b]$ adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling
 and return the correct answer.  These algorithms sample more densely where needed, i.e., they are locally adaptive.
@@ -152,7 +152,7 @@ The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subse
 
 \item A lower bound on the computational complexity of problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}.  This lower bound in Theorem~\ref{thm:A_cost} is proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially asymptotically optimal.  A lower bound for the computational complexity of  \eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp} explains the difficulties in doing so.
 
-\item GAIL \frednote{Add}
+\item Our new Algorithms $A$ and $M$ are implemented in our MATLAB Guaranteed Automatic Integration Library (GAIL)  as \funappxg and \funming, respectively.   Section \frednote{Add}
 
 \end{itemize}
 
