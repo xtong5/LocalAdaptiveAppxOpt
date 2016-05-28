@@ -112,7 +112,7 @@
 
 
 \begin{abstract}
-Existing adaptive algorithms for function approximation and minimization lack theoretical guarantees.  Our new locally adaptive algorithms are guaranteed to provide answers that satisfy a user-specified absolute error tolerance for a cone, $\cc$, of non-spiky functions in $\cw^{2,\infty}$.  These algorithms automatically determine where to sample the function---sampling more densely where needed.  The computational cost to approximate a function with $L^{\infty}$ error no greater than $\abstol$ is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$.  This is the same order as that of the best function approximation algorithm for functions in $\cc$. The computational cost of the new minimization algorithm is no worse than that for function approximation and can be much smaller if the function significantly exceeds its minimum value over much of its domain.  Our new algorithms have been implemented in the GAIL software library.  Numerical examples are presented to illustrate the advantages of these new algorithms.
+Nearly all adaptive algorithms for function approximation and minimization lack theoretical guarantees.  Our new locally adaptive algorithms are guaranteed to provide answers that satisfy a user-specified absolute error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space $\cw^{2,\infty}$.  These algorithms automatically determine where to sample the function---sampling more densely where the second derivative is larger.  The computational cost to approximate a function with $L^{\infty}$ error no greater than $\abstol$ is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$.  This is the same order as that of the best function approximation algorithm for functions in $\cc$. The computational cost of the new minimization algorithm is no worse than that for function approximation and can be much smaller if the function significantly exceeds its minimum value over much of its domain.  Our  algorithms have been implemented in our Guaranteed Automatic Integration Library.  Numerical examples are presented to illustrate the performance of our algorithms.
 \end{abstract}
 
 \begin{keyword}
@@ -126,7 +126,7 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal is to solve univariate function approximation and minimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+The goal is to solve univariate function approximation and global minimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
 real-valued functions defined on a finite interval $[a,b]$, we  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
