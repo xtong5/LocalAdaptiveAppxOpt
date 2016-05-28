@@ -312,7 +312,9 @@ $\max \abs{f''_2(x)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
 \includegraphics[width=5.6cm]{figure/f1ppf2ppplot.eps} \quad
 \includegraphics[width=5.9cm]{figure/f2closeplot.eps}
 \caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
-$f_2''(x) = f_1''(x) + 20$. \label{f1f2fig}}
+$f_2''(x) = f_1''(x) + 20$. This figure is reproducible by {\tt TraubMemorial.m}
+in GAIL.}
+\label{f1f2fig}
 \end{figure}
 
 Consider the following hump-shaped function defined on $[-1,1]$, whose second derivative has jump discontinuities:
@@ -351,7 +353,10 @@ a spiky function that may or may not lie in $\cc$.
 \centering
 \includegraphics[width=5.7cm]{figure/f3plot.eps} \quad
 \includegraphics[width=5.7cm]{figure/f3ppplot.eps}
-\caption{The example $f_3$ with $-c=\delta = 0.2$  and its piecewise constant second derivative. \label{f3fig}}
+\caption{The example $f_3$ with $-c=\delta = 0.2$ and its piecewise constant
+second derivative. This figure is reproducible by {\tt TraubMemorial.m} in
+GAIL.}
+\label{f3fig}
 \end{figure}
 
 The above examples of functions outside $\cc$ have discontinuities in the second
@@ -531,7 +536,8 @@ Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the
 \includegraphics[width=148mm]{figure/sampling-funappxg.eps}
 \caption{A simple example showing the non-uniform sampling density of $A$. Here
 the function is $-f_3(x)$ with $\delta = 0.1$ and $c = -0.2$. A total of~$54$
-points are used to meet the tolerance of~$0.01$.}
+points are used to meet the tolerance of~$0.01$. This figure is reproducible by
+{\tt sampling.m} in GAIL.}
 \label{fig:sampling-funappxg}
 \end{figure}
 
@@ -715,7 +721,9 @@ The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma f
 \begin{figure}
 	\centering
 	\includegraphics[width = 8cm]{figure/f3foolplot.eps}
-	\caption{The fooling functions $\pm f_3$ used to prove \eqref{lowbdW}.  The case $n=15$ is shown.  \label{f3foolplot}}
+	\caption{The fooling functions $\pm f_3$ used to prove \eqref{lowbdW}. The case
+	$n=15$ is shown.}
+	\label{f3foolplot}
 \end{figure}
 	
 Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ be a successful algorithm for all $f  \in \cc$.  Let $f_0$ be defined as follows
@@ -839,7 +847,8 @@ Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the 
 \includegraphics[width=148mm]{figure/sampling-funming.eps}
 \caption{This is the same function in Figure~\ref{fig:sampling-funappxg},
 showing the~$36$ non-uniform sampling points of $M$, which typically uses a
-substantially less number of sampling points than algorithm~$A$ given the same tolerance.}
+substantially less number of sampling points than algorithm~$A$ given the same
+tolerance. This figure is reproducible by {\tt sampling.m} in GAIL.}
 \label{fig:sampling-funming}
 \end{figure}
 
@@ -1112,7 +1121,7 @@ functions. This figure is conditionally reproduced by
 rates of \funappxg, \funappxglobalg, and Chebfun. 
 %We also report the number of warnings in parentheses issued by the sofwtare. 
 This table can be conditionally reproduced by
-\texttt{traubpaper\_funappx\_g\_test.m}.}
+\texttt{traubpaper\_funappx\_g\_test.m} in GAIL.}
 \label{tab:localVsGlobalVsChebfun}
 {\footnotesize
 \setlength{\tabcolsep}{.5em} % set table width
@@ -1151,10 +1160,10 @@ functions.
 		Chebfun's \texttt{min}. 
 		%We also report the number of warnings in parentheses issued by the sofwtare. 
 		This table can be conditionally reproduced by
-		\texttt{traubpaper\_funmin\_g\_test.m}.}
+		\texttt{traubpaper\_funmin\_g\_test.m} in GAIL.}
 	\label{tab:funmingVsfminbndVsChebfun}
 	{\footnotesize
-		\setlength{\tabcolsep}{.38em} % set table width
+		\setlength{\tabcolsep}{.48em} % set table width
 		\begin{tabular}{|c|rrr|rrr|rrrrrr|}
 			\hline
 			Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}  
