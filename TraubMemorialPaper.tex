@@ -1263,7 +1263,7 @@ programming, which include interfaces for input parsing, doc tests and unit
 tests, as well as code comments and searchable HTML user guide and
 documentation.
 
-In the rest of this section, we would like to suggest some possible future work areas.
+In the rest of this section, we would like to suggest some future work areas.
 
 Our approach is not necessarily fast for all functions $f$ or in high precision
 setting as we are simply using linear splines. However, it is embarrassingly
@@ -1277,30 +1277,26 @@ basis functions for coming up with a function approximant are important for
 enhancing smoothness and data efficiency. Cubic splines, radial basis functions,
 and Chebyshev polynomials are some potential promising candidates.
 
-We can also consider developing guaranteed adaptive algorithm for high
+We can also consider developing guaranteed adaptive algorithms for high
 dimensional functional approximation and optimization. For $d=2$, we can
-construct a triangular mesh or rectangular mesh, and refine the mesh until we
-reach given error tolerance. More generally, some relevant ideas are contained
-in the recent work of Zhou and Hickernell for multidimensional-function
-approximation using radial basis functions~\cite{ZhoHic15a}---unfortunately, the
-associated error bounds are too restrictive in the sense that they are
-applicable only to tiny domains, and consequently have not made a practical
-impact.
+construct a triangular or rectangular mesh, and refine the mesh until we reach
+given error tolerance. More generally, some relevant ideas are contained in the
+recent work of Zhou and Hickernell for multidimensional-function approximation
+using radial basis functions~\cite{ZhoHic15a}---unfortunately, the associated
+error bounds are too restrictive in the sense that they are applicable only to
+tiny domains, and consequently have not made a practical impact.
 
-Our algorithms provides guaranteed accuracy based on absolute error tolerance. 
-This analysis could be extended to include \emph{relative} error
-tolerance $\varepsilon_r$. The error requirement of \texttt{funappx\_g} can be
-modified %from $$ \| f -\hat{f} \|_{\infty} \le \varepsilon, $$ where the
-%tolerance function is simply the absolute error tolerance $\varepsilon$, 
-to a combination of both $\abstol$ and $\varepsilon_r$, for example, $ \| f
--\hat{f} \|_{\infty} \le \max{ \{\varepsilon, \varepsilon_r \norm[\infty]{f} \}
-}.$ Even though $\norm[\infty]{f}$ is unknown, it can be estimated at
-increasing accuracy from the data points iteratively. 
+Our algorithms provides guaranteed accuracy based on absolute error tolerance.
+This analysis could be extended to include \emph{relative} error tolerance
+$\varepsilon_r$, for example, $ \| f -\hat{f} \|_{\infty} \le \max{
+\{\varepsilon, \varepsilon_r \norm[\infty]{f} \} }.$ Even though
+$\norm[\infty]{f}$ is unknown, it can be estimated at increasing accuracy from
+the data points iteratively.
 
 One may consider our global minimization algorithm an application of our
-function approximation method. Likewise, it is foreseeable that additional
-similarly robust and efficient numerial methods such as root finding or
-solutions of differential equations could be built upon our framework.
+function approximation method. Likewise, it is foreseeable that 
+similarly robust and efficient algorithms such as root finding or
+numerial solutions of differential equations could be built upon our framework.
 
 
 \section*{Acknowledgements}
