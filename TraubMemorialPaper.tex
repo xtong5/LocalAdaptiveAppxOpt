@@ -1234,9 +1234,9 @@ user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
 Our approach is not necessarily fast for all functions $f$ or in high precision
 setting as we are simply using linear splines. However, it is embarrassingly
 easy to parallelize by applying the methods to a contiguous partition of the
-domain followed by some post processing. In fact, we have implemented the serial
-and parallel versions of our algorithms in a MATLAB toolbox we call
-GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
+domain followed by some post processing. 
+In fact, we have implemented our algorithms in a MATLAB toolbox we call GAIL~\cite{ChoEtal15a}. 
+As a side note, the package is under active development
 guided by the latest theoretical developments of cones of functions and
 constructed according to our best knowledge of good practices of MATLAB
 programming, which include interfaces for input parsing, doc tests and unit
