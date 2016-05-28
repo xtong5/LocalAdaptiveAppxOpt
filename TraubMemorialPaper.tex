@@ -948,7 +948,7 @@ The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ 
 
 We and our collaborators have developed the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This MATLAB software library implements algorithms that provide answers to univariate and multivariate integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
 
-%% Example 3.1
+%% Example 1
 In computer graphics, three-dimensional objects can often be parameterized by
 functions. Moreover, interpolation at low to medium accuracy is often 
 be sufficient for projecting satisfactory visual perceptions on devices that
@@ -1068,7 +1068,7 @@ However, it is unnecessary.
 \end{exmp}
 \end{comment}
 
-%% Example 3.3
+%% Example 2
 
 \begin{exmp}
 In this example, we want to compare our adaptive algorithms with Chebfun by
@@ -1187,8 +1187,6 @@ minimum at the boundary point for 76\% test functions from $g_1$, that is actual
 limitation of the method (see documentation of the method in MATLAB). Chebfun's  
 {\tt min} performed better than its function approximation function but still failed in most of the cases.
 
-
-
 \end{exmp}
 
 
@@ -1217,7 +1215,6 @@ minimum found by \funming (right).}
 \end{comment}
 
 
-
 \begin{comment}
 Our algorithm is readily extensible to the following complex-valued function.
 \begin{exmp}
@@ -1231,9 +1228,9 @@ unnecessary.
 
 
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Software packages such as Chebfun and MATLAB's functions including
 \texttt{interp1}, \texttt{griddedInterpolant}, and \texttt{fminbnd} are some of
@@ -1248,33 +1245,63 @@ understandable challenges in efficient implementation.
 Function approximation and minimization methods are not necessarily precise
 enough unless we use a sufficiently large number of sampling points. This paper
 is an effort to provide a unifying framework covering adaptive data sampling of
-the original function $f$, construction of an interpolant $\hat{f}$, and an
-estimation of maximum error bound. Our locally adaptive strategy is to sample
-$f$ more frequently in subintervals where (an upper bound of) $f''$ is large in
-magnitude and when the maximum error bound over the subintervals are not meeting
-user required tolerance. Hence a novelty of our algorithms is its capability to
-choose a suitable granularity of distinct data points $\{(x_i,
-f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
-user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
+a given smooth and not too spiky function $f$, construction of an interpolant
+$\hat{f}$, and an estimation of the corresponding maximum error bound. Our
+locally adaptive strategy is to sample $f$ more frequently in subintervals where
+(an upper bound of) $f''$ is large in magnitude and when the maximum error bound
+over the subintervals are not meeting user required tolerance. Hence a novelty
+of our algorithms is its capability to choose a suitable granularity of distinct
+data points $\{(x_i, f(x_i))\}_{i=1}^n$ in order to warrant that the
+interpolation error satisfies user-given tolerance, that is $\| f - \hat{f} \|
+\le \abstol$. 
 
-Our approach is not necessarily fast for all functions $f$ or in high precision
-setting as we are simply using linear splines. However, it is embarrassingly
-easy to parallelize by applying the methods to a contiguous partition of the
-domain followed by some post processing. 
-In fact, we have implemented our algorithms in a MATLAB toolbox we call GAIL~\cite{ChoEtal15a}. 
-As a side note, the package is under active development
+We have implemented our algorithms in a MATLAB toolbox we call
+GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
 guided by the latest theoretical developments of cones of functions and
 constructed according to our best knowledge of good practices of MATLAB
 programming, which include interfaces for input parsing, doc tests and unit
 tests, as well as code comments and searchable HTML user guide and
 documentation.
 
+In the rest of this section, we would like to suggest some possible future work areas.
+
+Our approach is not necessarily fast for all functions $f$ or in high precision
+setting as we are simply using linear splines. However, it is embarrassingly
+easy to parallelize our algorithms by using MATLAB's Parallel Computing Toolbox
+on a modern multicore machine and applying our methods to each subtinterval in a
+contiguous partition of the domain followed by some simple post processing. 
 
 Our linear interpolants are not smooth and may require a sizable number of data
 points for tiny tolerance or spiky functions. For future work, better choices of
 basis functions for coming up with a function approximant are important for
-enhancing smoothness and data efficiency. Cubic splines, radial basis functions
+enhancing smoothness and data efficiency. Cubic splines, radial basis functions,
 and Chebyshev polynomials are some potential promising candidates.
+
+We can also consider developing guaranteed adaptive algorithm for high
+dimensional functional approximation and optimization. For $d=2$, we can
+construct a triangular mesh or rectangular mesh, and refine the mesh until we
+reach given error tolerance. More generally, some relevant ideas are contained
+in the recent work of Zhou and Hickernell for multidimensional-function
+approximation using radial basis functions~\cite{ZhoHic15a}---unfortunately, the
+associated error bounds are too restrictive in the sense that they are
+applicable only to tiny domains, and consequently have not made a practical
+impact.
+
+Our algorithms provides guaranteed accuracy based on absolute error tolerance. 
+This analysis could be extended to include \emph{relative} error
+tolerance $\varepsilon_r$. The error requirement of \texttt{funappx\_g} can be
+modified %from $$ \| f -\hat{f} \|_{\infty} \le \varepsilon, $$ where the
+%tolerance function is simply the absolute error tolerance $\varepsilon$, 
+to a combination of both $\abstol$ and $\varepsilon_r$, for example, $ \| f
+-\hat{f} \|_{\infty} \le \max{ \{\varepsilon, \varepsilon_r \norm[\infty]{f} \}
+}.$ Even though $\norm[\infty]{f}$ is unknown, it can be estimated at
+increasing accuracy from the data points iteratively. 
+
+One may consider our global minimization algorithm an application of our
+function approximation method. Likewise, it is foreseeable that additional
+similarly robust and efficient numerial methods such as root finding or
+solutions of differential equations could be built upon our framework.
+
 
 \section*{Acknowledgements}
 The authors would like to thank our colleagues Greg Fasshauer and the GAIL team
