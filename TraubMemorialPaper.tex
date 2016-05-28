@@ -17,7 +17,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 
 %% Numbered
-%\bibliographystyle{model1-num-names}
+\bibliographystyle{model1-num-names}
 
 %% Numbered without titles
 %\bibliographystyle{model1a-num-names}
@@ -35,7 +35,7 @@
 %\bibliographystyle{model5-names}\biboptions{authoryear}
 
 %% AMA style
-\usepackage{numcompress}\bibliographystyle{model6-num-names}
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
 
 %% `Elsevier LaTeX' style
 %\bibliographystyle{elsarticle-num}
@@ -154,7 +154,7 @@ The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subse
 
 \item A lower bound on the computational complexity of problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}.  This lower bound in Theorem~\ref{thm:A_cost} is proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially asymptotically optimal.  A lower bound for the computational complexity of  \eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp} explains the difficulties in doing so.
 
-\item Our new Algorithms $A$ and $M$ are implemented in our MATLAB Guaranteed Automatic Integration Library (GAIL)  as \funappxg and \funming, respectively.   Section \frednote{Add}
+\item Our new Algorithms $A$ and $M$ are implemented in our MATLAB Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}  as \funappxg and \funming, respectively.   Section \ref{sec:examples} provides numerical examples of our new algorithms an compares their performances with MATLAB's  and Chebfun's algorithms.  We note cases where are algorithms are successful in meeting the error tolerance when the other are not.
 
 \end{itemize}
 
@@ -919,9 +919,9 @@ The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ 
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}  The minimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the minimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the minimization problem \eqref{optprob} for functions in  $\cc$.  
 
 
-\section{Numerical Examples}
+\section{Numerical Examples} \label{sec:examples}
 
-\frednote{Say a bit about GAIL.  Make a correspondence between Algorithms $A$, $M$ and \funappxg{} etc.}
+For several years we and our collaborators have been developing the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This software library implements algorithms that provide answers to problems including \eqref{appxprob} and \eqref{optprob} by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here have been implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
 
 %% Example 3.1
 In computer graphics, three-dimensional objects can often be parameterized by
@@ -1252,7 +1252,7 @@ enhancing smoothness and data efficiency. Cubic splines, radial basis functions
 and Chebyshev polynomials are some potential promising candidates.
 
 \section*{Acknowledgements}
-\scnote{TODO}
+The authors would like to thank the GAIL team, Prof.\ Greg Fasshauer, and our colleagues for valuable suggestions and comments.  This research was supported in part by grant NSF-DMS-1522687.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

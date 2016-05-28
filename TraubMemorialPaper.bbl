@@ -1,159 +1,137 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
 \begin{thebibliography}{19}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\providecommand{\urlprefix}{URL }
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
-  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
-  \urlstyle{rm}\Url}\fi
-\providecommand{\eprint}[2][]{\url{#2}}
-\providecommand{\BIBand}{and}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\bibinfo}[2]{#2}
-\ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
-\makeatletter\def\@biblabel#1{#1.}\makeatother
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
 %Type = Manual
-\bibitem[{Hale et~al.(2016)Hale, Trefethen and Driscoll}]{TrefEtal16a}
-\bibinfo{author}{Hale\xfnm[ N.]}, \bibinfo{author}{Trefethen\xfnm[ L.N.]},
-  \bibinfo{author}{Driscoll\xfnm[ T.A.]}.
-\newblock \bibinfo{title}{Chebfun Version 5.4}; \bibinfo{year}{2016}.
+\bibitem[{Hale et~al.(2016)Hale, Trefethen, and Driscoll}]{TrefEtal16a}
+\bibinfo{author}{N.~Hale}, \bibinfo{author}{L.~N. Trefethen},
+  \bibinfo{author}{T.~A. Driscoll}, \bibinfo{title}{Chebfun Version 5.4},
+  \bibinfo{year}{2016}.
 %Type = Manual
 \bibitem[{{The MathWorks, Inc.}(2016)}]{MAT9.0}
-\bibinfo{author}{{The MathWorks, Inc.}\xfnm[]}.
-\newblock \bibinfo{title}{{MATLAB} 9.0}.
-\newblock \bibinfo{address}{Natick, MA}; \bibinfo{year}{2016}.
-%Type = Article
-\bibitem[{Novak(1996)}]{Nov96a}
-\bibinfo{author}{Novak\xfnm[ E.]}.
-\newblock \bibinfo{title}{On the power of adaption}.
-\newblock \emph{\bibinfo{journal}{J Complexity}}
-  \bibinfo{year}{1996};\bibinfo{volume}{12}:\bibinfo{pages}{199--237}.
-%Type = Book
-\bibitem[{Traub et~al.(1988)Traub, Wasilkowski and
-  Wo\'zniakowski}]{TraWasWoz88}
-\bibinfo{author}{Traub\xfnm[ J.F.]}, \bibinfo{author}{Wasilkowski\xfnm[ G.W.]},
-  \bibinfo{author}{Wo\'zniakowski\xfnm[ H.]}.
-\newblock \bibinfo{title}{Information-Based Complexity}.
-\newblock \bibinfo{address}{Boston}: \bibinfo{publisher}{Academic Press};
-  \bibinfo{year}{1988}.
-%Type = Article
-\bibitem[{Plaskota et~al.(2008)Plaskota, Wasilkowski and Zhao}]{PlaEtal08a}
-\bibinfo{author}{Plaskota\xfnm[ L.]}, \bibinfo{author}{Wasilkowski\xfnm[
-  G.W.]}, \bibinfo{author}{Zhao\xfnm[ Y.]}.
-\newblock \bibinfo{title}{The power of adaption for approximating functions
-  with singularities}.
-\newblock \emph{\bibinfo{journal}{Math Comput}}
-  \bibinfo{year}{2008};\bibinfo{volume}{77}:\bibinfo{pages}{2309--2338}.
-%Type = Book
-\bibitem[{Moore et~al.(2009)Moore, Kearfott and Cloud}]{MoKeCl09}
-\bibinfo{author}{Moore\xfnm[ R.]}, \bibinfo{author}{Kearfott\xfnm[ R.]},
-  \bibinfo{author}{Cloud\xfnm[ M.]}.
-\newblock \bibinfo{title}{Introduction To Interval Analysis}.
-\newblock \bibinfo{address}{Cambridge}: \bibinfo{publisher}{Cambridge
-  University Press}; \bibinfo{year}{2009}.
-%Type = Article
-\bibitem[{Rump(2010)}]{Rum10a}
-\bibinfo{author}{Rump\xfnm[ S.M.]}.
-\newblock \bibinfo{title}{Verification methods: {R}igorous results using
-  floating-point arithmetic}.
-\newblock \emph{\bibinfo{journal}{Acta Numer}}
-  \bibinfo{year}{2010};\bibinfo{volume}{19}:\bibinfo{pages}{287--449}.
-%Type = Incollection
-\bibitem[{Rump(1999)}]{Rum99a}
-\bibinfo{author}{Rump\xfnm[ S.M.]}.
-\newblock \bibinfo{title}{{INTLAB - INTerval LABoratory}}.
-\newblock In: \bibinfo{editor}{Csendes\xfnm[ T.]}, ed.
-  \emph{\bibinfo{booktitle}{{Developments~in~Reliable Computing}}}.
-  \bibinfo{address}{Dordrecht}: \bibinfo{publisher}{Kluwer Academic
-  Publishers}; \bibinfo{year}{1999}:\unskip \bibinfo{pages}{77--104}.
-\newblock \bibinfo{note}{\url{http://www.ti3.tuhh.de/rump/}}.
-%Type = Article
-\bibitem[{Clancy et~al.(2014)Clancy, Ding, Hamilton, \HickernellFJ and
-  Zhang}]{HicEtal14b}
-\bibinfo{author}{Clancy\xfnm[ N.]}, \bibinfo{author}{Ding\xfnm[ Y.]},
-  \bibinfo{author}{Hamilton\xfnm[ C.]}, \bibinfo{author}{\HickernellFJ\xfnm[
-  F.J.]}, \bibinfo{author}{Zhang\xfnm[ Y.]}.
-\newblock \bibinfo{title}{The cost of deterministic, adaptive, automatic
-  algorithms: Cones, not balls}.
-\newblock \emph{\bibinfo{journal}{J Complexity}}
-  \bibinfo{year}{2014};\bibinfo{volume}{30}:\bibinfo{pages}{21--45}.
-\newblock \doi{\bibinfo{doi}{10.1016/j.jco.2013.09.002}}.
-%Type = Inproceedings
-\bibitem[{\HickernellFJ et~al.(2013)\HickernellFJ, Jiang, Liu and
-  Owen}]{HicEtal14a}
-\bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{Jiang\xfnm[ L.]},
-  \bibinfo{author}{Liu\xfnm[ Y.]}, \bibinfo{author}{Owen\xfnm[ A.B.]}.
-\newblock \bibinfo{title}{Guaranteed conservative fixed width confidence
-  intervals via {M}onte {C}arlo sampling}.
-\newblock In: \bibinfo{editor}{Dick\xfnm[ J.]}, \bibinfo{editor}{Kuo\xfnm[
-  F.Y.]}, \bibinfo{editor}{Peters\xfnm[ G.W.]}, \bibinfo{editor}{Sloan\xfnm[
-  I.H.]}, eds. \emph{\bibinfo{booktitle}{{M}onte {C}arlo and Quasi-{M}onte
-  {C}arlo Methods 2012}}. \bibinfo{publisher}{Springer-Verlag, Berlin};
-  \bibinfo{year}{2013}:\unskip \bibinfo{pages}{105--128}.
-%Type = Phdthesis
-\bibitem[{Jiang(2016)}]{Jia16a}
-\bibinfo{author}{Jiang\xfnm[ L.]}.
-\newblock \bibinfo{title}{Guaranteed adaptive {M}onte {C}arlo methods for
-  estimating means of random variables}.
-\newblock Ph.D. thesis; Illinois Institute of Technology; \bibinfo{year}{2016}.
-%Type = Inproceedings
-\bibitem[{\HickernellFJ and {Jim\'enez Rugama}(2015)}]{HicJim16a}
-\bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{{Jim\'enez
-  Rugama}\xfnm[ {\relax Ll}.A.]}.
-\newblock \bibinfo{title}{Reliable adaptive cubature using digital sequences}.
-\newblock In:  \cite{CooNuy16a}; \bibinfo{year}{2015+}:\unskip\bibinfo{note}{To
-  appear, arXiv:1410.8615 [math.NA]}.
-%Type = Inproceedings
-\bibitem[{{Jim\'enez Rugama} and \HickernellFJ(2015)}]{JimHic16a}
-\bibinfo{author}{{Jim\'enez Rugama}\xfnm[ {\relax Ll}.A.]},
-  \bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}.
-\newblock \bibinfo{title}{Adaptive multidimensional integration based on rank-1
-  lattices}.
-\newblock In:  \cite{CooNuy16a}; \bibinfo{year}{2015+}:\unskip\bibinfo{note}{To
-  appear, arXiv:1411.1966}.
-%Type = Mastersthesis
-\bibitem[{Tong(2014)}]{Ton14a}
-\bibinfo{author}{Tong\xfnm[ X.]}.
-\newblock \bibinfo{title}{A guaranteed, adaptive, automatic algorithm for
-  univariate function minimization}.
-\newblock Master's thesis; Illinois Institute of Technology;
-  \bibinfo{year}{2014}.
-%Type = Phdthesis
-\bibitem[{Ding(2015)}]{Din15a}
-\bibinfo{author}{Ding\xfnm[ Y.]}.
-\newblock \bibinfo{title}{Guaranteed adaptive univariate function
-  approximation}.
-\newblock Ph.D. thesis; Illinois Institute of Technology; \bibinfo{year}{2015}.
-%Type = Book
-\bibitem[{Cheney and Kincaid(2013)}]{CheKin12a}
-\bibinfo{author}{Cheney\xfnm[ W.]}, \bibinfo{author}{Kincaid\xfnm[ D.]}.
-\newblock \bibinfo{title}{Numerical Mathematics and Computing}.
-\newblock \bibinfo{edition}{Seventh edition} ed.; \bibinfo{address}{Boston}:
-  \bibinfo{publisher}{Brooks/Cole}; \bibinfo{year}{2013}.
-%Type = Book
-\bibitem[{Burden et~al.(2016)Burden, Faires and Burden}]{BurFaiBur16a}
-\bibinfo{author}{Burden\xfnm[ R.L.]}, \bibinfo{author}{Faires\xfnm[ J.D.]},
-  \bibinfo{author}{Burden\xfnm[ A.M.]}.
-\newblock \bibinfo{title}{Numerical Analysis}.
-\newblock \bibinfo{edition}{{Tenth }} ed.; \bibinfo{publisher}{Brooks/Cole};
-  \bibinfo{year}{2016}.
+\bibinfo{author}{{The MathWorks, Inc.}}, \bibinfo{title}{{MATLAB} 9.0},
+  \bibinfo{address}{Natick, MA}, \bibinfo{year}{2016}.
 %Type = Misc
 \bibitem[{Choi et~al.(2015)Choi, Ding, \HickernellFJ, Jiang, {Jim\'enez
-  Rugama}, Tong, Zhang and Zhou}]{ChoEtal15a}
-\bibinfo{author}{Choi\xfnm[ S.C.T.]}, \bibinfo{author}{Ding\xfnm[ Y.]},
-  \bibinfo{author}{\HickernellFJ\xfnm[ F.J.]}, \bibinfo{author}{Jiang\xfnm[
-  L.]}, \bibinfo{author}{{Jim\'enez Rugama}\xfnm[ {\relax Ll}.A.]},
-  \bibinfo{author}{Tong\xfnm[ X.]}, \bibinfo{author}{Zhang\xfnm[ Y.]},
-  \bibinfo{author}{Zhou\xfnm[ X.]}.
-\newblock \bibinfo{title}{{GAIL}: {G}uaranteed {A}utomatic {I}ntegration
-  {L}ibrary (versions 1.0--2.1)}.
-\newblock \bibinfo{howpublished}{MATLAB software};
-  \bibinfo{year}{{2013--2015}}.
-\newblock \urlprefix\url{https://github.com/GailGithub/GAIL_Dev}.
+  Rugama}, Tong, Zhang, and Zhou}]{ChoEtal15a}
+\bibinfo{author}{S.-C.~T. Choi}, \bibinfo{author}{Y.~Ding},
+  \bibinfo{author}{F.~J. \HickernellFJ}, \bibinfo{author}{L.~Jiang},
+  \bibinfo{author}{{\relax Ll}.~A. {Jim\'enez Rugama}},
+  \bibinfo{author}{X.~Tong}, \bibinfo{author}{Y.~Zhang},
+  \bibinfo{author}{X.~Zhou}, \bibinfo{title}{{GAIL}: {G}uaranteed {A}utomatic
+  {I}ntegration {L}ibrary (versions 1.0--2.1)}, \bibinfo{howpublished}{MATLAB
+  software}, \bibinfo{year}{{2013--2015}}.
+%Type = Article
+\bibitem[{Novak(1996)}]{Nov96a}
+\bibinfo{author}{E.~Novak},
+\newblock \bibinfo{title}{On the power of adaption},
+\newblock \bibinfo{journal}{J. Complexity} \bibinfo{volume}{12}
+  (\bibinfo{year}{1996}) \bibinfo{pages}{199--237}.
+%Type = Book
+\bibitem[{Traub et~al.(1988)Traub, Wasilkowski, and
+  Wo\'zniakowski}]{TraWasWoz88}
+\bibinfo{author}{J.~F. Traub}, \bibinfo{author}{G.~W. Wasilkowski},
+  \bibinfo{author}{H.~Wo\'zniakowski}, \bibinfo{title}{Information-Based
+  Complexity}, \bibinfo{publisher}{Academic Press}, \bibinfo{address}{Boston},
+  \bibinfo{year}{1988}.
+%Type = Article
+\bibitem[{Plaskota et~al.(2008)Plaskota, Wasilkowski, and Zhao}]{PlaEtal08a}
+\bibinfo{author}{L.~Plaskota}, \bibinfo{author}{G.~W. Wasilkowski},
+  \bibinfo{author}{Y.~Zhao},
+\newblock \bibinfo{title}{The power of adaption for approximating functions
+  with singularities},
+\newblock \bibinfo{journal}{Math. Comput.} \bibinfo{volume}{77}
+  (\bibinfo{year}{2008}) \bibinfo{pages}{2309--2338}.
+%Type = Book
+\bibitem[{Moore et~al.(2009)Moore, Kearfott, and Cloud}]{MoKeCl09}
+\bibinfo{author}{R.~Moore}, \bibinfo{author}{R.~Kearfott},
+  \bibinfo{author}{M.~Cloud}, \bibinfo{title}{Introduction To Interval
+  Analysis}, \bibinfo{publisher}{Cambridge University Press},
+  \bibinfo{address}{Cambridge}, \bibinfo{year}{2009}.
+%Type = Article
+\bibitem[{Rump(2010)}]{Rum10a}
+\bibinfo{author}{S.~M. Rump},
+\newblock \bibinfo{title}{Verification methods: {R}igorous results using
+  floating-point arithmetic},
+\newblock \bibinfo{journal}{Acta Numer.} \bibinfo{volume}{19}
+  (\bibinfo{year}{2010}) \bibinfo{pages}{287--449}.
+%Type = Incollection
+\bibitem[{Rump(1999)}]{Rum99a}
+\bibinfo{author}{S.~M. Rump},
+\newblock \bibinfo{title}{{INTLAB - INTerval LABoratory}},
+\newblock in: \bibinfo{editor}{T.~Csendes} (Ed.),
+  \bibinfo{booktitle}{{Developments~in~Reliable Computing}},
+  \bibinfo{publisher}{Kluwer Academic Publishers},
+  \bibinfo{address}{Dordrecht}, \bibinfo{year}{1999}, pp.
+  \bibinfo{pages}{77--104}. \bibinfo{note}{\url{http://www.ti3.tuhh.de/rump/}}.
+%Type = Article
+\bibitem[{Clancy et~al.(2014)Clancy, Ding, Hamilton, \HickernellFJ, and
+  Zhang}]{HicEtal14b}
+\bibinfo{author}{N.~Clancy}, \bibinfo{author}{Y.~Ding},
+  \bibinfo{author}{C.~Hamilton}, \bibinfo{author}{F.~J. \HickernellFJ},
+  \bibinfo{author}{Y.~Zhang},
+\newblock \bibinfo{title}{The cost of deterministic, adaptive, automatic
+  algorithms: Cones, not balls},
+\newblock \bibinfo{journal}{J. Complexity} \bibinfo{volume}{30}
+  (\bibinfo{year}{2014}) \bibinfo{pages}{21--45}.
+%Type = Inproceedings
+\bibitem[{\HickernellFJ et~al.(2013)\HickernellFJ, Jiang, Liu, and
+  Owen}]{HicEtal14a}
+\bibinfo{author}{F.~J. \HickernellFJ}, \bibinfo{author}{L.~Jiang},
+  \bibinfo{author}{Y.~Liu}, \bibinfo{author}{A.~B. Owen},
+\newblock \bibinfo{title}{Guaranteed conservative fixed width confidence
+  intervals via {M}onte {C}arlo sampling},
+\newblock in: \bibinfo{editor}{J.~Dick}, \bibinfo{editor}{F.~Y. Kuo},
+  \bibinfo{editor}{G.~W. Peters}, \bibinfo{editor}{I.~H. Sloan} (Eds.),
+  \bibinfo{booktitle}{{M}onte {C}arlo and Quasi-{M}onte {C}arlo Methods 2012},
+  \bibinfo{publisher}{Springer-Verlag, Berlin}, \bibinfo{year}{2013}, pp.
+  \bibinfo{pages}{105--128}.
+%Type = Phdthesis
+\bibitem[{Jiang(2016)}]{Jia16a}
+\bibinfo{author}{L.~Jiang}, \bibinfo{title}{Guaranteed Adaptive {M}onte {C}arlo
+  Methods for Estimating Means of Random Variables}, Ph.D. thesis, Illinois
+  Institute of Technology, \bibinfo{year}{2016}.
+%Type = Inproceedings
+\bibitem[{\HickernellFJ and {Jim\'enez Rugama}(2015)}]{HicJim16a}
+\bibinfo{author}{F.~J. \HickernellFJ}, \bibinfo{author}{{\relax Ll}.~A.
+  {Jim\'enez Rugama}},
+\newblock \bibinfo{title}{Reliable adaptive cubature using digital sequences},
+\newblock in:  \cite{CooNuy16a}. \bibinfo{note}{To appear, arXiv:1410.8615
+  [math.NA]}.
+%Type = Inproceedings
+\bibitem[{{Jim\'enez Rugama} and \HickernellFJ(2015)}]{JimHic16a}
+\bibinfo{author}{{\relax Ll}.~A. {Jim\'enez Rugama}}, \bibinfo{author}{F.~J.
+  \HickernellFJ},
+\newblock \bibinfo{title}{Adaptive multidimensional integration based on rank-1
+  lattices},
+\newblock in:  \cite{CooNuy16a}. \bibinfo{note}{To appear, arXiv:1411.1966}.
+%Type = Masterthesis
+\bibitem[{Tong(2014)}]{Ton14a}
+\bibinfo{author}{X.~Tong}, \bibinfo{title}{A Guaranteed, Adaptive, Automatic
+  Algorithm for Univariate Function Minimization}, Master's thesis, Illinois
+  Institute of Technology, \bibinfo{year}{2014}.
+%Type = Phdthesis
+\bibitem[{Ding(2015)}]{Din15a}
+\bibinfo{author}{Y.~Ding}, \bibinfo{title}{Guaranteed Adaptive Univariate
+  Function Approximation}, Ph.D. thesis, Illinois Institute of Technology,
+  \bibinfo{year}{2015}.
+%Type = Book
+\bibitem[{Cheney and Kincaid(2013)}]{CheKin12a}
+\bibinfo{author}{W.~Cheney}, \bibinfo{author}{D.~Kincaid},
+  \bibinfo{title}{Numerical Mathematics and Computing},
+  \bibinfo{publisher}{Brooks/Cole}, \bibinfo{address}{Boston},
+  \bibinfo{edition}{seventh edition} edition, \bibinfo{year}{2013}.
+%Type = Book
+\bibitem[{Burden et~al.(2016)Burden, Faires, and Burden}]{BurFaiBur16a}
+\bibinfo{author}{R.~L. Burden}, \bibinfo{author}{J.~D. Faires},
+  \bibinfo{author}{A.~M. Burden}, \bibinfo{title}{Numerical Analysis},
+  \bibinfo{publisher}{Brooks/Cole}, \bibinfo{edition}{{Tenth }} edition,
+  \bibinfo{year}{2016}.
 %Type = Proceedings
 \bibitem[{Cools and Nuyens(2015)}]{CooNuy16a}
-\bibinfo{editor}{Cools\xfnm[ R.]}, \bibinfo{editor}{Nuyens\xfnm[ D.]}, eds.
-\newblock \bibinfo{title}{{M}onte {C}arlo and Quasi-{M}onte {C}arlo Methods
-  2014}. \bibinfo{publisher}{Springer-Verlag, Berlin}; \bibinfo{year}{2015+}.
+\bibinfo{editor}{R.~Cools}, \bibinfo{editor}{D.~Nuyens} (Eds.),
+  \bibinfo{title}{{M}onte {C}arlo and Quasi-{M}onte {C}arlo Methods 2014},
+  \bibinfo{publisher}{Springer-Verlag, Berlin}, \bibinfo{year}{2015+}.
 
 \end{thebibliography}
