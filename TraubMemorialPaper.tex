@@ -920,11 +920,11 @@ The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ 
 
 \section{Numerical Examples} \label{sec:examples}
 
-For several years we and our collaborators have been developing the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This software library implements algorithms that provide answers to problems including \eqref{appxprob} and \eqref{optprob} by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here have been implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
+We and our collaborators have developed the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This MATLAB software library implements algorithms that provide answers to univariate and multivariate integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
 
 %% Example 3.1
 In computer graphics, three-dimensional objects can often be parameterized by
-functions. Moreover, interpolation at low to medium accuracy is often found to
+functions. Moreover, interpolation at low to medium accuracy is often 
 be sufficient for projecting satisfactory visual perceptions on devices that
 have relatively limited memory and low-resolution display, for example,
 cell phones and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{} to
@@ -990,11 +990,11 @@ image.
 \end{exmp}
 \end{comment}
 
-Yet another application of function approximation are readily found in digital animation,
-in which frames of images are produced to represent movements of
+Yet another application of function approximation is found in digital animation,
+in which successive image frames are produced to represent movements of
 objects over small discrete time. To automatically insert additional frames between
 two consecutive frames for better visual effects, temporal
-interpolation can often be applied to estimate an object's positions by using
+interpolation can be applied to estimate an object's positions by using
 parametric curves that represent its trajectory in 3D as $(x(t), y(t), z(t))$,
 where each Cartesian coordinate in space is parameterized by time $t$. We refer
 readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
