@@ -929,7 +929,7 @@ be sufficient for projecting satisfactory visual perceptions on devices that
 have relatively limited memory and low-resolution display, for example,
 cell phones and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{} to
 interpolate the surface of a seashell, resulting in a sufficiently accurate
-reconstruction in $\mathbb{R}^3$.
+reconstruction in~$\mathbb{R}^3$.
 
 \begin{comment}
 \begin{figure}[tbh]
@@ -1071,7 +1071,7 @@ We set $\abstol = 10^{-6}$ and $\fC
 \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
 functions on interval $[a,b]=[-1,1]$. The approximation results are
 summarized in Table~\ref{tab:localVsGlobalVsChebfun}. We switch on the splitting
-feature in Chebfun to use piecewise Chebyshev polynomials for approximation.
+feature in Chebfun to use piecewise Chebyshev polynomials for approximation and override its tolerance to $10^{-6}$ as well.
 
 %
 \begin{figure}[th]
