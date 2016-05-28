@@ -162,7 +162,7 @@ Novak \cite{Nov96a} summarizes the settings under which adaption may provide an 
 
 There is a significant literature on theoretically justified algorithms based on interval arithmetic---described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach is based on functions whose inputs and outputs are intervals.  We focus on the more common situation where the inputs and outputs of functions are points.
 
-Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.  
+Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary; see Figure~\ref{fig:sampling-funappxg} and Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
@@ -508,7 +508,17 @@ Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, and the $f[x_{j-1}, x_{j}, x
 Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
-\scnote{A simple example showing the non-uniform sampling density}
+%\scnote{A simple example showing the non-uniform sampling density}
+\begin{figure}[tbh]
+%\centering
+\hspace{-10ex}
+\includegraphics[width=150mm]{figure/sampling-funappxg.eps}
+\caption{A simple example showing the non-uniform sampling density of $A$. Here
+the function is $-f_3(x)$ with $\delta = 0.1$ and $c = -0.2$. A total of~$54$
+points are used to meet the tolerance of~$0.01$.}
+\label{fig:sampling-funappxg}
+\end{figure}
+
 
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
@@ -806,7 +816,16 @@ Let
 Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
-\scnote{Example where computational cost of minimization is significantly less that approximation.}
+%\scnote{Example where computational cost of minimization is significantly less that approximation.}
+\begin{figure}[tbh]
+%\centering
+\hspace{-10ex}
+\includegraphics[width=150mm]{figure/sampling-funming.eps}
+\caption{This is the same function in Figure~\ref{fig:sampling-funappxg},
+showing the~$36$ non-uniform sampling points of $M$, which typically uses a
+substantially less number of sampling points than algorithm~$A$ given the same tolerance.}
+\label{fig:sampling-funming}
+\end{figure}
 
 \subsection{Computational Cost} \label{subsec:optcost}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
