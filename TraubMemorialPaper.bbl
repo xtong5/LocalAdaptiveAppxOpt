@@ -1,5 +1,5 @@
 \def\Ignore#1{}\def\notesupp#1{}\def\Ignore#1{}\def\notesupp#1{}\providecommand{\HickernellFJ}{Hickernell\xspace}
-\begin{thebibliography}{19}
+\begin{thebibliography}{20}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -132,5 +132,10 @@
   \bibinfo{author}{H.~Wo\'zniakowski}, \bibinfo{title}{Information-Based
   Complexity}, \bibinfo{publisher}{Academic Press}, \bibinfo{address}{Boston},
   \bibinfo{year}{1988}.
+%Type = Inproceedings
+\bibitem[{Zhou and \HickernellFJ(2015)}]{ZhoHic15a}
+\bibinfo{author}{X.~Zhou}, \bibinfo{author}{F.J. \HickernellFJ},
+  \bibinfo{title}{Tractability of function approximation with product kernels},
+  in:  \cite{CooNuy16a}. \bibinfo{note}{Accepted, arXiv:1411.0790 [math.NA]}.
 
 \end{thebibliography}
