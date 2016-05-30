@@ -178,11 +178,11 @@ The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subse
 
 \end{itemize}
 
-Novak \cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as~\eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex  \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88}.  The $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  Plaskota et al \cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities.
+Novak \cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as~\eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex  \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88}.  The $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  Plaskota et al.~\cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities.
 
 There is a significant literature on theoretically justified algorithms based on interval arithmetic---described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach is based on functions whose inputs and outputs are intervals.  We focus on the more common situation where the inputs and outputs of functions are points.
 
-Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adaptive algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary; see Figure~\ref{fig:sampling-funappxg} and Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs do not rise drastically as they are made more robust to spiky input functions.
+Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al.~\cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adaptive algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary; see Figure~\ref{fig:sampling-funappxg} and Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs do not rise drastically as they are made more robust to spiky input functions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
@@ -243,7 +243,7 @@ second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally u
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,\xi_-, \xi_+) (\xi_+  - \xi_-)  \ge m(f,x_1, x_3) (\xi_+  - \xi_-) .
 \end{multline*}
-So the the data-based second-order divided difference provides an upper
+So the data-based second-order divided difference provides an upper
 bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 \begin{equation} \label{NDDbdm}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,x_1, x_3).
@@ -789,7 +789,7 @@ If the right hand side of the above inequality is no less than $\hM - \abstol$, 
 \[
 \min_{x_{i-1} \le x \le x_i} f(x) \ge M(f,\abstol) - \abstol
 \]
-In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller error bound on the linear linear spline approximation for that subinterval.  However if the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then the interval $[x_{i-1}, x_i]$ should be split.  Also, the two intervals to the immediate left and right of this interval are candidates to be split, since they affect $B_{i,\pm}$.
+In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller error bound on the linear spline approximation for that subinterval.  However if the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then the interval $[x_{i-1}, x_i]$ should be split.  Also, the two intervals to the immediate left and right of this interval are candidates to be split, since they affect $B_{i,\pm}$.
 
 \begin{algoM} \label{AlgoM}
 	For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
@@ -1248,7 +1248,7 @@ a given smooth and not too spiky function $f$, construction of an interpolant
 $\hat{f}$, and an estimation of the corresponding maximum error bound. Our
 locally adaptive strategy is to sample $f$ more frequently in subintervals where
 (an upper bound of) $f''$ is large in magnitude and when the maximum error bound
-over the subintervals are not meeting user required tolerance. Hence a novelty
+over the subintervals are not meeting user-required tolerance. Hence a novelty
 of our algorithms is its capability to choose a suitable granularity of distinct
 data points $\{(x_i, f(x_i))\}_{i=1}^n$ in order to warrant that the
 interpolation error satisfies user-given tolerance, that is $\| f - \hat{f} \|
@@ -1295,7 +1295,7 @@ the data points iteratively.
 One may consider our global minimization algorithm an application of our
 function approximation method. Likewise, it is foreseeable that
 similarly robust and efficient algorithms such as root finding or
-numerial solutions of differential equations could be built upon our framework.
+numerical solutions of differential equations could be built upon our framework.
 
 
 \section*{Acknowledgements}
