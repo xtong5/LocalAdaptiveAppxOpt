@@ -217,7 +217,7 @@ that
 m(f,\alpha,\beta) \le m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
 \end{equation}
 
-We cannot determine $f''(x)$ for a specific $x$ based only on values of $f$. However,
+We cannot determine $f''(x)$ for a specific $x$ based only on the values of~$f$. However,
 we can use values of $f$ to provide an upper bound on $m(f,\alpha, \beta)$ via Newton divided differences.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
@@ -254,7 +254,7 @@ bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 %--------------------------------------------------
 
 Let $\fh$ be some positive number, and let $\fC : [0,\fh[ \to [1,\infty[$ be any
-non-decreasing function, which serves in our subsequent algorithms as inflation factors dependent on the grid size.
+non-decreasing function, which acts in our subsequent algorithms as inflation factors dependent on the grid size.
 These parameters are used to define a cone of functions for which our algorithms will
 apply.  This cone only includes functions whose second derivatives do not change much in
 magnitude over a short distance.  Thus, they are \emph{not too spiky}.  Specifically,
@@ -291,7 +291,7 @@ discontinuities in their second derivatives, provided that these discontinuities
 do not occur too close to each other or too close to the ends of the interval.
 
 We provide examples of functions lying outside $\cc$
-and similar functions lying inside $\cc$. Consider these two functions defined
+and similar functions lying inside $\cc$. Consider the following two functions defined
 on $[-1,1]$ whose second derivatives oscillate wildly near $0$:
 \begin{gather*}
 f_1(x) = x^4 \sin(1/x), \\
@@ -320,7 +320,7 @@ in GAIL.}
 \label{f1f2fig}
 \end{figure}
 
-Consider the following hump-shaped function defined on $[-1,1]$, whose second derivative has jump discontinuities:
+Now consider the following hump-shaped function defined on $[-1,1]$, whose second derivative has jump discontinuities:
 \begin{align} \label{f3def}
 f_3(x) & = \begin{cases} \displaystyle
    \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
@@ -362,8 +362,8 @@ GAIL.}
 \label{f3fig}
 \end{figure}
 
-The above examples of functions outside $\cc$ have discontinuities in the second
-derivative.  If a function has sufficient smoothness and the higher order derivatives are nicely behaved in a certain sense, then we can be sure that this function lies in $\cc$.   If  $f \in C^3[a,b]$ and for all $x \in [a,b]$, it happens that
+The above examples of functions outside $\cc$ have discontinuous second-order
+derivatives.  If a function has sufficient smoothness and the higher order derivatives are nicely behaved in a certain sense, then we can be sure that this function lies in $\cc$.   If  $f \in C^3[a,b]$ and for all $x \in [a,b]$, it happens that
 \begin{equation} \label{conesuffconda}
 \norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''} \le \frac{\abs{f''(x)}}{h} \left( 1 - \frac{1}{\fC(h)} \right) \ \ \forall h \in [0,\fh],
 \end{equation}
@@ -398,10 +398,12 @@ Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
 an ordered sequence of points that includes the endpoints of the interval,
 $a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$.  The linear spline
 approximation to a function $f$ based on the partition $\datasites$ of distinct points is denoted,
-$S(f,\datasites)$ and defined as
-\begin{multline} \label{splinedef}
-S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
-\end{multline}
+$S(f,\datasites)$ and defined~as
+\begin{multline*} %\label{splinedef}
+S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), 
+\qquad x_{i-1} \le x \le x_i,
+\end{multline*}
+for $i=1, \ldots, n$.
 The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiBur16a}:
 \begin{subequations} \label{appxerrbda}
 \begin{gather}
@@ -411,8 +413,8 @@ The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiB
 \end{gather}
 \end{subequations}
 
-To construct an adaptive algorithm, one requires an upper bound on
-$\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
+To construct an adaptive algorithm, an upper bound on
+$\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values is required. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{NDDbdm}.
 
