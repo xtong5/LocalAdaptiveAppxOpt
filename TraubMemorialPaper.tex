@@ -494,13 +494,13 @@ Instead of defining the cone in terms of $\fh$ directly, we choose an initial nu
 Then, $n_{\ninit} -1$ becomes the minimum number of sub-intervals used by the algorithm, which is a more intuitive notion than $\fh$.  The parameters $n_{\lo}$ and $n_{\text{hi}}$ allow $n_{\ninit}$ to depend on the width of the interval $[a,b]$.  A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
+For some finite interval $[a,b]$, fixed integers $n_{\lo}$ and $n_{\text{hi}}$ that satisfy~\eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
 user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
 is not yet satisfied:
 $$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
 Compute the second-order divided differences, $f[x_{j-1},
-x_{j}, x_{j+1}]$, for $j= \{1,2,\ldots,n-1\}$. Then do the
+x_{j}, x_{j+1}]$ according to~\ref{divdiff}, for $j= \{1,2,\ldots,n-1\}$. Then do the
 following:
 \begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
@@ -548,7 +548,7 @@ points are used to meet the tolerance of~$0.01$. This figure is reproducible by
 
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
-Next, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of intervals, and
+In this section, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of intervals, and
 \begin{subequations} \label{h0Ixletcdef}
  \begin{equation} \label{h0def}
  h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
@@ -602,7 +602,8 @@ Now we use inequality \eqref{Blenorm} to show a contradiction:
  Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows that $\ell(x) \le  L(x)$, which is used to prove an upper bound on the computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
-Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by Algorithm $A$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
+Denote $\cost(A,f,\abstol)$ the number of function evaluations required by Algorithm $A$ for the input function $f$ and the absolute error 
+tolerance~$\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 \\
 \end{equation*}
@@ -700,7 +701,7 @@ The upper bound on the computational cost of Algorithm~$A$ provides an upper bou
 	\label{thm:A_cost}
 \end{theorem}
 
-Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. \emph{Moreover, the upper bound on the computational cost of $A$ is asymptotically. However, one can easily construct an algorithm}
+Note that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. \emph{Moreover, the upper bound on the computational cost of $A$ is asymptotically. However, one can easily construct an algorithm} \frednote{please revise}
 
 \begin{proof}
 	All of these lower bounds are proved by constructing fooling functions for which algorithm $A$ succeeds, and then showing that at least a certain number of samples must be used.  The proofs of lower bounds~\eqref{lowbdW} are simpler, so we start with them first.
@@ -765,11 +766,11 @@ Again we make the argument that $\gamma$ must be smaller than :
 Substituting $\norm[\frac12]{f_0''} = \sigma$ in the top inequality and $\norm{f_0''} = \sigma$ in the bottom inequality, and then solving for $n$ yields the two bounds in~\eqref{lowbdC}.
 \end{proof}
 
-Comparing the approximate upper bounds on the computational cost of Algorithm $A$ in  \eqref{costbdapprox} and \eqref{costbdinf} to these lower bounds for the best possible algorithm, $A^*$, we find that they are asymptotically equivalent:
-\begin{multline*}
-\frac{\displaystyle \sup_{f \in \cc : \norm[\frac 12]{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) } \approx
-\frac{\displaystyle \sup_{f \in \cc : \norm{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) } \\ \lessapprox \sqrt{\frac{2 \fC(0)(\fC(0)+1)}{\fC(0)-1}}.
-\end{multline*}
+The approximate upper bounds on the computational cost of Algorithm $A$ in  \eqref{costbdapprox} and \eqref{costbdinf} are asymptotically equivalent to these lower bounds for the best possible algorithm $A^*$ since
+\begin{align*}
+\frac{\displaystyle \sup_{f \in \cc : \norm[\frac 12]{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) } & \approx
+\frac{\displaystyle \sup_{f \in \cc : \norm{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) } \\ & \lessapprox \sqrt{\frac{2 \fC(0)(\fC(0)+1)}{\fC(0)-1}}.
+\end{align*}
 The right hand side of this inequality does depend on how far $\fC(0)$ is above $1$, but it does not depend on how small $\fh$ is.
 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
