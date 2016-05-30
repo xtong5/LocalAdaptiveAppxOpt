@@ -168,7 +168,7 @@ Our aim is to provide practical algorithms for \eqref{appxprob} and  \eqref{optp
 and~\eqref{optprob}, respectively.  These algorithms are based on linear splines.  Guarantees of success are provided by Theorems~\ref{thm:algAworks}
 and~\ref{thm:algMworks}.
 
-\item The upper bound on the computational costs of Algorithm $A$ is derived in Section~\ref{subsec:appxcost},  Theorem~\ref{thm:cost}, and is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Proposition~\ref{equivnormprop} demonstrates how $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$.  This explains how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.  
+\item The upper bound on the computational costs of Algorithm $A$ is derived in Section~\ref{subsec:appxcost},  Theorem~\ref{thm:cost}, and is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Proposition~\ref{equivnormprop} demonstrates how $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$.  This explains how much more efficient locally adaptive algorithms can be than globally adaptive algorithms with their computational costs  proportional to $\sqrt{\norm{f''}/\abstol}$.
 
 The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subsec:optcost}, is no more than the computational cost of Algorithm $A$.  However, it is observed that Algorithm $M$ can be substantially cheaper than Algorithm $A$ if $f$ significantly exceeds its minimum value over a large portion of $[a,b]$.
 
@@ -182,7 +182,7 @@ Novak \cite{Nov96a} summarizes the settings under which adaption may provide an 
 
 There is a significant literature on theoretically justified algorithms based on interval arithmetic---described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach is based on functions whose inputs and outputs are intervals.  We focus on the more common situation where the inputs and outputs of functions are points.
 
-Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adpative algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary; see Figure~\ref{fig:sampling-funappxg} and Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.  
+Here we emulate the approach taken by \cite{HicEtal14b} to develop globally adaptive algorithms for integration and function approximation.  There is also a parallel development of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al \cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adaptive algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary; see Figure~\ref{fig:sampling-funappxg} and Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs doe not rise drastically as they are made more robust to spiky input functions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
@@ -416,10 +416,10 @@ $\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values. This can be done for
 $f \in \cc$ using the correspondence between a second order difference and the
 second derivative in~\eqref{NDDbdm}.
 
-Now assume that the points in the partition are not too far apart, namely 
+Now assume that the points in the partition are not too far apart, namely
 \begin{equation} \label{widthrestrict}
 x_{i+2} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-2.
-\end{equation} 
+\end{equation}
 For all $ x \in [x_{i-1},x_i]$,  denote
 \begin{align*}
 &h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
@@ -779,7 +779,7 @@ At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
 \]
 Then we may return as our answer $M(f,\abstol) = \hM$.
-For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline 
+For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline
 in~\eqref{appxerrbdb} that
 \begin{equation} \label{minsubintbd}
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}.
@@ -853,7 +853,7 @@ tolerance. This figure is reproducible by {\tt TraubMemorial.m} in GAIL.}
 \end{figure}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.  
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that interval are significantly larger than the minimum over $[a,b]$.
 
 Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e.,
 \[
@@ -941,7 +941,7 @@ This becomes more obvious if we can simplify the formula for $\chL(x)$ by assumi
 \end{equation*}
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ is and the smaller the computational cost of Algorithm $M$.
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The minimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the minimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the minimization problem \eqref{optprob} for functions in  $\cc$.  
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The minimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the minimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the minimization problem \eqref{optprob} for functions in  $\cc$.
 
 
 \section{Numerical Examples} \label{sec:examples}
@@ -950,7 +950,7 @@ We and our collaborators have developed the Guaranteed Automatic Integration Lib
 
 %% Example 1
 In computer graphics, three-dimensional objects can often be parameterized by
-functions. Moreover, interpolation at low to medium accuracy is often 
+functions. Moreover, interpolation at low to medium accuracy is often
 be sufficient for projecting satisfactory visual perceptions on devices that
 have relatively limited memory and low-resolution display, for example,
 cell phones and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{} to
@@ -1036,7 +1036,7 @@ polynomial basis for approximating given functions to the level of machine
 precision ($\approx 10^{-15}$) by default. In this example, we show that it is challenged
 by~$f_3$ defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some
 pointwise errors of the piecewise Chebyshev interpolant spiked to more than
-$10^{-5}$ as shown in Figure~\ref{f3chebfig}a). Regretably Chebfun did not issue
+$10^{-5}$ as shown in Figure~\ref{f3chebfig}a). Regrettably Chebfun did not issue
 any warning about the inaccurate representation in this case. In contrast, the
 errors of the piecewise linear interpolant from \funappxg{} were uniformly below
 $10^{-14}$. Nonetheless the time taken by \funappxg{} was close to~30 seconds
@@ -1091,7 +1091,7 @@ simulating the following families of test functions in addition to $f_3$:
 \end{align*}
 where $c$ for defining $f_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
 $d$ for other functions from $[0,2]$. If $d=1$, then  $g_i$ reduces to $f_i$ for
-$i=1 \mbox{ and } 2$. 
+$i=1 \mbox{ and } 2$.
 We set $\abstol = 10^{-6}$ and $\fC
 (h) = \frac{ 3 \fh}{\fh-h}$ where $\fh = \frac{5(b-a)}{n_0-1}$, and we use
 \texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
@@ -1118,8 +1118,8 @@ functions. This figure is conditionally reproduced by
 \begin{table}[bt]
 \centering
 \caption{Comparison of number of sample points, computational time,  and success
-rates of \funappxg, \funappxglobalg, and Chebfun. 
-%We also report the number of warnings in parentheses issued by the sofwtare. 
+rates of \funappxg, \funappxglobalg, and Chebfun.
+%We also report the number of warnings in parentheses issued by the software.
 This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m} in GAIL.}
 \label{tab:localVsGlobalVsChebfun}
@@ -1127,12 +1127,12 @@ This table can be conditionally reproduced by
 \setlength{\tabcolsep}{.5em} % set table width
 \begin{tabular}{|c|rrr|rrr|rrrrrr|}
 \hline
-    Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)} 
+    Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}
 \\  family &  Local  &  Global    &  Chebfun    & Local     &  Global     & Chebfun      & \multicolumn{2}{r}{Local} & \multicolumn{2}{r}{Global} & \multicolumn{2}{r|}{Chebfun}
 \\ \hline
-          f3   &   2904  &   46439   &   113    &   0.016   &     0.028    &   0.185 &    100   &    &  100   &   &  0   &     
-\\        g1   &   2996  &   27380   &    44    &   0.024   &     0.021    &   0.037 &    100   &    &  100   &   &  4   &  
-\\        g2   &   6926  &   97438   &    24    &   0.020   &     0.041    &   0.021 &    100   &    &  100   &   &  4   &          
+          f3   &   2904  &   46439   &   113    &   0.016   &     0.028    &   0.185 &    100   &    &  100   &   &  0   &
+\\        g1   &   2996  &   27380   &    44    &   0.024   &     0.021    &   0.037 &    100   &    &  100   &   &  4   &
+\\        g2   &   6926  &   97438   &    24    &   0.020   &     0.041    &   0.021 &    100   &    &  100   &   &  4   &
 \\ \hline	
 \end{tabular}
 }
@@ -1140,7 +1140,7 @@ This table can be conditionally reproduced by
 %
 
 From Table~\ref{tab:localVsGlobalVsChebfun}, we see that both \funappxg{} and
-\funappxglobalg{} achieved total successes---they suceeded
+\funappxglobalg{} achieved total successes---they succeeded
 even for  $g_1$ outside the cone even though there are no theoretical guarantees.
 The former worked better than
 \funappxglobalg{} for all test cases in terms of number of sampling points and
@@ -1157,8 +1157,8 @@ functions.
 	\centering
 	\caption{Comparison of number of sample points, computational time,  and success
 		rates of \funming, \fminbnd, and
-		Chebfun's \texttt{min}. 
-		%We also report the number of warnings in parentheses issued by the sofwtare. 
+		Chebfun's \texttt{min}.
+		%We also report the number of warnings in parentheses issued by the software.
 		This table can be conditionally reproduced by
 		\texttt{traubpaper\_funmin\_g\_test.m} in GAIL.}
 	\label{tab:funmingVsfminbndVsChebfun}
@@ -1166,12 +1166,12 @@ functions.
 		\setlength{\tabcolsep}{.48em} % set table width
 		\begin{tabular}{|c|rrr|rrr|rrrrrr|}
 			\hline
-			Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}  
-			\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd  & \texttt{min}   & \multicolumn{2}{r}{\funming} & \multicolumn{2}{r}{\fminbnd} & \multicolumn{2}{r|}{\texttt{min}}   
+			Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}
+			\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd  & \texttt{min}   & \multicolumn{2}{r}{\funming} & \multicolumn{2}{r}{\fminbnd} & \multicolumn{2}{r|}{\texttt{min}}
 			\\ \hline
 			-f3   &  274   &   8   &   113    &   0.006   &    0.004    &  0.196  &    100   &  &  100   &   &  12 &
-			\\ \phantom{-}g1   &  230   &  22   &    44    &   0.005   &    0.006    &  0.044  &    100   &  &   24   &   &  54 &      
-			\\ \phantom{-}g2   &  273   &   9   &    24    &   0.006   &    0.005    &  0.025  &    100   &  &  100   &   &  34 &  
+			\\ \phantom{-}g1   &  230   &  22   &    44    &   0.005   &    0.006    &  0.044  &    100   &  &   24   &   &  54 &
+			\\ \phantom{-}g2   &  273   &   9   &    24    &   0.006   &    0.005    &  0.025  &    100   &  &  100   &   &  34 &
 			\\ \hline
 		\end{tabular}
 	}
@@ -1181,10 +1181,10 @@ functions.
 We conducted similar simulation test run for comparing \funming, \fminbnd, and
 Chebfun's \texttt{min} and reported the results in
 Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\%
-success rates in every case with substantially less sampling points and run time than \funappxg. 
+success rates in every case with substantially less sampling points and run time than \funappxg.
 In contrast, \fminbnd{} could not locate the global
 minimum at the boundary point for 76\% test functions from $g_1$, that is actually a known
-limitation of the method (see documentation of the method in MATLAB). Chebfun's  
+limitation of the method (see documentation of the method in MATLAB). Chebfun's
 {\tt min} performed better than its function approximation function but still failed in most of the cases.
 
 \end{exmp}
@@ -1238,7 +1238,7 @@ the most popular and useful function interpolation and minimization methods.
 However, it is important for users to be vigilant in applying these and other
 similar tools, which often do not inform users of whether the approximants meet
 the user's required accuracy. The reasons may range from an absence of rigorous
-theoretical frameworks (e.g., no method in MATLAB's Global Optimizaton Toolbox
+theoretical frameworks (e.g., no method in MATLAB's Global Optimization Toolbox
 provides any certification of global solutions) for error estimation to
 understandable challenges in efficient implementation.
 
@@ -1253,7 +1253,7 @@ over the subintervals are not meeting user required tolerance. Hence a novelty
 of our algorithms is its capability to choose a suitable granularity of distinct
 data points $\{(x_i, f(x_i))\}_{i=1}^n$ in order to warrant that the
 interpolation error satisfies user-given tolerance, that is $\| f - \hat{f} \|
-\le \abstol$. 
+\le \abstol$.
 
 We have implemented our algorithms in a MATLAB toolbox we call
 GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
@@ -1268,8 +1268,8 @@ In the rest of this section, we would like to suggest some future work areas.
 Our approach is not necessarily fast for all functions $f$ or in high precision
 setting as we are simply using linear splines. However, it is embarrassingly
 easy to parallelize our algorithms by using MATLAB's Parallel Computing Toolbox
-on a modern multicore machine and applying our methods to each subtinterval in a
-contiguous partition of the domain followed by some simple post processing. 
+on a modern multicore machine and applying our methods to each subinterval in a
+contiguous partition of the domain followed by some simple post processing.
 
 Our linear interpolants are not smooth and may require a sizable number of data
 points for tiny tolerance or spiky functions. For future work, better choices of
@@ -1294,7 +1294,7 @@ $\norm[\infty]{f}$ is unknown, it can be estimated at increasing accuracy from
 the data points iteratively.
 
 One may consider our global minimization algorithm an application of our
-function approximation method. Likewise, it is foreseeable that 
+function approximation method. Likewise, it is foreseeable that
 similarly robust and efficient algorithms such as root finding or
 numerial solutions of differential equations could be built upon our framework.
 
