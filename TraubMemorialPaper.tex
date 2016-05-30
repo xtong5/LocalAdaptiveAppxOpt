@@ -776,7 +776,7 @@ The right hand side of this inequality does depend on how far $\fC(0)$ is above 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
 \subsection{Algorithm $M$}  \label{sec:minalgo}
-The minimization algorithm relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.
+Our minimization algorithm $M$ relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.
 
 At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that
 \[
@@ -795,12 +795,12 @@ If the right hand side of the above inequality is no less than $\hM - \abstol$, 
 In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller error bound on the linear spline approximation for that subinterval.  However if the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then the interval $[x_{i-1}, x_i]$ should be split.  Also, the two intervals to the immediate left and right of this interval are candidates to be split, since they affect $B_{i,\pm}$.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
+	For some finite interval $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ that satisfy \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
 	user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of  equally spaced points and the index set of intervals for which the error tolerance
 	is not yet satisfied:
 	$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Compute $\hM= \minfi$ and the second-order divided differences, $f[x_{j-1},
+	Compute $\hM= \minfi$ and the Newton's second order divided differences, $f[x_{j-1},
 	x_{j}, x_{j+1}]$, for $j = \{1,2,\ldots,n-1\}$. Then do the
 	following:
 	
@@ -878,7 +878,7 @@ Note that $\chL(x)$ does not depend on $\abstol$.
 As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
-	Let $\cost(M,f,\abstol)$ denote the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
+	Denote $\cost(M,f,\abstol)$ the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
 	\begin{equation*}
 	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1 \\
 	\end{equation*}
