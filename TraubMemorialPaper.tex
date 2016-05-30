@@ -1237,33 +1237,34 @@ unnecessary.
 Software packages such as Chebfun and MATLAB's functions including
 \texttt{interp1}, \texttt{griddedInterpolant}, and \texttt{fminbnd} are some of
 the most popular and useful function interpolation and minimization methods.
-However, it is important for users to be vigilant in applying these and other
-similar tools, which often do not inform users of whether the approximants meet
-the user's required accuracy. The reasons may range from an absence of rigorous
-theoretical frameworks (e.g., no method in MATLAB's Global Optimization Toolbox
-provides any certification of global solutions) for error estimation to
-understandable challenges in efficient implementation.
+However, we can not overemphasize how important it is for users to be vigilant
+in applying these and other similar tools, which often do not inform or warn
+users of whether the approximants may fail to meet the user's required accuracy.
+The reasons may range from an absence of rigorous theoretical frameworks for
+error estimation---for example, no method in MATLAB's Global Optimization
+Toolbox provides any certification of global solutions---to understandable
+challenges in efficient implementation.
 
-Function approximation and minimization methods are not necessarily precise
-enough unless we use a sufficiently large number of sampling points. This paper
-is an effort to provide a unifying framework covering adaptive data sampling of
-a given smooth and not too spiky function $f$, construction of an interpolant
-$\hat{f}$, and an estimation of the corresponding maximum error bound. Our
-locally adaptive strategy is to sample $f$ more frequently in subintervals where
-(an upper bound of) $f''$ is large in magnitude and when the maximum error bound
-over the subintervals are not meeting user-required tolerance. Hence a novelty
-of our algorithms is its capability to choose a suitable granularity of distinct
-data points $\{(x_i, f(x_i))\}_{i=1}^n$ in order to warrant that the
-interpolation error satisfies user-given tolerance, that is $\| f - \hat{f} \|
-\le \abstol$.
+Generally speaking, function approximation and minimization methods are not
+necessarily precise enough unless a sufficiently large number of sampling points
+is used. This paper is an effort to provide a unifying framework covering
+iterative adaptive data sampling of a given smooth and not too spiky
+function~$f$, construction of an accurate interpolant $\hat{f}$, and an
+estimation of the resultant maximum error bound. Our locally adaptive strategy
+is to sample $f$ more frequently in subintervals where (an upper bound of) $f''$
+is large in magnitude and when the maximum error bound over the subintervals are
+not meeting user-required tolerance. Hence a novelty of our algorithms is its
+capability to choose a suitable granularity of distinct data points $\{(x_i,
+f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
+user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
 
 We have implemented our algorithms in a MATLAB toolbox we call
 GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
 guided by the latest theoretical developments of cones of functions and
-constructed according to our best knowledge of good practices of MATLAB
-programming, which include interfaces for input parsing, doc tests and unit
-tests, as well as code comments and searchable HTML user guide and
-documentation.
+constructed according to our best knowledge of reproducible computational
+science research made reliable via good practices of MATLAB programming such as
+interfaces for input parsing, doc tests and unit tests, as well as code
+comments and searchable HTML user guide and documentation.
 
 In the rest of this section, we would like to suggest some future work areas.
 
@@ -1288,9 +1289,9 @@ using radial basis functions~\cite{ZhoHic15a}---unfortunately, the associated
 error bounds are too restrictive in the sense that they are applicable only to
 tiny domains, and consequently have not made a practical impact.
 
-Our algorithms provides guaranteed accuracy based on absolute error tolerance.
-This analysis could be extended to include \emph{relative} error tolerance
-$\varepsilon_r$, for example, $ \| f -\hat{f} \|_{\infty} \le \max{
+Our algorithms currently provide guaranteed accuracy based on  absolute error
+tolerance $\abstol$. The analysis could be extended to include \emph{relative} error
+tolerance $\varepsilon_r$, for example, $ \| f -\hat{f} \|_{\infty} \le \max{
 \{\varepsilon, \varepsilon_r \norm[\infty]{f} \} }.$ Even though
 $\norm[\infty]{f}$ is unknown, it can be estimated at increasing accuracy from
 the data points iteratively.
