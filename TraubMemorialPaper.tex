@@ -516,11 +516,11 @@ Otherwise, continue to the next step.
 
 \item \label{stage2} \emph{Split the subintervals as needed.}
 Let
-\begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+\begin{align*}
+\widehat{\mathcal{I}}_{\pm} &= \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
-\widetilde{\mathcal{I}}=\biggl\{i \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ } x_j-x_{j-1} \biggr\}.
-\end{gather*}
+\widetilde{\mathcal{I}} &= \biggl\{i \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ } x_j-x_{j-1} \biggr\}.
+\end{align*}
 %\begin{multline*}
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
 %j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
@@ -735,13 +735,13 @@ The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma f
 Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ be a successful algorithm for all $f  \in \cc$.  Let $f_0$ be defined as follows
 \begin{equation}
 \label{assumpfzero}
-f_0(x) =\frac{x^2}{2}, \quad f''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} = (b -a)^2  \quad \norm{f_0''} = 1.
+f_0(x) =\frac{x^2}{2}, \quad f''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} = (b -a)^2,  \quad \norm{f_0''} = 1.
 \end{equation}
 Since $f''$ is constant, $f \in \cc$, and so $A^*$ successfully approximates $\gamma f_0$ for any non-negative $\gamma$.
 
 Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute  $A^*(\gamma f_0,\abstol)$.    Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1} \le (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c = (x_j+x_{j-1})/2$, and $\delta  = (b-a)/[4(n+1)]$. We construct two fooling functions:
 \begin{gather*}
-f_{\pm} = f_0 \pm \tgamma f_3, \quad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
+f_{\pm} = f_0 \pm \tgamma f_3, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
 \norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
 m(f''_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
 \end{gather*}
@@ -820,11 +820,11 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 		Otherwise, continue to the next step.
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
 Let
-\begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+\begin{align*}
+\widehat{\mathcal{I}}_{\pm} &= \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
-\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
-\end{gather*}
+\widetilde{\mathcal{I}} & =\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
+\end{align*}
 %		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 %		\begin{multline*}
 %		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:
@@ -1050,8 +1050,8 @@ for such an accurate approximation.
 \begin{figure}[tbh]
 \centering
 \begin{tabular}{cc}
-\includegraphics[width=5.9cm]{figure/chebfun_errors.eps} \hspace{-2ex} &
-\includegraphics[width=5.9cm]{figure/funappx_g_errors.eps}
+\includegraphics[width=5.8cm]{figure/chebfun_errors.eps} \hspace{-2.5ex} &
+\includegraphics[width=5.8cm]{figure/funappx_g_errors.eps}
 \\ a) & b)
 \end{tabular}
 \caption{Approximating $f_3(x)$ with errors of interpolants returned from a)
@@ -1258,7 +1258,7 @@ capability to choose a suitable granularity of distinct data points $\{(x_i,
 f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
 user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
 
-We have implemented our algorithms in a MATLAB toolbox we call
+We have implemented our algorithms in the MATLAB toolbox 
 GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
 guided by the latest theoretical developments of cones of functions and
 constructed according to our best knowledge of reproducible computational
