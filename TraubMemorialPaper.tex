@@ -1195,10 +1195,11 @@ functions.
 			\\  functions &  \multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &  \multicolumn{3}{c}{\texttt{min}}  
 		  &  \multicolumn{3}{c}{\funming}  &  \multicolumn{3}{c}{\fminbnd }  &  \multicolumn{3}{c}{\texttt{min} }  &  \multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} & \multicolumn{3}{c}{\texttt{min}}
 			\\ \toprule
-			$-f_3$   &&  274   &&&   8   &&&  113     &&&   0.006   &&&   0.004    &&& 0.196  &&&   100   &&&  100   &&&  12 
-			\\ $\phantom{-}g_1$   && 230 &&&  22   &&&    44    &&& 0.005  &&&    0.006   &&&  0.044 &&&    100   &&&   24   &&&  54 
-			\\ $\phantom{-}g_2$   &&  273 &&&   9   &&&   24    &&&  0.006   &&&   0.005    &&&  0.025 &&&    100   &&& 100   &&&  34 
+			$-f_3$   &&  274   &&&   8   &&&  116     &&&   0.0022   &&&   0.0010    &&& 0.0469  &&&   100   &&&  100   &&&  14 
+			\\ $\phantom{-}g_1$   && 230 &&&  22   &&&    43    &&& 0.0020  &&&    0.0012   &&&  0.0109 &&&    100   &&&   27   &&&  60 
+			\\ $\phantom{-}g_2$   &&  273 &&&   9   &&&   22    &&&  0.0022   &&&   0.0011    &&&  0.0063 &&&    100   &&& 100   &&&  35 
 		\end{tabular}
+				        
 	}
 \end{table}
 %
@@ -1208,7 +1209,7 @@ Chebfun's \texttt{min} and reported the results in
 Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\%
 success rates in every case with substantially less sampling points and run time than \funappxg.
 In contrast, \fminbnd{} could not locate the global
-minimum at the boundary point for 76\% test functions from $g_1$, that is actually a known
+minimum at the boundary point for about 70\% test functions from $g_1$, that is actually a known
 limitation of the method (see documentation of \fminbnd{} in MATLAB). Chebfun's
 {\tt min} performed better than its function approximation function but still failed in most of the cases.
 
