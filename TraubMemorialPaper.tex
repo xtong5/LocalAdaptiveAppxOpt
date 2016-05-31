@@ -106,10 +106,10 @@
 \newtheorem{exmp}{Example}
 \newtheorem{prop}[theorem]{Proposition}
 \newcommand{\funappxg}{\texttt{funappx\_g}\xspace}
-\newcommand{\funappxglobalg}{\texttt{funappxglobal\_g\xspace}}
-\newcommand{\funming}{\texttt{funmin\_g\xspace}}
-\newcommand{\fminbnd}{\texttt{fminbnd\xspace}}
-\newcommand{\integralg}{\texttt{integral\_g\xspace}}
+\newcommand{\funappxglobalg}{\texttt{funappxglobal\_g}\xspace}
+\newcommand{\funming}{\texttt{funmin\_g}\xspace}
+\newcommand{\fminbnd}{\texttt{fminbnd}\xspace}
+\newcommand{\integralg}{\texttt{integral\_g}\xspace}
 \newcommand{\cosappx}{\widehat{\operatorname*{cos}}}
 \newcommand{\sinappx}{\widehat{\operatorname*{sin}}}
 \newcommand{\minfi}{\min\limits_{i=1, \ldots,  n} f(x_i)} %minf(xi)
@@ -146,7 +146,7 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal of this paper is to solve univariate function approximation and global minimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
+The goal of this article is to solve univariate function approximation and global minimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
 real-valued functions defined on a finite interval $[a,b]$, we  construct
 algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
 \reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
@@ -886,7 +886,7 @@ Note that $\chL(x)$ does not depend on $\abstol$, whereas $L(x)$ does.
 As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
-	Denote $\cost(M,f,\abstol)$ the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
+	Denote $\cost(M,f,\abstol)$ as the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
 	\begin{equation*}
 	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1 \\
 	\end{equation*}
@@ -1039,20 +1039,15 @@ readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 
 %% Example 3.2
 
-The following examples showcase the merits and drawbacks of our algorithm and an
-existing method for high-accuracy function approximation.
+The following examples showcase the merits and drawbacks of our algorithms.  We compare them to the performance of MATLAB's built-in algorithms and the Chebfun toolbox.  
 
 \begin{exmp}
-Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox known for using Chebyshev
-polynomial basis for approximating given functions to the level of machine
-precision ($\approx 10^{-15}$) by default. In this example, we show that it is challenged
-by~$f_3$ defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some
-pointwise errors of the piecewise Chebyshev interpolant spiked to more than
-$10^{-5}$ as shown in Figure~\ref{f3chebfig}a). Regrettably Chebfun did not issue
-any warning about the inaccurate representation in this case. In contrast, the
-errors of the piecewise linear interpolant from \funappxg{} were uniformly below
-$10^{-14}$. Nonetheless the time taken by \funappxg{} was close to~30 seconds
-for such an accurate approximation.
+Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in terms of a Chebyshev
+polynomial basis, in principle to machine precision  ($\approx 10^{-15}$) by default.  In this example, we show that it fails to reach its intended error tolerance for the function~$f_3$ defined in Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}.  Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to $f_3$.  The blanks in the plot on the left and right correspond to zero error.   Chebfun was asked to estimate $f_3$ to an error of no more than $10^{-14}$, and the ``splitting'' option was turned on to allow Chebfun to  construct a piecewise polynomial interpolant if derivative discontinuities were detected.  Nonetheless, Chebfun produced errors greater than $10^{-5}$.
+
+In contrast, the
+errors of the piecewise linear interpolant produced by \funappxg{} were uniformly below the specified error tolerance,
+$10^{-14}$. Unfortunately, the time taken by \funappxg{} to produce its answer about $60$ times as long as the time required by Chebfun.
 
 %
 \begin{figure}[tb]
@@ -1062,8 +1057,8 @@ for such an accurate approximation.
 \includegraphics[width=5.8cm]{figure/funappx_g_errors.eps}
 \\ a) & b)
 \end{tabular}
-\caption{Approximating $f_3(x)$ with errors of interpolants returned from a)
-Chebfun and b) \funappxg. This figure is reproducible by
+\caption{The approximation errors for $f_3(x)$ using a)
+Chebfun and b) \funappxg. The blank regions of the graphs correspond to zero errors.  This figure is reproducible by
 \texttt{cf\_chebfun.m}. \label{f3chebfig}}
 \end{figure}
 %
@@ -1084,11 +1079,11 @@ However, it is unnecessary.
 
 \begin{exmp}
 In this example, we want to compare our adaptive algorithms with Chebfun by
-simulating the following families of test functions in addition to $f_3$:
+simulating the following families of test functions  in addition to $f_3$:
 %
 \begin{align*}
- g_1(x) &= x^4 \sin(d/x), \qquad
- g_2(x) = 10  x^2 + g_1(x),
+ g_1(x) &= x^4 \sin(d/x), \quad
+ g_2(x) = 10  x^2 + g_1(x), \qquad x \in [-1, 1].
 %\\ f_3(x) &= \begin{cases} \displaystyle
 %   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
 %\\ \qquad \qquad
@@ -1101,15 +1096,15 @@ simulating the following families of test functions in addition to $f_3$:
 % \\ f_4(x)&= \frac{c}{4}\exp(-2x)(c-2\exp(x)(-1 + c\cos(x) - c\sin(x)) \\
 %  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
 \end{align*}
-where $c$ for defining $f_3$ is uniformly drawn $100$ times from $[0,0.6]$ and
-$d$ for other functions from $[0,2]$. If $d=1$, then  $g_i$ reduces to $f_i$ for
-$i=1 \mbox{ and } 2$.
-We set $\abstol = 10^{-6}$ and $\fC
-(h) = \frac{ 3 \fh}{\fh-h}$ where $\fh = \frac{5(b-a)}{n_0-1}$, and we use
-\texttt{funappx\_g} and \texttt{funappxglobal\_g} to approximate the test
-functions on interval $[a,b]=[-1,1]$. The approximation results are
-summarized in Table~\ref{tab:localVsGlobalVsChebfun}. We switch on the splitting
-feature in Chebfun to use piecewise Chebyshev polynomials for approximation and override its tolerance to $10^{-6}$ as well.
+For $f_3$, we choose $\delta = 0.2$ and $c \sim \cu[0,0.6]$, and for $g_1$, and $g_2$ we choose and
+$d \sim \cu[0,2]$.  For $d=1$ we obtain  $g_i = f_i$ for
+$i=1$, and $2$.
+We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 1000$, $\fC
+(h) = 3 \fh/(\fh-h)$ , and $\abstol = 10^{-6}$.  Our new algorithm
+\texttt{funappx\_g}, our old globally adaptive algorithm \texttt{funappxglobal\_g}, and Chebfun are used to approximate $1000$ random test
+functions. We switch on the splitting
+feature in Chebfun to use piecewise Chebyshev polynomials for approximation if needed, and override the default tolerance to $10^{-6}$ as well. The approximation results are
+summarized in Figure~\ref{fig:testfunctions} and Table~\ref{tab:localVsGlobalVsChebfun}. 
 
 %
 \begin{figure}[tb]
@@ -1119,7 +1114,7 @@ feature in Chebfun to use piecewise Chebyshev polynomials for approximation and 
 \includegraphics[width=80mm]{figure/traub_funappx_g_test.eps}
 %  \\ a)  & b)
 %  \end{tabular}
-\caption{The empirical distribution function of performance ratios based on 500 replications:  \funappxg{} time $/$ \funappxglobalg{} time (blue), \funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange) ,   \funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$ Chebfun \# of samples (green). This figure is conditionally reproducible by
+\caption{The empirical distribution function of performance ratios based on 1000 replications:  \funappxg{} time $/$ \funappxglobalg{} time (blue), \funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),   \funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$ Chebfun \# of samples (green). This figure is conditionally reproducible by
 \texttt{traubpaper\_funappx\_g\_test.m} in GAIL.}
   \label{fig:testfunctions}
 \end{figure}
@@ -1128,7 +1123,7 @@ feature in Chebfun to use piecewise Chebyshev polynomials for approximation and 
 \begin{table}[bt]
 \centering
 \caption{Comparison of number of sample points, computational time,  and success
-rates of \funappxg, \funappxglobalg, and Chebfun.
+rates of \funappxg (local), \funappxglobalg (global), and Chebfun.
 %We also report the number of warnings in parentheses issued by the software.
 This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m} in GAIL.}
@@ -1139,24 +1134,20 @@ This table can be conditionally reproduced by
 			Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
 			\\  functions &  \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }  & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } 
 \\ \toprule
-          f3   &&   2904  &&&   46439   &&&   113    &&&   0.016   &&&     0.028    &&&   0.185 &&&    100   &&&  100   &&&  0  
-\\        g1   &&   2996  &&&   27380   &&&    44    &&&   0.024   &&&     0.021    &&&   0.037 &&&    100   &&&  100   &&&  4  
-\\        g2   &&   6926  &&&   97438   &&&    24    &&&   0.020   &&&     0.041    &&&   0.021 &&&    100   &&&  100    &&&  4  	
+          $f_3$   &&   2904  &&&   46439   &&&   116    &&&   0.0057   &&&     0.0115    &&&   0.0386 &&&    100   &&&  100   &&&  0  
+\\        $g_1$   &&   2864  &&&   26265   &&&    43    &&&   0.0080   &&&     0.0092    &&&   0.0083 &&&    100   &&&  100   &&&  3  
+\\        $g_2$   &&   6911  &&&   97106   &&&    22    &&&   0.0073   &&&     0.0174    &&&   0.0056 &&&    100   &&&  100    &&&  3  	
 \end{tabular}
 }
 \end{table}
 %
 
-From Table~\ref{tab:localVsGlobalVsChebfun}, we see that both \funappxg{} and
-\funappxglobalg{} achieved total successes---they succeeded
-even for  $g_1$ outside the cone even though there are no theoretical guarantees.
-The former worked better than
-\funappxglobalg{} for all test cases in terms of number of sampling points and
-\emph{average} run time as evidenced by Figure~\ref{fig:testfunctions}.
-In contrast, Chebfun generally used substantially less number of node points
+Both \funappxg{} and
+\funappxglobalg{} obtained the correct answer in all cases, even for  $g_1$, which is outside the cone $\cc$.  The new locally adpative algorithm uses fewer samples than the older globally adaptive algorithm.
+In contrast, Chebfun generally used substantially fewer number samples
 than \funappxg{} even though the run time was longer than \funappxg{} in
-about~60\% of the test cases; see Figure~\ref{fig:testfunctions}.
-However, it approximated satisfactorily only eight percent of the~300 test
+ a significant number of the cases; see Figure~\ref{fig:testfunctions}.
+However, it approximated satisfactorily only a few percent of the test
 functions.
 
 
@@ -1264,7 +1255,7 @@ challenges in efficient implementation.
 
 Generally speaking, function approximation and minimization methods are not
 necessarily precise enough unless a sufficiently large number of sampling points
-is used. This paper is an effort to provide a unifying framework covering
+is used. This article is an effort to provide a unifying framework covering
 iterative adaptive data sampling of a given smooth and not too spiky
 function~$f$, construction of an accurate interpolant $\hat{f}$, and an
 estimation of the resultant maximum error bound. Our locally adaptive strategy
@@ -1320,7 +1311,7 @@ numerical solutions of differential equations could be built upon our framework.
 
 
 \section*{Acknowledgements}
-We dedicate this paper to the memory of our colleague Joseph F. Traub, who
+We dedicate this article to the memory of our colleague Joseph F. Traub, who
 passed away on August 24, 2015. He was a polymath and an influential figure in
 computer science and applied mathematics. He was the founding Editor-in-Chief of
 the Journal of Complexity and we are grateful to his tremendous impact and life
