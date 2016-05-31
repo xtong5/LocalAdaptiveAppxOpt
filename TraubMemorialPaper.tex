@@ -743,14 +743,14 @@ Since $f''$ is constant, $f \in \cc$, and so $A^*$ successfully approximates $\g
 
 Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute  $A^*(\gamma f_0,\abstol)$.    Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1} \le (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c = (x_j+x_{j-1})/2$, and $\delta  = (b-a)/[4(n+1)]$. We construct two fooling functions:
 \begin{gather*}
-f_{\pm} = f_0 \pm \tgamma f_3, \quad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
+f_{\pm} = f_0 \pm \tgamma f_3, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
 \norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
 m(f''_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
 \end{gather*}
-The above calculations show that $\gamma f_{\pm} \in \cc$ as well.  Moreover, the definition of $f_{\pm}$ ensures that
-$A^*(\gamma f_0) = A^*(\gamma,f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) = n$.
+The above calculations show that $\gamma f_{\pm} \in \cc$ as well for all real $\gamma$.  Moreover, the definition of $f_{\pm}$ ensures that
+$A^*(\gamma f_0) = A^*(\gamma f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) = n$.
 
-Again we make the argument that $\gamma$ must be smaller than :
+Like before, we make the argument that $\gamma\tgamma$ must be no larger than $\abstol$:
 \begin{align*}
 \abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},\norm{\gamma f_--A(f_-, \abstol)}) \\
 & \ge \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_+,\abstol)}+ \norm{\gamma f_--A(f_-, \abstol)} \right] \\
