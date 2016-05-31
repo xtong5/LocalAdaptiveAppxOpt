@@ -517,7 +517,7 @@ Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
 an ordered sequence of points that includes the endpoints of the interval,
 $a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$. The linear spline
 approximation to a function $f$ based on the partition $\datasites$ of distinct
-points is denoted, $S(f,\datasites)$ and defined as
+points is denoted, $S(f,\datasites)$ and defined~as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
@@ -1642,7 +1642,7 @@ tiny domains, and consequently have not made a practical impact.
 
 Our algorithms currently provide guaranteed accuracy based on absolute error
 tolerance $\abstol$. The analysis could be extended to include \emph{relative}
-error tolerance $\varepsilon_r$, for example, $ \| f -\hat{f} \|_{\infty} \le
+error tolerance $\varepsilon_r$, e.g., $ \| f -\hat{f} \|_{\infty} \le
 \max{ \{\varepsilon, \varepsilon_r \norm[\infty]{f} \} }.$ Even though
 $\norm[\infty]{f}$ is unknown, it can be estimated at increasing accuracy from
 the data points iteratively.
