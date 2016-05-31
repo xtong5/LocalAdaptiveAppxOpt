@@ -161,105 +161,190 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal of this article is to solve univariate function approximation and global minimization problems by locally adaptive algorithms. For some suitable set, $\cc$, of continuous,
-real-valued functions defined on a finite interval $[a,b]$, we  construct
-algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M: (\cc,(0,\infty)) \to
-\reals$ such that for any $f \in \cc$ and any error tolerance $\abstol > 0$,
+The goal of this article is to solve univariate function approximation and
+global minimization problems by locally adaptive algorithms. For some suitable
+set, $\cc$, of continuous, real-valued functions defined on a finite interval
+$[a,b]$, we construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and
+$M: (\cc,(0,\infty)) \to \reals$ such that for any $f \in \cc$ and any error
+tolerance $\abstol > 0$,
 \begin{gather}
 \norm{f - A(f,\abstol)} \le \abstol,  \tag{APP} \label{appxprob} \\
 0 \le M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
-Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$.  The algorithms $A$ and $M$ depend only on function values. These algorithms choose their data sites in the domain adaptively, with each new site depending on the function data already obtained.  Each algorithm  automatically determines when to stop sampling
-and return the correct answer.  These algorithms sample more densely where needed, i.e., they are locally adaptive.
+Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$. The algorithms
+$A$ and $M$ depend only on function values. These algorithms choose their data
+sites in the domain adaptively, with each new site depending on the function
+data already obtained. Each algorithm automatically determines when to stop
+sampling and return the correct answer. These algorithms sample more densely
+where needed, i.e., they are locally adaptive.
 
-Adaptive algorithms relieve the user of having to specify the number of samples required.  Only the desired error tolerance is needed.  Existing adaptive numerical algorithms for function approximation, such as the MATLAB toolbox Chebfun \citep{TrefEtal16a}, are successful for some $f$, but fail for other $f$.  No theory explains for which $f$ Chebfun succeeds.   A corresponding situation exists for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
+Adaptive algorithms relieve the user of having to specify the number of samples
+required. Only the desired error tolerance is needed. Existing adaptive
+numerical algorithms for function approximation, such as the MATLAB toolbox
+Chebfun \citep{TrefEtal16a}, are successful for some $f$, but fail for other
+$f$. No theory explains for which $f$ Chebfun succeeds. A corresponding
+situation exists for minimization algorithms, such as \texttt{min} in Chebfun or
+MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
 
-Our aim is to provide practical algorithms for both \eqref{appxprob} and  \eqref{optprob} with theoretical justification.  Here we accomplish the following:
+Our aim is to provide practical algorithms for both \eqref{appxprob} and
+\eqref{optprob} with theoretical justification. Here we accomplish the
+following:
 \begin{itemize}
 
-\item The set $\cc$ for which our algorithms succeed is defined in Section~\ref{sec:conedef} to be a cone in $\cw^{2,\infty}$, the Sobolev space of functions whose second-order derivatives have finite sup-norms.  Because any algorithm can be fooled by a sufficiently spiky function, this $\cc$ is defined to exclude functions that are too spiky.  The parameters that define $\cc$ may be chosen to reflect the user's desire for robustness.  We construct a data-based upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of second-order divided differences.  This leads to a data-based upper bound on the error of the linear spline in~\eqref{appxerrbdb}.
+\item The set $\cc$ for which our algorithms succeed is defined in
+Section~\ref{sec:conedef} to be a cone in $\cw^{2,\infty}$, the Sobolev space of
+functions whose second-order derivatives have finite sup-norms. Because any
+algorithm can be fooled by a sufficiently spiky function, this $\cc$ is defined
+to exclude functions that are too spiky. The parameters that define $\cc$ may be
+chosen to reflect the user's desire for robustness. We construct a data-based
+upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of
+second-order divided differences. This leads to a data-based upper bound on the
+error of the linear spline in~\eqref{appxerrbdb}.
 
-\item Algorithms $A$ and $M$ are constructed in Sections~\ref{subsec:appxalgo} and~\ref{sec:minalgo} to solve problems~\eqref{appxprob}
-and~\eqref{optprob}, respectively.  These algorithms are based on linear splines.  Guarantees of success are provided by Theorems~\ref{thm:algAworks}
-and~\ref{thm:algMworks}.
+\item Algorithms $A$ and $M$ are constructed in Sections~\ref{subsec:appxalgo}
+and~\ref{sec:minalgo} to solve problems~\eqref{appxprob} and~\eqref{optprob},
+respectively. These algorithms are based on linear splines. Guarantees of
+success are provided by Theorems~\ref{thm:algAworks} and~\ref{thm:algMworks}.
 
-\item The upper bound on the computational cost of Algorithm $A$ is derived in Theorem~\ref{thm:cost} in Section~\ref{subsec:appxcost},  and is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ (see~\eqref{costbdapprox}).  Here, $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm:  $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$.  Proposition~\ref{equivnormprop} demonstrates how $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$.  This explains how much more efficient locally adaptive algorithms can be than globally adaptive algorithms, whose computational costs  are proportional to $\sqrt{\norm{f''}/\abstol}$.
+\item The upper bound on the computational cost of Algorithm $A$ is derived in
+Theorem~\ref{thm:cost} in Section~\ref{subsec:appxcost}, and is essentially
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$
+(see~\eqref{costbdapprox}). Here, $\norm[\frac12]{\cdot}$ denotes the
+$L^{\frac12}$-quasi-norm: $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x
+\bigr)^{1/p}$, $0 < p < \infty$. Proposition~\ref{equivnormprop} demonstrates
+how $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$. This explains
+how much more efficient locally adaptive algorithms can be than globally
+adaptive algorithms, whose computational costs are proportional to
+$\sqrt{\norm{f''}/\abstol}$.
 
-The computational cost of Algorithm $M$, which is analyzed in Section~\ref{subsec:optcost}, is no more than the computational cost of Algorithm $A$.  However, it is observed that Algorithm $M$ can be substantially cheaper than Algorithm $A$ if $f$ significantly exceeds its minimum value over a large portion of $[a,b]$.
+The computational cost of Algorithm $M$, which is analyzed in
+Section~\ref{subsec:optcost}, is no more than the computational cost of
+Algorithm $A$. However, it is observed that Algorithm $M$ can be substantially
+cheaper than Algorithm $A$ if $f$ significantly exceeds its minimum value over a
+large portion of $[a,b]$.
 
-\item A lower bound on the computational complexity of the problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}.  This lower bound in Theorem~\ref{thm:A_cost} is proportional to $\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially asymptotically optimal.  A lower bound for the computational complexity of  \eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp} explains the difficulties in doing so.
+\item A lower bound on the computational complexity of the
+problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}. This lower
+bound in Theorem~\ref{thm:A_cost} is proportional to
+$\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially
+asymptotically optimal. A lower bound for the computational complexity of
+\eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp}
+explains the difficulties in doing so.
 
-\item Our algorithms $A$ and $M$ are implemented in our MATLAB Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}  as \funappxg and \funming, respectively.   Section \ref{sec:examples} provides numerical examples of our new algorithms and compares their performances with MATLAB's  and Chebfun's algorithms.  We note cases where our algorithms are successful in meeting the error tolerance when the other algorithms are not.
+\item Our algorithms $A$ and $M$ are implemented in our MATLAB Guaranteed
+Automatic Integration Library (GAIL) \cite{ChoEtal15a} as \funappxg and
+\funming, respectively. Section \ref{sec:examples} provides numerical examples
+of our new algorithms and compares their performances with MATLAB's and
+Chebfun's algorithms. We note cases where our algorithms are successful in
+meeting the error tolerance when the other algorithms are not.
 
 \end{itemize}
 
-Novak \cite{Nov96a} summarizes the settings under which adaption may provide an advantage over nonadaption.  For linear problems, such as~\eqref{appxprob}, adaption has no advantage if the set of functions being considered is symmetric and convex  \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem 5.2.1]{TraWasWoz88}.  The cone $\cc$ defined for our approximation algorithm $A$ is symmetric, but not convex.  Plaskota et al.~\cite{PlaEtal08a} have developed adaptive algorithms for functions with singularities.  Our algorithms are not designed for functions with singularities. Rather they are designed to be efficient when the second derivative is large in a small part of the function domain.
+Novak \cite{Nov96a} summarizes the settings under which adaption may provide an
+advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
+adaption has no advantage if the set of functions being considered is symmetric
+and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
+5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation algorithm $A$
+is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a} have developed
+adaptive algorithms for functions with singularities. Our algorithms are not
+designed for functions with singularities. Rather they are designed to be
+efficient when the second derivative is large in a small part of the function
+domain.
 
-There is a significant literature on theoretically justified algorithms based on interval arithmetic, which are described by \cite{MoKeCl09} and \cite{Rum10a} and implemented in INTLAB \cite{Rum99a}.  This approach assumes that functions have interval inputs and outputs.  We focus on the more common situation where functions have point inputs and outputs.
+There is a significant literature on theoretically justified algorithms based on
+interval arithmetic, which are described by \cite{MoKeCl09} and \cite{Rum10a}
+and implemented in INTLAB \cite{Rum99a}. This approach assumes that functions
+have interval inputs and outputs. We focus on the more common situation where
+functions have point inputs and outputs.
 
-Here we emulate the approach taken by \cite{HicEtal14b}, which develops globally adaptive algorithms for integration and function approximation.  In addition, there are parallel developments of adaptive algorithms for multivariate integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte Carlo methods \citep{HicJim16a,JimHic16a}.  ``Globally" means that the sampling density is constant but that the number of samples is chosen adaptively.  Hickernell et al.~\cite{HicEtal14b} relies on linear splines applied to cones of functions that are not too spiky, as we do here.  Tong \cite{Ton14a} extends these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive function approximation algorithm.  Locally adaptive algorithms can be more efficient than globally adaptive ones because the sampling density is only increased where necessary; see Figure~\ref{fig:sampling-funappxg} and Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a} and employ a somewhat different cone of functions to obtain algorithms whose computational costs do not rise drastically as they are made more robust to spiky input functions.
+Here we emulate the approach taken by \cite{HicEtal14b}, which develops globally
+adaptive algorithms for integration and function approximation. In addition,
+there are parallel developments of adaptive algorithms for multivariate
+integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte
+Carlo methods \citep{HicJim16a,JimHic16a}. ``Globally" means that the sampling
+density is constant but that the number of samples is chosen adaptively.
+Hickernell et al.~\cite{HicEtal14b} relies on linear splines applied to cones of
+functions that are not too spiky, as we do here. Tong \cite{Ton14a} extends
+these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive
+function approximation algorithm. Locally adaptive algorithms can be more
+efficient than globally adaptive ones because the sampling density is only
+increased where necessary; see Figure~\ref{fig:sampling-funappxg} and
+Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a}
+and employ a somewhat different cone of functions to obtain algorithms whose
+computational costs do not rise drastically as they are made more robust to
+spiky input functions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines are the foundation for adaptive algorithms $A$ and $M$. The best linear spline function approximation error possible occurs for the Sobolev space of functions whose second derivatives have finite $L^{\infty}$-norm:
+Linear splines are the foundation for adaptive algorithms $A$ and $M$. The best
+linear spline function approximation error possible occurs for the Sobolev space
+of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
-\cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
+\cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} 
+               : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
 
-To bound the error of the linear spline, our adaptive algorithms construct data-based upper bounds on $\norm[{[\alpha,
-\beta]}]{f''}$ in terms of function values.  Such bounds are given in~\eqref{normbd} below.  These data-based bounds arise from Newton's divided differences, introduced in the next section.  For these bounds to hold, we must  assume that $f''(x)$ does not change drastically with a small change in $x$.  These assumptions define our cone of functions for which our algorithms ultimately apply.  This cone is defined in~\eqref{conedef} in Section~\ref{sec:conedef}.
+To bound the error of the linear spline, our adaptive algorithms construct
+data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$ in terms of function
+values. Such bounds are given in~\eqref{normbd} below. These data-based bounds
+arise from Newton's divided differences, introduced in the next section. For
+these bounds to hold, we must assume that $f''(x)$ does not change drastically
+with a small change in $x$. These assumptions define our cone of functions for
+which our algorithms ultimately apply. This cone is defined in~\eqref{conedef}
+in Section~\ref{sec:conedef}.
 
 %--------------------------------------------------
 \subsection{Newton's Divided Differences} \label{sec:ndd}
 %--------------------------------------------------
 
-Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x \in [a,b]$.  Thus, we define $f''(x)$ as an interval-valued function:
+Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x
+\in [a,b]$. Thus, we define $f''(x)$ as an interval-valued function:
 \begin{gather*}
 f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
  f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b],
 \end{gather*}
-where $]\alpha, \beta[$ denotes the open interval  $\{x:\alpha<x<\beta\}$.
-We define a
-measure of how small $\abs{f''(x)}$ can be for  $x \in ]\alpha, \beta[$ as follows:
-\begin{equation} \label{minfppdef}
+where $]\alpha, \beta[$ denotes the open interval $\{x:\alpha<x<\beta\}$. We
+define a measure of how small $\abs{f''(x)}$ can be for $x \in ]\alpha, \beta[$
+as follows: \begin{equation} \label{minfppdef}
 m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
 \end{equation}
-It follows from this definition
-that
+It follows from this definition that
 \begin{equation} \label{mdec}
 m(f,\alpha,\beta) \le m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
 \end{equation}
 
-We cannot determine $f''(x)$ for a specific $x$ based only on the values of $f$. However,
-we can use values of $f$ to provide an upper bound on $m(f,\alpha, \beta)$ via Newton divided differences.
+We cannot determine $f''(x)$ for a specific $x$ based only on the values of $f$.
+However, we can use values of $f$ to provide an upper bound on $m(f,\alpha,
+\beta)$ via Newton divided differences.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{x_1, x_2, x_3\}$, which may be written as
 \begin{equation*}
 p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2),
 \end{equation*}
-where the $f[\cdots]$ are the Newton divided differences; see for example~\cite{CheKin12a}. In particular,
+where the $f[\cdots]$ are the Newton divided differences; see for
+example~\cite{CheKin12a}. In particular,
 \begin{gather}
 \nonumber
 f[x_1] = f(x_1), \qquad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \\
 f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
 \end{gather}
-For any $f \in
-\cw^{2,\infty}$, the function $f - p$ has at least three distinct zeros on
-$[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on $]x_1, x_3[$,
-i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
+For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
+zeros on $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on $]x_1,
+x_3[$, i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
 that $ f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
-x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous
-second derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful result---by  definition~\eqref{minfppdef}:
+x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous second
+derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful
+result---by definition~\eqref{minfppdef}:
 \begin{multline*}
 \bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
 = \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \ge m(f,\xi_-, \xi_+) (\xi_+  - \xi_-)  \ge m(f,x_1, x_3) (\xi_+  - \xi_-) .
 \end{multline*}
-So the data-based second-order divided difference provides an upper
-bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
+So the data-based second-order divided difference provides an upper bound on how
+small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 \begin{equation} \label{NDDbdm}
 \bigabs{f[x_1, x_2, x_3]} \ge m(f,x_1, x_3).
 \end{equation}
@@ -269,16 +354,18 @@ bound on how small $\abs{f''}$ can be in the interval $]x_1, x_3[$:
 %--------------------------------------------------
 
 Let $\fh$ be some positive number, and let $\fC : [0,\fh[ \to [1,\infty[$ be any
-non-decreasing function, which serves in our subsequent algorithms as an inflation factor dependent on the grid size.
-These parameters are used to define a cone of functions for which our algorithms will
-apply.  This cone only includes functions whose second derivatives do not change much in
-magnitude over a short distance.  Thus, these functions are \emph{not too spiky}.  Specifically,
+non-decreasing function, which serves in our subsequent algorithms as an
+inflation factor dependent on the grid size. These parameters are used to define
+a cone of functions for which our algorithms will apply. This cone only includes
+functions whose second derivatives do not change much in magnitude over a short
+distance. Thus, these functions are \emph{not too spiky}. Specifically,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
 \\ \text{with }  \max(h_{\pm}) \in ]0, \fh[  \Bigr \},
 \end{multline}
-where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of $x_{\pm} =x \pm h_{\pm}$ as follows:
+where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of
+$x_{\pm} =x \pm h_{\pm}$ as follows:
 \begin{multline*}
 \tB(f,x,h_-,h_+)=\\
 \begin{cases}
@@ -288,26 +375,27 @@ where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of $x_{
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
-Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to include more functions.  An example of $\fC$ is
+Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to
+include more functions. An example of $\fC$ is
 \begin{equation} \label{sampleC}
 \fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh[, \qquad \fC(0) > 1,\ \fh \le b - a.
 \end{equation}
 
-This $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real
-$c$. Cones of
-functions are key to the theoretically justified adaptive algorithms in
-\cite{HicEtal14b},  \cite{Din15a}, and \cite{Ton14a}.
+The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$.
+Cones of functions are key to the theoretically justified adaptive algorithms in
+\cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}.
 
-A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$ may
-lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have zeros too close to each other.  Except near the endpoints of
-the interval, the definition of $\cc$ uses values of $f''$ on both sides of $x$
-to bound $\max \abs{f''(x)}$. This allows $\cc$ to include functions with step
-discontinuities in their second derivatives, provided that these discontinuities
-do not occur too close to each other or too close to the ends of the interval.
+A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$
+may lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have
+zeros too close to each other. Except near the endpoints of the interval, the
+definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\max
+\abs{f''(x)}$. This allows $\cc$ to include functions with step discontinuities
+in their second derivatives, provided that these discontinuities do not occur
+too close to each other or too close to the ends of the interval.
 
-We provide examples of functions lying outside $\cc$
-and similar functions lying inside $\cc$. Consider the following two functions defined
-on $[-1,1]$ whose second derivatives oscillate wildly near $0$:
+We provide examples of functions lying outside $\cc$ and similar functions lying
+inside $\cc$. Consider the following two functions defined on $[-1,1]$ whose
+second derivatives oscillate wildly near $0$:
 \begin{gather*}
 f_1(x) = x^4 \sin(1/x), \\
  f_1''(x) = \begin{cases} (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), & x \ne 0 \\
@@ -335,7 +423,8 @@ in GAIL.}
 \label{f1f2fig}
 \end{figure}
 
-Now consider the following hump-shaped function defined on $[-1,1]$, whose second derivative has jump discontinuities:
+Now consider the following hump-shaped function defined on $[-1,1]$, whose
+second derivative has jump discontinuities:
 \begin{align} \label{f3def}
 f_3(x) & = \begin{cases} \displaystyle
    \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
@@ -350,22 +439,30 @@ f''_3(x) & =
 \\ 0, & \text{otherwise}.
 \end{cases}
 \end{align}
-Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta \le 1$. This function and its second derivative
-are shown in Figure~\ref{f3fig} for $-c=\delta = 0.2$.
+Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta
+\le 1$. This function and its second derivative are shown in Figure~\ref{f3fig}
+for $-c=\delta = 0.2$.
 
-If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_3 \in \cc$ for
-any choice of $\fC : [0,b-a] \to [1,\infty)$.  We see this by examining two cases.  For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \, \subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.  Then
+If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_3 \in \cc$ for any
+choice of $\fC : [0,b-a] \to [1,\infty)$. We see this by examining two cases.
+For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \,
+\subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.
+Then
 \[
 m(f_3,x_-,x) = m(f_3,x,x_+) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = \delta^{-2}.
 \]
-For $x \in [-1,1] \setminus [c - 2 \delta , c + 2 \delta]$ we note that $f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
+For $x \in [-1,1] \setminus [c - 2 \delta , c + 2 \delta]$ we note that
+$f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
 
-However, if hump is too narrow, i.e.,  $\delta < 2 \fh$, then regardless of how $\fC$ is defined, for $x = c-3\delta/2$ with $\delta/2 < h < \fh$, 
+However, if the hump is too narrow, i.e., $\delta < 2 \fh$, then regardless of how
+$\fC$ is defined, for $x = c-3\delta/2$ with $\delta/2 < h < \fh$,
 \[
 \fC(h)m(f_3,x - h,x)=\fC(h)m(f_3,x,x+h)=0 < \abs{f''_3(x)} = \delta^{-2}.
 \]
-This violates the definition of $\cc$.  For $\delta < 2 \fh$ the function $f_3$ is too spiky to lie in the cone $\cc$.   This example illustrates how the choice of $\fh$ influences the width of
-a spiky function that may or may not lie in $\cc$.
+This violates the definition of $\cc$. For $\delta < 2 \fh$ the function $f_3$
+is too spiky to lie in the cone $\cc$. This example illustrates how the choice
+of $\fh$ influences the width of a spiky function that may or may not lie in
+$\cc$.
 
 \begin{figure}[t]
 \centering
@@ -377,8 +474,11 @@ GAIL.}
 \label{f3fig}
 \end{figure}
 
-The above examples of functions outside $\cc$ have  discontinuous second-order
-derivatives. If a function has sufficient smoothness and the higher order derivatives are nicely behaved in a certain sense, then we can be sure that this function lies in $\cc$.   If  $f \in C^3[a,b]$ and for all $x \in [a,b]$, the following conditions holds:
+The above examples of functions outside $\cc$ have discontinuous second-order
+derivatives. If a function has sufficient smoothness and the higher order
+derivatives are nicely behaved in a certain sense, then we can be sure that this
+function lies in $\cc$. If $f \in C^3[a,b]$ and for all $x \in [a,b]$, the
+following conditions holds:
 \begin{equation} \label{conesuffconda}
 \norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''} \le \frac{\abs{f''(x)}}{h} \left( 1 - \frac{1}{\fC(h)} \right) \ \ \forall h \in [0,\fh],
 \end{equation}
@@ -391,11 +491,14 @@ m(f,\min(a,x-h),\max(x+h,b)) & = \inf \abs{f''(]\min(a,x-h),\max(x+h,b)[)} \\
 \end{align*}
 Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}.
 
-Sufficient condition~\eqref{conesuffconda} fails if $f''(x) = 0$ for some $x$.  For $x \in ]a + \fh, b-\fh[$ one may replace~\eqref{conesuffconda} by an alternative sufficient condition if  $f \in C^4[a,b]$:
+Sufficient condition~\eqref{conesuffconda} fails if $f''(x) = 0$ for some $x$.
+For $x \in ]a + \fh, b-\fh[$ one may replace~\eqref{conesuffconda} by an
+alternative sufficient condition if $f \in C^4[a,b]$:
 \begin{multline} \label{conesuffcondb}
 \max_{0 \le s(t-x) \le h }{\abs{f''''(t)}} \le \frac{2\abs{f''(x)}}{h^2} \left( 1 - \frac{1}{\fC(h)} \right) +  \frac{2\abs{f'''(x)}}{h}  \\ \forall  h \in [0,\fh], \ s = \sign(f''(x)f'''(x)).
 \end{multline}
-Note that here $s$ depends on $x$.  For a particular $x$, suppose that $s = +1$.  Then it follows by a Taylor expansion that
+Note that here $s$ depends on $x$. For a particular $x$, suppose that $s = +1$.
+Then it follows by a Taylor expansion that
 \begin{align*}
 m(f,x,x+h) & = \inf \abs{f''(]x,x+h[)} \\
 & \ge \inf_{x < t < x+h} \biggl\{ \abs{f''(x)} + \abs{f'''(x)}(t-x)  - \frac{\norm[{[x,x+h]}]{f''''}(t-x)^2}{2} \biggr\}\\
@@ -403,7 +506,8 @@ m(f,x,x+h) & = \inf \abs{f''(]x,x+h[)} \\
 & \qquad \qquad + \abs{f'''(x)}(t-x)\left(1 -  \frac{t-x}{h}\right)  \biggr\}\\
 & \ge  \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
 \end{align*}
-Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}.  A similar argument establishes the case $s = -1$.
+Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}. A similar
+argument establishes the case $s = -1$.
 
 %--------------------------------------------------
 \subsection{The Linear Spline and Its Error} \label{subsec:spline}
@@ -411,13 +515,14 @@ Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}.  A similar a
 
 Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
 an ordered sequence of points that includes the endpoints of the interval,
-$a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$.  The linear spline
-approximation to a function $f$ based on the partition $\datasites$ of distinct points is denoted,
-$S(f,\datasites)$ and defined as
+$a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$. The linear spline
+approximation to a function $f$ based on the partition $\datasites$ of distinct
+points is denoted, $S(f,\datasites)$ and defined as
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
 \end{multline}
-The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiBur16a}:
+The error of this approximation is bounded as follows \cite[Theorem
+3.3]{BurFaiBur16a}:
 \begin{subequations} \label{appxerrbda}
 \begin{gather}
 \label{appxerrbdapc}
@@ -427,9 +532,9 @@ The error of this approximation is bounded as follows \cite[Theorem 3.3]{BurFaiB
 \end{subequations}
 
 To construct an adaptive algorithm, an upper bound on
-$\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values is required. This can be done for
-$f \in \cc$ using the correspondence between a second order difference and the
-second derivative in~\eqref{NDDbdm}.
+$\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values is required. This can
+be done for $f \in \cc$ using the correspondence between a second-order
+difference and the second derivative in~\eqref{NDDbdm}.
 
 Now assume that the points in the partition are not too far apart, namely
 \begin{equation} \label{widthrestrict}
@@ -440,7 +545,8 @@ For all $ x \in [x_{i-1},x_i]$,  denote
 &h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
  &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
 \end{align*}
-Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and define the following data based quantities.
+Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and
+define the following data based quantities.
 \begin{subequations} \label{bpdef}
 \begin{align}\label{bpf}
 B_{i+}(f,\cp)&:=\begin{cases}
@@ -456,16 +562,21 @@ B_{i-}(f,\cp)&: =\begin{cases}
 B_i(f,\cp) & : = \max\bigl(B_{i,\pm}(f,\cp) \bigr).
 \end{align}
 \end{subequations}
-We now show that these give us a data-based upper bound on the norm of $f''$, namely,
+We now show that these give us a data-based upper bound on the norm of $f''$,
+namely,
 \begin{equation}\label{normbd}
 \norm[{[x_{i-1},x_i]}]{f''} \le B_i(f,\cp), \qquad i =1, \ldots, n.
 \end{equation}
 
-First, we consider the case of an interior subinterval, i.e., $i \in \{3, \ldots, n-2\}$. The definition of the cone implies that
+First, we consider the case of an interior subinterval, i.e., $i \in \{3,
+\ldots, n-2\}$. The definition of the cone implies that
 \begin{equation*}
 \abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,x_{i-3},x),\fC(h_+)m(f,x,x_{i+2})\bigr)  \quad  \forall x \in [x_{i-1},x_i].
 \end{equation*}
-Applying the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that relates the second derivative to the divided differences, and inequality~\eqref{widthrestrict} that ensures that the points in the partition are not too far apart yields
+Applying the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that
+relates the second derivative to the divided differences, and
+inequality~\eqref{widthrestrict} that ensures that the points in the partition
+are not too far apart yields
 \begin{align*}
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
@@ -478,7 +589,8 @@ Applying the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that relat
  \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{i,\pm}(f,\cp)\bigr) = B_i(f,\cp).
 \end{align*}
-A similar argument applies for the subintervals on the left and right borders of the interval.
+A similar argument applies for the subintervals on the left and right borders of
+the interval.
 
 The bound in~\eqref{normbd} combined with~\eqref{appxerrbda} yield the
 data-driven error bound for the linear spline:
@@ -498,18 +610,32 @@ this error bound smaller than the desired tolerance.
 
 
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
-Instead of defining the cone in terms of $\fh$ directly, we choose an initial number of points, $n_{\ninit}$, depending on the width of $[a,b]$ and two positive integers, $n_{\lo}$ and $n_{\text{hi}}$:
+
+Instead of defining the cone in terms of $\fh$ directly, we choose an initial
+number of points, $n_{\ninit}$, depending on the width of $[a,b]$ and two
+positive integers, $n_{\lo}$ and $n_{\text{hi}}$:
 \begin{equation}
 \label{nodefinition}
 5 \le n_{\lo} \le n_{\text{hi}}, \qquad n_{\ninit} = \left\lceil n_{\text{hi}}
 \left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil,  \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2}.
 \end{equation}
-Then, $n_{\ninit}$ becomes the initial number of points used by our algorithm,  which is a more intuitive notion than $\fh$.  By the same token $n_{\ninit} -1$ is the initial number of subintervals used by the algorithm.  The parameters $n_{\lo}$ and $n_{\text{hi}}$ allow $n_{\ninit}$ to depend on the width of the interval $[a,b]$.  A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a more robust algorithm.  By the arguments of the previous section, the following algorithm solves function approximation problem~\eqref{appxprob}.
+Then, $n_{\ninit}$ becomes the initial number of points used by our algorithm,
+which is a more intuitive notion than $\fh$. By the same token $n_{\ninit} -1$
+is the initial number of subintervals used by the algorithm. The parameters
+$n_{\lo}$ and $n_{\text{hi}}$ allow $n_{\ninit}$ to depend on the width of the
+interval $[a,b]$. A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a
+more robust algorithm. By the arguments of the previous section, the following
+algorithm solves function approximation problem~\eqref{appxprob}.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval $[a,b]$, fixed integers $n_{\lo}$ and $n_{\text{hi}}$ that satisfy~\eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}.  Let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
-user inputs.  Let  $n=n_{\ninit}-1$, and define the partition of  equally spaced points, $\cp = \{x_j\}_{j=0}^n$, and the index set of subintervals for which the error tolerance
-is not yet satisfied:
+For some finite interval $[a,b]$, fixed integers $n_{\lo}$ and $n_{\text{hi}}$
+that satisfy~\eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in
+\eqref{nodefinition}. Let $\fC:[0,\fh[ \to [1, \infty[$ be and some
+non-decreasing inflation factor, that together with $\fh$ defines the cone
+$\cc$. Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
+$n=n_{\ninit}-1$, and define the partition of equally spaced points, $\cp =
+\{x_j\}_{j=0}^n$, and the index set of subintervals for which the error
+tolerance is not yet satisfied:
 $$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
 Compute the second-order divided differences, 
@@ -517,8 +643,7 @@ Compute the second-order divided differences,
 f[x_{j-1},
 x_{j}, x_{j+1}], \qquad  j= \{1,2,\ldots,n-1\}.
 \]
- Then do the
-following:
+Then do the following:
 \begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 
@@ -528,8 +653,9 @@ Let
 \[
 \mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
 \]
-Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return the linear spline $A(f,\abstol) = S(f, \cp)$ and terminate the algorithm.
-Otherwise, continue to the next step.
+Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$. If $\mathcal{I} =
+\emptyset$, return the linear spline $A(f,\abstol) = S(f, \cp)$ and terminate
+the algorithm. Otherwise, continue to the next step.
 
 \item \label{stage2} \emph{Split the subintervals as needed.}
 Let
@@ -543,43 +669,56 @@ Let
 %j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 %\end{multline*}
 %\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
-Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old subintervals or halves of old subintervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
+Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in
+$\widetilde{\mathcal{I}}$. Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$,
+and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly. The updated $\ci$ contains
+indices corresponding to the old subintervals or halves of old subintervals
+whose indices were in the old $\ci$. Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
 
 \begin{theorem} \label{thm:algAworks}
-Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
+Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the
+cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
-Figure \ref{fig:sampling-funappxg} displays the function $-f_3$ defined in \eqref{f3def} for a certain choice of parameters, along with the data used to compute the linear spline approximation $A(-f_3,0.01)$ by the algorithm described above.  Note that $-f_3$ is sampled less densely where it is flat.
+Figure \ref{fig:sampling-funappxg} displays the function $-f_3$ defined in
+\eqref{f3def} for a certain choice of parameters, along with the data used to
+compute the linear spline approximation $A(-f_3,0.01)$ by the algorithm
+described above. Note that $-f_3$ is sampled less densely where it is flat.
 
 \begin{figure}[tbh]
 \centering
 %\hspace{-9ex}
 \includegraphics[width=80mm]{figure/sampling-funappxg.eps}
-\caption{The non-uniform sampling density of Algorithm $A$ for input function $-f_3$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is reproducible by
-{\tt TraubMemorial.m} in GAIL.}
+\caption{The non-uniform sampling density of Algorithm $A$ for input function
+$-f_3$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
+and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
+reproducible by {\tt TraubMemorial.m} in GAIL.}
 \label{fig:sampling-funappxg}
 \end{figure}
 
 
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
-In this section, we investigate the computational cost of our locally adaptive algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of subintervals, and
+In this section, we investigate the computational cost of our locally adaptive
+algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of subintervals,
+and
 \begin{subequations} \label{h0Ixletcdef}
  \begin{equation} \label{h0def}
  h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
- \end{equation}
-be the initial width of the subintervals. Fix $x \in [a,b[$.  To facilitate our derivation of the computational cost of $A$, we introduce the notation $\Ixl$, which is the unique half-open interval containing $x$ with
- the width $2^{-l}h_0$ that might appear in Algorithm $A$.  It is defined as
+\end{equation}
+be the initial width of the subintervals. Fix $x \in [a,b[$. To facilitate our
+derivation of the computational cost of $A$, we introduce the notation $\Ixl$,
+which is the unique half-open interval containing $x$ with the width $2^{-l}h_0$
+that might appear in Algorithm $A$. It is defined as
 \begin{multline}\label{Ixldef}
 \Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \\ j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.
 \end{multline}
-Let
-$\ell(x)$ be defined such that
-$I_{x,\ell(x)}$ is the final subinterval in Algorithm $A$ that contains $x$ when the algorithm terminates.
-Let $\bar{I}_{x,l}$ be a similar closed interval with generally five times the width:
+Let $\ell(x)$ be defined such that $I_{x,\ell(x)}$ is the final subinterval in
+Algorithm $A$ that contains $x$ when the algorithm terminates. Let
+$\bar{I}_{x,l}$ be a similar closed interval with generally five times the
+width:
 \begin{equation}
 \bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
 \end{equation}
@@ -588,12 +727,23 @@ with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
 L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
-Note that $L(x)$ does depend on $f$, although this dependence is suppressed in the notation.
+Note that $L(x)$ does depend on $f$, although this dependence is suppressed in
+the notation.
 
-We now show that $\ell(x) \le L(x)$.  At each iteration of Algorithm $A$, $x$ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all values of $l = 0, \ldots, \ell(x)$ are realized.  If $\ell(x) > L(x)$, then at some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some $i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0 = : h$.
-We show that such a scenario is impossible, thus contradicting the assumption that $\ell(x) > L(x)$.
+We now show that $\ell(x) \le L(x)$. At each iteration of Algorithm $A$, $x$
+lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all
+values of $l = 0, \ldots, \ell(x)$ are realized. If $\ell(x) > L(x)$, then at
+some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$. Let $\cp
+= \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be
+split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some
+$i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0 = : h$. We show that
+such a scenario is impossible, thus contradicting the assumption that $\ell(x) >
+L(x)$.
 
-Referring to Step~\ref{stage2} of Algorithm $A$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   The crux of the proof is to demonstrate that
+Referring to Step~\ref{stage2} of Algorithm $A$, it is necessary that $i \in
+\widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split. Thus, for some $s =+$ or
+$-$, and for some $k \in \{0,1,2\}$, $j = i - sk \in \ci_s$. The crux of the
+proof is to demonstrate that
 \begin{equation} \label{Blenorm}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
@@ -601,7 +751,8 @@ We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \
 \begin{equation} \label{conditionone}
 h = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
 \end{equation}
-In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of \eqref{Blenorm}.  Also, note that
+In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of
+\eqref{Blenorm}. Also, note that
   \begin{align*}
   B_{j,+}(f,\cp)
   & \le \fC(x_{j+2}-x_{j-1})f[x_{j},x_{j+1},x_{j+2}] \qquad \text{by}~\eqref{bpdef} \\
@@ -609,7 +760,7 @@ In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of \eqref{B
   &\le  \fC\left(3\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{conditionone} \\
   & \le   \fC\left(3\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
   \end{align*}
-This completes the proof of  \eqref{Blenorm}.
+This completes the proof of \eqref{Blenorm}.
 
 Now we use inequality \eqref{Blenorm} to show a contradiction:
  \begin{align*}
@@ -617,10 +768,16 @@ Now we use inequality \eqref{Blenorm} to show a contradiction:
  & \le   \frac 1 8 \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
  & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
  \end{align*}
- Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows that $\ell(x) \le  L(x)$, which is used to prove an upper bound on the computational cost of Algorithm $A$.
+Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows
+that $\ell(x) \le L(x)$, which is used to prove an upper bound on the
+computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
-Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by Algorithm $A$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
+Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by
+Algorithm $A$ for the input function $f$ and the absolute error tolerance
+$\abstol$. This algorithm is known to successfully solve
+problem~\eqref{appxprob} for functions in $\cc$. The computational cost of doing
+so has the following upper bound:
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 , \\
 \end{equation*}
@@ -631,15 +788,23 @@ where $L(x)$ is defined in~\eqref{eqn:defoflx} and
 \end{theorem}
 
 \begin{proof}
-Let $\cp=\{x_j\}_{j=0}^n$ be the final partition when $A(f,\abstol)$ successfully terminates. Note that $2^{\ell(x)}$ is constant for  $x \in I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}[$ for $i=1, \ldots, n$.  Furthermore  $\int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif  x =  h_0$.  Then the number of function values required is
+Let $\cp=\{x_j\}_{j=0}^n$ be the final partition when $A(f,\abstol)$
+successfully terminates. Note that $2^{\ell(x)}$ is constant for $x \in
+I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}[$ for $i=1, \ldots, n$. Furthermore
+$\int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif x = h_0$. Then the number of
+function values required is
 \begin{equation*}
 n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
 \end{equation*}
-Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.  The formula for $2^{L(x)}$ follows from the definition of $L(x)$
+Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
+The formula for $2^{L(x)}$ follows from the definition of $L(x)$
 in~\eqref{eqn:defoflx}.
 \end{proof}
 
-The definition of $L(x)$ in~\eqref{eqn:defoflx} is implicit because $l$ in the definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$.  For small $\abstol$, $L(x)$ becomes large,  $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and $3\cdot 2^{-L(x)}h_0$ tends to $0$.  Thus, for small $\abstol$, we have
+The definition of $L(x)$ in~\eqref{eqn:defoflx} is implicit because $l$ in the
+definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$. For small $\abstol$,
+$L(x)$ becomes large, $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and
+$3\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, we have
 \begin{equation} \label{twoLxapprox}
  2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.
  \end{equation}
@@ -651,7 +816,8 @@ Under this approximation, the upper bound on computational cost becomes
 & \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{8\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf} below}.
 \end{align}
 
-For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as is claimed in the following proposition.
+For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac
+12]{f''}$ bound each other as is claimed in the following proposition.
 
 \begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
@@ -680,18 +846,28 @@ If $\fC$ is defined as in~\eqref{sampleC}, then
 \[
 \max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} = \max_{0 \le h \le \fh} \frac{h^2(\fh - h)}{\fC(0)\fh} = \frac{4\fh^2}{29\fC(0)}.
 \]
-When $\fh$ is small, it is possible for $\norm[\frac 12]{f''} $ to be quite small in comparison to $\norm{f''}$.  This occurs when $f''$ is rather spiky.
+When $\fh$ is small, it is possible for $\norm[\frac 12]{f''} $ to be quite
+small in comparison to $\norm{f''}$. This occurs when $f''$ is rather spiky.
 
 
-Although $\norm{f''}$ and $\norm[\frac 12]{f''} $ are equivalent for $f \in \cc$, that is not the case for $f \in \cw^{2,\infty}$.  The hump function $f_3$ defined above satisfies
+Although $\norm{f''}$ and $\norm[\frac 12]{f''} $ are equivalent for $f \in
+\cc$, that is not the case for $f \in \cw^{2,\infty}$. The hump function $f_3$
+defined above satisfies
 \[
 \norm{f_3''} = \delta^{-2}, \qquad \norm[\frac 12]{f_3''}  = 16.
 \]
-By making $\delta$ small enough, we may make $\norm[\frac 12]{f_3''}/\norm{f_3''} = 16\delta^2$ arbitrarily small.  However, since $f_3 \notin \cc$ for $\delta < 2\fh$, this does not violate Proposition~\ref{equivnormprop}.
+By making $\delta$ small enough, we may make $\norm[\frac
+12]{f_3''}/\norm{f_3''} = 16\delta^2$ arbitrarily small. However, since $f_3
+\notin \cc$ for $\delta < 2\fh$, this does not violate
+Proposition~\ref{equivnormprop}.
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
-The upper bound on the computational cost of Algorithm~$A$ provides an upper bound on the complexity of problem~\eqref{appxprob}.  We now construct lower bounds on the complexity of the problem, i.e., the computational cost of the best algorithm.  We then observe that these lower bounds have the same asymptotic behavior as the computational cost of Algorithm $A$.
+The upper bound on the computational cost of Algorithm~$A$ provides an upper
+bound on the complexity of problem~\eqref{appxprob}. We now construct lower
+bounds on the complexity of the problem, i.e., the computational cost of the
+best algorithm. We then observe that these lower bounds have the same asymptotic
+behavior as the computational cost of Algorithm $A$.
 
 \begin{theorem}
 	Let $A^*$ be any deterministic algorithm that successfully solves problem~\eqref{appxprob}.
@@ -718,24 +894,48 @@ The upper bound on the computational cost of Algorithm~$A$ provides an upper bou
 	\label{thm:A_cost}
 \end{theorem}
 
-Note by comparing  \eqref{lowbdChalf} and \eqref{lowbdWhalf} that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input.  If one requires $\sigma$ as an input, then one can easily construct an algorithm based on linear splines with equally spaced points and a computational cost that is asymptotically the same as lower bound in \eqref{lowbdWinf}.
+Note by comparing \eqref{lowbdChalf} and \eqref{lowbdWhalf} that restricting the
+set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone
+$\cc$ can significantly affect the lower complexity bounds. Also note that the
+conclusions of this theorem hold whether or not $\sigma$ is an input to the
+algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. If one
+requires $\sigma$ as an input, then one can easily construct an algorithm based
+on linear splines with equally spaced points and a computational cost that is
+asymptotically the same as lower bound in \eqref{lowbdWinf}.
 
-The upper bounds on the computational cost of Algorithm $A$  are asymptotically the same as the computational cost of the bet possible algorithm, $A^*$.  Comparing \eqref{costbdapprox} and \eqref{costbdinf} to \eqref{lowbdC}, we have the following:
+The upper bounds on the computational cost of Algorithm $A$ are asymptotically
+the same as the computational cost of the bet possible algorithm, $A^*$.
+Comparing \eqref{costbdapprox} and \eqref{costbdinf} to \eqref{lowbdC}, we have
+the following:
 \begin{multline*}
 \frac{\displaystyle \sup_{f \in \cc : \norm[\frac 12]{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) } \approx
 \frac{\displaystyle \sup_{f \in \cc : \norm{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) } \\ \lessapprox \sqrt{\frac{2 \fC(0)(\fC(0)+1)}{\fC(0)-1}}.
 \end{multline*}
-The right hand side of this inequality does depend on how far $\fC(0)$ is above $1$, which is normally just a modest amount.  
+The right hand side of this inequality does depend on how far $\fC(0)$ is above
+$1$, which is normally just a modest amount.
 
 \begin{proof}
-	All of these lower bounds are proved by constructing fooling functions for which algorithm $A$ succeeds, and then showing that at least a certain number of samples must be used.  The proofs of lower bounds~\eqref{lowbdW} are simpler, so we start with them first.
-	
-	Let $A^*$ be a successful algorithm for all $f \in  \cw^{2,\infty}$, and consider the partition $\{x_i\}_{i=0}^{n+1}$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute  $A^*(0,\abstol)$.  Choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1} \le (b-a)/(n+1)$.  Let $f_3$ be defined as in~\eqref{f3def} with $c = (x_j+x_{j-1})/2$, and $\delta  = (b-a)/[4(n+1)]$.  Note that in general
+	All of these lower bounds are proved by constructing fooling functions for which
+	algorithm $A$ succeeds, and then showing that at least a certain number of
+	samples must be used. The proofs of lower bounds~\eqref{lowbdW} are simpler, so
+	we start with them first.
+		
+	Let $A^*$ be a successful algorithm for all $f \in \cw^{2,\infty}$, and consider
+	the partition $\{x_i\}_{i=0}^{n+1}$, where $\{x_i\}_{i=1}^n$ are the data sites
+	used to compute $A^*(0,\abstol)$. Choose any $j=1, \ldots, n+1$ with
+	$x_j-x_{j-1} \le (b-a)/(n+1)$. Let $f_3$ be defined as in~\eqref{f3def} with $c
+	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. Note that in general
 	\begin{equation}
 	\norm{f_3''} = \frac{1}{\delta^{2}}, \qquad \norm[\frac 12]{f_3''} = 16.
 	\end{equation}
 
-For any real $\gamma$, it follows that $\gamma f_3(x_i)=0$ for $i=0, \ldots, n+1$.  Figure \ref{f3foolplot} illustrates this situation.  Since $0$ and $\pm \gamma f_3$ share the same values at the data sites, then they must share the same approximation: $A^*(\pm \gamma f_3,\abstol) = A^*(0,\abstol)$.  Moreover, $\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_3,\abstol) = n$.  Since the approximations of $0, -f_3$, and $f_3$ are identical, this implies  that $\gamma$ must be no greater than $\abstol$:
+	For any real $\gamma$, it follows that $\gamma f_3(x_i)=0$ for $i=0, \ldots,
+	n+1$. Figure \ref{f3foolplot} illustrates this situation. Since $0$ and $\pm
+	\gamma f_3$ share the same values at the data sites, then they must share the
+	same approximation: $A^*(\pm \gamma f_3,\abstol) = A^*(0,\abstol)$. Moreover,
+	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_3,\abstol) = n$. Since the
+	approximations of $0, -f_3$, and $f_3$ are identical, this implies that $\gamma$
+	must be no greater than $\abstol$: 
 	\begin{align*}
 	\abstol  &\ge \max(\norm{\gamma f_3 - A^*(\gamma f_3,\abstol)}, \norm{-\gamma f_3 - A^*(-\gamma f_3,\abstol)}) \\
 	&= \max(\norm{\gamma f_3 - A^*(0,\abstol)}, \norm{-\gamma f_3 - A^*(0,\abstol)}) \\
@@ -745,49 +945,64 @@ For any real $\gamma$, it follows that $\gamma f_3(x_i)=0$ for $i=0, \ldots, n+1
 	\displaystyle \delta^2 	\norm{\gamma f_3''} =  \frac{(b-a)^2 \norm{\gamma f_3''}}{16(n+1)^2}
 	\end{Bmatrix}.
 	\end{align*}
-The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma f_3''}$ is small enough, which establishes ~\eqref{lowbdWhalf}.  Solving the bottom inequality for $n$ in terms of $\sigma =  \norm{\gamma f_3''}$ establishes~\eqref{lowbdWinf}.
+	The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma
+	f_3''}$ is small enough, which establishes ~\eqref{lowbdWhalf}. Solving the
+	bottom inequality for $n$ in terms of $\sigma = \norm{\gamma f_3''}$
+	establishes~\eqref{lowbdWinf}.
+		
+	\begin{figure}
+		\centering
+		\includegraphics[width = 8cm]{figure/f3foolplot.eps}
+		\caption{The fooling functions $\pm f_3$ used to prove \eqref{lowbdW}. The case
+		$n=15$ is shown.  This figure is reproducible by \texttt{TraubMemorial.m}
+		in GAIL.}
+		\label{f3foolplot}
+	\end{figure}
 	
-\begin{figure}
-	\centering
-	\includegraphics[width = 8cm]{figure/f3foolplot.eps}
-	\caption{The fooling functions $\pm f_3$ used to prove \eqref{lowbdW}. The case
-	$n=15$ is shown.  This figure is reproducible by \texttt{TraubMemorial.m}
-	in GAIL.}
-	\label{f3foolplot}
-\end{figure}
+	Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
+	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
+	\begin{equation}
+	\label{assumpfzero}
+	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} = (b -a)^2  \quad \norm{f_0''} = 1.
+	\end{equation}
+	Since $f''$ is constant, $f \in \cc$, and so $A^*$ successfully approximates
+	$\gamma f_0$ for any non-negative $\gamma$.
 	
-Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is a successful algorithm for all $f  \in \cc$.  Let $f_0$ be defined as follows
-\begin{equation}
-\label{assumpfzero}
-f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} = (b -a)^2  \quad \norm{f_0''} = 1.
-\end{equation}
-Since $f''$ is constant, $f \in \cc$, and so $A^*$ successfully approximates $\gamma f_0$ for any non-negative $\gamma$.
-
-Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute  $A^*(\gamma f_0,\abstol)$.    Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1} \le (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c = (x_j+x_{j-1})/2$, and $\delta  = (b-a)/[4(n+1)]$. We construct two fooling functions:
-\begin{gather*}
-f_{\pm} = f_0 \pm \tgamma f_3, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
-\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
-m(f''_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
-\end{gather*}
-The above calculations show that $\gamma f_{\pm} \in \cc$ as well for all real $\gamma$.  Moreover, the definition of $f_{\pm}$ ensures that
-$A^*(\gamma f_0) = A^*(\gamma f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) = n$.
-
-Like before, we make the argument that $\gamma\tgamma$ must be no larger than $\abstol$:
-\begin{align*}
-\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},\norm{\gamma f_--A(f_-, \abstol)}) \\
-& \ge \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_+,\abstol)}+ \norm{\gamma f_--A(f_-, \abstol)} \right] \\
-& = \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_0,\abstol)}+ \norm{\gamma f_--A(f_0, \abstol)} \right] \\
-& \ge \frac{1}{2}  \norm{\gamma f_+ - \gamma f_-} =  \norm{\gamma \tgamma f_3} = \gamma \tgamma\\
-& = \begin{Bmatrix} \displaystyle
-\frac{\norm[\frac 12]{\gamma f_0''}}{(b-a)^2}, \\
-\norm{\gamma f_0''}
-\end{Bmatrix}  \cdot \frac{\fC(0)-1}{\fC(0)+1} \delta^2\\
-& = \begin{Bmatrix} \displaystyle
-\norm[\frac 12]{\gamma f_0''}, \\
-(b-a)^2\norm{\gamma f_0''}
-\end{Bmatrix}  \cdot \frac{\fC(0)-1}{16(\fC(0)+1)(n+1)^2}
-\end{align*}
-Substituting $\norm[\frac12]{\gamma f_0''} = \sigma$ in the top inequality and $\norm{\gamma f_0''} = \sigma$ in the bottom inequality, and then solving for $n$ yields the two bounds in~\eqref{lowbdC}.
+	Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le
+	x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute
+	$A^*(\gamma f_0,\abstol)$. Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
+	\le (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c =
+	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
+	functions:
+	\begin{gather*}
+	f_{\pm} = f_0 \pm \tgamma f_3, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
+	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
+	m(f''_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
+	\end{gather*}
+	The above calculations show that $\gamma f_{\pm} \in \cc$ as well for all real
+	$\gamma$. Moreover, the definition of $f_{\pm}$ ensures that $A^*(\gamma f_0) =
+	A^*(\gamma f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) =
+	n$.
+	
+	Like before, we make the argument that $\gamma\tgamma$ must be no larger than
+	$\abstol$:
+	\begin{align*}
+	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},\norm{\gamma f_--A(f_-, \abstol)}) \\
+	& \ge \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_+,\abstol)}+ \norm{\gamma f_--A(f_-, \abstol)} \right] \\
+	& = \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_0,\abstol)}+ \norm{\gamma f_--A(f_0, \abstol)} \right] \\
+	& \ge \frac{1}{2}  \norm{\gamma f_+ - \gamma f_-} =  \norm{\gamma \tgamma f_3} = \gamma \tgamma\\
+	& = \begin{Bmatrix} \displaystyle
+	\frac{\norm[\frac 12]{\gamma f_0''}}{(b-a)^2}, \\
+	\norm{\gamma f_0''}
+	\end{Bmatrix}  \cdot \frac{\fC(0)-1}{\fC(0)+1} \delta^2\\
+	& = \begin{Bmatrix} \displaystyle
+	\norm[\frac 12]{\gamma f_0''}, \\
+	(b-a)^2\norm{\gamma f_0''}
+	\end{Bmatrix}  \cdot \frac{\fC(0)-1}{16(\fC(0)+1)(n+1)^2}
+	\end{align*}
+	Substituting $\norm[\frac12]{\gamma f_0''} = \sigma$ in the top inequality and
+	$\norm{\gamma f_0''} = \sigma$ in the bottom inequality, and then solving for
+	$n$ yields the two bounds in~\eqref{lowbdC}.
 \end{proof}
 
 
@@ -795,28 +1010,44 @@ Substituting $\norm[\frac12]{\gamma f_0''} = \sigma$ in the top inequality and $
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
 \subsection{Algorithm $M$}  \label{sec:minalgo}
-Our minimization algorithm $M$ relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.
+Our minimization algorithm $M$ relies on the derivations in the previous
+sections. The main departure from Algorithm $A$ is the stopping criterion. It is
+not necessary to approximate $f$ accurately everywhere, only where $f$ has small
+values.
 
-At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that at some stage,
+At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of
+$f$ observed so far. This means that $\hM \ge M(f,\abstol)$. Our goals is to
+show that at some stage,
 \[
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
 \]
-Then we may return the answer $M(f,\abstol) = \hM$.
-For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline
-in~\eqref{appxerrbdb} that
+Then we may return the answer $M(f,\abstol) = \hM$. For any subinterval
+$[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the
+linear spline in~\eqref{appxerrbdb} that
 \begin{equation} \label{minsubintbd}
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}.
 \end{equation}
-If the right hand side of the above inequality is no less than $\hM - \abstol$, then this already implies that
+If the right hand side of the above inequality is no less than $\hM - \abstol$,
+then this already implies that
 \[
 \min_{x_{i-1} \le x \le x_i} f(x) \ge M(f,\abstol) - \abstol
 \]
-In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller error bound on the linear spline approximation for that subinterval.  However if the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then the subinterval $[x_{i-1}, x_i]$ should be split.  Also, the two subintervals to the immediate left and right of this subinterval are candidates to be split, since they affect $B_{i,\pm}$.
+In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller
+error bound on the linear spline approximation for that subinterval. However if
+the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then
+the subinterval $[x_{i-1}, x_i]$ should be split. Also, the two subintervals to
+the immediate left and right of this subinterval are candidates to be split,
+since they affect $B_{i,\pm}$.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval, $[a,b]$,  and fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}.  Let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
-	user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of  equally spaced points and the index set of subintervals for which the error tolerance
-	is not yet satisfied:
+	For some finite interval, $[a,b]$, and fixed integers $n_{\lo}$ and
+	$n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be
+	defined as in \eqref{nodefinition}. Let $\fC:[0,\fh[ \to [1, \infty[$ be and
+	some non-decreasing inflation factor, that together with $\fh$ defines the cone
+	$\cc$. Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
+	$n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of equally
+	spaced points and the index set of subintervals for which the error tolerance is
+	not yet satisfied:
 	$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
 	Compute $\hM= \minfi$ and he second-order divided differences, 
@@ -839,15 +1070,16 @@ In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller 
 %		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
 %		< \widehat{M}-\abstol \biggr\}.
 %		\end{multline*}
-		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$.  If $\mathcal{I} = \emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
+		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$. If $\mathcal{I} =
+		\emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
-Let
-\begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
-\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
-\end{gather*}
+		Let
+		\begin{gather*}
+		\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+		%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
+		\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
+		\end{gather*}
 %		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
 %		\begin{multline*}
 %		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:
@@ -860,29 +1092,51 @@ Let
 %		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
 %		\end{multline*}
 %		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
-		Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in $\widetilde{\mathcal{I}}$.
-		Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$, $\hM = \minfi$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly.  The updated $\ci$ contains  indices corresponding to the old subintervals or halves of old subintervals whose indices were in the old $\ci$.  Return to Step~\ref{stage1}.
+		Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in
+		$\widetilde{\mathcal{I}}$. Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$,
+		$\hM = \minfi$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly. The updated
+		$\ci$ contains indices corresponding to the old subintervals or halves of old
+		subintervals whose indices were in the old $\ci$. Return to Step~\ref{stage1}.
 	\end{enumerate}
 \end{algoM}
 
 \begin{theorem} \label{thm:algMworks}
-Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
+Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the
+cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
-Figure \ref{fig:sampling-funming}  displays the same function $-f_3$ as in \ref{fig:sampling-funappxg}, but this time with the sampling points used for minimization.  It is found that $M(-f_3,0.01)$ uses only $31$ points, whereas  $A(-f_3,0.01)$ uses $59$ points.  This is because $-f_3$ does not need to be approximated accurately when its value is far from the minimum.
+Figure \ref{fig:sampling-funming} displays the same function $-f_3$ as in
+\ref{fig:sampling-funappxg}, but this time with the sampling points used for
+minimization. It is found that $M(-f_3,0.01)$ uses only $31$ points, whereas
+$A(-f_3,0.01)$ uses $59$ points. This is because $-f_3$ does not need to be
+approximated accurately when its value is far from the minimum.
 
 
 \begin{figure}[tbh]
 \centering
 \includegraphics[width=80mm]{figure/sampling-funming.eps}
-\caption{The same situation as in Figure~\ref{fig:sampling-funappxg}, but now with Algorithm $M$.  Again~$4$ iterations are used, but only~$31$ non-uniform sampling points are needed to obtain the minimum of $-f_3$. This figure is reproducible by {\tt TraubMemorial.m} in GAIL.}
-\label{fig:sampling-funming}
+\caption{The same situation as in Figure~\ref{fig:sampling-funappxg}, but now
+with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
+sampling points are needed to obtain the minimum of $-f_3$. This figure is
+reproducible by {\tt TraubMemorial.m} in GAIL.} \label{fig:sampling-funming}
 \end{figure}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that subinterval are significantly larger than the minimum of the function over $[a,b]$.
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a
+similar manner as that for Algorithm $A$. Definitions \eqref{h0Ixletcdef} are
+again used, but this time the convergence criteria is different. Analogous to
+$\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that
+$I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$
+when the algorithm terminates. There are essentially two reasons that a
+subinterval $[x_{i-1},x_i]$ need not be split further. One is the same as that
+for Algorithm $A$: the function being minimized is approximated on
+$[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$. The second
+reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger
+than $\abstol$, the function values on that subinterval are significantly larger
+than the minimum of the function over $[a,b]$.
 
-Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e.,
+Our definition of $\tL(x)$ reflects these two reasons. Let $x^*$ be some place
+where the minimum of $f$ is obtained, i.e.,
 \[
 f(x^*)  = \min_{a \le x \le b} f(x).
 \]
@@ -897,8 +1151,9 @@ where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
 + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\}.
 \end{multline}
 
-Note that $\chL(x)$ does not depend on $\abstol$, whereas $L(x)$ does.
-As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.
+Note that $\chL(x)$ does not depend on $\abstol$, whereas $L(x)$ does. As is the
+case with $L(x)$, both $\chL(x)$ and $\tL(x)$ depend on $f$, although this
+dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
 	Denote $\cost(M,f,\abstol)$ as the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so has the following upper bound:
@@ -909,34 +1164,55 @@ As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although
 \end{theorem}
 
 \begin{proof}
-	Using the same argument as for Theorem \ref{thm:cost}, we only need to show that $\tell(x) \le \tL(x)$ for all $x \in [a,b[$.  Since $\minfii - \widehat{M} \ge 0$ for all $i$, the index sets $\ci_{\pm}$ and $\widehat{\ci}_{\pm}$ in Algorithm $M$ are subsets of the corresponding index sets in Algorithm $A$.  Thus $\tell(x) \le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}.  Thus, we only need to show that $\tell(x) \le \chL(x)$.
+Using the same argument as for Theorem \ref{thm:cost}, we only need to show that
+$\tell(x) \le \tL(x)$ for all $x \in [a,b[$. Since $\minfii - \widehat{M} \ge 0$
+for all $i$, the index sets $\ci_{\pm}$ and $\widehat{\ci}_{\pm}$ in Algorithm
+$M$ are subsets of the corresponding index sets in Algorithm $A$. Thus $\tell(x)
+\le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}. Thus, we
+only need to show that $\tell(x) \le \chL(x)$.
 	
-	For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration $I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$.  Let $\cp = \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0 =: h$. We show that such a scenario is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
+For a fixed $x$, if $L(x) \ge \tell(x) > \chL(x)$, then at some iteration
+$I_{x,\chL(x)}$ must be split in Step~\ref{stagemin2} of $M$. Let $\cp =
+\{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,\chL(x)}$ is to be
+split, and then identify the closure of $I_{x,\chL(x)}$ as $[x_{i-1},x_i]$ for
+some $i$, where $x_i-x_{i-1}=2^{-\chL(x)}h_0 =: h$. We show that such a scenario
+is impossible, thus contradicting the assumption that $\tell(x) > \chL(x)$.
 
-
-Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split.  Thus, for some $s =+$ or $-$, and for some $k \in \{0,1,2\}$, $j = i  - sk \in \ci_s$.   By the argument used to establish \eqref{Blenorm}, we may also establish its analog:
+Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in
+\widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split. Thus, for some $s =+$ or
+$-$, and for some $k \in \{0,1,2\}$, $j = i - sk \in \ci_s$. By the argument
+used to establish \eqref{Blenorm}, we may also establish its analog:
 \begin{equation} \label{Blenormt}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
 \end{equation}
 
-Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the definition of $\ci_{\pm}$ in Algorithm $M$.  Consider the case of $s=+$, so $j = i  - k \in \ci_+$ for some $k \in \{0,1,2\}$.  As was argued earlier, because $i \in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in \bar{I}_{x,\chL(x)}$.  Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$ with $x_{j+2} - x_{j-1} \le 3h$, establishes that
+Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the
+definition of $\ci_{\pm}$ in Algorithm $M$. Consider the case of $s=+$, so $j =
+i - k \in \ci_+$ for some $k \in \{0,1,2\}$. As was argued earlier, because $i
+\in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in
+\bar{I}_{x,\chL(x)}$. Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$
+with $x_{j+2} - x_{j-1} \le 3h$, establishes that
 \begin{equation} \label{minfjjm1bd}
 \min\bigl(f(x_{j-1}),f(x_j) \bigr)
 \ge f(x) - 3\abs{f'(x)}h - \frac32  \norm[\bar{I}_{x,\chL(x)}]{f''} h^2
 \end{equation}
 The same bound also holds for the $s = -$ case.
 
-Finally, we bound $ \widehat{M}-\abstol$.  Let $[x_{i^*-1}, x^*_i[$ be the subinterval in $\cp$ containing the location of the minimum, $x^*$.  Note that by \eqref{appxerrbdapc} it follows that
+Finally, we bound $ \widehat{M}-\abstol$. Let $[x_{i^*-1}, x^*_i[$ be the
+subinterval in $\cp$ containing the location of the minimum, $x^*$. Note that by
+\eqref{appxerrbdapc} it follows that
 \begin{equation} \label{fxstarlowbd}
 f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}.
 \end{equation}
-There are two possibilities regarding $i^*$.  If $i^* \in \ci$, then $h = x_i -  x_{i-1} \ge x_{i^*} -  x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
+There are two possibilities regarding $i^*$. If $i^* \in \ci$, then $h = x_i -
+x_{i-1} \ge x_{i^*} - x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
 \begin{align*}
 \hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
 & \le f(x^*) + \frac18  (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''} \\
 & \le  f(x^*) + \frac18 \norm[{\bar{I}_{x^*,\chL(x)}}]{f''} h^2
 \end{align*}
-Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of Algorithm $M$,
+Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of
+Algorithm $M$,
 \begin{align*}
 \hM   - \abstol & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)  \\
 & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\
@@ -947,7 +1223,9 @@ Thus, we have
 \hM - \abstol \le f(x^*) + \frac 18 \norm[{I_{x^*,\chL(x)}}]{f''} h^2.
 \end{equation}
 
-Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption that $\tell(x) > \chL(x)$:
+Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and
+\eqref{Mhatbd} yields the inequality that allows us to contradict the assumption
+that $\tell(x) > \chL(x)$:
 \begin{align*}
 \MoveEqLeft{\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j}))} \\
 & \le \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2 \\
@@ -955,33 +1233,64 @@ Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and \eqre
 &  \le -[f(x) - f(x^*)] \left( 1 - \frac{3\abs{f'(x)}h}{2[f(x) - f(x^*)] } \right)^2  \\
 & \qquad \qquad  +  \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2.
 \end{align*}
-For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which implies that the left hand side of this inequality is positive.  However, the definition of $\chL(x)$ implies that the right hand side of this inequality is non-positive.  This is a contradiction, so $\tell(x) \le \chL(x)$.
+For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which
+implies that the left hand side of this inequality is positive. However, the
+definition of $\chL(x)$ implies that the right hand side of this inequality is
+non-positive. This is a contradiction, so $\tell(x) \le \chL(x)$. 
 \end{proof}
 
-If $f(x)$ is close to the minimum function value, $f(x^*)$,  for $x$ in much of $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the computational cost of Algorithm $M$.  In this case, the computational cost for minimization may be similar to that for function approximation.  However, if $f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the error tolerance.  In this case, the computational cost for minimization may significantly smaller than that for function approximation.
+If $f(x)$ is close to the minimum function value, $f(x^*)$, for $x$ in much of
+$[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the
+computational cost of Algorithm $M$. In this case, the computational cost for
+minimization may be similar to that for function approximation. However, if
+$f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of
+$[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the
+error tolerance. In this case, the computational cost for minimization may
+significantly smaller than that for function approximation.
 
-This becomes more obvious if we can simplify the formula for $\chL(x)$ by assuming that $\fC\left(3\cdot2^{-l}h_0\right) \approx \fC(0)$ and that $\norm[\bar{I}_{t,l}]{f''} \approx \abs{f''(t)}$ for all $t$.  In a similar manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
+This becomes more obvious if we can simplify the formula for $\chL(x)$ by
+assuming that $\fC\left(3\cdot2^{-l}h_0\right) \approx \fC(0)$ and that
+$\norm[\bar{I}_{t,l}]{f''} \approx \abs{f''(t)}$ for all $t$. In a similar
+manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
 \begin{equation*}
  2^{\chL(x)}
 \approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]}
 +  \sqrt{\frac{\Bigl[\frac {\fC\left(0\right)}8  + \frac 32 \Bigr]  \abs{f''(x)} + \frac18\abs{f''(x^*)} }{f(x) - f(x^*)}} \vastr].
 \end{equation*}
-The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ is and the smaller the computational cost of Algorithm $M$.
+The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$
+is and the smaller the computational cost of Algorithm $M$.
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}  The minimization problem \eqref{optprob}  for  functions in the whole Sobolev space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW} for the function approximation problem by a similar proof.  However, for  functions only in the cone $\cc$, the lower complexity bound proof for the function approximation does not have a direct analog for the minimization problem.  The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not affect the minimum function value, depending on the location of the bump's center.  We  have not yet derived a lower bound on the complexity of the minimization problem \eqref{optprob} for functions in  $\cc$.
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}  
+
+The minimization problem \eqref{optprob} for functions in the whole Sobolev
+space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW}
+for the function approximation problem by a similar proof. However, for
+functions only in the cone $\cc$, the lower complexity bound proof for the
+function approximation does not have a direct analog for the minimization
+problem. The bump, $\tgamma f_3$, subtracted from $f_0: x \mapsto x^2/2$ may not
+affect the minimum function value, depending on the location of the bump's
+center. We have not yet derived a lower bound on the complexity of the
+minimization problem \eqref{optprob} for functions in $\cc$.
 
 
 \section{Numerical Examples} \label{sec:examples}
 
-Together with our collaborators, we have developed the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This MATLAB software library implements algorithms that provide answers to univariate and multivariate integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
+Together with our collaborators, we have developed the Guaranteed Automatic
+Integration Library (GAIL) \cite{ChoEtal15a}. This MATLAB software library
+implements algorithms that provide answers to univariate and multivariate
+integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by
+automatically determining the sampling needed to satisfy a user provided error
+tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL
+functions \funappxg{} and \funming, respectively. Here we demonstrate their
+performance.
 
 %% Example 1
 In computer graphics, three-dimensional objects can often be parameterized by
-functions. Moreover, interpolation at low to medium accuracy is often
-be sufficient for projecting satisfactory visual perceptions on devices that
-have relatively limited memory and low-resolution display, for example,
-cell phones and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{} to
-interpolate the surface of a seashell, resulting in a sufficiently accurate
+functions. Moreover, interpolation at low to medium accuracy is often be
+sufficient for projecting satisfactory visual perceptions on devices that have
+relatively limited memory and low-resolution display, for example, cell phones
+and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{}
+to interpolate the surface of a seashell, resulting in a sufficiently accurate
 reconstruction in~$\mathbb{R}^3$.
 
 \begin{comment}
@@ -1043,26 +1352,38 @@ image.
 \end{exmp}
 \end{comment}
 
-Another application of function approximation is digital animation,
-in which successive image frames are produced to represent movements of
-objects over small discrete time intervals. To automatically insert additional frames between
-two consecutive frames for better visual effects, temporal
-interpolation can be applied to estimate an object's position and movement by 
-parametric curves that represent its trajectory in 3D as $(x(t), y(t), z(t))$,
-where each Cartesian coordinate in space is parameterized by time $t$. We refer
-readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
+Another application of function approximation is digital animation, in which
+successive image frames are produced to represent movements of objects over
+small discrete time intervals. To automatically insert additional frames between
+two consecutive frames for better visual effects, temporal interpolation can be
+applied to estimate an object's position and movement by parametric curves that
+represent its trajectory in 3D as $(x(t), y(t), z(t))$, where each Cartesian
+coordinate in space is parameterized by time $t$. We refer readers to Example~5
+in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 
 %% Example 3.2
 
-The following examples showcase the merits and drawbacks of our algorithms.  We compare them to the performance of MATLAB's built-in algorithms and the Chebfun toolbox.  
+The following examples showcase the merits and drawbacks of our algorithms. We
+compare them to the performance of MATLAB's built-in algorithms and the Chebfun
+toolbox.
 
 \begin{exmp}
-Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in terms of a Chebyshev
-polynomial basis, in principle to machine precision  ($\approx 10^{-15}$) by default.  In this example, we show that it fails to reach its intended error tolerance for the function~$f_3$ defined in Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}.  Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to $f_3$.  The blanks in the plot on the left and right correspond to zero error.   Chebfun was asked to estimate $f_3$ to an error of no more than $10^{-14}$, and the ``splitting'' option was turned on to allow Chebfun to  construct a piecewise polynomial interpolant if derivative discontinuities were detected.  Nonetheless, Chebfun produced errors greater than $10^{-5}$.
+Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
+terms of a Chebyshev polynomial basis, in principle to machine precision
+($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
+its intended error tolerance for the function~$f_3$ defined in
+Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}.
+Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to
+$f_3$. The blanks in the plot on the left and right correspond to zero error.
+Chebfun was asked to estimate $f_3$ to an error of no more than $10^{-14}$, and
+the ``splitting'' option was turned on to allow Chebfun to construct a piecewise
+polynomial interpolant if derivative discontinuities were detected. Nonetheless,
+Chebfun produced errors greater than $10^{-5}$.
 
-In contrast, the
-errors of the piecewise linear interpolant produced by \funappxg{} were uniformly below the specified error tolerance,
-$10^{-14}$. Unfortunately, the time taken by \funappxg{} to produce its answer about $60$ times as long as the time required by Chebfun.
+In contrast, the errors of the piecewise linear interpolant produced by
+\funappxg{} were uniformly below the specified error tolerance, $10^{-14}$.
+Unfortunately, the time taken by \funappxg{} to produce its answer about $60$
+times as long as the time required by Chebfun.
 
 %
 \begin{figure}[tb]
@@ -1072,9 +1393,9 @@ $10^{-14}$. Unfortunately, the time taken by \funappxg{} to produce its answer a
 \includegraphics[width=5.7cm]{figure/funappx_g_errors.eps}
 \\ a) & b)
 \end{tabular}
-\caption{The approximation errors for $f_3(x)$ using a)
-Chebfun and b) \funappxg. The blank regions of the graphs correspond to zero errors.  This figure is reproducible by
-\texttt{cf\_chebfun.m}. \label{f3chebfig}}
+\caption{The approximation errors for $f_3(x)$ using a) Chebfun and b)
+\funappxg. The blank regions of the graphs correspond to zero errors. This
+figure is reproducible by \texttt{cf\_chebfun.m}. \label{f3chebfig}}
 \end{figure}
 %
 
@@ -1111,15 +1432,16 @@ simulating the following families of test functions  in addition to $f_3$:
 % \\ f_4(x)&= \frac{c}{4}\exp(-2x)(c-2\exp(x)(-1 + c\cos(x) - c\sin(x)) \\
 %  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
 \end{align*}
-For $f_3$, we choose $\delta = 0.2$ and $c \sim \cu[0,0.6]$, and for $g_1$, and $g_2$ we choose and
-$d \sim \cu[0,2]$.  For $d=1$ we obtain  $g_i = f_i$ for
-$i=1$, and $2$.
-We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 1000$, $\fC
-(h) = 3 \fh/(\fh-h)$ , and $\abstol = 10^{-6}$.  Our new algorithm
-\texttt{funappx\_g}, our old globally adaptive algorithm \texttt{funappxglobal\_g}, and Chebfun are used to approximate $1000$ random test
-functions. We switch on the splitting
-feature in Chebfun to use piecewise Chebyshev polynomials for approximation if needed, and override the default tolerance to $10^{-6}$ as well. The approximation results are
-summarized in Figure~\ref{fig:testfunctions} and Table~\ref{tab:localVsGlobalVsChebfun}. 
+For $f_3$, we choose $\delta = 0.2$ and $c \sim \cu[0,0.6]$, and for $g_1$, and
+$g_2$ we choose and $d \sim \cu[0,2]$. For $d=1$ we obtain $g_i = f_i$ for
+$i=1$, and $2$. We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 1000$, $\fC (h) =
+3 \fh/(\fh-h)$ , and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g},
+our old globally adaptive algorithm \texttt{funappxglobal\_g}, and Chebfun are
+used to approximate $1000$ random test functions. We switch on the splitting
+feature in Chebfun to use piecewise Chebyshev polynomials for approximation if
+needed, and override the default tolerance to $10^{-6}$ as well. The
+approximation results are summarized in Figure~\ref{fig:testfunctions} and
+Table~\ref{tab:localVsGlobalVsChebfun}.
 
 %
 \begin{figure}[tb]
@@ -1129,7 +1451,11 @@ summarized in Figure~\ref{fig:testfunctions} and Table~\ref{tab:localVsGlobalVsC
 \includegraphics[width=80mm]{figure/traub_funappx_g_test.eps}
 %  \\ a)  & b)
 %  \end{tabular}
-\caption{The empirical distribution function of performance ratios based on 1000 replications:  \funappxg{} time $/$ \funappxglobalg{} time (blue), \funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),   \funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$ Chebfun \# of samples (green). This figure is conditionally reproducible by
+\caption{The empirical distribution function of performance ratios based on 1000
+replications: \funappxg{} time $/$ \funappxglobalg{} time (blue), \funappxg{} \#
+of samples $/$ \funappxglobalg{} \# of samples (orange), \funappxg{} time $/$
+Chebfun time (purple), \funappxg{} \# of samples $/$ Chebfun \# of samples
+(green). This figure is conditionally reproducible by
 \texttt{traubpaper\_funappx\_g\_test.m} in GAIL.}
   \label{fig:testfunctions}
 \end{figure}
@@ -1157,13 +1483,13 @@ This table can be conditionally reproduced by
 \end{table}
 %
 
-Both \funappxg{} and
-\funappxglobalg{} obtained the correct answer in all cases, even for  $g_1$, which is outside the cone $\cc$.  The new locally adpative algorithm uses fewer samples than the older globally adaptive algorithm.
-In contrast, Chebfun generally used substantially fewer number samples
-than \funappxg{} even though the run time was longer than \funappxg{} in
- a significant number of the cases; see Figure~\ref{fig:testfunctions}.
-However, it approximated satisfactorily only a few percent of the test
-functions.
+Both \funappxg{} and \funappxglobalg{} obtained the correct answer in all cases,
+even for $g_1$, which is outside the cone $\cc$. The new locally adpative
+algorithm uses fewer samples than the older globally adaptive algorithm. In
+contrast, Chebfun generally used substantially fewer number samples than
+\funappxg{} even though the run time was longer than \funappxg{} in a
+significant number of the cases; see Figure~\ref{fig:testfunctions}. However, it
+approximated satisfactorily only a few percent of the test functions.
 
 
 %
@@ -1206,12 +1532,13 @@ functions.
 
 We conducted similar simulation test run for comparing \funming, \fminbnd, and
 Chebfun's \texttt{min} and reported the results in
-Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\%
-success rates in every case with substantially less sampling points and run time than \funappxg.
-In contrast, \fminbnd{} could not locate the global
-minimum at the boundary point for about 70\% test functions from $g_1$, that is actually a known
-limitation of the method (see documentation of \fminbnd{} in MATLAB). Chebfun's
-{\tt min} performed better than its function approximation function but still failed in most of the cases.
+Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\% success
+rates in every case with substantially less sampling points and run time than
+\funappxg. In contrast, \fminbnd{} could not locate the global minimum at the
+boundary point for about 70\% test functions from $g_1$, that is actually a
+known limitation of the method (see documentation of \fminbnd{} in MATLAB).
+Chebfun's {\tt min} performed better than its function approximation function
+but still failed in most of the cases.
 
 \end{exmp}
 
@@ -1282,13 +1609,13 @@ capability to choose a suitable granularity of distinct data points $\{(x_i,
 f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
 user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
 
-We have implemented our algorithms in the MATLAB toolbox  
-GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
-guided by the latest theoretical developments of cones of functions and
-constructed according to our best knowledge of reproducible computational
-science research made reliable via good practices of MATLAB programming such as
-interfaces for input parsing, doc tests and unit tests, as well as code
-comments and searchable HTML user guide and documentation.
+We have implemented our algorithms in the MATLAB toolbox GAIL~\cite{ChoEtal15a}.
+As a side note, the package is under active development guided by the latest
+theoretical developments of cones of functions and constructed according to our
+best knowledge of reproducible computational science research made reliable via
+good practices of MATLAB programming such as interfaces for input parsing, doc
+tests and unit tests, as well as code comments and searchable HTML user guide
+and documentation.
 
 In the rest of this section, we would like to suggest some future work areas.
 
@@ -1313,29 +1640,30 @@ using radial basis functions~\cite{ZhoHic15a}---unfortunately, the associated
 error bounds are too restrictive in the sense that they are applicable only to
 tiny domains, and consequently have not made a practical impact.
 
-Our algorithms currently provide guaranteed accuracy based on  absolute error
-tolerance $\abstol$. The analysis could be extended to include \emph{relative} error
-tolerance $\varepsilon_r$, for example, $ \| f -\hat{f} \|_{\infty} \le \max{
-\{\varepsilon, \varepsilon_r \norm[\infty]{f} \} }.$ Even though
+Our algorithms currently provide guaranteed accuracy based on absolute error
+tolerance $\abstol$. The analysis could be extended to include \emph{relative}
+error tolerance $\varepsilon_r$, for example, $ \| f -\hat{f} \|_{\infty} \le
+\max{ \{\varepsilon, \varepsilon_r \norm[\infty]{f} \} }.$ Even though
 $\norm[\infty]{f}$ is unknown, it can be estimated at increasing accuracy from
 the data points iteratively.
 
 One may consider our global minimization algorithm an application of our
-function approximation method. Likewise, it is foreseeable that
-similarly robust and efficient algorithms such as root finding or
-numerical solutions of differential equations could be built upon our framework.
+function approximation method. Likewise, it is foreseeable that similarly robust
+and efficient algorithms such as root finding or numerical solutions of
+differential equations could be built upon our framework.
 
 
 \section*{Acknowledgements}
+
 We dedicate this article to the memory of our colleague Joseph F. Traub, who
 passed away on August 24, 2015. He was a polymath and an influential figure in
 computer science and applied mathematics. He was the founding Editor-in-Chief of
 the Journal of Complexity and we are grateful to his tremendous impact and life
 long services to our research community.
 
-We would like to thank our colleagues Greg Fasshauer and the GAIL team
-for valuable suggestions and comments. This research was supported in part by
-grant NSF-DMS-1522687.
+We would like to thank our colleagues Greg Fasshauer and the GAIL team for
+valuable suggestions and comments. This research was supported in part by grant
+NSF-DMS-1522687.
 
 
 
