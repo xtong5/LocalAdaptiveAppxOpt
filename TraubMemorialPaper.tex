@@ -543,7 +543,7 @@ Figure \ref{fig:sampling-funappxg} displays the function $-f_3$ defined in \eqre
 \centering
 %\hspace{-9ex}
 \includegraphics[width=80mm]{figure/sampling-funappxg.eps}
-\caption{The non-uniform sampling density of Algorithm $A$ for input function $-f_3$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$59$ points are used to meet the error tolerance of~$0.01$. This figure is reproducible by
+\caption{The non-uniform sampling density of Algorithm $A$ for input function $-f_3$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is reproducible by
 {\tt TraubMemorial.m} in GAIL.}
 \label{fig:sampling-funappxg}
 \end{figure}
@@ -703,7 +703,14 @@ The upper bound on the computational cost of Algorithm~$A$ provides an upper bou
 	\label{thm:A_cost}
 \end{theorem}
 
-Note by comparing  \eqref{lowbdChalf} and \eqref{lowbdWhalf} that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the upper bounds on the computational cost of Algorithm $A$ in \eqref{costbdapprox} and \eqref{costbdinf} are asymptotically the same as the corresponding lower bounds in \eqref{lowbdC}. However, if one requires $\sigma$ as an input, then one can easily construct an algorithm based on linear splines with equally spaced points and a computational cost that is asymptotically the same as lower bound in \eqref{lowbdWinf}.
+Note by comparing  \eqref{lowbdChalf} and \eqref{lowbdWhalf} that restricting the set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone $\cc$ can significantly affect the lower complexity bounds.  Also note that the conclusions of this theorem hold whether or not $\sigma$ is an input to the algorithm $A^*$.  For our algorithm $A$, $\sigma$ is \emph{not} an input.  If one requires $\sigma$ as an input, then one can easily construct an algorithm based on linear splines with equally spaced points and a computational cost that is asymptotically the same as lower bound in \eqref{lowbdWinf}.
+
+The upper bounds on the computational cost of Algorithm $A$  are asymptotically the same as the computational cost of the bet possible algorithm, $A^*$.  Comparing \eqref{costbdapprox} and \eqref{costbdinf} to \eqref{lowbdC}, we have the following:
+\begin{multline*}
+\frac{\displaystyle \sup_{f \in \cc : \norm[\frac 12]{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) } \approx
+\frac{\displaystyle \sup_{f \in \cc : \norm{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) } \\ \lessapprox \sqrt{\frac{2 \fC(0)(\fC(0)+1)}{\fC(0)-1}}.
+\end{multline*}
+The right hand side of this inequality does depend on how far $\fC(0)$ is above $1$, which is normally just a modest amount.  
 
 \begin{proof}
 	All of these lower bounds are proved by constructing fooling functions for which algorithm $A$ succeeds, and then showing that at least a certain number of samples must be used.  The proofs of lower bounds~\eqref{lowbdW} are simpler, so we start with them first.
@@ -757,34 +764,29 @@ Like before, we make the argument that $\gamma\tgamma$ must be no larger than $\
 & = \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_0,\abstol)}+ \norm{\gamma f_--A(f_0, \abstol)} \right] \\
 & \ge \frac{1}{2}  \norm{\gamma f_+ - \gamma f_-} =  \norm{\gamma \tgamma f_3} = \gamma \tgamma\\
 & = \begin{Bmatrix} \displaystyle
-\frac{\norm[\frac 12]{f_0''}}{(b-a)^2}, \\
-\norm{f_0''}
-\end{Bmatrix}  \cdot \frac{(\fC(0)-1)\delta^2}{\fC(0)+1} \\
+\frac{\norm[\frac 12]{\gamma f_0''}}{(b-a)^2}, \\
+\norm{\gamma f_0''}
+\end{Bmatrix}  \cdot \frac{\fC(0)-1}{\fC(0)+1} \delta^2\\
 & = \begin{Bmatrix} \displaystyle
-\norm[\frac 12]{f_0''}, \\
-(b-a)^2\norm{f_0''}
+\norm[\frac 12]{\gamma f_0''}, \\
+(b-a)^2\norm{\gamma f_0''}
 \end{Bmatrix}  \cdot \frac{\fC(0)-1}{16(\fC(0)+1)(n+1)^2}
 \end{align*}
-Substituting $\norm[\frac12]{f_0''} = \sigma$ in the top inequality and $\norm{f_0''} = \sigma$ in the bottom inequality, and then solving for $n$ yields the two bounds in~\eqref{lowbdC}.
+Substituting $\norm[\frac12]{\gamma f_0''} = \sigma$ in the top inequality and $\norm{\gamma f_0''} = \sigma$ in the bottom inequality, and then solving for $n$ yields the two bounds in~\eqref{lowbdC}.
 \end{proof}
 
-Comparing the approximate upper bounds on the computational cost of Algorithm $A$ in  \eqref{costbdapprox} and \eqref{costbdinf} to these lower bounds for the best possible algorithm, $A^*$, we find that they are asymptotically equivalent:
-\begin{multline*}
-\frac{\displaystyle \sup_{f \in \cc : \norm[\frac 12]{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) } \approx
-\frac{\displaystyle \sup_{f \in \cc : \norm{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) } \\ \lessapprox \sqrt{\frac{2 \fC(0)(\fC(0)+1)}{\fC(0)-1}}.
-\end{multline*}
-The right hand side of this inequality does depend on how far $\fC(0)$ is above $1$, but it does not depend on how small $\fh$ is.
+
 
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
 
 \subsection{Algorithm $M$}  \label{sec:minalgo}
 The minimization algorithm relies on the derivations in the previous sections.  The main departure from Algorithm $A$ is the stopping criterion.  It is not necessary to approximate $f$ accurately everywhere, only where $f$ has small values.
 
-At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that
+At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of $f$ observed so far.  This means that $\hM \ge M(f,\abstol)$.  Our goals is to show that at some stage,
 \[
 \min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
 \]
-Then we may return as our answer $M(f,\abstol) = \hM$.
+Then we may return the answer $M(f,\abstol) = \hM$.
 For any subinterval $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the linear spline
 in~\eqref{appxerrbdb} that
 \begin{equation} \label{minsubintbd}
@@ -797,13 +799,17 @@ If the right hand side of the above inequality is no less than $\hM - \abstol$, 
 In this case, it is not necessary to split $[x_{i-1}, x_i]$ to obtain a smaller error bound on the linear linear spline approximation for that subinterval.  However if the right hand side of \eqref{minsubintbd} is less than $\hM - \abstol$, then the subinterval $[x_{i-1}, x_i]$ should be split.  Also, the two subintervals to the immediate left and right of this subinterval are candidates to be split, since they affect $B_{i,\pm}$.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval, $[a,b]$,  fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}, and let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone of functions $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
+	For some finite interval, $[a,b]$,  and fixed integers $n_{\lo}$ and $n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in \eqref{nodefinition}.  Let  $\fC:[0,\fh[ \to [1, \infty[$ be and some non-decreasing inflation factor, that together with $\fh$ defines the cone $\cc$.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be
 	user inputs.  Let  $n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of  equally spaced points and the index set of subintervals for which the error tolerance
 	is not yet satisfied:
 	$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Compute $\hM= \minfi$ and the second-order divided differences, $f[x_{j-1},
-	x_{j}, x_{j+1}]$, for $j = \{1,2,\ldots,n-1\}$. Then do the
+	Compute $\hM= \minfi$ and he second-order divided differences, 
+	\[
+	f[x_{j-1},
+	x_{j}, x_{j+1}], \qquad  j= \{1,2,\ldots,n-1\}.
+	\]
+	Then do the
 	following:
 	
 	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
@@ -848,18 +854,18 @@ Let
 Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
-%\scnote{Example where computational cost of minimization is significantly less that approximation.}
+Figure \ref{fig:sampling-funming}  displays the same function $-f_3$ as in \ref{fig:sampling-funappxg}, but this time with the sampling points used for minimization.  It is found that $M(-f_3,0.01)$ uses only $31$ points, whereas  $A(-f_3,0.01)$ uses $59$ points.  This is because $-f_3$ does not need to be approximated accurately when its value is far from the minimum.
+
+
 \begin{figure}[tbh]
 \centering
-%\hspace{-9ex}
 \includegraphics[width=80mm]{figure/sampling-funming.eps}
-\caption{The same situation as in Figure~\ref{fig:sampling-funappxg}, but now with Algorithm $M$ using only ~$31$ non-uniform sampling points to obtain the minimum of $-f_3$ with the same
-tolerance. This figure is reproducible by {\tt TraubMemorial.m} in GAIL.}
+\caption{The same situation as in Figure~\ref{fig:sampling-funappxg}, but now with Algorithm $M$.  Again~$4$ iterations are used, but only~$31$ non-uniform sampling points are needed to obtain the minimum of $-f_3$. This figure is reproducible by {\tt TraubMemorial.m} in GAIL.}
 \label{fig:sampling-funming}
 \end{figure}
 
 \subsection{Computational Cost} \label{subsec:optcost}
-The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that subinterval are significantly larger than the minimum over $[a,b]$.
+The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a similar manner as that for Algorithm $A$.  Definitions \eqref{h0Ixletcdef} are again used, but this time the convergence criteria is different.  Analogous to $\ell(x)$ in Section \ref{subsec:appxcost}, let $\tell(x)$ be defined such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ that contains $x$ when the algorithm terminates. There are essentially two reasons that a subinterval $[x_{i-1},x_i]$ need not be split further.  One is the same as that for Algorithm $A$:  the function being minimized is approximated on $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$.  The second reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger than $\abstol$, the function values on that subinterval are significantly larger than the minimum of the function over $[a,b]$.
 
 Our definition of $\tL(x)$ reflects these two reasons.  Let $x^*$ be some place where the minimum of $f$ is obtained, i.e.,
 \[
@@ -876,7 +882,7 @@ where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
 + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\}.
 \end{multline}
 
-Note that $\chL(x)$ does not depend on $\abstol$.
+Note that $\chL(x)$ does not depend on $\abstol$, whereas $L(x)$ does.
 As is the case with $L(x)$, both $\chL(x)$ and $\tL(x)$  depend on $f$, although this dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
@@ -952,7 +958,7 @@ The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$ 
 
 \section{Numerical Examples} \label{sec:examples}
 
-We and our collaborators have developed the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This MATLAB software library implements algorithms that provide answers to univariate and multivariate integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
+Together with our collaborators, we have developed the Guaranteed Automatic Integration Library (GAIL) \cite{ChoEtal15a}.  This MATLAB software library implements algorithms that provide answers to univariate and multivariate integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by automatically determining the sampling needed to satisfy a user provided error tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL functions  \funappxg{} and \funming, respectively.  Here we demonstrate their performance.
 
 %% Example 1
 In computer graphics, three-dimensional objects can often be parameterized by
@@ -1033,7 +1039,7 @@ readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 
 %% Example 3.2
 
-The following example showcases the merits and demerits of our algorithm and an
+The following examples showcase the merits and drawbacks of our algorithm and an
 existing method for high-accuracy function approximation.
 
 \begin{exmp}
