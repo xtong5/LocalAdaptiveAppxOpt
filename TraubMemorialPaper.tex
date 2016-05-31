@@ -132,7 +132,22 @@
 
 
 \begin{abstract}
-Most commonly known \emph{adaptive} algorithms for function approximation and minimization lack theoretical guarantees.  Our new locally adaptive algorithms are guaranteed to provide approximants that satisfy a user-specified absolute error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space $\cw^{2,\infty}$.  Our algorithms automatically determine where to sample the function---sampling more densely where the second derivative is larger.  The computational cost of our algorithm for approximating a univariate function on a bounded interval with $L^{\infty}$-error not greater than $\abstol$ is essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the same order as that of the best function approximation algorithm for functions in $\cc$. The computational cost of our global minimization algorithm is no worse than that for function approximation and can be substantially smaller if the function significantly exceeds its minimum value over much of its domain.  Our  algorithms have been implemented in our Guaranteed Automatic Integration Library.  Numerical examples are presented to illustrate the performance of our algorithms.
+Most commonly known \emph{adaptive} algorithms for function approximation and
+minimization lack theoretical guarantees. Our new locally adaptive algorithms
+are guaranteed to provide approximants that satisfy a user-specified absolute
+error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space
+$\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
+function---sampling more densely where the second derivative is larger. The
+computational cost of our algorithm for approximating a univariate function on a
+bounded interval with $L^{\infty}$-error not greater than $\abstol$ is
+essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
+same order as that of the best function approximation algorithm for functions in
+$\cc$. The computational cost of our global minimization algorithm is no worse
+than that for function approximation and can be substantially smaller if the
+function significantly exceeds its minimum value over much of its domain. Our
+algorithms have been implemented in our Guaranteed Automatic Integration
+Library. Numerical examples are presented to illustrate the performance of our
+algorithms.
 \end{abstract}
 
 \begin{keyword}
@@ -1028,11 +1043,11 @@ image.
 \end{exmp}
 \end{comment}
 
-Yet another application of function approximation is found in digital animation,
+Another application of function approximation is digital animation,
 in which successive image frames are produced to represent movements of
-objects over small discrete time. To automatically insert additional frames between
+objects over small discrete time intervals. To automatically insert additional frames between
 two consecutive frames for better visual effects, temporal
-interpolation can be applied to estimate an object's positions by using
+interpolation can be applied to estimate an object's position and movement by 
 parametric curves that represent its trajectory in 3D as $(x(t), y(t), z(t))$,
 where each Cartesian coordinate in space is parameterized by time $t$. We refer
 readers to Example~5 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
@@ -1044,10 +1059,10 @@ existing method for high-accuracy function approximation.
 
 \begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox known for using Chebyshev
-polynomial basis for approximating given functions to the level of machine
+polynomial basis for approximating functions to the level of machine
 precision ($\approx 10^{-15}$) by default. In this example, we show that it is challenged
-by~$f_3$ defined in Section~\ref{sec:cone}. Around $x=0$ and $x=0.2$, some
-pointwise errors of the piecewise Chebyshev interpolant spiked to more than
+by~$f_3$ defined in Section~\ref{sec:cone}. Near $x=0$ and $x=0.2$, some
+pointwise errors of the piecewise Chebyshev interpolant spiked above
 $10^{-5}$ as shown in Figure~\ref{f3chebfig}a). Regrettably Chebfun did not issue
 any warning about the inaccurate representation in this case. In contrast, the
 errors of the piecewise linear interpolant from \funappxg{} were uniformly below
@@ -1058,8 +1073,8 @@ for such an accurate approximation.
 \begin{figure}[tb]
 \centering
 \begin{tabular}{cc}
-\includegraphics[width=5.8cm]{figure/chebfun_errors.eps} \hspace{-2.5ex} &
-\includegraphics[width=5.8cm]{figure/funappx_g_errors.eps}
+\includegraphics[width=5.7cm]{figure/chebfun_errors.eps} \hspace{-2.5ex} &
+\includegraphics[width=5.7cm]{figure/funappx_g_errors.eps}
 \\ a) & b)
 \end{tabular}
 \caption{Approximating $f_3(x)$ with errors of interpolants returned from a)
@@ -1275,7 +1290,7 @@ capability to choose a suitable granularity of distinct data points $\{(x_i,
 f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
 user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
 
-We have implemented our algorithms in a MATLAB toolbox we call
+We have implemented our algorithms in the MATLAB toolbox  
 GAIL~\cite{ChoEtal15a}. As a side note, the package is under active development
 guided by the latest theoretical developments of cones of functions and
 constructed according to our best knowledge of reproducible computational
