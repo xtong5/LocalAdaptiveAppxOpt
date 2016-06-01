@@ -282,7 +282,7 @@ Linear splines are the foundation for adaptive algorithms $A$ and $M$. The best
 linear spline function approximation error possible occurs for the Sobolev space
 of functions whose second derivatives have finite $L^{\infty}$-norm:
 \[
-\cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''} 
+\cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''}
                : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
 \]
 
@@ -638,7 +638,7 @@ $n=n_{\ninit}-1$, and define the partition of equally spaced points, $\cp =
 tolerance is not yet satisfied:
 $$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 \mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-Compute the second-order divided differences, 
+Compute the second-order divided differences,
 \[
 f[x_{j-1},
 x_{j}, x_{j+1}], \qquad  j= \{1,2,\ldots,n-1\}.
@@ -935,7 +935,7 @@ $1$, which is normally just a modest amount.
 	same approximation: $A^*(\pm \gamma f_3,\abstol) = A^*(0,\abstol)$. Moreover,
 	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_3,\abstol) = n$. Since the
 	approximations of $0, -f_3$, and $f_3$ are identical, this implies that $\gamma$
-	must be no greater than $\abstol$: 
+	must be no greater than $\abstol$:
 	\begin{align*}
 	\abstol  &\ge \max(\norm{\gamma f_3 - A^*(\gamma f_3,\abstol)}, \norm{-\gamma f_3 - A^*(-\gamma f_3,\abstol)}) \\
 	&= \max(\norm{\gamma f_3 - A^*(0,\abstol)}, \norm{-\gamma f_3 - A^*(0,\abstol)}) \\
@@ -965,7 +965,7 @@ $1$, which is normally just a modest amount.
 	\label{assumpfzero}
 	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} = (b -a)^2  \quad \norm{f_0''} = 1.
 	\end{equation}
-	Since $f''$ is constant, $f \in \cc$, and so $A^*$ successfully approximates
+	Since $f_0''$ is constant, $f_0 \in \cc$, and so $A^*$ successfully approximates
 	$\gamma f_0$ for any non-negative $\gamma$.
 	
 	Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le
@@ -1050,7 +1050,7 @@ since they affect $B_{i,\pm}$.
 	not yet satisfied:
 	$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
 	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Compute $\hM= \minfi$ and he second-order divided differences, 
+	Compute $\hM= \minfi$ and he second-order divided differences,
 	\[
 	f[x_{j-1},
 	x_{j}, x_{j+1}], \qquad  j= \{1,2,\ldots,n-1\}.
@@ -1236,7 +1236,7 @@ that $\tell(x) > \chL(x)$:
 For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which
 implies that the left hand side of this inequality is positive. However, the
 definition of $\chL(x)$ implies that the right hand side of this inequality is
-non-positive. This is a contradiction, so $\tell(x) \le \chL(x)$. 
+non-positive. This is a contradiction, so $\tell(x) \le \chL(x)$.
 \end{proof}
 
 If $f(x)$ is close to the minimum function value, $f(x^*)$, for $x$ in much of
@@ -1260,7 +1260,7 @@ manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$
 is and the smaller the computational cost of Algorithm $M$.
 
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}  
+\subsection{Lower Complexity Bound} \label{subsec:optcomp}
 
 The minimization problem \eqref{optprob} for functions in the whole Sobolev
 space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW}
@@ -1474,10 +1474,10 @@ This table can be conditionally reproduced by
 \setlength{\tabcolsep}{.3em} % set table width
 		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
 			Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
-			\\  functions &  \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }  & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } 
+			\\  functions &  \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }  & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }
 \\ \toprule
-          $f_3$   &&   2904  &&&   46439   &&&   116    &&&   0.0057   &&&     0.0115    &&&   0.0386 &&&    100   &&&  100   &&&  0  
-\\        $g_1$   &&   2864  &&&   26265   &&&    43    &&&   0.0080   &&&     0.0092    &&&   0.0083 &&&    100   &&&  100   &&&  3  
+          $f_3$   &&   2904  &&&   46439   &&&   116    &&&   0.0057   &&&     0.0115    &&&   0.0386 &&&    100   &&&  100   &&&  0
+\\        $g_1$   &&   2864  &&&   26265   &&&    43    &&&   0.0080   &&&     0.0092    &&&   0.0083 &&&    100   &&&  100   &&&  3
 \\        $g_2$   &&   6911  &&&   97106   &&&    22    &&&   0.0073   &&&     0.0174    &&&   0.0056 &&&    100   &&&  100    &&&  3  	
 \end{tabular}
 }
@@ -1518,14 +1518,14 @@ approximates the test functions satisfactorily.
 	\setlength{\tabcolsep}{.3em}
 		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
 			Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
-			\\  functions &  \multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &  \multicolumn{3}{c}{\texttt{min}}  
+			\\  functions &  \multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &  \multicolumn{3}{c}{\texttt{min}}
 		  &  \multicolumn{3}{c}{\funming}  &  \multicolumn{3}{c}{\fminbnd }  &  \multicolumn{3}{c}{\texttt{min} }  &  \multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} & \multicolumn{3}{c}{\texttt{min}}
 			\\ \toprule
-			$-f_3$   &&  274   &&&   8   &&&  116     &&&   0.0022   &&&   0.0010    &&& 0.0469  &&&   100   &&&  100   &&&  14 
-			\\ $\phantom{-}g_1$   && 230 &&&  22   &&&    43    &&& 0.0020  &&&    0.0012   &&&  0.0109 &&&    100   &&&   27   &&&  60 
-			\\ $\phantom{-}g_2$   &&  273 &&&   9   &&&   22    &&&  0.0022   &&&   0.0011    &&&  0.0063 &&&    100   &&& 100   &&&  35 
+			$-f_3$   &&  274   &&&   8   &&&  116     &&&   0.0022   &&&   0.0010    &&& 0.0469  &&&   100   &&&  100   &&&  14
+			\\ $\phantom{-}g_1$   && 230 &&&  22   &&&    43    &&& 0.0020  &&&    0.0012   &&&  0.0109 &&&    100   &&&   27   &&&  60
+			\\ $\phantom{-}g_2$   &&  273 &&&   9   &&&   22    &&&  0.0022   &&&   0.0011    &&&  0.0063 &&&    100   &&& 100   &&&  35
 		\end{tabular}
-				        
+				
 	}
 \end{table}
 %
@@ -1535,7 +1535,7 @@ Chebfun's \texttt{min}.  The results are summarized in
 Table~\ref{tab:funmingVsfminbndVsChebfun}. Our new \funming{} achieves 100\% success
 for all families of test functions with substantially less sampling points and run time than
 \funappxg. This is because \funming does not need to sample densely where the function is not close to its minimum value.  Although \fminbnd uses far fewer function values than \funming, it cannot locate the global minimum (at the
-left boundary) for about 70\% of the $g_1$ test cases.  
+left boundary) for about 70\% of the $g_1$ test cases.
 Chebfun's {\tt min} uses fewer points than \funming, but Chebfun is slower and less accurate than \funming for these test cases.
 
 \end{exmp}
@@ -1583,7 +1583,7 @@ unnecessary.
 \section{Discussion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Adaptive and automatic algorithms are popular because they require only a black-box function algorithm and an error tolerance.  
+Adaptive and automatic algorithms are popular because they require only a black-box function algorithm and an error tolerance.
 Such algorithms exist in a variety of software packages.  We have highlighted those found in MATLAB and in the Chebfun
 toolbox because they are some of the best.  However, as we have tried to show by numerical example, these algorithms may fail.  They may fail without warning.  And, even worse, there is no theory to provide necessary conditions for failure, or equivalently, sufficient conditions for success.  Thus, users must be careful
 in applying these and similar algorithms.
@@ -1593,7 +1593,7 @@ Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have 
 \begin{itemize}
 	\item The conditions defining the cone, $\cc$, have an intuitive explanation as requiring the second derivative to not change  drastically over a small interval.  This intuition can guide the user in setting the parameters defining the $\cc$, if so desired.
 	
-	\item Although the sup-norm and the $\frac 12$-quasi-norm of the second derivative may not be known a priori, the upper bounds on the computational cost in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that follow explain how these norms influence the time required by Algorithms $A$ and $M$.  These theorems also explain the advantage of local adaption over global adaption. 
+	\item Although the sup-norm and the $\frac 12$-quasi-norm of the second derivative may not be known a priori, the upper bounds on the computational cost in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that follow explain how these norms influence the time required by Algorithms $A$ and $M$.  These theorems also explain the advantage of local adaption over global adaption.
 	
 	\item The lower bound on the complexity of the function approximation problem in Theorem \ref{thm:A_cost}  demonstrates that our Algorithm $A$ is asymptotically optimal.
 \end{itemize}
