@@ -1280,9 +1280,10 @@ Integration Library (GAIL) \cite{ChoEtal15a}. This MATLAB software library
 implements algorithms that provide answers to univariate and multivariate
 integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by
 automatically determining the sampling needed to satisfy a user provided error
-tolerance. Algorithms $A$ and $M$ described here are implemented as GAIL
-functions \funappxg{} and \funming, respectively. Here we demonstrate their
-performance.
+tolerance. GAIL is under active development.  It implements our best adaptive algorithms and
+upholds the principles of reproducible and reliable computational science.  This includes input parsing extensive testing, code comments, a user guide, and case studies.
+Algorithms $A$ and $M$ described here are implemented as GAIL
+functions \funappxg{} and \funming, respectively.
 
 %% Example 1
 In computer graphics, three-dimensional objects can often be parameterized by
@@ -1414,7 +1415,7 @@ However, it is unnecessary.
 %% Example 2
 
 \begin{exmp}
-In this example, we want to compare our adaptive algorithms with Chebfun by
+In this example, we compare our locally and globally adaptive algorithms with Chebfun by
 simulating the following families of test functions  in addition to $f_3$:
 %
 \begin{align*}
@@ -1483,13 +1484,12 @@ This table can be conditionally reproduced by
 \end{table}
 %
 
-Both \funappxg{} and \funappxglobalg{} obtained the correct answer in all cases,
-even for $g_1$, which is outside the cone $\cc$. The new locally adpative
-algorithm uses fewer samples than the older globally adaptive algorithm. In
-contrast, Chebfun generally used substantially fewer number samples than
-\funappxg{} even though the run time was longer than \funappxg{} in a
-significant number of the cases; see Figure~\ref{fig:testfunctions}. However, it
-approximated satisfactorily only a few percent of the test functions.
+Both \funappxg{} and \funappxglobalg{} obtain the correct answer in all cases,
+even for $g_1$, which is outside the cone $\cc$. The new locally adapative
+algorithm uses fewer samples than the older globally adaptive algorithm. Because it is a higher order algorithm, Chebfun generally used substantially fewer number samples than
+\funappxg, but Chebfun's run time is longer than \funappxg for a
+significant proportion of the cases; see Figure~\ref{fig:testfunctions}. However, Chebfun only rarely
+approximates the test functions satisfactorily.
 
 
 %
@@ -1530,15 +1530,13 @@ approximated satisfactorily only a few percent of the test functions.
 \end{table}
 %
 
-We conducted similar simulation test run for comparing \funming, \fminbnd, and
-Chebfun's \texttt{min} and reported the results in
-Table~\ref{tab:funmingVsfminbndVsChebfun}. \funming{} achieved 100\% success
-rates in every case with substantially less sampling points and run time than
-\funappxg. In contrast, \fminbnd{} could not locate the global minimum at the
-boundary point for about 70\% test functions from $g_1$, that is actually a
-known limitation of the method (see documentation of \fminbnd{} in MATLAB).
-Chebfun's {\tt min} performed better than its function approximation function
-but still failed in most of the cases.
+Similar simulation tests have been run to compare \funming, \fminbnd, and
+Chebfun's \texttt{min}.  The results are summarized in
+Table~\ref{tab:funmingVsfminbndVsChebfun}. Our new \funming{} achieves 100\% success
+for all families of test functions with substantially less sampling points and run time than
+\funappxg. This is because \funming does not need to sample densely where the function is not close to its minimum value.  Although \fminbnd uses far fewer function values than \funming, it cannot locate the global minimum (at the
+left boundary) for about 70\% of the $g_1$ test cases.  
+Chebfun's {\tt min} uses fewer points than \funming, but Chebfun is slower and less accurate than \funming for these test cases.
 
 \end{exmp}
 
@@ -1585,75 +1583,39 @@ unnecessary.
 \section{Discussion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Software packages such as Chebfun and MATLAB's functions including
-\texttt{interp1}, \texttt{griddedInterpolant}, and \texttt{fminbnd} are some of
-the most popular and useful function interpolation and minimization methods.
-However, we can not overemphasize how important it is for users to be vigilant
-in applying these and other similar tools, which often do not inform or warn
-users of whether the approximants may fail to meet the user's required accuracy.
-The reasons may range from an absence of rigorous theoretical frameworks for
-error estimation---for example, no method in MATLAB's Global Optimization
-Toolbox provides any certification of global solutions---to understandable
-challenges in efficient implementation.
+Adaptive and automatic algorithms are popular because they require only a black-box function algorithm and an error tolerance.  
+Such algorithms exist in a variety of software packages.  We have highlighted those found in MATLAB and in the Chebfun
+toolbox because they are some of the best.  However, as we have tried to show by numerical example, these algorithms may fail.  They may fail without warning.  And, even worse, there is no theory to provide necessary conditions for failure, or equivalently, sufficient conditions for success.  Thus, users must be careful
+in applying these and similar algorithms.
 
-Generally speaking, function approximation and minimization methods are not
-necessarily precise enough unless a sufficiently large number of sampling points
-is used. This article is an effort to provide a unifying framework covering
-iterative adaptive data sampling of a given smooth and not too spiky
-function~$f$, construction of an accurate interpolant $\hat{f}$, and an
-estimation of the resultant maximum error bound. Our locally adaptive strategy
-is to sample $f$ more frequently in subintervals where (an upper bound of) $f''$
-is large in magnitude and when the maximum error bound over the subintervals are
-not meeting user-required tolerance. Hence a novelty of our algorithms is its
-capability to choose a suitable granularity of distinct data points $\{(x_i,
-f(x_i))\}_{i=1}^n$ in order to warrant that the interpolation error satisfies
-user-given tolerance, that is $\| f - \hat{f} \| \le \abstol$.
+Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have sufficient conditions for success.  Although, it may normally be impossible to verify those conditions in practice, the theory behind these algorithms provide several advantages:
 
-We have implemented our algorithms in the MATLAB toolbox GAIL~\cite{ChoEtal15a}.
-As a side note, the package is under active development guided by the latest
-theoretical developments of cones of functions and constructed according to our
-best knowledge of reproducible computational science research made reliable via
-good practices of MATLAB programming such as interfaces for input parsing, doc
-tests and unit tests, as well as code comments and searchable HTML user guide
-and documentation.
+\begin{itemize}
+	\item The conditions defining the cone, $\cc$, have an intuitive explanation as requiring the second derivative to not change  drastically over a small interval.  This intuition can guide the user in setting the parameters defining the $\cc$, if so desired.
+	
+	\item Although the sup-norm and the $\frac 12$-quasi-norm of the second derivative may not be known a priori, the upper bounds on the computational cost in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that follow explain how these norms influence the time required by Algorithms $A$ and $M$.  These theorems also explain the advantage of local adaption over global adaption. 
+	
+	\item The lower bound on the complexity of the function approximation problem in Theorem \ref{thm:A_cost}  demonstrates that our Algorithm $A$ is asymptotically optimal.
+\end{itemize}
 
-In the rest of this section, we would like to suggest some future work areas.
+The definition of a cone of not-too-spiky functions is key to the development of theoretically justified adaptive algorithms.  Approximating all functions in $W^{2,\infty}$ is an impractical task.  It can be done if bounds on the sup-norm of the second derivatives are provided, but this is possible for only the simplest functions.  Thus, we would urge the numerical analysis and information-based complexity community to turn their attention to problems defined for cones, not balls, of input functions, where the cones are constructed to facilitate data-based error bounds.
 
-Our approach is not necessarily fast for all functions $f$ or in high precision
-setting as we are simply using linear splines. However, it is embarrassingly
-easy to parallelize our algorithms by using MATLAB's Parallel Computing Toolbox
-on a modern multicore machine and applying our methods to each subinterval in a
-contiguous partition of the domain followed by some simple post processing.
+As was mentioned in the introduction, there are theorems providing sufficient conditions under which adaption provides no advantage.  Our setting fails to satisfy those conditions because $\cc$ is not convex.  One may average two mildly spiky functions in $\cc$---whose spikes have opposite signs and partially overlap---to obtain a very spiky function outside $\cc$.
 
-Our linear interpolants are not smooth and may require a sizable number of data
-points for tiny tolerance or spiky functions. For future work, better choices of
-basis functions for coming up with a function approximant are important for
-enhancing smoothness and data efficiency. Cubic splines, radial basis functions,
-and Chebyshev polynomials are some potential promising candidates.
+We note that the cone, $\cc$, employed here differs from the cones used in our earlier work, \cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}.  Our earlier algorithms assume that $\norm{f''} \le \tau\norm{f'}$, either globally or on a subinterval, and the minimum horizontal scale of functions that these earlier algorithms can accommodate is  essentially $1/\tau$.  Moreover, the computational costs of our earlier adaptive algorithms are proportional to $\tau$.  Making our earlier algorithms more robust by increasing $\tau$ necessitates a substantial increase in computational cost.
 
-We can also consider developing guaranteed adaptive algorithms for high
-dimensional functional approximation and optimization. For $d=2$, we can
-construct a triangular or rectangular mesh, and refine the mesh until we reach
-given error tolerance. More generally, some relevant ideas are contained in the
-recent work of Zhou and Hickernell for multidimensional-function approximation
-using radial basis functions~\cite{ZhoHic15a}---unfortunately, the associated
-error bounds are too restrictive in the sense that they are applicable only to
-tiny domains, and consequently have not made a practical impact.
+In the present setting, the minimum horizontal scale of functions in $\cc$ is $\fh$.  The computational cost of our algorithms is at least $\Order(1/\fh)$, but this is not a multiplicative factor.  Decreasing $\fh$ to make our new algorithms more robust just increases the minimum number of sample points and may increase the computational cost mildly through the definition of $\fC$.
 
-Our algorithms currently provide guaranteed accuracy based on absolute error
-tolerance $\abstol$. The analysis could be extended to include \emph{relative}
-error tolerance $\varepsilon_r$, e.g., $ \| f -\hat{f} \|_{\infty} \le
-\max{ \{\varepsilon, \varepsilon_r \norm[\infty]{f} \} }.$ Even though
-$\norm[\infty]{f}$ is unknown, it can be estimated at increasing accuracy from
-the data points iteratively.
+We were surprised that the cost of $A(f,\abstol)$ is $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$.  We are unaware of similar results where the computational cost depends on a \emph{quasi-norm} of a derivative of the input function.  We  conjecture that there are higher order univariate function approximation algorithms where the cost is $\Order\Bigl(\sqrt{\norm[\frac1r]{f^{(r)}}/\abstol}\Bigr)$ for $r = 3, 4, \ldots$.
 
-One may consider our global minimization algorithm an application of our
-function approximation method. Likewise, it is foreseeable that similarly robust
-and efficient algorithms such as root finding or numerical solutions of
-differential equations could be built upon our framework.
+We recognize that our algorithms do not take advantage of higher orders of smoothness that the input function may have.  We envision the present work as a stepping stone to developing higher order algorithms.  Piecewise interpolants with higher degrees of smoothness or high degree polynomials, such as those used in Chebfun, are potential candidates.
+
+Our algorithms currently provide guaranteed accuracy based on an absolute error
+tolerance $\abstol$. The analysis could be extended to include a \emph{relative}
+error tolerance $\varepsilon_r$.  This would replace $\abstol$ in the right hand side of \eqref{appxprob} with $\max (\varepsilon, \varepsilon_r \norm[\infty]{f})$ where $\norm[\infty]{f}$ is unknown a priori.  One might also consider an error criterion involving a relative error tolerance that is applied pointwise for every $x$ in $[a,b]$.  For the function minimization problem one might want an error criterion that involved the accuracy in knowing where the minimum function value was obtained.
 
 
-\section*{Acknowledgements}
+\section*{Acknowledgments}
 
 We dedicate this article to the memory of our colleague Joseph F. Traub, who
 passed away on August 24, 2015. He was a polymath and an influential figure in
