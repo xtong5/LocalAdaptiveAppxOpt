@@ -923,7 +923,7 @@ $1$, which is normally just a modest amount.
 	Let $A^*$ be a successful algorithm for all $f \in \cw^{2,\infty}$, and consider
 	the partition $\{x_i\}_{i=0}^{n+1}$, where $\{x_i\}_{i=1}^n$ are the data sites
 	used to compute $A^*(0,\abstol)$. Choose any $j=1, \ldots, n+1$ with
-	$x_j-x_{j-1} \le (b-a)/(n+1)$. Let $f_3$ be defined as in~\eqref{f3def} with $c
+	$x_j-x_{j-1} \ge (b-a)/(n+1)$. Let $f_3$ be defined as in~\eqref{f3def} with $c
 	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. Note that in general
 	\begin{equation}
 	\norm{f_3''} = \frac{1}{\delta^{2}}, \qquad \norm[\frac 12]{f_3''} = 16.
@@ -971,7 +971,7 @@ $1$, which is normally just a modest amount.
 	Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le
 	x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute
 	$A^*(\gamma f_0,\abstol)$. Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
-	\le (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c =
+	\ge (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c =
 	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
 	functions:
 	\begin{gather*}
