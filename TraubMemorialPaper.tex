@@ -794,7 +794,7 @@ I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}[$ for $i=1, \ldots, n$. Furthermore
 $\int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif x = h_0$. Then the number of
 function values required is
 \begin{equation*}
-n+1 = 1 + \sum_{i=0}^{n-1} 1 = 1 + \sum_{i=0}^{n-1} \frac{1}{h_0} \int_{x_i}^{x_{i+1}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
+n+1 = 1 + \sum_{i=1}^{n} 1 = 1 + \sum_{i=1}^{n} \frac{1}{h_0} \int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
 \end{equation*}
 Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
 The formula for $2^{L(x)}$ follows from the definition of $L(x)$
