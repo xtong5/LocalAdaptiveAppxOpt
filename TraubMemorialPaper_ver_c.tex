@@ -299,26 +299,6 @@ in Section~\ref{sec:conedef}.
 \subsection{Newton's Divided Differences} \label{sec:ndd}
 %--------------------------------------------------
 
-Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x
-\in [a,b]$. Thus, we define $f''(x)$ as an interval-valued function:
-\begin{gather*}
-f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
- f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b],
-\end{gather*}
-where $]\alpha, \beta[$ denotes the open interval $\{x:\alpha<x<\beta\}$. We
-define a measure of how small $\abs{f''(x)}$ can be for $x \in ]\alpha, \beta[$
-as follows: \begin{equation} \label{minfppdef}
-m(f,\alpha, \beta) = \inf \abs{f''(]\alpha, \beta[)}.
-\end{equation}
-It follows from this definition that
-\begin{equation} \label{mdec}
-m(f,\alpha,\beta) \le m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
-\end{equation}
-
-We cannot determine $f''(x)$ for a specific $x$ based only on the values of $f$.
-However, we can use values of $f$ to provide an upper bound on $m(f,\alpha,
-\beta)$ via Newton divided differences.
-
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{x_1, x_2, x_3\}$, which may be written as
 \begin{equation*}
@@ -339,17 +319,39 @@ that $ 2f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
 x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous second
 derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful
 result---by definition~\eqref{minfppdef}:
+\[
+2\bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)}
+\]
+
+%Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x
+%\in [a,b]$. Thus, we define $f''(x)$ as an interval-valued function:
+%\begin{gather*}
+%f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
+% f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b],
+%\end{gather*}
+%where $]\alpha, \beta[$ denotes the open interval $\{x:\alpha<x<\beta\}$.
+As $f \in \cw^{2,\infty}$, we have $f'$ is Lipcshitz continuous. Thus, we define $\norm[{[\alpha,\beta]}]{f''}$ by Newton divided difference of $f'$ as
+\[\norm[{[\alpha,\beta]}]{f''}=\sup\limits_{\alpha \le x < y \le \beta}\abs{f'[x,y]}
+\]
+We also can define a measure of how small $\norm[{[\alpha,\beta]}]{f''}$ can be
+as follows: \begin{equation} \label{minfppdef}
+m(f',\alpha, \beta) = \inf\limits_{\alpha \le x < y <\beta}\abs{f'[x,y]}
+\end{equation}
+It follows from this definition that
+\begin{equation} \label{mdec}
+m(f,\alpha,\beta) \le m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
+\end{equation}
+Thus, we know
 \begin{multline*}
-2\bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)} \\
-= \abs{\int_{\xi_-}^{\xi_+} f''(x) \, \dif x} \\
-\begin{cases}
+\abs{f'(\xi_+) - f'(\xi_-)} \begin{cases}
 \le \norm[{[\xi_-,\xi_+]}]{f''}(\xi_+  - \xi_-) \le \norm[{[x_1,x_3]}]{f''}(\xi_+  - \xi_-) \\
 \ge m(f,\xi_-, \xi_+) (\xi_+  - \xi_-)  \ge m(f,x_1, x_3) (\xi_+  - \xi_-) .
 \end{cases}
 \end{multline*}
+
 So the data-based second-order divided difference provides a lower and upper bound on how small or large $\abs{f''}$ can be  in the interval $]x_1, x_3[$:
 \begin{equation} \label{NDDbdm}
-m(f,x_1, x_3) \le 2\bigabs{f[x_1, x_2, x_3]} \le \norm[{[x_1,x_3]}]{f''}.
+m(f',x_1, x_3) \le 2\bigabs{f[x_1, x_2, x_3]} \le \norm[{[x_1,x_3]}]{f''}.
 \end{equation}
 
 %--------------------------------------------------
@@ -364,17 +366,16 @@ functions whose second derivatives do not change much in magnitude over a short
 distance. Thus, these functions are \emph{not too spiky}. Specifically,
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
- f  \in    \cw^{2,\infty}:   \max\abs{f''(x)}  \le \tB(f,x,h_-,h_+)  \text{ for all } x \in [a,b],
+ f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le \tB(f,\alpha,\beta,h_-,h_+)  \text{ for all } [\alpha,\beta] \subset [a,b],
 \\ \text{with }  \max(h_{\pm}) \in ]0, \fh[  \Bigr \},
 \end{multline}
-where the pointwise upper bound, $\tB(f,x,h_-,h_+)$, is defined in terms of
-$x_{\pm} =x \pm h_{\pm}$ as follows:
+where $\tB(f,\alpha,\beta,h_-,h_+)$, is defined as follows:
 \begin{multline*}
 \tB(f,x,h_-,h_+)=\\
 \begin{cases}
-  \max\bigl(\fC(h_{-}) m(f,x_-,x),\fC(h_{+}) m(f,x,x_+)\bigr), & a \le x_- \le x_+ \le b,\\
-\fC(h_{-}) m(f,x_-,x), & a \le x_- \le b <  x_+,\\
-\fC(h_{+}) m(f,x,x_+), & x_- < a \le x_+ \le b.
+  \max\bigl(\fC(h_{-}) m(f,\alpha-h_-,\alpha),\fC(h_{+}) m(f,\beta,\beta+ h_+)\bigr), & a + h_- \le \alpha  \le \beta \le b-h_+,\\
+\fC(h_{-}) m(f,\alpha-h_-,\alpha), & a + h_- \le \alpha  \le b-h_+ <\beta,\\
+\fC(h_{+}) m(f,\beta,\beta+ h_+), & \alpha  < a + h_- \le \beta \le b-h_+.
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
@@ -396,6 +397,7 @@ definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\max
 in their second derivatives, provided that these discontinuities do not occur
 too close to each other or too close to the ends of the interval.
 
+\yuhannote{As we redefine the cone, maybe we need to change the examples}
 We provide examples of functions lying outside $\cc$ and similar functions lying
 inside $\cc$. Consider the following two functions defined on $[-1,1]$ whose
 second derivatives oscillate wildly near $0$:
@@ -541,25 +543,25 @@ difference and the second derivative in~\eqref{NDDbdm}.
 
 Now assume that the points in the partition are not too far apart, namely
 \begin{equation} \label{widthrestrict}
-x_{i+2} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-2.
+x_{i+1} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-1.
 \end{equation}
-For all $ x \in [x_{i-1},x_i]$,  denote
+For the interval $ [x_{i-1},x_i]$,  denote
 \begin{align*}
-&h_- = x - x_{i-3}, \qquad x_- = x_{i-3},  \qquad i=3,4,\ldots,n,\\
- &h_+ = x_{i+2} - x, \qquad x_+ =  x_{i+2}, \qquad i=1,2,\ldots,n-2.
+&h_- = x_{i-1} - x_{i-3}, \qquad i=3,4,\ldots,n,\\
+ &h_+ = x_{i+2} - x_i, \qquad i=1,2,\ldots,n-2.
 \end{align*}
 Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and
 define the following data based quantities.
 \begin{subequations} \label{bpdef}
 \begin{align}\label{bpf}
-B_{i+}(f,\cp)&:=\begin{cases}
-2\fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
+B_{i,+}(f,\cp)&:=\begin{cases}
+2\fC(x_{i+2}-x_{i})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
 \\ 0, & i=n-1,n.
 \end{cases} \\
 \label{bmf}
-B_{i-}(f,\cp)&: =\begin{cases}
+B_{i,-}(f,\cp)&: =\begin{cases}
 0,  & i=1,2,
-\\ 2\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
+\\ 2\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
 \end{cases} \\
 \nonumber
 B_i(f,\cp) & : = \max\bigl(B_{i,\pm}(f,\cp) \bigr).
@@ -572,24 +574,19 @@ namely,
 \end{equation}
 
 First, we consider the case of an interior subinterval, i.e., $i \in \{3,
-\ldots, n-2\}$. The definition of the cone implies that
-\begin{equation*}
-\abs{f''(x)} \le \max\bigl(\fC(h_-)m(f,x_{i-3},x),\fC(h_+)m(f,x,x_{i+2})\bigr)  \quad  \forall x \in [x_{i-1},x_i].
-\end{equation*}
-Applying the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that
+\ldots, n-2\}$.
+Applying the cone condition and the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that
 relates the second derivative to the divided differences, and
 inequality~\eqref{widthrestrict} that ensures that the points in the partition
 are not too far apart yields
 \begin{align*}
 \nonumber
 \MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
-\nonumber
- \le  & \sup_{x_{i-1} \le x \le x_i} \max\bigl(\fC(x-x_{i-3})m(f,x_{i-3},x),\fC(x_{i+2}-x)m(f,x,x_{i+2})\bigr)  \\
  %\nonumber & \qquad \qquad \times \max\bigl(m(f,x_{i-3},x),m(f,x,x_{i+2})\bigr] \\
 \nonumber
- \le  &  \max\bigl(\fC(x_{i}-x_{i-3})m(f,x_{i-3},x_{i-1}),\fC(x_{i+2}-x_{i-1})m(f,x_i,x_{i+2})\bigr) \\
-\nonumber  \le & 2\max\bigl(\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}]},\bigr.
- \fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
+ \le  &  \max\bigl(\fC(x_{i-1}-x_{i-3})m(f,x_{i-3},x_{i-1}),\fC(x_{i+2}-x_{i})m(f,x_i,x_{i+2})\bigr) \\
+\nonumber  \le & 2\max\bigl(\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}]},\bigr.
+ \fC(x_{i+2}-x_{i})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
  =  & \max\bigl(B_{i,\pm}(f,\cp)\bigr) = B_i(f,\cp).
 \end{align*}
 A similar argument applies for the subintervals on the left and right borders of
@@ -615,25 +612,21 @@ this error bound smaller than the desired tolerance.
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
 
 Instead of defining the cone in terms of $\fh$ directly, we choose an initial
-number of points, $n_{\ninit}$, depending on the width of $[a,b]$ and two
-positive integers, $n_{\lo}$ and $n_{\text{hi}}$:
+number of points, $n_{\ninit}$:
 \begin{equation}
 \label{nodefinition}
-5 \le n_{\lo} \le n_{\text{hi}}, \qquad n_{\ninit} = \left\lceil n_{\text{hi}}
-\left(\frac{n_{\lo}}{n_{\text{hi}}}\right)^{\frac{1}{1+b-a}}\right\rceil,  \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2}.
+ n_{\ninit} \ge 5  \qquad \fh := \frac{2(b-a)}{n_{\ninit}-2}.
 \end{equation}
 Then, $n_{\ninit}$ becomes the initial number of points used by our algorithm,
 which is a more intuitive notion than $\fh$. By the same token $n_{\ninit} -1$
-is the initial number of subintervals used by the algorithm. The parameters
-$n_{\lo}$ and $n_{\text{hi}}$ allow $n_{\ninit}$ to depend on the width of the
-interval $[a,b]$. A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a
+is the initial number of subintervals used by the algorithm. A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a
 more robust algorithm. By the arguments of the previous section, the following
 algorithm solves function approximation problem~\eqref{appxprob}.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval $[a,b]$, fixed integers $n_{\lo}$ and $n_{\text{hi}}$
-that satisfy~\eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be defined as in
-\eqref{nodefinition}. Let $\fC:[0,\fh[ \to [1, \infty[$ be and some
+For some finite interval $[a,b]$, fixed the integer $n_{\ninit}$
+that satisfy~\eqref{nodefinition}, let $\fh$ be defined as in
+\eqref{nodefinition}. Let $\fC:[0,\fh[ \to [1, \infty[$ be some
 non-decreasing inflation factor, that together with $\fh$ defines the cone
 $\cc$. Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
 $n=n_{\ninit}-1$, and define the partition of equally spaced points, $\cp =
@@ -709,7 +702,7 @@ algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of subintervals,
 and
 \begin{subequations} \label{h0Ixletcdef}
  \begin{equation} \label{h0def}
- h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
+ h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{2(b-a)+\fh}
 \end{equation}
 be the initial width of the subintervals. Fix $x \in [a,b[$. To facilitate our
 derivation of the computational cost of $A$, we introduce the notation $\Ixl$,
@@ -728,7 +721,7 @@ width:
 \end{subequations}
 with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
-L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
+L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(2\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
 Note that $L(x)$ does depend on $f$, although this dependence is suppressed in
 the notation.
@@ -748,7 +741,7 @@ Referring to Step~\ref{stage2} of Algorithm $A$, it is necessary that $i \in
 $-$, and for some $k \in \{0,1,2\}$, $j = i - sk \in \ci_s$. The crux of the
 proof is to demonstrate that
 \begin{equation} \label{Blenorm}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(2h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
 We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that
 \begin{equation} \label{conditionone}
@@ -760,15 +753,15 @@ In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of
   B_{j,+}(f,\cp)
   & = 2\fC(x_{j+2}-x_{j-1}) \abs{f[x_{j},x_{j+1},x_{j+2}]} \qquad \text{by}~\eqref{bpdef} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-  &\le  \fC\left(3\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{NDDbdm}~\text{and}~\eqref{conditionone} \\
-  & \le   \fC\left(3\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
+  &\le  \fC\left(2\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{NDDbdm}~\text{and}~\eqref{conditionone} \\
+  & \le   \fC\left(2\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
   \end{align*}
 This completes the proof of \eqref{Blenorm}.
 
 Now we use inequality \eqref{Blenorm} to show a contradiction:
  \begin{align*}
  \abstol & <  \frac{B_{j,s}(f,\cp)}{8}(x_j-x_{j-1})^2 \qquad \text{since}~j \in \ci_s\\
- & \le   \frac 1 8 \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
+ & \le   \frac 1 8 \fC\left(2h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
  & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
  \end{align*}
 Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows
@@ -786,7 +779,7 @@ so has the following upper bound:
 \end{equation*}
 where $L(x)$ is defined in~\eqref{eqn:defoflx} and
 \begin{equation*}
-2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
+2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(2\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
 \end{equation*}
 \end{theorem}
 
@@ -807,7 +800,7 @@ in~\eqref{eqn:defoflx}.
 The definition of $L(x)$ in~\eqref{eqn:defoflx} is implicit because $l$ in the
 definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$. For small $\abstol$,
 $L(x)$ becomes large, $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and
-$3\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, we have
+$2\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, we have
 \begin{equation} \label{twoLxapprox}
  2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.
  \end{equation}
@@ -980,7 +973,7 @@ $1$, which is normally just a modest amount.
 	\begin{gather*}
 	f_{\pm} = f_0 \pm \tgamma f_3, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
 	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
-	m(f''_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
+	m(f'_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
 	\end{gather*}
 	The above calculations show that $\gamma f_{\pm} \in \cc$ as well for all real
 	$\gamma$. Moreover, the definition of $f_{\pm}$ ensures that $A^*(\gamma f_0) =
