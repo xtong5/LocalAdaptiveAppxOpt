@@ -1281,6 +1281,7 @@ upholds the principles of reproducible and reliable computational science.  This
 Algorithms $A$ and $M$ described here are implemented as GAIL
 functions \funappxg{} and \funming, respectively.
 
+\begin{comment}
 %% Example 1
 In computer graphics, three-dimensional objects can often be parameterized by
 functions. Moreover, interpolation at low to medium accuracy is often be
@@ -1290,7 +1291,7 @@ and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{}
 to interpolate the surface of a seashell, resulting in a sufficiently accurate
 reconstruction in~$\mathbb{R}^3$.
 
-\begin{comment}
+
 \begin{figure}[tbh]
   \centering
   \begin{tabular}{cc}
@@ -1347,7 +1348,7 @@ Figure~\ref{fig:funappxseashell}b). The reconstructed surface in
 Figure~\ref{fig:funappxseashell}a) is very similar to the original seashell
 image.
 \end{exmp}
-\end{comment}
+
 
 Another application of function approximation is digital animation, in which
 successive image frames are produced to represent movements of objects over
@@ -1359,6 +1360,7 @@ coordinate in space is parameterized by time $t$. We refer readers to Example~5
 in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 
 %% Example 3.2
+\end{comment}
 
 The following examples showcase the merits and drawbacks of our algorithms. We
 compare them to the performance of MATLAB's built-in algorithms and the Chebfun
@@ -1377,7 +1379,7 @@ the ``splitting'' option was turned on to allow Chebfun to construct a piecewise
 polynomial interpolant if derivative discontinuities were detected. Nonetheless,
 Chebfun produced errors greater than $10^{-5}$.
 
-In contrast, the errors of the piecewise linear interpolant produced by
+In contrast, the pointwise errors of the piecewise linear interpolant produced by
 \funappxg{} were uniformly below the specified error tolerance, $10^{-14}$.
 Unfortunately, the time taken by \funappxg{} to produce its answer about $60$
 times as long as the time required by Chebfun.
