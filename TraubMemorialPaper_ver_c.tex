@@ -373,9 +373,9 @@ where $\tB(f,\alpha,\beta,h_-,h_+)$, is defined as follows:
 \begin{multline*}
 \tB(f,x,h_-,h_+)=\\
 \begin{cases}
-  \max\bigl(\fC(h_{-}) m(f,\alpha-h_-,\alpha),\fC(h_{+}) m(f,\beta,\beta+ h_+)\bigr), & a + h_- \le \alpha  \le \beta \le b-h_+,\\
-\fC(h_{-}) m(f,\alpha-h_-,\alpha), & a + h_- \le \alpha  \le b-h_+ <\beta,\\
-\fC(h_{+}) m(f,\beta,\beta+ h_+), & \alpha  < a + h_- \le \beta \le b-h_+.
+  \max\bigl(\fC(h_{-}) m(f,\beta-h_-,\beta),\fC(h_{+}) m(f,\alpha,\alpha+ h_+)\bigr), & a \le \beta- h_- < \alpha + h_+ \le b,\\
+\fC(h_{-}) m(f,\beta-h_-,\beta), & a \le \beta- h_-  < b< \alpha + h_+ ,\\
+\fC(h_{+}) m(f,\alpha,\alpha+ h_+), &\beta- h_- <  a < \alpha + h_+ \le b.
 \end{cases} %\quad
  %\Vastr
 \end{multline*}
@@ -543,25 +543,25 @@ difference and the second derivative in~\eqref{NDDbdm}.
 
 Now assume that the points in the partition are not too far apart, namely
 \begin{equation} \label{widthrestrict}
-x_{i+1} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-1.
+x_{i+2} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-2.
 \end{equation}
 For the interval $ [x_{i-1},x_i]$,  denote
 \begin{align*}
-&h_- = x_{i-1} - x_{i-3}, \qquad i=3,4,\ldots,n,\\
- &h_+ = x_{i+2} - x_i, \qquad i=1,2,\ldots,n-2.
+&h_- = x_{i} - x_{i-3}, \qquad i=3,4,\ldots,n,\\
+ &h_+ = x_{i+2} - x_{i-1}, \qquad i=1,2,\ldots,n-2.
 \end{align*}
 Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and
 define the following data based quantities.
 \begin{subequations} \label{bpdef}
 \begin{align}\label{bpf}
 B_{i,+}(f,\cp)&:=\begin{cases}
-2\fC(x_{i+2}-x_{i})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
+2\fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
 \\ 0, & i=n-1,n.
 \end{cases} \\
 \label{bmf}
 B_{i,-}(f,\cp)&: =\begin{cases}
 0,  & i=1,2,
-\\ 2\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
+\\ 2\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
 \end{cases} \\
 \nonumber
 B_i(f,\cp) & : = \max\bigl(B_{i,\pm}(f,\cp) \bigr).
@@ -615,7 +615,7 @@ Instead of defining the cone in terms of $\fh$ directly, we choose an initial
 number of points, $n_{\ninit}$:
 \begin{equation}
 \label{nodefinition}
- n_{\ninit} \ge 5  \qquad \fh := \frac{2(b-a)}{n_{\ninit}-2}.
+ n_{\ninit} \ge 5  \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2}.
 \end{equation}
 Then, $n_{\ninit}$ becomes the initial number of points used by our algorithm,
 which is a more intuitive notion than $\fh$. By the same token $n_{\ninit} -1$
@@ -702,7 +702,7 @@ algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of subintervals,
 and
 \begin{subequations} \label{h0Ixletcdef}
  \begin{equation} \label{h0def}
- h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{2(b-a)+\fh}
+ h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
 \end{equation}
 be the initial width of the subintervals. Fix $x \in [a,b[$. To facilitate our
 derivation of the computational cost of $A$, we introduce the notation $\Ixl$,
@@ -721,7 +721,7 @@ width:
 \end{subequations}
 with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
-L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(2\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
+L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
 Note that $L(x)$ does depend on $f$, although this dependence is suppressed in
 the notation.
@@ -741,7 +741,7 @@ Referring to Step~\ref{stage2} of Algorithm $A$, it is necessary that $i \in
 $-$, and for some $k \in \{0,1,2\}$, $j = i - sk \in \ci_s$. The crux of the
 proof is to demonstrate that
 \begin{equation} \label{Blenorm}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(2h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
+B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
 We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that
 \begin{equation} \label{conditionone}
@@ -753,15 +753,15 @@ In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of
   B_{j,+}(f,\cp)
   & = 2\fC(x_{j+2}-x_{j-1}) \abs{f[x_{j},x_{j+1},x_{j+2}]} \qquad \text{by}~\eqref{bpdef} \\
   %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-  &\le  \fC\left(2\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{NDDbdm}~\text{and}~\eqref{conditionone} \\
-  & \le   \fC\left(2\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
+  &\le  \fC\left(3\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{NDDbdm}~\text{and}~\eqref{conditionone} \\
+  & \le   \fC\left(3\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
   \end{align*}
 This completes the proof of \eqref{Blenorm}.
 
 Now we use inequality \eqref{Blenorm} to show a contradiction:
  \begin{align*}
  \abstol & <  \frac{B_{j,s}(f,\cp)}{8}(x_j-x_{j-1})^2 \qquad \text{since}~j \in \ci_s\\
- & \le   \frac 1 8 \fC\left(2h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
+ & \le   \frac 1 8 \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
  & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
  \end{align*}
 Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows
@@ -779,7 +779,7 @@ so has the following upper bound:
 \end{equation*}
 where $L(x)$ is defined in~\eqref{eqn:defoflx} and
 \begin{equation*}
-2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(2\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
+2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
 \end{equation*}
 \end{theorem}
 
@@ -800,7 +800,7 @@ in~\eqref{eqn:defoflx}.
 The definition of $L(x)$ in~\eqref{eqn:defoflx} is implicit because $l$ in the
 definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$. For small $\abstol$,
 $L(x)$ becomes large, $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and
-$2\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, we have
+$3\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, we have
 \begin{equation} \label{twoLxapprox}
  2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.
  \end{equation}
@@ -1634,8 +1634,6 @@ NSF-DMS-1522687.
 \bibliography{FJH23,FJHOwn23}
 
 \end{document}
-
-
 
 
 
