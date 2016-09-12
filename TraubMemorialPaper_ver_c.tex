@@ -63,7 +63,8 @@
 
 \newcommand{\abstol}{\varepsilon}
 %\newcommand{\abstol}{\varepsilon_{\textrm{a}}}
-\newcommand{\datasites}{\{x_i\}_{i=0}^n}
+\newcommand{\zton}{0\!:\!n}
+\newcommand{\datasites}{x_{0:n}}
 \makeatletter
 \newcommand{\vast}{\bBigg@{4}}
 \newcommand{\Vast}{\bBigg@{6}}
@@ -161,9 +162,9 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The goal of this article is to solve univariate function approximation and
-global minimization problems by locally adaptive algorithms. For some suitable
-set, $\cc$, of continuous, real-valued functions defined on a finite interval
+Our goal is to solve univariate function approximation and
+global minimization problems by adaptive algorithms. For some suitable
+set, $\cc$, of continuously differentiable, real-valued functions defined on a finite interval
 $[a,b]$, we construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and
 $M: (\cc,(0,\infty)) \to \reals$ such that for any $f \in \cc$ and any error
 tolerance $\abstol > 0$,
@@ -172,12 +173,39 @@ tolerance $\abstol > 0$,
 0 \le M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$. The algorithms
-$A$ and $M$ depend only on function values. These algorithms choose their data
-sites in the domain adaptively, with each new site depending on the function
-data already obtained. Each algorithm automatically determines when to stop
-sampling and return the correct answer. These algorithms sample more densely
-where needed, i.e., they are locally adaptive.
+$A$ and $M$ depend only on function values. 
 
+These algorithms choose their data
+sites in the domain adaptively, with each new site depending on the function
+data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from ``globally adpative'' algorithms with a fixed sampling pattern and only the sample size determined adaptively.
+
+\subsection{Key Ideas in Our Algorithm}
+Our algorithms $A$ and $M$ are based on a \emph{linear spline}: 
+\begin{multline} \label{splinedef}
+S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i \in 1\!:\!n.
+\end{multline}
+Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$.   The error of this approximation is bounded as follows \cite[Theorem
+3.3]{BurFaiBur16a}:
+\begin{subequations} \label{appxerrbda}
+	\begin{gather}
+	\label{appxerrbdapc}
+	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
+	\norm{f - S(f,\datasites)} \le \max_{i \in 1:n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8},
+	\end{gather}
+\end{subequations}
+where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the interval $[\alpha,\beta] \subset [a,b]$.  This error bound leads us to restrict ourselves to input functions in the Sobolev space $\cw^{2,\infty} :=  \{f \in C^1[a,b] : \norm{f''}  <  \infty \}$.
+
+Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$ to make use of \eqref{appxerrbda}.  A nonadpative algorithm might assume that $\norm{f''} \le \sigma$, for some known $\sigma$, and then proceed to choose $n = \bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a + i(b-a)/n$, $i \in 0\!:\!n$.  However, we think that providing an upper bound on  $\norm{f''}$ is impractical, and therefore propose adaptive algorithms that do not require such a priori information.
+
+Without some a priori information about $f \in \cw^{2,\infty} $, one cannot construct that algorithms for \eqref{appxprob} or \eqref{optprob} that succeed.  Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and $A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$.  Then one can construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) = 0$, $i\in \zton$ but with $\norm{f - S(f,\datasites)} = \norm{f - S(0,\datasites)} > \varepsilon$.
+
+The set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to include only functions whose second derivatives do not change dramatically over a short distance.  The precise definition is given in Section \ref{sec:cone}.  This allows us  to use second order divided differences to construct rigorous upper bounds on the linear spline error in \ref{subsec:spline}.  These data-driven error bounds inform the stopping criteria for algorithm $A$ in Section \ref{subsec:appxalgo} and algorithm $M$ in Section \ref{sec:minalgo}.
+
+In Section 
+
+
+
+\subsection{Related Work on Adaptive Algorithms}
 Adaptive algorithms relieve the user of having to specify the number of samples
 required. Only the desired error tolerance is needed. Existing adaptive
 numerical algorithms for function approximation, such as the MATLAB toolbox
