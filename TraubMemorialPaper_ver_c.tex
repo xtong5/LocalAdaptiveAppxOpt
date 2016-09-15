@@ -179,7 +179,7 @@ These algorithms choose their data
 sites in the domain adaptively, with each new site depending on the function
 data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from ``globally adpative'' algorithms with a fixed sampling pattern and only the sample size determined adaptively.
 
-\subsection{Key Ideas in Our Algorithm}
+\subsection{Key Ideas in Our Algorithms}
 Our algorithms $A$ and $M$ are based on a \emph{linear spline}: 
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i \in 1\!:\!n.
@@ -201,8 +201,11 @@ Without some a priori information about $f \in \cw^{2,\infty} $, one cannot cons
 
 The set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to include only functions whose second derivatives do not change dramatically over a short distance.  The precise definition is given in Section \ref{sec:cone}.  This allows us  to use second order divided differences to construct rigorous upper bounds on the linear spline error in \ref{subsec:spline}.  These data-driven error bounds inform the stopping criteria for algorithm $A$ in Section \ref{subsec:appxalgo} and algorithm $M$ in Section \ref{sec:minalgo}.
 
-In Section 
-
+The computational cost of algorithm $A$ is analyzed in Section \ref{subsec:appxcost} and is shown to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to  0$.   Here, $\norm[\frac12]{\cdot}$ denotes the
+$L^{\frac12}$-quasi-norm: $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x
+\bigr)^{1/p}$, $0 < p < \infty$. Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive algorithms can be more efficient than globally
+adaptive algorithms, whose computational costs are proportional to
+$\sqrt{\norm{f''}/\abstol}$.  The computational complexity of \eqref{appxprob} is determined in Section \ref{subsec:appxcomp} to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
 
 
 \subsection{Related Work on Adaptive Algorithms}
@@ -215,7 +218,12 @@ situation exists for minimization algorithms, such as \texttt{min} in Chebfun or
 MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
 
 Our aim is to provide practical algorithms for both \eqref{appxprob} and
-\eqref{optprob} with theoretical justification. Here we accomplish the
+\eqref{optprob} with theoretical justification.  
+
+
+
+
+Here we accomplish the
 following:
 \begin{itemize}
 
