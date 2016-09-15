@@ -173,14 +173,14 @@ tolerance $\abstol > 0$,
 0 \le M(f,\abstol) - \min_{a \le x \le b} f(x)  \le \abstol. \tag{MIN} \label{optprob}
 \end{gather}
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$. The algorithms
-$A$ and $M$ depend only on function values. 
+$A$ and $M$ depend only on function values.
 
 These algorithms choose their data
 sites in the domain adaptively, with each new site depending on the function
 data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from ``globally adpative'' algorithms with a fixed sampling pattern and only the sample size determined adaptively.
 
 \subsection{Key Ideas in Our Algorithm}
-Our algorithms $A$ and $M$ are based on a \emph{linear spline}: 
+Our algorithms $A$ and $M$ are based on a \emph{linear spline}:
 \begin{multline} \label{splinedef}
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i \in 1\!:\!n.
 \end{multline}
@@ -201,7 +201,7 @@ Without some a priori information about $f \in \cw^{2,\infty} $, one cannot cons
 
 The set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to include only functions whose second derivatives do not change dramatically over a short distance.  The precise definition is given in Section \ref{sec:cone}.  This allows us  to use second order divided differences to construct rigorous upper bounds on the linear spline error in \ref{subsec:spline}.  These data-driven error bounds inform the stopping criteria for algorithm $A$ in Section \ref{subsec:appxalgo} and algorithm $M$ in Section \ref{sec:minalgo}.
 
-In Section 
+In Section
 
 
 
@@ -661,7 +661,7 @@ $n=n_{\ninit}-1$, and define the partition of equally spaced points, $\cp =
 \{x_j\}_{j=0}^n$, and the index set of subintervals for which the error
 tolerance is not yet satisfied:
 $$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
-\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
+\mathcal{I}_{\pm} = \{1,2,\ldots,n-1,n\}.$$
 Compute the second-order divided differences,
 \[
 f[x_{j-1},
@@ -672,19 +672,19 @@ Then do the following:
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 
 \item \label{stage1} \emph{Check for convergence.}
-Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef} for all $i \in \mathcal{I}$.
+Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef} for all $i \in \mathcal{I}_{\pm}$.
 Let
 \[
-\mathcal{I}_\pm = \left\{i \in \mathcal{I}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
+\mathcal{I}_\pm = \left\{i \in \mathcal{I}_{\pm}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
 \]
-Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$. If $\mathcal{I} =
+ If $\mathcal{I}_+ \cup \mathcal{I}_-=
 \emptyset$, return the linear spline $A(f,\abstol) = S(f, \cp)$ and terminate
 the algorithm. Otherwise, continue to the next step.
 
 \item \label{stage2} \emph{Split the subintervals as needed.}
 Let
 \begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
+\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1\}   \biggr\}, \quad  \\
 %\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
 \widetilde{\mathcal{I}}=\biggl\{i \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ } x_j-x_{j-1} \biggr\}.
 \end{gather*}
@@ -694,10 +694,10 @@ Let
 %\end{multline*}
 %\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
 Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in
-$\widetilde{\mathcal{I}}$. Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$,
-and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly. The updated $\ci$ contains
+$\widetilde{\mathcal{I}}$. Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}_{\pm}$,
+and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly. The updated $\ci_{\pm}$ contains
 indices corresponding to the old subintervals or halves of old subintervals
-whose indices were in the old $\ci$. Return to Step~\ref{stage1}.
+whose indices were in the old $\ci_{\pm}$. Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
 
@@ -766,16 +766,16 @@ L(x)$.
 
 Referring to Step~\ref{stage2} of Algorithm $A$, it is necessary that $i \in
 \widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split. Thus, for some $s =+$ or
-$-$, and for some $k \in \{0,1,2\}$, $j = i - sk \in \ci_s$. The crux of the
+$-$, and for some $k \in \{0,1\}$, $j = i - sk \in \ci_s$. The crux of the
 proof is to demonstrate that
 \begin{equation} \label{Blenorm}
 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
 \end{equation}
-We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1,2\}$. Since $i \in \widetilde{\ci}$, it also follows that
+We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1\}$. Since $i \in \widetilde{\ci}$ and $j \in \ci_+$, it also follows that
 \begin{equation} \label{conditionone}
-h = x_{i} - x_{i-1} \ge x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
+h = x_{i} - x_{i-1} = x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
 \end{equation}
-In particular, $(x_j-x_{j-1})^2 \le h^2$, which is part of the proof of
+In particular, $(x_j-x_{j-1})^2 =h^2$, which is part of the proof of
 \eqref{Blenorm}. Also, note that
   \begin{align*}
   B_{j,+}(f,\cp)
@@ -825,19 +825,25 @@ The formula for $2^{L(x)}$ follows from the definition of $L(x)$
 in~\eqref{eqn:defoflx}.
 \end{proof}
 
-The definition of $L(x)$ in~\eqref{eqn:defoflx} is implicit because $l$ in the
-definition appears in the norm $\norm[\bar{I}_{x,l}]{f''}$. For small $\abstol$,
-$L(x)$ becomes large, $\norm[\bar{I}_{x,L(x)}]{f''}$ approaches $|f''(x)|$, and
-$3\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, we have
-\begin{equation} \label{twoLxapprox}
- 2^{L(x)} \approx \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}}.
- \end{equation}
-Under this approximation, the upper bound on computational cost becomes
+From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know
+\[\frac{2^{L(x)}}{h_0} \ge \sqrt{\frac{\fC\left(3\cdot 2^{-L(x)} h_0\right)\norm[\bar{I}_{x,L(x)}]{f''} }{8\abstol}}\]
+and
+\[\frac{2^{L(x)-1}}{h_0} \ge \sqrt{\frac{\fC\left(3\cdot 2^{-L(x)+1} h_0\right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}\].
+Thus, we have
+\begin{align*}
+\cost(A,f,\abstol) & \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 , \\
+& < \int_a^b 2 \sqrt{\frac{\fC\left(6 \cdot 2^{-L(x)} h_0\right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}\, \dif x +1\\
+& = \int_a^b  \sqrt{\frac{\fC\left(6 \cdot 2^{-L(x)} h_0\right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}\, \dif x +1
+\end{align*}
+
+For small $\abstol$,
+$L(x)$ becomes large, $\norm[\bar{I}_{x,L(x)-1}]{f''}$ approaches $|f''(x)|$, and
+$3\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, the upper bound on computational cost becomes
 \begin{align}
 \nonumber
-\cost(A,f,\abstol)  &\lesssim \frac{1}{h_0}\int_a^b \sqrt{\frac{\fC\left(0\right)  h_0^2 |f''(x)|}{8\abstol}} \, \dif x +1 \\
-& =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{8\abstol}} +1 \label{costbdapprox} \\
-& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{8\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf} below}.
+\cost(A,f,\abstol)  &\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1 \\
+& =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
+& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf} below}.
 \end{align}
 
 For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac
