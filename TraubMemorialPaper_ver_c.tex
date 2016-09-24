@@ -73,6 +73,7 @@
 \theoremstyle{definition}
 \newtheorem*{algoA}{Algorithm $A$}
 \newtheorem*{algoM}{Algorithm $M$}
+
 \newcommand{\vastl}{\mathopen\vast}
 \newcommand{\vastm}{\mathrel\vast}
 \newcommand{\vastr}{\mathclose\vast}
@@ -103,6 +104,7 @@
 \DeclareMathOperator{\lo}{lo}
 \DeclareMathOperator{\ninit}{ninit}
 \DeclareMathOperator{\errest}{errest}
+\DeclareMathOperator{\oerr}{\overline{err}}
 \newtheorem{theorem}{Theorem}
 \newtheorem{exmp}{Example}
 \newtheorem{prop}[theorem]{Proposition}
@@ -201,12 +203,19 @@ Without some a priori information about $f \in \cw^{2,\infty} $, one cannot cons
 
 The set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to include only functions whose second derivatives do not change dramatically over a short distance.  The precise definition is given in Section \ref{sec:cone}.  This allows us  to use second order divided differences to construct rigorous upper bounds on the linear spline error in \ref{subsec:spline}.  These data-driven error bounds inform the stopping criteria for algorithm $A$ in Section \ref{subsec:appxalgo} and algorithm $M$ in Section \ref{sec:minalgo}.
 
-The computational cost of algorithm $A$ is analyzed in Section \ref{subsec:appxcost} and is shown to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to  0$.   Here, $\norm[\frac12]{\cdot}$ denotes the
+The computational cost of function approximation algorithm $A$ is analyzed in Section \ref{subsec:appxcost} and is shown to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to  0$.   Here, $\norm[\frac12]{\cdot}$ denotes the
 $L^{\frac12}$-quasi-norm: $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x
 \bigr)^{1/p}$, $0 < p < \infty$. Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive algorithms can be more efficient than globally
 adaptive algorithms, whose computational costs are proportional to
 $\sqrt{\norm{f''}/\abstol}$.  The computational complexity of \eqref{appxprob} is determined in Section \ref{subsec:appxcomp} to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
 
+The computational cost of optimization algorithm $M$ is analyzed in Section \ref{subsec:optcost}.  A lower bound on the computational complexity of \eqref{optprob} is a subject for further investigation.
+
+Our new algorithms are implemented in our MATLAB Guaranteed
+Automatic Integration Library (GAIL) \cite{ChoEtal15a}. Section \ref{sec:examples} provides numerical examples
+of our new algorithms and compares their performances with MATLAB's and
+Chebfun's algorithms. We note cases where our algorithms are successful in
+meeting the error tolerance when the other algorithms are not.
 
 \subsection{Related Work on Adaptive Algorithms}
 Adaptive algorithms relieve the user of having to specify the number of samples
@@ -217,75 +226,21 @@ $f$. No theory explains for which $f$ Chebfun succeeds. A corresponding
 situation exists for minimization algorithms, such as \texttt{min} in Chebfun or
 MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
 
-Our aim is to provide practical algorithms for both \eqref{appxprob} and
-\eqref{optprob} with theoretical justification.  
-
-
-
-
-Here we accomplish the
-following:
-\begin{itemize}
-
-\item The set $\cc$ for which our algorithms succeed is defined in
-Section~\ref{sec:conedef} to be a cone in $\cw^{2,\infty}$, the Sobolev space of
-functions whose second-order derivatives have finite sup-norms. Because any
-algorithm can be fooled by a sufficiently spiky function, this $\cc$ is defined
-to exclude functions that are too spiky. The parameters that define $\cc$ may be
-chosen to reflect the user's desire for robustness. We construct a data-based
-upper bound on $\norm[{[\alpha,\beta]}]{f''}$ in~\eqref{normbd} in terms of
-second-order divided differences. This leads to a data-based upper bound on the
-error of the linear spline in~\eqref{appxerrbdb}.
-
-\item Algorithms $A$ and $M$ are constructed in Sections~\ref{subsec:appxalgo}
-and~\ref{sec:minalgo} to solve problems~\eqref{appxprob} and~\eqref{optprob},
-respectively. These algorithms are based on linear splines. Guarantees of
-success are provided by Theorems~\ref{thm:algAworks} and~\ref{thm:algMworks}.
-
-\item The upper bound on the computational cost of Algorithm $A$ is derived in
-Theorem~\ref{thm:cost} in Section~\ref{subsec:appxcost}, and is essentially
-$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$
-(see~\eqref{costbdapprox}). Here, $\norm[\frac12]{\cdot}$ denotes the
-$L^{\frac12}$-quasi-norm: $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x
-\bigr)^{1/p}$, $0 < p < \infty$. Proposition~\ref{equivnormprop} demonstrates
-how $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$. This explains
-how much more efficient locally adaptive algorithms can be than globally
-adaptive algorithms, whose computational costs are proportional to
-$\sqrt{\norm{f''}/\abstol}$.
-
-The computational cost of Algorithm $M$, which is analyzed in
-Section~\ref{subsec:optcost}, is no more than the computational cost of
-Algorithm $A$. However, it is observed that Algorithm $M$ can be substantially
-cheaper than Algorithm $A$ if $f$ significantly exceeds its minimum value over a
-large portion of $[a,b]$.
-
-\item A lower bound on the computational complexity of the
-problem~\eqref{appxprob} is derived in Section~\ref{subsec:appxcomp}. This lower
-bound in Theorem~\ref{thm:A_cost} is proportional to
-$\sqrt{\norm[\frac12]{f''}/\abstol}$, which makes our algorithm essentially
-asymptotically optimal. A lower bound for the computational complexity of
-\eqref{optprob} has not yet been found, and Section~\ref{subsec:optcomp}
-explains the difficulties in doing so.
-
-\item Our algorithms $A$ and $M$ are implemented in our MATLAB Guaranteed
-Automatic Integration Library (GAIL) \cite{ChoEtal15a} as \funappxg and
-\funming, respectively. Section \ref{sec:examples} provides numerical examples
-of our new algorithms and compares their performances with MATLAB's and
-Chebfun's algorithms. We note cases where our algorithms are successful in
-meeting the error tolerance when the other algorithms are not.
-
-\end{itemize}
+Our theoretically justified algorithms for  \eqref{appxprob} and
+\eqref{optprob} build upon the ideas in used to construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a, HicJim16a, Jia16a, JimHic16a,Ton14a}.  Like here, in all those previous cases a cone, $\cc$, of input functions is identified for which the adaptive algorithms succeed.  However, unlike the algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,Ton14a}, the cone here does not appeal to a weaker norm.  Also, unlike the globally adaptive approximation and optimization algorithms in \cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive, sampling the interval with non-uniformly as informed by the function data.
 
 Novak \cite{Nov96a} summarizes the settings under which adaption may provide an
 advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
 adaption has no advantage if the set of functions being considered is symmetric
 and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
-5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation algorithm $A$
+5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation problem \eqref{appxprob}
 is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a} have developed
 adaptive algorithms for functions with singularities. Our algorithms are not
 designed for functions with singularities. Rather they are designed to be
 efficient when the second derivative is large in a small part of the function
-domain.
+domain.  
+
+Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all $x \in [a,b]$.  His algorithm relies on divided differences, like ours do.  His error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.
 
 There is a significant literature on theoretically justified algorithms based on
 interval arithmetic, which are described by \cite{MoKeCl09} and \cite{Rum10a}
@@ -293,145 +248,58 @@ and implemented in INTLAB \cite{Rum99a}. This approach assumes that functions
 have interval inputs and outputs. We focus on the more common situation where
 functions have point inputs and outputs.
 
-Here we emulate the approach taken by \cite{HicEtal14b}, which develops globally
-adaptive algorithms for integration and function approximation. In addition,
-there are parallel developments of adaptive algorithms for multivariate
-integration via Monte Carlo methods \citep{HicEtal14a, Jia16a} and quasi-Monte
-Carlo methods \citep{HicJim16a,JimHic16a}. ``Globally" means that the sampling
-density is constant but that the number of samples is chosen adaptively.
-Hickernell et al.~\cite{HicEtal14b} rely on linear splines applied to cones of
-functions that are not too spiky, as we do here. Tong \cite{Ton14a} extends
-these ideas to minimization, and Ding \cite{Din15a} develops a locally adaptive
-function approximation algorithm. Locally adaptive algorithms can be more
-efficient than globally adaptive ones because the sampling density is only
-increased where necessary; see Figure~\ref{fig:sampling-funappxg} and
-Figure~\ref{fig:sampling-funming}. Here we build upon the ideas of \cite{Din15a}
-and employ a somewhat different cone of functions to obtain algorithms whose
-computational costs do not rise drastically as they are made more robust to
-spiky input functions.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines are the foundation for adaptive algorithms $A$ and $M$. The best
-linear spline function approximation error possible occurs for the Sobolev space
-of functions whose second derivatives have finite $L^{\infty}$-norm:
-\[
-\cw^{2,\infty} := \Bigl \{f \in C^1[a,b] : \norm{f''} : = \norm[{[a,b]}]{f''}
-               : = \sup_{a \le x \le b} \abs{f''(x)} <  \infty \Bigr\}.
-\]
-
-To bound the error of the linear spline, our adaptive algorithms construct
-data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$ in terms of function
-values. Such bounds are given in~\eqref{normbd} below. These data-based bounds
-arise from Newton's divided differences, introduced in the next section. For
+Linear splines \eqref{splinedef} are the foundation for adaptive algorithms $A$ and $M$. 
+To bound the error of the linear spline in \eqref{appxerrbda}, our adaptive algorithms construct
+data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$ in terms of  divided differences. For
 these bounds to hold, we must assume that $f''(x)$ does not change drastically
-with a small change in $x$. These assumptions define our cone of functions for
-which our algorithms ultimately apply. This cone is defined in~\eqref{conedef}
-in Section~\ref{sec:conedef}.
-
-%--------------------------------------------------
-\subsection{Newton's Divided Differences} \label{sec:ndd}
-%--------------------------------------------------
+with a small change in $x$. These assumptions define our cone of functions, $\cc$, for
+which our algorithms ultimately apply.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
-$\{x_1, x_2, x_3\}$, which may be written as
-\begin{equation*}
-p(x) : = f[x_1] + f[x_1, x_2](x-x_1) + f[x_1, x_2, x_3](x-x_1)(x-x_2),
-\end{equation*}
-where the $f[\cdots]$ are the Newton divided differences; see for
-example~\cite{CheKin12a}. In particular,
+$\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
 \begin{gather}
 \nonumber
-f[x_1] = f(x_1), \qquad f[x_1, x_2] = \frac{f[x_2] - f[x_1]}{x_2-x_1},  \\
-f[x_1, x_2,x_3] = \frac{f[x_2,x_3] - f[x_1,x_2]}{x_3-x_1}. \label{divdiff}
+p(x) : = f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), \\
+D(f,\alpha,\beta) := \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
 \end{gather}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
-zeros on $[x_1, x_3]$, so $f' - p'$ has at least two distinct zeros on $]x_1,
-x_3[$, i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
-$f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. If $f''$ is continuous, then we can conclude
-that $ 2f[x_1, x_2, x_3]= p''(\zeta) =f''(\zeta) $ for some $\zeta \in ]x_1,
-x_3[$. However, $\cw^{2,\infty}$ contains functions without continuous second
-derivatives. Fortunately, we can obtain a somewhat weaker---yet equally useful
-result---by definition~\eqref{minfppdef}:
-\[
-2\bigabs{f[x_1, x_2, x_3]}(\xi_+  - \xi_-) = \abs{p'(\xi_+) - p'(\xi_-)} =  \abs{f'(\xi_+) - f'(\xi_-)}
-\]
+zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on $(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
+$f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.   Thus,
+\begin{multline} \label{NDDbdm}
+\norm[-\infty,{[\alpha,\beta]}]{f''} := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f(\eta)}{\zeta - \eta}} \\
+\le \abs{\frac{f'(\xi_+) - f(\xi_-)}{\xi_+ - \xi_-}} 
+ = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)} \\
+ \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
+\end{multline}
+This inequality tells us that twice the data-based divided difference, $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for $\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful.  But, $2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for $\norm[-\infty,{[\alpha,\beta]}]{f''}$.  The cone of interesting functions, $\cc$, will contain those for which $\norm[{[\alpha,\beta]}]{f''}$ is not drastically different than the maximum of $\norm[-\infty,{[\beta -  h_, \alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$.
 
-%Functions in $\cw^{2,\infty}$ may have $f''(x)$ undefined for countably many $x
-%\in [a,b]$. Thus, we define $f''(x)$ as an interval-valued function:
-%\begin{gather*}
-%f''(x) := \Bigl[\liminf_{t \to x} f''(t), \ \limsup_{t \to x} f''(t) \Bigr], \\
-% f''(]\alpha, \beta[) := \bigcup_ {x \in ]\alpha, \beta[} f''(x), \qquad  ]\alpha, \beta[ \subset [a,b],
-%\end{gather*}
-%where $]\alpha, \beta[$ denotes the open interval $\{x:\alpha<x<\beta\}$.
-As $f \in \cw^{2,\infty}$, we have $f'$ is Lipcshitz continuous. Thus, we define $\norm[{[\alpha,\beta]}]{f''}$ by Newton divided difference of $f'$ as
-\[\norm[{[\alpha,\beta]}]{f''}=\sup\limits_{\alpha \le x < y \le \beta}\abs{f'[x,y]}
-\]
-We also can define a measure of how small $\norm[{[\alpha,\beta]}]{f''}$ can be
-as follows: \begin{equation} \label{minfppdef}
-m(f',\alpha, \beta) = \inf\limits_{\alpha \le x < y <\beta}\abs{f'[x,y]}
+The cone $\cc$ is defined in terms of two numbers:  an integer $n_{\ninit} \ge 5$ and a positive number  $\fC_0 \ge 1$.  The intuitive meanings of these two parameters are explained later.  Let 
+\begin{equation}
+\label{hCdef}
+\fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) : = \frac{\fC_0 \fh}{\fh - h}.
 \end{equation}
-It follows from this definition that
-\begin{equation} \label{mdec}
-m(f,\alpha,\beta) \le m(f,\gamma,\delta) \qquad \forall a \le \alpha \le \gamma \le \delta \le \beta \le b.
+For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 < \beta - \alpha < h_{\pm} < \fh$, define
+\begin{equation} \label{tbdef}
+\tB(f,\alpha,\beta,h_-,h_+)=
+\begin{cases}
+\max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), \\
+\hspace{25ex} a \le \beta- h_- <  \alpha + h_+ \le b,\\
+\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f}, \qquad a \le \beta- h_-  < b< \alpha + h_+ ,\\
+\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, \qquad \beta- h_- <  a < \alpha + h_+ \le b.
+\end{cases} %\quad
+%\Vastr
 \end{equation}
-Thus, we know
-\begin{multline*}
-\abs{f'(\xi_+) - f'(\xi_-)} \begin{cases}
-\le \norm[{[\xi_-,\xi_+]}]{f''}(\xi_+  - \xi_-) \le \norm[{[x_1,x_3]}]{f''}(\xi_+  - \xi_-) \\
-\ge m(f,\xi_-, \xi_+) (\xi_+  - \xi_-)  \ge m(f,x_1, x_3) (\xi_+  - \xi_-) .
-\end{cases}
-\end{multline*}
-
-So the data-based second-order divided difference provides a lower and upper bound on how small or large $\abs{f''}$ can be  in the interval $]x_1, x_3[$:
-\begin{equation} \label{NDDbdm}
-m(f',x_1, x_3) \le 2\bigabs{f[x_1, x_2, x_3]} \le \norm[{[x_1,x_3]}]{f''}.
-\end{equation}
-
-%--------------------------------------------------
-\subsection{The Cone Definition}  \label{sec:conedef}
-%--------------------------------------------------
-
-Let $\fh$ be some positive number, and let $\fC : [0,\fh[ \to [1,\infty[$ be any
-non-decreasing function, which serves in our subsequent algorithms as an
-inflation factor dependent on the grid size. These parameters are used to define
-a cone of functions for which our algorithms will apply. This cone only includes
-functions whose second derivatives do not change much in magnitude over a short
-distance. Thus, these functions are \emph{not too spiky}. Specifically,
+These parameters and functions are used to define a cone of functions for whom are algorithms will be guaranteed to succeed:
 \begin{multline} \label{conedef}
  \cc :=   \Bigl \{
  f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le \tB(f,\alpha,\beta,h_-,h_+)  \text{ for all } [\alpha,\beta] \subset [a,b],
-\\ \text{with }  \max(h_{\pm}) \in ]0, \fh[  \Bigr \},
+\\ \text{and } 0 < \beta - \alpha < \max(h_{\pm} < \fh  \Bigr \}.
 \end{multline}
-where $\tB(f,\alpha,\beta,h_-,h_+)$, is defined as follows:
-\begin{multline*}
-\tB(f,x,h_-,h_+)=\\
-\begin{cases}
-  \max\bigl(\fC(h_{-}) m(f,\beta-h_-,\beta),\fC(h_{+}) m(f,\alpha,\alpha+ h_+)\bigr), & a \le \beta- h_- < \alpha + h_+ \le b,\\
-\fC(h_{-}) m(f,\beta-h_-,\beta), & a \le \beta- h_-  < b< \alpha + h_+ ,\\
-\fC(h_{+}) m(f,\alpha,\alpha+ h_+), &\beta- h_- <  a < \alpha + h_+ \le b.
-\end{cases} %\quad
- %\Vastr
-\end{multline*}
-Either decreasing $\fh$ or increasing the function $\fC$ expands the cone to
-include more functions. An example of $\fC$ is
-\begin{equation} \label{sampleC}
-\fC(h) : = \frac{\fC(0) \fh}{\fh - h}, \quad h \in [0,\fh[, \qquad \fC(0) > 1,\ \fh \le b - a.
-\end{equation}
-
-The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$.
-Cones of functions are key to the theoretically justified adaptive algorithms in
-\cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}.
-
-A function $f$ with $f''(\alpha) = f''(\beta) = \{0\} \ne f''((\alpha+\beta)/2)$
-may lie inside $\cc$ only if $\beta - \alpha > 2\fh$. Thus, $f''$ cannot have
-zeros too close to each other. Except near the endpoints of the interval, the
-definition of $\cc$ uses values of $f''$ on both sides of $x$ to bound $\max
-\abs{f''(x)}$. This allows $\cc$ to include functions with step discontinuities
-in their second derivatives, provided that these discontinuities do not occur
-too close to each other or too close to the ends of the interval.
+The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$. The integer $n_{\ninit}$ will be the initial number of subintervals in our algorithms $A$ and $M$.  The parameter $\fC_0$ represents the allowable limit of $\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta - \alpha \to 0$. Increasing either $n_{\ninit}$ or  $\fC_0$ expands the cone to include more functions.
 
 \yuhannote{As we redefine the cone, maybe we need to change the examples}
 We provide examples of functions lying outside $\cc$ and similar functions lying
@@ -439,18 +307,13 @@ inside $\cc$. Consider the following two functions defined on $[-1,1]$ whose
 second derivatives oscillate wildly near $0$:
 \begin{gather*}
 f_1(x) = x^4 \sin(1/x), \\
- f_1''(x) = \begin{cases} (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), & x \ne 0 \\
- [-1,1], & x = 0, \end{cases} \\
+ f_1''(x) =  (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \qquad x \ne 0 \\
 f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
 \end{gather*}
-These functions are plotted in Figure~\ref{f1f2fig}. Because the $f''_1(x)$
-takes on both signs for $x$ arbitrarily close to $0$ and on either side of $0$,
-it follows that  $m(f_1,-h_-,0) = m(f_1,0,h_+) = 0$ for all $h_\pm \in [0,1]$.
-However, $\max\abs{f''_1(0)} = 1$, so $f_1$ cannot lie inside
-$\cc$ no matter how $\fh$ and $\fC$ are defined. On the other hand,
-$m(f_2,\alpha, \beta) \ge 13.5$ for all $-1 \le \alpha < \beta \le 1$, and
-$\max \abs{f''_2(x)} \le 27$ for all $x \in [-1,1]$, so $f_2 \in
-\cc$ if $\fC(0) \ge 2$.
+These functions are plotted in Figure~\ref{f1f2fig}. Because $\norm[-\infty,{[\alpha,\beta]}]{f''_1} = 0 < 1 \le \norm[{[\alpha,\beta]}]{f''_1}$ for $-1 \le \alpha < 0 < \beta \le 1$,  $f_1$ cannot lie inside
+$\cc$ no matter how $n_{\ninit}$ and $\fC_0$ are chosen.   On the other hand,
+$\norm[{[\alpha,\beta]}]{f''_1} \le 27  \le 2 \norm[-\infty,{[\alpha,\beta]}]{f''_1}$ for all $-1 \le \alpha < \beta \le 1$,  so $f_2 \in
+\cc$ if $\fC_0 \ge 2$.
 
 \begin{figure}[t]
 \centering
@@ -485,24 +348,31 @@ Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta
 for $-c=\delta = 0.2$.
 
 If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_3 \in \cc$ for any
-choice of $\fC : [0,b-a] \to [1,\infty)$. We see this by examining two cases.
-For all $x \in [c - 2 \delta, c + 2 \delta]$ and all $h \in \, ]0,\fh[ \,
-\subseteq \, ]0,\delta/2[$, let $x_- = \max(a, x -h)$ and $x_+ = \min(x +h,b)$.
-Then
-\[
-m(f_3,x_-,x) = m(f_3,x,x_+) = \sup_{-1 \le x \le 1} \abs{f_3''(x)}  = \delta^{-2}.
-\]
-For $x \in [-1,1] \setminus [c - 2 \delta , c + 2 \delta]$ we note that
-$f_3''(x) = 0$. Thus, the definition of the cone is satisfied.
+choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and $h_{\pm}$ satisfying the conditions in the definition of $\cc$ in \eqref{conedef}, it follows that
+\begin{multline*}
+\norm[-\infty,{[\beta,\alpha+h_+]a]}]{f''_3} = \delta^{-2} = \norm{f''_3}\\
+\text{if } \alpha\text{ or } \beta \in [c - 2\delta,  c - 1.5\delta]  \cup [c - \delta,  c + 0.5\delta] \cup [c + \delta, c+1.5\delta] 
+\end{multline*}
+and also
+\begin{multline*}
+\norm[-\infty,{[\beta - h_-,\alpha]}]{f''_3} = \delta^{-2} = \norm{f''_3}\\
+\text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta]
+\end{multline*}
+Thus, $\tB(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_3}$ for $\beta \ge  c - 2\delta$ or $\alpha \le c + 2\delta$.  For $[\alpha,\beta] \subset [-1,c - \delta) \cup (c+\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_3} = 0$, so $\tB(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_3}$ automatically.  Thus, the definition of the cone is satisfied.
 
-However, if the hump is too narrow, i.e., $\delta < 2 \fh$, then regardless of how
-$\fC$ is defined, for $x = c-3\delta/2$ with $\delta/2 < h < \fh$,
+However, if the hump is too narrow, i.e., $\delta < 2 \fh$, the function $f_3$
+is too spiky to lie in the cone $\cc$ regardless of how
+$\fC_0$ is defined.  For $\alpha$, $\beta$ and $h$ satisfying 
 \[
-\fC(h)m(f_3,x - h,x)=\fC(h)m(f_3,x,x+h)=0 < \abs{f''_3(x)} = \delta^{-2}.
+0 < c - 3\alpha/2 -\alpha =  \beta - c+ 3\delta/2 < \delta/2 < c-3\delta/2 - \beta + h < \fh,
 \]
-This violates the definition of $\cc$. For $\delta < 2 \fh$ the function $f_3$
-is too spiky to lie in the cone $\cc$. This example illustrates how the choice
-of $\fh$ influences the width of a spiky function that may or may not lie in
+it follows that $h < \fh$
+\begin{gather*}
+\beta -  h < c - 2 \delta < \alpha < c - 3\alpha/2 < \beta < c - \delta < \alpha + h, \\
+\norm[-\infty,{[\beta - h,\alpha]}]{f''_3} =\norm[-\infty,{[\beta,\alpha+h]}]{f''_3}=0 < \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_3}.
+\end{gather*}
+This violates the definition of $\cc$. This example illustrates how the choice
+of $\fh$ influences the width of a spiky function and determines whether or not it lies in
 $\cc$.
 
 \begin{figure}[t]
@@ -515,131 +385,6 @@ GAIL.}
 \label{f3fig}
 \end{figure}
 
-The above examples of functions outside $\cc$ have discontinuous second-order
-derivatives. If a function has sufficient smoothness and the higher order
-derivatives are nicely behaved in a certain sense, then we can be sure that this
-function lies in $\cc$. If $f \in C^3[a,b]$ and for all $x \in [a,b]$, the
-following conditions holds:
-\begin{equation} \label{conesuffconda}
-\norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''} \le \frac{\abs{f''(x)}}{h} \left( 1 - \frac{1}{\fC(h)} \right) \ \ \forall h \in [0,\fh],
-\end{equation}
-then one must have $f \in \cc$.  Using a Taylor expansion it follows that.
-\begin{align*}
-m(f,\min(a,x-h),\max(x+h,b)) & = \inf \abs{f''(]\min(a,x-h),\max(x+h,b)[)} \\
-& \ge \abs{f''(x)}  - \norm[{[\min(a,x-h),\max(x+h,b)]}]{f'''}h \\
-& \ge \abs{f''(x)}  - \abs{f''(x)}\left( 1 - \frac{1}{\fC(h)} \right) \\
-& \ge \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
-\end{align*}
-Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}.
-
-Sufficient condition~\eqref{conesuffconda} fails if $f''(x) = 0$ for some $x$.
-For $x \in ]a + \fh, b-\fh[$ one may replace~\eqref{conesuffconda} by an
-alternative sufficient condition if $f \in C^4[a,b]$:
-\begin{multline} \label{conesuffcondb}
-\max_{0 \le s(t-x) \le h }{\abs{f''''(t)}} \le \frac{2\abs{f''(x)}}{h^2} \left( 1 - \frac{1}{\fC(h)} \right) +  \frac{2\abs{f'''(x)}}{h}  \\ \forall  h \in [0,\fh], \ s = \sign(f''(x)f'''(x)).
-\end{multline}
-Note that here $s$ depends on $x$. For a particular $x$, suppose that $s = +1$.
-Then it follows by a Taylor expansion that
-\begin{align*}
-m(f,x,x+h) & = \inf \abs{f''(]x,x+h[)} \\
-& \ge \inf_{x < t < x+h} \biggl\{ \abs{f''(x)} + \abs{f'''(x)}(t-x)  - \frac{\norm[{[x,x+h]}]{f''''}(t-x)^2}{2} \biggr\}\\
-& \ge \inf_{x < t < x+h} \biggl\{ \abs{f''(x)} \biggl[ \frac{1}{\fC(h)} + \left(1 - \frac{(t-x)^2}{h^2}\right)\left(1 - \frac{1}{\fC(h)}\right) \biggr] \\
-& \qquad \qquad + \abs{f'''(x)}(t-x)\left(1 -  \frac{t-x}{h}\right)  \biggr\}\\
-& \ge  \frac{\abs{f''(x)}}{\fC(h)} \qquad \forall x \in [a,b],\ h \in [0,\fh].
-\end{align*}
-Thus, $f \in \cc$ by the definition of the cone in~\eqref{conedef}. A similar
-argument establishes the case $s = -1$.
-
-%--------------------------------------------------
-\subsection{The Linear Spline and Its Error} \label{subsec:spline}
-%--------------------------------------------------
-
-Define a \emph{partition} of an interval $[a, b]$, denoted $\datasites$, to be
-an ordered sequence of points that includes the endpoints of the interval,
-$a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$. The linear spline
-approximation to a function $f$ based on the partition $\datasites$ of distinct
-points is denoted, $S(f,\datasites)$ and defined~as
-\begin{multline} \label{splinedef}
-S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i=1, \ldots, n.
-\end{multline}
-The error of this approximation is bounded as follows \cite[Theorem
-3.3]{BurFaiBur16a}:
-\begin{subequations} \label{appxerrbda}
-\begin{gather}
-\label{appxerrbdapc}
-\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
-\norm{f - S(f,\datasites)} \le \max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}.
-\end{gather}
-\end{subequations}
-
-To construct an adaptive algorithm, an upper bound on
-$\norm[{[x_{i-1},x_i]}]{f''}$ in terms of function values is required. This can
-be done for $f \in \cc$ using the correspondence between a second-order
-difference and the second derivative in~\eqref{NDDbdm}.
-
-Now assume that the points in the partition are not too far apart, namely
-\begin{equation} \label{widthrestrict}
-x_{i+2} - x_{i-1} \le \fh, \qquad i = 1, \ldots, n-2.
-\end{equation}
-For the interval $ [x_{i-1},x_i]$,  denote
-\begin{align*}
-&h_- = x_{i} - x_{i-3}, \qquad i=3,4,\ldots,n,\\
- &h_+ = x_{i+2} - x_{i-1}, \qquad i=1,2,\ldots,n-2.
-\end{align*}
-Let $\cp$ be a shorthand notation for the partition $\{x_j\}_{j=0}^n$, and
-define the following data based quantities.
-\begin{subequations} \label{bpdef}
-\begin{align}\label{bpf}
-B_{i,+}(f,\cp)&:=\begin{cases}
-2\fC(x_{i+2}-x_{i-1})\abs{f[x_i,x_{i+1},x_{i+2}]},  & i=1,\ldots,n-2,
-\\ 0, & i=n-1,n.
-\end{cases} \\
-\label{bmf}
-B_{i,-}(f,\cp)&: =\begin{cases}
-0,  & i=1,2,
-\\ 2\fC(x_{i}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}])}, & i=3,\ldots,n,
-\end{cases} \\
-\nonumber
-B_i(f,\cp) & : = \max\bigl(B_{i,\pm}(f,\cp) \bigr).
-\end{align}
-\end{subequations}
-We now show that these give us a data-based upper bound on the norm of $f''$,
-namely,
-\begin{equation}\label{normbd}
-\norm[{[x_{i-1},x_i]}]{f''} \le B_i(f,\cp), \qquad i =1, \ldots, n.
-\end{equation}
-
-First, we consider the case of an interior subinterval, i.e., $i \in \{3,
-\ldots, n-2\}$.
-Applying the cone condition and the fact that $\fC$ is non-decreasing, property~\eqref{mdec} that
-relates the second derivative to the divided differences, and
-inequality~\eqref{widthrestrict} that ensures that the points in the partition
-are not too far apart yields
-\begin{align*}
-\nonumber
-\MoveEqLeft{\norm[{[x_{i-1},x_i]}]{f''}}\\
- %\nonumber & \qquad \qquad \times \max\bigl(m(f,x_{i-3},x),m(f,x,x_{i+2})\bigr] \\
-\nonumber
- \le  &  \max\bigl(\fC(x_{i-1}-x_{i-3})m(f,x_{i-3},x_{i-1}),\fC(x_{i+2}-x_{i})m(f,x_i,x_{i+2})\bigr) \\
-\nonumber  \le & 2\max\bigl(\fC(x_{i-1}-x_{i-3})\abs{f[x_{i-3},x_{i-2},x_{i-1}]},\bigr.
- \fC(x_{i+2}-x_{i})\abs{f[x_i,x_{i+1},x_{i+2}]}\bigr) \\
- =  & \max\bigl(B_{i,\pm}(f,\cp)\bigr) = B_i(f,\cp).
-\end{align*}
-A similar argument applies for the subintervals on the left and right borders of
-the interval.
-
-The bound in~\eqref{normbd} combined with~\eqref{appxerrbda} yield the
-data-driven error bound for the linear spline:
-\begin{subequations} \label{appxerrbdb}
-\begin{gather}
-\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} , \\
-\norm{f - S(f,\datasites)} \le
-\max_{i=1, \ldots, n} \frac{(x_i - x_{i-1})^2 B_{i}(f,\cp)}{8} .
-\end{gather}
-\end{subequations}
-The goal is to increase the number of nodes in the partition as needed to make
-this error bound smaller than the desired tolerance.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Function Approximation Algorithm, $A$}\label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -647,72 +392,88 @@ this error bound smaller than the desired tolerance.
 
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
 
-Instead of defining the cone in terms of $\fh$ directly, we choose an initial
-number of points, $n_{\ninit}$:
-\begin{equation}
-\label{nodefinition}
- n_{\ninit} \ge 5  \qquad \fh := \frac{3(b-a)}{n_{\ninit}-2}.
-\end{equation}
-Then, $n_{\ninit}$ becomes the initial number of points used by our algorithm,
-which is a more intuitive notion than $\fh$. By the same token $n_{\ninit} -1$
-is the initial number of subintervals used by the algorithm. A higher $n_{\ninit}$ corresponds to a smaller $\fh$ and a
-more robust algorithm. By the arguments of the previous section, the following
-algorithm solves function approximation problem~\eqref{appxprob}.
+The idea of Algorithm $A$ is to use divided differences to provide lower bounds on $\norm[{[\beta - h, \alpha]}]{f}$ and $\norm[{[\beta, \alpha+h]}]{f}$ via \eqref{NDDbdm}, which then provide an upper bound on $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in \eqref{conedef}.  This in turn yields an upper bound on the spline error via \eqref{appxerrbdapc}.  After stating the algorithm, its effectiveness is proven.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval $[a,b]$, fixed the integer $n_{\ninit}$
-that satisfy~\eqref{nodefinition}, let $\fh$ be defined as in
-\eqref{nodefinition}. Let $\fC:[0,\fh[ \to [1, \infty[$ be some
-non-decreasing inflation factor, that together with $\fh$ defines the cone
-$\cc$. Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
-$n=n_{\ninit}-1$, and define the partition of equally spaced points, $\cp =
-\{x_j\}_{j=0}^n$, and the index set of subintervals for which the error
-tolerance is not yet satisfied:
+For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
+$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and the index set of subintervals for which we need to compute quantities $\oerr_i$ to bound the spline error:
 $$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
-\mathcal{I}_{\pm} = \{1,2,\ldots,n-1,n\}.$$
-Compute the second-order divided differences,
-\[
-f[x_{j-1},
-x_{j}, x_{j+1}], \qquad  j= \{1,2,\ldots,n-1\}.
-\]
-Then do the following:
+\mathcal{I} = \{1,2,\ldots,n-1\}.
+$$
+
 \begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 
-\item \label{stage1} \emph{Check for convergence.}
-Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef} for all $i \in \mathcal{I}_{\pm}$.
-Let
+\item \label{stage1} \emph{Check for convergence.} Compute
 \[
-\mathcal{I}_\pm = \left\{i \in \mathcal{I}_{\pm}: \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  > \abstol \right\}.
+\oerr_i = \frac{1}{8} \fC(3(x_i - x_{i-1}))\abs{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})} \qquad \forall i \in \ci. 
 \]
- If $\mathcal{I}_+ \cup \mathcal{I}_-=
-\emptyset$, return the linear spline $A(f,\abstol) = S(f, \cp)$ and terminate
+Let $\widetilde{\mathcal{I}} = \left\{i \in \mathcal{I}: \oerr_i  > \abstol \right\}$ be the index set for those $\oerr_i $ that are too large.   If $\widetilde{\mathcal{I}} =
+\emptyset$, return the linear spline $A(f,\abstol) = S(f, x_{0:n})$ and terminate
 the algorithm. Otherwise, continue to the next step.
 
-\item \label{stage2} \emph{Split the subintervals as needed.}
-Let
-\begin{gather*}
-\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1\}   \biggr\}, \quad  \\
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
-\widetilde{\mathcal{I}}=\biggl\{i \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ } x_j-x_{j-1} \biggr\}.
-\end{gather*}
-%\begin{multline*}
-%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: \frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  > \abstol,\\
-%j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
-%\end{multline*}
-%\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
-Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in
-$\widetilde{\mathcal{I}}$. Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}_{\pm}$,
-and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly. The updated $\ci_{\pm}$ contains
-indices corresponding to the old subintervals or halves of old subintervals
-whose indices were in the old $\ci_{\pm}$. Return to Step~\ref{stage1}.
+\item \label{stage2} \emph{Split the subintervals as needed.} Update the present partition, $x_{0:n}$, to include the subinterval midpoints
+\[
+\frac{x_{i-2} +x_{i-1}}{2}, \ \frac{x_{i-1} +x_{i}}{2}, \ \frac{x_{i} +x_{i+1}}{2}, \  \frac{x_{i+1} +x_{i+2}}{2}, \qquad i \in \widetilde{\ci}.
+\] 
+Update the set $\ci$ to consist of the new indices corresponding to the old points 
+\[
+x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2}, \ x_i,\ \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1}, \qquad i \in \widetilde{\ci}.
+\] 
+Return to Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
 
 \begin{theorem} \label{thm:algAworks}
-Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the
-cone $\cc$ defined in~\eqref{conedef}.
+	Algorithm $A$ defined above solves problem~\eqref{appxprob} for functions in the
+	cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
+
+\begin{proof} 
+	Initially, all subintervals $[x_{i-1},x_i]$ have width $h_0 = (b-a)/n_{\ninit}$.  Each time an interval is split, it is divided in two.  By the definitions in Step~\ref{stage2}, for every $i \in \ci$ in Step~\ref{stage1},  $x_i-x_{i-1} = x_{i+1} - x_i = h_0 2^{-l} =: h_l$, where $l$ is the number of times Step~\ref{stage2} has been executed---what we call iteration $l$.  This implies that at iteration $l$,
+	\begin{align}
+	\nonumber
+	\oerr_i & =\frac{1}{8} \fC(3h_l)\abs{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}  \\ 
+	& =  \frac{1}{4} \fC(3h_l) h_l^2 \abs{D(f,x_{i-1},x_{i+1})}  \qquad \text{by \eqref{divdiffdef}}  \label{divdiffbd}\\
+	& \ge \frac{1} 8 \fC(3h_l) h_l^2 \norm[-\infty,{[x_{i-1},x_{i+1}]}]{f}  \qquad \text{by \eqref{NDDbdm}}. \label{oerrbd}
+	\end{align}
+	
+	Now, for all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$ containing $x$ that might arise at some stage in Algorithm $A$ as $[x_{i-1}, x_i]$ for some $i \in \zton$.  Specifically this interval is defined for all $ x \in [a,b]$ and $l \in \mathbb{N}_0$ as
+	\begin{equation}\label{Ixldef}
+	\Ixl := \left[a+jh_l,a+(j+1) h_l\right], \ j=\min \left(\left\lfloor\frac{(x-a)}{h_l}\right\rfloor, 2^l n_{\ninit}-1 \right ).
+	\end{equation}
+Let $\ell(x)$ be defined such that $I_{x,\ell(x)}$ is the final subinterval in
+Algorithm $A$ that contains $x$ when the algorithm terminates. We need to establish that $\norm[I_{x,\ell(x)}]{f - S(f)} \le \abstol$ for every $x \in [a,b]$.
+
+Fix  $x \in [a+\fh, b-\fh]$.  The proof for $x \in [a,a+\fh) \cup (b-\fh,b]$ is similar.  The initial subinterval containing $x$, i.e., $I_{x,0} =[x_{i_0-1},x_{i_0}]$ has the property that $i_0-2 \in \ci$.  If $\errest_{i_0-2} \le \abstol$, then
+\[
+\frac{1} 8 \fC(3h_0) h_0^2 \norm[-\infty,{[x_{i_0-3},x_{i_0-1}]}]{f} \le \abstol
+\]
+by \eqref{oerrbd}.  Otherwise, $I_{x,0}$ and $[x_{i_0-2},x_{i_0-1}]$ are both split in half, and the $I_{x,1} = [x_{i_1}-1,x_{i_1}]$ for some $i_1 -2 \in \ci$.  This continues until we reach some $l_- \le \ell(x)$ for which $I_{x,{l_-}} =[x_{i_{l_-}-1},x_{i_{l_-}}]$ and
+\begin{subequations} \label{datalesstol}
+\begin{equation}
+\frac{1} 8 \fC(3h_l) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} \le \errest_{i_{l_-}-2} \le \abstol .
+\end{equation}
+By an analogous argument there exists an $l_+ \le \ell(x)$ such that $I_{x,l_+} =[x_{i_{l_+}-1},x_{i_{l_+}}]$ and
+\begin{equation}
+\frac{1} 8 \fC(3h_{l_+}) h_{l_+}^2 \norm[-\infty,{[x_{i_{l_+}},x_{i_{l_+}+2}]}]{f} \le \errest_{i_{l_+}+1} \le \abstol .
+\end{equation}
+\end{subequations}
+Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_+}} $, we may conclude that
+\begin{align*}
+\norm[I_{x,\ell(x)}]{f - S(f)} &  \le \frac{1}{8}h_{\ell(x)}^2\norm[I_{x,\ell(x)}]{f''} \qquad \text{by \eqref{appxerrbdapc}} \\
+& \le \frac{1}{8} h_{\ell(x)}^2 \tB(f,x_{i_{\ell(x) - 1}},x_{i_{\ell(x)}},x_{i_{\ell(x)}}-x_{i_{l_-}-3},x_{i_{l_+}+2} - x_{i_{\ell(x) - 1}}) \\
+& \qquad \qquad \qquad \qquad \text{by the definition of $\cc$ in \eqref{conedef}}\\
+& \le \frac{1}{8} h_{\ell(x)}^2 \max \Bigl(\fC(x_{i_{\ell(x)}}-x_{i_{l_-}-3})   \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{\ell(x) - 1}}]}] {f''}, \\
+&\qquad \quad \fC(x_{i_{l_+}+2} - x_{i_{\ell(x)}-1})   \norm[-\infty,{[x_{i_{\ell(x)}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \\
+& \qquad \qquad \qquad \qquad \text{by the definition of $\tB$ in \eqref{tbdef}}\\
+& \le  \max \Bigl( \frac{1}{8} h_{l_-}^2\fC(3h_{l_-})   \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}- 1}]}] {f''}, \\
+&\qquad \quad \frac{1}{8} h_{l_+}^2\fC(3h_{l_+})   \norm[-\infty,{[x_{i_{l_+}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \\
+& \qquad \qquad  \text{because $h_{\ell(x)} \le h_{l_{\pm}}$ and $\fC$ is non-decreasing}\\
+& \le \abstol \qquad \text{by \eqref{datalesstol}}
+\end{align*}
+This concludes the proof.\end{proof}
+
 
 Figure \ref{fig:sampling-funappxg} displays the function $-f_3$ defined in
 \eqref{f3def} for a certain choice of parameters, along with the data used to
@@ -734,30 +495,16 @@ reproducible by {\tt TraubMemorial.m} in GAIL.}
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
 
 In this section, we investigate the computational cost of our locally adaptive
-algorithm. Let $n_0= n_{\ninit} -1$ denote the initial number of subintervals,
-and
-\begin{subequations} \label{h0Ixletcdef}
- \begin{equation} \label{h0def}
- h_0=\frac{b-a}{n_0} = \frac{b-a}{n_{\ninit}-1} = \frac{(b-a)\fh}{3(b-a)+\fh}
-\end{equation}
-be the initial width of the subintervals. Fix $x \in [a,b[$. To facilitate our
-derivation of the computational cost of $A$, we introduce the notation $\Ixl$,
-which is the unique half-open interval containing $x$ with the width $2^{-l}h_0$
-that might appear in Algorithm $A$. It is defined as
-\begin{multline}\label{Ixldef}
-\Ixl :=\left[a+(j-1)2^{-l}h_0,a+j \ 2^{-l}h_0\right[, \\ j=\left\lceil\frac{(x-a)2^l}{h_0}\right\rceil, \ l \in \mathbb{N}_0, \ x \in [a,b[.
-\end{multline}
-Let $\ell(x)$ be defined such that $I_{x,\ell(x)}$ is the final subinterval in
-Algorithm $A$ that contains $x$ when the algorithm terminates. Let
-$\bar{I}_{x,l}$ be a similar closed interval with generally five times the
-width:
+algorithm. Recall the definitions of $h_l$, $\Ixl$, and $\ell(x)$ from the previous subsection.  
+Let
+$\bar{I}_{x,l}$ be a similar interval with generally five times the
+width of $\Ixl$:
 \begin{equation}
-\bar{I}_{x,l}=\left[a+\max(0,j-3)2^{-l}h_0, a+ \min(j+2,2^ln_0)2^{-l}h_0\right] \supset \Ixl,
+\bar{I}_{x,l}=\left[a+\max(0,j-3)h_l, a+ \min(j+2,2^l n_{\ninit})h_l\right] \supset \Ixl,
 \end{equation}
-\end{subequations}
 with the same $j$ as above.  Let
 \begin{equation}\label{eqn:defoflx}
-L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3\cdot2^{-l}h_0\right)(2^{-l}h_0)^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
+L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3h_l\right)h_l^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
 Note that $L(x)$ does depend on $f$, although this dependence is suppressed in
 the notation.
@@ -765,43 +512,14 @@ the notation.
 We now show that $\ell(x) \le L(x)$. At each iteration of Algorithm $A$, $x$
 lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all
 values of $l = 0, \ldots, \ell(x)$ are realized. If $\ell(x) > L(x)$, then at
-some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$. Let $\cp
-= \{x_j\}_{j=0}^n$ denote the partition of $[a,b]$ when $I_{x,L(x)}$ is to be
-split, and then identify the closure of $I_{x,L(x)}$ as $[x_{i-1},x_i]$ for some
-$i \in \{1, \ldots, n\}$, where $x_i-x_{i-1}=2^{-L(x)}h_0 = : h$. We show that
-such a scenario is impossible, thus contradicting the assumption that $\ell(x) >
-L(x)$.
-
-Referring to Step~\ref{stage2} of Algorithm $A$, it is necessary that $i \in
-\widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split. Thus, for some $s =+$ or
-$-$, and for some $k \in \{0,1\}$, $j = i - sk \in \ci_s$. The crux of the
-proof is to demonstrate that
-\begin{equation} \label{Blenorm}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}.
-\end{equation}
-We give the proof for  $s =+$.  The proof for $s= -$ is similar.  Since $j \in \ci_+$, it follows that $j + k \in \widehat{\ci}_+$ for all $k \in \{0,1\}$. Since $i \in \widetilde{\ci}$ and $j \in \ci_+$, it also follows that
-\begin{equation} \label{conditionone}
-h = x_{i} - x_{i-1} = x_{j+k} - x_{j+k-1} \qquad \text{for all } k \in \{0,1,2\}.
-\end{equation}
-In particular, $(x_j-x_{j-1})^2 =h^2$, which is part of the proof of
-\eqref{Blenorm}. Also, note that
-  \begin{align*}
-  B_{j,+}(f,\cp)
-  & = 2\fC(x_{j+2}-x_{j-1}) \abs{f[x_{j},x_{j+1},x_{j+2}]} \qquad \text{by}~\eqref{bpdef} \\
-  %\text{since } x_{i}-x_{i-1} \ge x_{j}-x_{j-1}, j=i+1,i+2 \ \ \
-  &\le  \fC\left(3\cdot2^{-L(x)}h_0\right) \norm[{[x_{j},x_{j+2}]}]{f''} \qquad \text{by}~\eqref{NDDbdm}~\text{and}~\eqref{conditionone} \\
-  & \le   \fC\left(3\cdot2^{-L(x)}h_0\right)  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{since}~[x_{j},x_{j+2}] \in \bar{I}_{x,L(x)} .
-  \end{align*}
-This completes the proof of \eqref{Blenorm}.
-
-Now we use inequality \eqref{Blenorm} to show a contradiction:
- \begin{align*}
- \abstol & <  \frac{B_{j,s}(f,\cp)}{8}(x_j-x_{j-1})^2 \qquad \text{since}~j \in \ci_s\\
- & \le   \frac 1 8 \fC\left(3h\right) h^2  \norm[\bar{I}_{x,L(x)}]{f''}  \qquad \text{by}~\eqref{Blenorm} \\
- & \le    \abstol \qquad \text{by}~\eqref{eqn:defoflx} .
- \end{align*}
-Since our assumption that $\ell(x) > L(x)$ leads to a contradiction, it follows
-that $\ell(x) \le L(x)$, which is used to prove an upper bound on the
+some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Then $I_{x,L(x)}$ has width $h_{L(x)}$ and corresponds to $[x_{i-1},x_i]$ for some $i$.  We assume that $i \in 3\!:\!n-2$; the other cases have a similar proof.
+According to Step~\ref{stage2} of Algorithm $A$, the only way for $[x_{i-1},x_i]$ to be split is if $\oerr_{i-2}$, $\oerr_{i-1}$, $\oerr_{i}$, or $\oerr_{i+1}$ is larger than $\abstol$.  However, in the proof of Theorem \ref{thm:algAworks} it is noted that for $k \in \{-2, -1, 0, 1\}$,
+\begin{align*}
+\oerr_{i+k} & \le \frac{1}4 \fC(3h_l) h_l^2 \abs{D(f,x_{i-1+k},x_{i+1+k})} \qquad \text{by \eqref{divdiffbd}} \\
+& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[{[x_{i-1+k},x_{i+1+k}]}]{f}  \qquad \text{by \eqref{NDDbdm}}\\
+& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[\bar{I}_{x,l}]{f} \le \varepsilon \qquad \text{by \eqref{eqn:defoflx}}.
+\end{align*}
+This is a contradiction, so in fact, $\ell(x) \le L(x)$, which is used to prove an upper bound on the
 computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
