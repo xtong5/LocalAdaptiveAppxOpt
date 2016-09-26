@@ -1134,15 +1134,17 @@ its intended error tolerance for the function~$f_3$ defined in
 Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}.
 Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to
 $f_3$. The blanks in the plot on the left and right correspond to zero error.
-Chebfun was asked to estimate $f_3$ to an error of no more than $10^{-14}$, and
-the ``splitting'' option was turned on to allow Chebfun to construct a piecewise
-polynomial interpolant if derivative discontinuities were detected. Nonetheless,
-Chebfun produced errors greater than $10^{-5}$.
+Chebfun was asked to estimate $f_3$ to an error of no more than the specified
+error tolerance $10^{-14}$, and the ``splitting'' option was turned on to allow
+Chebfun to construct a piecewise polynomial interpolant if derivative
+discontinuities were detected. Nonetheless, Chebfun produced errors greater than
+$10^{-5}$.
 
-In contrast, the pointwise errors of the piecewise linear interpolant produced by
-\funappxg{} were uniformly below the specified error tolerance, $10^{-14}$.
-Unfortunately, the time taken by \funappxg{} to produce its answer about $60$
-times as long as the time required by Chebfun.
+In contrast, the pointwise errors of the piecewise linear interpolant produced
+by \funappxg{} were uniformly below the error tolerance. Unfortunately, the time
+taken by \funappxg{} to produce its answer about $45$ times as long as the time
+required by Chebfun. A parallel implementation of \funappxg called {\texttt
+par\_}\funappxg{} using four workers achieved a speedup of two times.
 
 %
 \begin{figure}[tb]
@@ -1177,7 +1179,7 @@ In this example, we compare our locally and globally adaptive algorithms with Ch
 simulating the following families of test functions  in addition to $f_3$:
 %
 \begin{align*}
- g_1(x) &= x^4 \sin(d/x), \quad
+ g_1(x) &= x^4 \sin(d/x), \qquad
  g_2(x) = 10  x^2 + g_1(x), \qquad x \in [-1, 1].
 %\\ f_3(x) &= \begin{cases} \displaystyle
 %   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
