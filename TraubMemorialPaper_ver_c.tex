@@ -64,6 +64,7 @@
 \newcommand{\abstol}{\varepsilon}
 %\newcommand{\abstol}{\varepsilon_{\textrm{a}}}
 \newcommand{\zton}{0\!:\!n}
+\newcommand{\oton}{1\!:\!n}
 \newcommand{\datasites}{x_{0:n}}
 \makeatletter
 \newcommand{\vast}{\bBigg@{4}}
@@ -105,6 +106,7 @@
 \DeclareMathOperator{\ninit}{ninit}
 \DeclareMathOperator{\errest}{errest}
 \DeclareMathOperator{\oerr}{\overline{err}}
+\DeclareMathOperator{\herr}{\widehat{err}}
 \newtheorem{theorem}{Theorem}
 \newtheorem{exmp}{Example}
 \newtheorem{prop}[theorem]{Proposition}
@@ -115,7 +117,7 @@
 \newcommand{\integralg}{\texttt{integral\_g}\xspace}
 \newcommand{\cosappx}{\widehat{\operatorname*{cos}}}
 \newcommand{\sinappx}{\widehat{\operatorname*{sin}}}
-\newcommand{\minfi}{\min\limits_{i=1, \ldots,  n} f(x_i)} %minf(xi)
+\newcommand{\minfi}{\min\limits_{i \in 0:n} f(x_i)} %minf(xi)
 \newcommand{\minfii}{\min(f(x_{i-1}), f(x_i))} %min{f(x_i-1),f(x_i)}
 \begin{document}
 
@@ -178,23 +180,19 @@ Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$. The algorithms
 $A$ and $M$ depend only on function values.
 
 These algorithms choose their data
-sites in the domain adaptively, with each new site depending on the function
+sites adaptively, with each new site depending on the function
 data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from ``globally adpative'' algorithms with a fixed sampling pattern and only the sample size determined adaptively.
 
-\subsection{Key Ideas in Our Algorithms}
+\subsection{Key Ideas in Our Algorithms} \label{subsec:keyideas}
 Our algorithms $A$ and $M$ are based on a \emph{linear spline}: 
 \begin{multline} \label{splinedef}
-S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i \in 1\!:\!n.
+S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i \in \oton.
 \end{multline}
-Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 \le x_1 < \cdots < x_{n-1} \le x_{n}:=b$.   The error of this approximation is bounded as follows \cite[Theorem
+Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$.   We call such a sequence a \emph{partition} of $[a,b]$.  The error of the linear spline is bounded as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
-\begin{subequations} \label{appxerrbda}
-	\begin{gather}
-	\label{appxerrbdapc}
+\begin{equation} \label{appxerrbda}
 	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
-	\norm{f - S(f,\datasites)} \le \max_{i \in 1:n} \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8},
-	\end{gather}
-\end{subequations}
+\end{equation}
 where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the interval $[\alpha,\beta] \subset [a,b]$.  This error bound leads us to restrict ourselves to input functions in the Sobolev space $\cw^{2,\infty} :=  \{f \in C^1[a,b] : \norm{f''}  <  \infty \}$.
 
 Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$ to make use of \eqref{appxerrbda}.  A nonadpative algorithm might assume that $\norm{f''} \le \sigma$, for some known $\sigma$, and then proceed to choose $n = \bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a + i(b-a)/n$, $i \in 0\!:\!n$.  However, we think that providing an upper bound on  $\norm{f''}$ is impractical, and therefore propose adaptive algorithms that do not require such a priori information.
@@ -392,22 +390,22 @@ GAIL.}
 
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
 
-The idea of Algorithm $A$ is to use divided differences to provide lower bounds on $\norm[{[\beta - h, \alpha]}]{f}$ and $\norm[{[\beta, \alpha+h]}]{f}$ via \eqref{NDDbdm}, which then provide an upper bound on $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in \eqref{conedef}.  This in turn yields an upper bound on the spline error via \eqref{appxerrbdapc}.  After stating the algorithm, its effectiveness is proven.
+The idea of Algorithm $A$ is to use divided differences to provide lower bounds on $\norm[{[\beta - h, \alpha]}]{f}$ and $\norm[{[\beta, \alpha+h]}]{f}$ via \eqref{NDDbdm}, which then provide an upper bound on $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in \eqref{conedef}.  This in turn yields an upper bound on the spline error via \eqref{appxerrbda}.  After stating the algorithm, its effectiveness is proven.
 
 \begin{algoA} \label{AlgoA}
 For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
 $n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and the index set of subintervals for which we need to compute quantities $\oerr_i$ to bound the spline error:
-$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
-\mathcal{I} = \{1,2,\ldots,n-1\}.
-$$
+\[
+x_i=a+ i\frac{b-a}{n}, \ i \in \zton \qquad \mathcal{I} = 1\!:\!n-1.
+\]
 
 \begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
 %\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
 
-\item \label{stage1} \emph{Check for convergence.} Compute
-\[
-\oerr_i = \frac{1}{8} \fC(3(x_i - x_{i-1}))\abs{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})} \qquad \forall i \in \ci. 
-\]
+\item \label{stage1} \emph{Check for convergence.} For all $i \in \ci$ compute
+\begin{equation} \label{oerrdef}
+\oerr_i = \frac{1}{8} \fC(3(x_i - x_{i-1}))\abs{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}.
+\end{equation}
 Let $\widetilde{\mathcal{I}} = \left\{i \in \mathcal{I}: \oerr_i  > \abstol \right\}$ be the index set for those $\oerr_i $ that are too large.   If $\widetilde{\mathcal{I}} =
 \emptyset$, return the linear spline $A(f,\abstol) = S(f, x_{0:n})$ and terminate
 the algorithm. Otherwise, continue to the next step.
@@ -461,7 +459,7 @@ By an analogous argument there exists an $l_+ \le \ell(x)$ such that $I_{x,l_+} 
 \end{subequations}
 Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_+}} $, we may conclude that
 \begin{align*}
-\norm[I_{x,\ell(x)}]{f - S(f)} &  \le \frac{1}{8}h_{\ell(x)}^2\norm[I_{x,\ell(x)}]{f''} \qquad \text{by \eqref{appxerrbdapc}} \\
+\norm[I_{x,\ell(x)}]{f - S(f)} &  \le \frac{1}{8}h_{\ell(x)}^2\norm[I_{x,\ell(x)}]{f''} \qquad \text{by \eqref{appxerrbda}} \\
 & \le \frac{1}{8} h_{\ell(x)}^2 \tB(f,x_{i_{\ell(x) - 1}},x_{i_{\ell(x)}},x_{i_{\ell(x)}}-x_{i_{l_-}-3},x_{i_{l_+}+2} - x_{i_{\ell(x) - 1}}) \\
 & \qquad \qquad \qquad \qquad \text{by the definition of $\cc$ in \eqref{conedef}}\\
 & \le \frac{1}{8} h_{\ell(x)}^2 \max \Bigl(\fC(x_{i_{\ell(x)}}-x_{i_{l_-}-3})   \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{\ell(x) - 1}}]}] {f''}, \\
@@ -537,7 +535,7 @@ where $L(x)$ is defined in~\eqref{eqn:defoflx}.
 \begin{proof}
 Let $x_{0:n}$ be the final partition when $A(f,\abstol)$
 successfully terminates. Note that $2^{\ell(x)}$ is constant for $x \in
-I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}]$ for $i \in 1\!:\! n$. Furthermore
+I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}]$ for $i \in \oton$. Furthermore
 $\int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif x = h_0$. Then the number of
 function values required is
 \begin{equation*}
@@ -557,8 +555,8 @@ As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,
 & \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf} below}.
 \end{align}
 
-For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac
-12]{f''}$ bound each other as is claimed in the following proposition.
+For functions in the cone $\cc$, the seminorms $\norm{f''}$ and $\norm[\frac
+12]{f''}$ are equivalent, but  for functions in $ \cw^{2,\infty}$ they are not, as is shown in the following proposition.
 
 \begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
@@ -566,7 +564,9 @@ For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac
 		\label{halflessinf}
 		(b-a)^2\norm[-\infty,{[\alpha,\beta]}]{f''}  \le \norm[\frac 12,{[\alpha,\beta]}]{f''}  \le (b-a)^2 \norm[{[\alpha,\beta]}]{f''} \quad \forall f \in \cw^{2,\infty}, \\
 		\label{inflesshalf}
-		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc.
+		\frac{4\fh^2}{27\fC_0} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc, \\
+		\label{infhalfnoteq}
+		\sup_{\substack{f \in \cw^{2,\infty}\\ f'' \ne 0}}  \frac{\norm{f''}}{\norm[\frac 12]{f''}} = \infty.
 		\end{gather}
 	\end{subequations}
 \end{prop}
@@ -577,33 +577,25 @@ The first inequality follows directly from the definitions of the (quasi-) norms
  \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2\\
  = \norm[\frac 12,{[\alpha,\beta]}]{f''} \le\biggl\{\sqrt{\norm[{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le  (\beta - \alpha)^2 \norm[{[\alpha,\beta]}]{f''}.
 \end{multline}
-The second inequality comes from the definition of the cone.  Note that $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $\alpha,\beta] \subset [a,b]$ whose width can be made arbitrarily small.  Then
+The second inequality comes from the definition of the cone.  Note that $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $[\alpha,\beta] \subset [a,b]$ whose width can be made arbitrarily small.  Then
 \begin{align*}
 \norm[{[\alpha,\beta]}]{f''}
-& \le  \lim_{\delta \downarrow 0}\min\bigl\{\tB(f,\alpha,\beta,h,h) : h \in (\beta - \alpha,\fh) \bigr \} \quad \text{by}~\eqref{conedef} \\
-& \le  \min\bigl\{\fC(h) \max\bigl(\norm[-\infty,{[\beta - h, \alpha]}]{f''},\norm[-\infty,{[\beta, \alpha+h]}]{f''}\bigr) : h \in (\beta - \alpha,\fh) \bigr \} \\
-& \le \min_{\beta - \alpha < h < \fh} \frac{\fC(h)}{(h-\beta+\alpha)^2}\norm[\frac 12,{[\alpha,\beta]}]{f''} \qquad \text{by}~\eqref{onebdm}.
+& \le \inf\bigl\{\tB(f,\alpha,\beta,h,h) : h \in (\beta - \alpha,\fh) \bigr \} \quad \text{by}~\eqref{conedef} \\
+& \le  \inf\bigl\{\fC(h) \max\bigl(\norm[-\infty,{[\beta - h, \alpha]}]{f''},\norm[-\infty,{[\beta, \alpha+h]}]{f''}\bigr) : h \in (\beta - \alpha,\fh) \bigr \} \\
+& \le \inf_{\beta - \alpha < h < \fh} \frac{\fC(h)}{(h-\beta+\alpha)^2}\norm[\frac 12]{f''} \\
+& \qquad \qquad\text{by}~\eqref{tbdef},~\eqref{onebdm}, \text{ and since }  \norm[{\frac12,[\alpha,\beta]}]{f''} \le \norm[\frac 12]{f''} \ \forall [\alpha,\beta] \subseteq [a,b] \\
+& \le \inf_{0 < h < \fh} \frac{\fC(h)}{h^2}\norm[\frac 12]{f''} \qquad \text{since $\beta-\alpha$ may be made arbitrarily small}\\
+& = \frac{27\fC_0}{4\fh^2}\norm[\frac 12]{f''} \qquad \text{by \eqref{hCdef}}.
 \end{align*}
-\end{proof}
-
-If $\fC$ is defined as in~\eqref{sampleC}, then
-\[
-\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} = \max_{0 \le h \le \fh} \frac{h^2(\fh - h)}{\fC(0)\fh} = \frac{4\fh^2}{29\fC(0)}.
-\]
 When $\fh$ is small, it is possible for $\norm[\frac 12]{f''} $ to be quite
 small in comparison to $\norm{f''}$. This occurs when $f''$ is rather spiky.
-
-
-Although $\norm{f''}$ and $\norm[\frac 12]{f''} $ are equivalent for $f \in
-\cc$, that is not the case for $f \in \cw^{2,\infty}$. The hump function $f_3$
-defined above satisfies
+The hump function $f_3 \in $ defined above satisfies
 \[
-\norm{f_3''} = \delta^{-2}, \qquad \norm[\frac 12]{f_3''}  = 16.
+\frac{\norm{f_3''}}{\norm[\frac 12]{f_3''}}  = \frac{ \delta^{-2}}{16}.
 \]
-By making $\delta$ small enough, we may make $\norm[\frac
-12]{f_3''}/\norm{f_3''} = 16\delta^2$ arbitrarily small. However, since $f_3
-\notin \cc$ for $\delta < 2\fh$, this does not violate
-Proposition~\ref{equivnormprop}.
+By making $\delta$ small enough, we may make this ratio arbitrarily large, thus proving \eqref{infhalfnoteq}. However, since $f_3
+\notin \cc$ for $\delta < 2\fh$, this does not violate \eqref{inflesshalf}.
+\end{proof}
 
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
 
@@ -622,7 +614,7 @@ behavior as the computational cost of Algorithm $A$.
 		\begin{subequations} \label{lowbdC}
 		\begin{gather}
 		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma}{16(\fC(0)+1)\abstol}} -1, \label{lowbdChalf}\\
-		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma(b-a)^2}{16(\fC(0)+1)\abstol}} -1 \label{lowbdCinf}.
+		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge (b-a)\sqrt{\frac{(\fC(0)-1)\sigma}{16(\fC(0)+1)\abstol}} -1 \label{lowbdCinf}.
 		\end{gather}
 		\end{subequations}
 		
@@ -638,35 +630,22 @@ behavior as the computational cost of Algorithm $A$.
 	\label{thm:A_cost}
 \end{theorem}
 
-Note by comparing \eqref{lowbdChalf} and \eqref{lowbdWhalf} that restricting the
-set of interesting functions from all of $ \cw^{2,\infty}$ to just the cone
-$\cc$ can significantly affect the lower complexity bounds. Also note that the
+Note by comparing \eqref{lowbdChalf} and \eqref{lowbdWhalf} that the lower complexity bound is significantly altered by restricting the
+set of input functions from all of $ \cw^{2,\infty}$ to just the cone
+$\cc$. Also note that the
 conclusions of this theorem hold whether or not $\sigma$ is an input to the
-algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. If one
-requires $\sigma$ as an input, then one can easily construct an algorithm based
-on linear splines with equally spaced points and a computational cost that is
-asymptotically the same as lower bound in \eqref{lowbdWinf}.
-
-The upper bounds on the computational cost of Algorithm $A$ are asymptotically
-the same as the computational cost of the bet possible algorithm, $A^*$.
-Comparing \eqref{costbdapprox} and \eqref{costbdinf} to \eqref{lowbdC}, we have
-the following:
-\begin{multline*}
-\frac{\displaystyle \sup_{f \in \cc : \norm[\frac 12]{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) } \approx
-\frac{\displaystyle \sup_{f \in \cc : \norm{f} \le \sigma} \cost(A,f,\abstol)}{\displaystyle	\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) } \\ \lessapprox \sqrt{\frac{2 \fC(0)(\fC(0)+1)}{\fC(0)-1}}.
-\end{multline*}
-The right hand side of this inequality does depend on how far $\fC(0)$ is above
-$1$, which is normally just a modest amount.
+algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the computational cost of Algorithm $A$ is asymptotically
+the same as the computational cost of the best possible algorithm, $A^*$ in \eqref{lowbdC} as $\abstol \to 0$.
 
 \begin{proof}
 	All of these lower bounds are proved by constructing fooling functions for which
 	algorithm $A$ succeeds, and then showing that at least a certain number of
-	samples must be used. The proofs of lower bounds~\eqref{lowbdW} are simpler, so
+	samples must be used. The proofs of~\eqref{lowbdW} are simpler, so
 	we start with them first.
 		
 	Let $A^*$ be a successful algorithm for all $f \in \cw^{2,\infty}$, and consider
-	the partition $\{x_i\}_{i=0}^{n+1}$, where $\{x_i\}_{i=1}^n$ are the data sites
-	used to compute $A^*(0,\abstol)$. Choose any $j=1, \ldots, n+1$ with
+	the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
+	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$ and $x_n = x_{n+1} = b$. Choose any $j=1, \ldots, n+1$ with
 	$x_j-x_{j-1} \ge (b-a)/(n+1)$. Let $f_3$ be defined as in~\eqref{f3def} with $c
 	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. Note that in general
 	\begin{equation}
@@ -712,23 +691,22 @@ $1$, which is normally just a modest amount.
 	Since $f_0''$ is constant, $f_0 \in \cc$, and so $A^*$ successfully approximates
 	$\gamma f_0$ for any non-negative $\gamma$.
 	
-	Consider the partition $\{x_i\}_{i=0}^{n+1}$, $a=x_0 \le x_1 < \cdots < x_n \le
-	x_{n+1} = b$, where $\{x_i\}_{i=1}^n$ are the data sites used to compute
-	$A^*(\gamma f_0,\abstol)$. Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
+	Consider the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
+	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$ and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
 	\ge (b-a)/(n+1)$, and let $f_3$ be defined as in~\eqref{f3def} with $c =
 	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
 	functions:
 	\begin{gather*}
 	f_{\pm} = f_0 \pm \tgamma f_3, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \\
 	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
-	m(f'_{\pm},\alpha,\beta) \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)}.
+\norm[-\infty{[\alpha,\beta]}]{f''} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)} \qquad \forall [\alpha,\beta] \subseteq [a,b].
 	\end{gather*}
-	The above calculations show that $\gamma f_{\pm} \in \cc$ as well for all real
+	The above calculations show that $\gamma f_{\pm} \in \cc$ for all real
 	$\gamma$. Moreover, the definition of $f_{\pm}$ ensures that $A^*(\gamma f_0) =
 	A^*(\gamma f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) =
 	n$.
 	
-	Like before, we make the argument that $\gamma\tgamma$ must be no larger than
+Similar to the above, we argue that $\gamma\tgamma$ must be no larger than
 	$\abstol$:
 	\begin{align*}
 	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},\norm{\gamma f_--A(f_-, \abstol)}) \\
@@ -763,7 +741,7 @@ At each step if Algorithm $M$ below, we let $\hM$ denote the smallest value of
 $f$ observed so far. This means that $\hM \ge M(f,\abstol)$. Our goals is to
 show that at some stage,
 \[
-\min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol.
+\min_{x_{i-1} \le x \le x_i} f(x) \ge \hM - \abstol, \qquad i \in \oton.
 \]
 Then we may return the answer $M(f,\abstol) = \hM$. For any subinterval
 $[x_{i-1}, x_i]$ in the current partition, we know from the error bound for the
@@ -784,40 +762,30 @@ the immediate left and right of this subinterval are candidates to be split,
 since they affect $B_{i,\pm}$.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval, $[a,b]$, and fixed integers $n_{\lo}$ and
-	$n_{\text{hi}}$ satisfying \eqref{nodefinition}, let $n_{\ninit}$ and $\fh$ be
-	defined as in \eqref{nodefinition}. Let $\fC:[0,\fh[ \to [1, \infty[$ be and
-	some non-decreasing inflation factor, that together with $\fh$ defines the cone
-	$\cc$. Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
-	$n=n_{\ninit}-1$ and define the partition, $\cp = \{x_j\}_{j=0}^n$ of equally
-	spaced points and the index set of subintervals for which the error tolerance is
-	not yet satisfied:
-	$$x_j=a+\frac{j}{n}(b-a), \ j=0,\ldots,n, \qquad
-	\mathcal{I} = \{1,2,\ldots,n-1,n\}.$$
-	Compute $\hM= \minfi$ and he second-order divided differences,
-	\[
-	f[x_{j-1},
-	x_{j}, x_{j+1}], \qquad  j= \{1,2,\ldots,n-1\}.
-	\]
+	For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
+	$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and the index sets of subintervals for which we need to compute quantities $\oerr_{i}$ to bound the spline error:
+\[
+x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
+\]
+	Compute $\hM= \minfi$.  
 	Then do the
 	following:
 	
 	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
-		\item \label{stagemin1} \emph{Check for convergence.}
-		Compute $B_{i,\pm}(f,\cp)$ as in~\eqref{bpdef} for all $i \in \mathcal{I}$.
-		Let
-		\begin{multline*}
-		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}:  \frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
-		> \minfii - \widehat{M} + \abstol \biggr\}.
-		\end{multline*}
-%		\begin{multline*}
-%		\mathcal{I}_\pm = \biggl\{i \in \mathcal{I}: \minfii -\frac{(x_i - x_{i-1})^2B_{i,\pm}(f,\cp)}{8}  \\
-%		< \widehat{M}-\abstol \biggr\}.
-%		\end{multline*}
-		Then update $\ci$ to be $\mathcal{I}_+ \cup \mathcal{I}_-$. If $\mathcal{I} =
+		
+		\item \label{stagemin1} \emph{Check for convergence.} For all $i \in \ci_{\pm}$ compute $\oerr_i $ according to \eqref{oerrdef}.
+		Let 
+		\begin{gather*}
+				\widehat{\ci}_+ = \Bigl\{i \in \mathcal{I}:  \oerr_{i} 
+				> \min\bigl(f(x_{i - 2}),f(x_{i-1})\bigr)- \widehat{M} + \abstol \Bigr\}, \\
+				\widehat{\ci}_- = \Bigl\{i \in \mathcal{I}:  \oerr_{i} 
+				> \min\bigl(f(x_{i + 1}),f(x_{i + 2})\bigr)- \widehat{M} + \abstol \Bigr\}.
+		\end{gather*}
+		be the index sets for those $\oerr_i $ that are too large.   If $\widehat{\mathcal{I}} =
 		\emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
-		\item \label{stagemin2} \emph{Split the subintervals as needed.}
+		
+			\item \label{stagemin2} \emph{Split the subintervals as needed.}
 		Let
 		\begin{gather*}
 		\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
@@ -944,7 +912,7 @@ The same bound also holds for the $s = -$ case.
 
 Finally, we bound $ \widehat{M}-\abstol$. Let $[x_{i^*-1}, x^*_i[$ be the
 subinterval in $\cp$ containing the location of the minimum, $x^*$. Note that by
-\eqref{appxerrbdapc} it follows that
+\eqref{appxerrbda} it follows that
 \begin{equation} \label{fxstarlowbd}
 f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}.
 \end{equation}
