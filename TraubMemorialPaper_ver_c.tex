@@ -529,46 +529,31 @@ $\abstol$. This algorithm is known to successfully solve
 problem~\eqref{appxprob} for functions in $\cc$. The computational cost of doing
 so has the following upper bound:
 \begin{equation*}
-\cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 , \\
+\cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 = \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1 \\
 \end{equation*}
-where $L(x)$ is defined in~\eqref{eqn:defoflx} and
-\begin{equation*}
-2^{L(x)} = \min\left\{2^l:  2^l \ge \sqrt{\frac{\fC\left(3\cdot 2^{-l} h_0\right) h_0^2 \norm[\bar{I}_{x,l}]{f''} }{8 \abstol}}, \  l \in  \natzero\right\}.
-\end{equation*}
+where $L(x)$ is defined in~\eqref{eqn:defoflx}.
 \end{theorem}
 
 \begin{proof}
-Let $\cp=\{x_j\}_{j=0}^n$ be the final partition when $A(f,\abstol)$
+Let $x_{0:n}$ be the final partition when $A(f,\abstol)$
 successfully terminates. Note that $2^{\ell(x)}$ is constant for $x \in
-I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}[$ for $i=1, \ldots, n$. Furthermore
+I_{x_{i-1},\ell(x_{i-1})} = [x_{i-1},x_{i}]$ for $i \in 1\!:\! n$. Furthermore
 $\int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif x = h_0$. Then the number of
 function values required is
 \begin{equation*}
 n+1 = 1 + \sum_{i=1}^{n} 1 = 1 + \sum_{i=1}^{n} \frac{1}{h_0} \int_{x_{i-1}}^{x_{i}} 2^{\ell(x)} \, \dif  x = 1 + \frac{1}{h_0}\int_a^b 2^{\ell(x)} \, \dif x.
 \end{equation*}
 Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
-The formula for $2^{L(x)}$ follows from the definition of $L(x)$
-in~\eqref{eqn:defoflx}.
 \end{proof}
 
-From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know
-\[\frac{2^{L(x)}}{h_0} \ge \sqrt{\frac{\fC\left(3\cdot 2^{-L(x)} h_0\right)\norm[\bar{I}_{x,L(x)}]{f''} }{8\abstol}}\]
-and
-\[\frac{2^{L(x)-1}}{h_0} \ge \sqrt{\frac{\fC\left(3\cdot 2^{-L(x)+1} h_0\right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}\].
-Thus, we have
+From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know that 
 \begin{align*}
-\cost(A,f,\abstol) & \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 , \\
-& < \int_a^b 2 \sqrt{\frac{\fC\left(6 \cdot 2^{-L(x)} h_0\right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}\, \dif x +1\\
-& = \int_a^b  \sqrt{\frac{\fC\left(6 \cdot 2^{-L(x)} h_0\right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}\, \dif x +1
+\frac{1}{h_{L(x)}} = \frac{2}{h_{L(x)-1}}  & < 2 \sqrt{\frac{\fC\left(3 h_{L(x)-1} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}} \\
+& = \sqrt{\frac{\fC\left(6 h_{L(x)} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}
 \end{align*}
-
-For small $\abstol$,
-$L(x)$ becomes large, $\norm[\bar{I}_{x,L(x)-1}]{f''}$ approaches $|f''(x)|$, and
-$3\cdot 2^{-L(x)}h_0$ tends to $0$. Thus, for small $\abstol$, the upper bound on computational cost becomes
+As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,L(x)-1}]{f''}$ approaches $|f''(x)|$.  Thus, the small $\abstol$ asymptotic upper bound on computational cost is
 \begin{align}
-\nonumber
-\cost(A,f,\abstol)  &\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1 \\
-& =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
+\cost(A,f,\abstol)  &\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1  =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
 & \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf} below}.
 \end{align}
 
@@ -578,24 +563,27 @@ For functions in the cone $\cc$, the quantities $\norm{f''}$ and $\norm[\frac
 \begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
 		\begin{gather}
-		\label{inflesshalf}
-		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc \\
 		\label{halflessinf}
-		\norm[\frac 12]{f''}  \le (b-a)^2 \norm{f''} \qquad \forall f \in \cw^{2,\infty}.
+		(b-a)^2\norm[-\infty,{[\alpha,\beta]}]{f''}  \le \norm[\frac 12,{[\alpha,\beta]}]{f''}  \le (b-a)^2 \norm[{[\alpha,\beta]}]{f''} \quad \forall f \in \cw^{2,\infty}, \\
+		\label{inflesshalf}
+		\max_{0 \le h \le \fh} \frac{h^2}{\fC(h)} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc.
 		\end{gather}
 	\end{subequations}
 \end{prop}
 \begin{proof}
-The first inequality comes from the definition of the cone:
+The first inequality follows directly from the definitions of the (quasi-) norms:
+\begin{multline} \label{onebdm}
+ (\beta - \alpha)^2 \norm[-\infty,{[\alpha,\beta]}]{f''} = \biggl\{\sqrt{\norm[-\infty,{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le 
+ \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2\\
+ = \norm[\frac 12,{[\alpha,\beta]}]{f''} \le\biggl\{\sqrt{\norm[{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le  (\beta - \alpha)^2 \norm[{[\alpha,\beta]}]{f''}.
+\end{multline}
+The second inequality comes from the definition of the cone.  Note that $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $\alpha,\beta] \subset [a,b]$ whose width can be made arbitrarily small.  Then
 \begin{align*}
-\norm{f''} & = \sup_{a \le x \le b} \max \abs{f''(x)} \\
-& \le \sup_{a \le x \le b} \min\bigl\{\tB(f,x,h,h) : h \in [0,\fh], \ a \le x - h < x+h \le b \bigr \} \quad \text{by}~\eqref{conedef} \\
-& \le \min_{0 \le h \le \fh} \frac{\fC(h)}{h^2}\norm[\frac 12]{f''} \qquad \text{by}~\eqref{conedef} \text{ and}~\eqref{onebdm}.
+\norm[{[\alpha,\beta]}]{f''}
+& \le  \lim_{\delta \downarrow 0}\min\bigl\{\tB(f,\alpha,\beta,h,h) : h \in (\beta - \alpha,\fh) \bigr \} \quad \text{by}~\eqref{conedef} \\
+& \le  \min\bigl\{\fC(h) \max\bigl(\norm[-\infty,{[\beta - h, \alpha]}]{f''},\norm[-\infty,{[\beta, \alpha+h]}]{f''}\bigr) : h \in (\beta - \alpha,\fh) \bigr \} \\
+& \le \min_{\beta - \alpha < h < \fh} \frac{\fC(h)}{(h-\beta+\alpha)^2}\norm[\frac 12,{[\alpha,\beta]}]{f''} \qquad \text{by}~\eqref{onebdm}.
 \end{align*}
-The second inequality follows directly from the definitions of the (quasi-) norms:
-\begin{equation} \label{onebdm}
-\norm[\frac 12]{f''} = \biggl\{ \int_{a}^{b} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2 \le\biggl\{\sqrt{\norm{f''}}  \int_{a}^{b} \, \dif x \biggr\}^2 \le  (b - a)^2 \norm{f''}.
-\end{equation}
 \end{proof}
 
 If $\fC$ is defined as in~\eqref{sampleC}, then
