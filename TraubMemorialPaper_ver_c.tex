@@ -433,7 +433,7 @@ Return to Step~\ref{stage1}.
 	\nonumber
 	\oerr_i & =\frac{1}{8} \fC(3h_l)\abs{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}  \\ 
 	& =  \frac{1}{4} \fC(3h_l) h_l^2 \abs{D(f,x_{i-1},x_{i+1})}  \qquad \text{by \eqref{divdiffdef}}  \label{divdiffbd}\\
-	& \ge \frac{1} 8 \fC(3h_l) h_l^2 \norm[-\infty,{[x_{i-1},x_{i+1}]}]{f}  \qquad \text{by \eqref{NDDbdm}}. \label{oerrbd}
+	& \ge \frac{1} 8 \fC(3h_l) h_l^2 \norm[-\infty,{[x_{i-1},x_{i+1}]}]{f''}  \qquad \text{by \eqref{NDDbdm}}. \label{oerrbd}
 	\end{align}
 	
 	Now, for all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$ containing $x$ that might arise at some stage in Algorithm $A$ as $[x_{i-1}, x_i]$ for some $i \in \zton$.  Specifically this interval is defined for all $ x \in [a,b]$ and $l \in \mathbb{N}_0$ as
@@ -776,6 +776,8 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 		\item \label{stagemin1} \emph{Check for convergence.} For all $i \in \ci_{\pm}$ compute $\oerr_i $ according to \eqref{oerrdef}.
 		Let 
 		\begin{gather*}
+		\ci = \Bigl\{i \in \mathcal{I}:  \oerr_{i} 
+		> \min\bigl(f(x_{i - 2}),f(x_{i-1})\bigr)- \widehat{M} + \abstol \Bigr\}  \textbf{FIX}
 				\widehat{\ci}_+ = \Bigl\{i \in \mathcal{I}:  \oerr_{i} 
 				> \min\bigl(f(x_{i - 2}),f(x_{i-1})\bigr)- \widehat{M} + \abstol \Bigr\}, \\
 				\widehat{\ci}_- = \Bigl\{i \in \mathcal{I}:  \oerr_{i} 
@@ -805,7 +807,24 @@ cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
 \begin{proof}
-	The proof of the effectiveness of Algorithm $M$ is similar to that for Algorithm $A$. Here we give the highlights.   
+	The proof of the effectiveness of Algorithm $M$ is similar to that for Algorithm $A$. Here we give the highlights.     We use the notation of $I_{x,l}$ introduced in \eqref{Ixldef} and analogously defined $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ containing $x$ when the algorithm terminates.  As in the proof of Theorem \ref{thm:algAworks}, we argue that there exist $l_{\pm} \le \ell(x)$ such that $I_{x,l_\pm} =[x_{i_{l_\pm}-1},x_{i_{l_\pm}}]$ and
+	\begin{gather*}
+	\frac{1} 8 \fC(3h_l) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} \le  \min\bigl(f(x_{i_{l_-}-1}),f(x_{i_{l_-}})\bigr)  - \hM + \abstol , \\
+	\frac{1} 8 \fC(3h_{l_+}) h_{l_+}^2 \norm[-\infty,{[x_{i_{l_+}},x_{i_{l_+}+2}]}]{f} \le  \min\bigl(f(x_{i_{l_-}-1}),f(x_{i_{l_-}})\bigr)  - \hM + \abstol .
+	\end{gather*}
+	
+	
+	The formula for the error of the linear spline implies that Algorithm $M$ may be terminated when
+	\begin{multline*}
+	\hM - \min_{x_{i-1} \le x \le x_i} f(x) \\
+	\le \hM - \minfii + \frac{1}{8} (x_i - x_{i-1})^2\norm[{[x_{i-1}, x_i]}]{f} \le  \abstol, \qquad i \in \oton,
+	\end{multline*}
+	or equivalently
+	\begin{equation*}
+   \frac{1}{8} (x_i - x_{i-1})^2\norm[{[x_{i-1}, x_i]}]{f} \le  \minfii  - \hM + \abstol, \qquad i \in \oton.
+	\end{equation*}
+	
+	
 \end{proof}
 
 Figure \ref{fig:sampling-funming} displays the same function $-f_3$ as in
