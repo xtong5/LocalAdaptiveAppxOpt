@@ -416,7 +416,7 @@ the algorithm. Otherwise, continue to the next step.
 \] 
 Update the set $\ci$ to consist of the new indices corresponding to the old points 
 \[
-x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2}, \ x_i,\ \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1}, \qquad i \in \widetilde{\ci}.
+x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2}, \ \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1}, \qquad i \in \widetilde{\ci}.
 \] 
 Return to Step~\ref{stage1}.
 \end{enumerate}
@@ -785,30 +785,17 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 		\emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
 		Otherwise, continue to the next step.
 		
-			\item \label{stagemin2} \emph{Split the subintervals as needed.}
-		Let
-		\begin{gather*}
-		\widehat{\mathcal{I}}_{\pm} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci_{\pm}, \ k \in \{0,1,2\}   \biggr\}, \quad  \\
-		%\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}: i\mp k \in \ci   \biggr\}, \quad k=1,2, \\
-		\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}_- \cup \widehat{\mathcal{I}}_+ : x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.
-		\end{gather*}
-%		Denote $\widehat{\mathcal{I}}=\widehat{\mathcal{I}}_{+1} \cup \widehat{\mathcal{I}}_{+2} \cup \widehat{\mathcal{I}}_{-1} \cup \widehat{\mathcal{I}}_{-2},$ where
-%		\begin{multline*}
-%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:
-%		\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8} \\ > \min(f(x_{j-1}),f(x_{j})) - \widehat{M}+\abstol,\\
-%		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
-%		\end{multline*}
-%		\begin{multline*}
-%		\widehat{\mathcal{I}}_{\pm k} = \biggl\{i \in \{1,2,\ldots,n\}:  \\
-%		\min(f(x_{j-1}),f(x_{j})) -\frac{(x_j - x_{j-1})^2B_{j,\pm}(f,\cp)}{8}  < \widehat{M}-\abstol,\\
-%		j=i\mp k,\ 0<j\le n,\ k=1,2 \biggr\},
-%		\end{multline*}
-%		\[\widetilde{\mathcal{I}}=\biggl\{i \in \mathcal{I} \cup \widehat{\mathcal{I}}: x_i - x_{i-1}=\max\limits_{j \in \mathcal{I} \cup \widehat{\mathcal{I}} } x_j-x_{j-1} \biggr\}.\]
-		Split in half those subintervals $[x_{i-1},x_i]$ for which $i$ lies in
-		$\widetilde{\mathcal{I}}$. Update $n$, $\cp = \{x_j\}_{j=0}^n$, $\mathcal{I}$,
-		$\hM = \minfi$, and the $f[x_{j-1}, x_{j}, x_{j+1}]$ accordingly. The updated
-		$\ci$ contains indices corresponding to the old subintervals or halves of old
-		subintervals whose indices were in the old $\ci$. Return to Step~\ref{stage1}.
+		\item \label{stagemin2} \emph{Split the subintervals as needed.}
+		Update the present partition, $x_{0:n}$, to include the subinterval midpoints
+		\begin{equation*}
+		\frac{x_{i-2} +x_{i-1}}{2}, \ \frac{x_{i-1} +x_{i}}{2} \ \ \forall i \in \widehat{\ci}_+, \quad 
+		\frac{x_{i} +x_{i+1}}{2}, \  \frac{x_{i+1} +x_{i+2}}{2} \ \ \forall  i \in \widehat{\ci}_-.
+		\end{equation*}
+		Update the sets $\ci_{\pm}$ to consist of the new indices corresponding to the old points 
+		\[
+		x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2} \text{ for } \widehat{\ci}_+, \qquad  \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1} \text{ for } \widehat{\ci}_-.
+		\] 
+		Return to Step~\ref{stagemin1}.
 	\end{enumerate}
 \end{algoM}
 
@@ -816,6 +803,10 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 Algorithm $M$ defined above solves problem~\eqref{optprob} for functions in the
 cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
+
+\begin{proof}
+	The proof of the effectiveness of Algorithm $M$ is similar to that for Algorithm $A$. Here we give the highlights.   
+\end{proof}
 
 Figure \ref{fig:sampling-funming} displays the same function $-f_3$ as in
 \ref{fig:sampling-funappxg}, but this time with the sampling points used for
