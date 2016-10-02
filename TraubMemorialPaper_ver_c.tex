@@ -456,7 +456,7 @@ $\cc$.
 \includegraphics[width=5.7cm]{figure/f3ppplot.eps}
 \caption{The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
 second derivative. This figure is reproducible by {\tt TraubMemorial.m} in
-GAIL.}
+GAIL. \scnote{To change $f_3$ to $f_1$ in plots.}}
 \label{f3fig}
 \end{figure}
 
@@ -464,10 +464,11 @@ GAIL.}
 \section{The Function Approximation Algorithm, $A$}\label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%---------------------------------------------------------------
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
+%---------------------------------------------------------------
 
-The idea of Algorithm $A$ is to use divided differences to provide lower bounds on $\norm[{[\beta - h, \alpha]}]{f}$ and $\norm[{[\beta, \alpha+h]}]{f}$ via \eqref{NDDbdm}, which then provide an upper bound on $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in \eqref{conedef}.  This in turn yields an upper bound on the spline error via \eqref{appxerrbda}.  After stating the algorithm, its effectiveness is proven.
+The idea of Algorithm $A$ is to use divided differences to provide lower bounds on $\norm[{[\beta - h, \alpha]}]{f}$ and $\norm[{[\beta, \alpha+h]}]{f}$ via \eqref{NDDbdm}, which then provide an upper bound on $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in \eqref{conedef}.  This in turn yields an upper bound on the spline error via \eqref{appxerrbda}.  After stating the algorithm, we prove its effectiveness.
 
 \begin{algoA} \label{AlgoA}
 For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
@@ -566,8 +567,9 @@ reproducible by {\tt TraubMemorial.m} in GAIL.}
 \label{fig:sampling-funappxg}
 \end{figure}
 
-
+%---------------------------------------------------------------
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
+%---------------------------------------------------------------
 
 In this section, we investigate the computational cost of our locally adaptive
 algorithm. Recall the definitions of $h_l$, $\Ixl$, and $\ell(x)$ from the previous subsection.  
@@ -674,7 +676,9 @@ By making $\delta$ small enough, we may make this ratio arbitrarily large, thus 
 \notin \cc$ for $\delta < 2\fh$, this does not violate \eqref{inflesshalf}.
 \end{proof}
 
+%---------------------------------------------------------------
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
+%---------------------------------------------------------------
 
 The upper bound on the computational cost of Algorithm~$A$ provides an upper
 bound on the complexity of problem~\eqref{appxprob}. We now construct lower
@@ -805,10 +809,14 @@ Similar to the above, we argue that $\gamma\tgamma$ must be no larger than
 \end{proof}
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%---------------------------------------------------------------
 \subsection{Algorithm $M$}  \label{sec:minalgo}
+%---------------------------------------------------------------
+
 Our minimization algorithm $M$ relies on the derivations in the previous
 sections. The main departure from Algorithm $A$ is the stopping criterion. It is
 not necessary to approximate $f$ accurately everywhere, only where $f$ has small
@@ -1032,7 +1040,9 @@ manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$
 is and the smaller the computational cost of Algorithm $M$.
 
+%---------------------------------------------------------------
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}
+%---------------------------------------------------------------
 
 The minimization problem \eqref{optprob} for functions in the whole Sobolev
 space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW}
@@ -1044,8 +1054,9 @@ affect the minimum function value, depending on the location of the bump's
 center. We have not yet derived a lower bound on the complexity of the
 minimization problem \eqref{optprob} for functions in $\cc$.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Examples} \label{sec:examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Together with our collaborators, we have developed the Guaranteed Automatic
 Integration Library (GAIL) \cite{ChoEtal15a}. This MATLAB software library
