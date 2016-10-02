@@ -413,7 +413,7 @@ f''_1(x) & =
 \end{cases}
 \end{align}
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta
-\le 1$. This function and its second derivative are shown in Figure~\ref{f3fig}
+\le 1$. This function and its second derivative are shown in Figure~\ref{f3fig}(a)
 for $-c=\delta = 0.2$.
 
 If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_1 \in \cc$ for any
@@ -450,13 +450,20 @@ This violates the definition of $\cc$. This example illustrates how the choice
 of $\fh$ influences the width of a spiky function and determines whether it lies in
 $\cc$.
 
-\begin{figure}[t]
+\begin{figure}[tbh]
 \centering
+\begin{tabular}{cc}
 \includegraphics[width=5.7cm]{figure/f3plot.eps} \quad
-\includegraphics[width=5.7cm]{figure/f3ppplot.eps}
-\caption{The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
+%\includegraphics[width=5.7cm]{figure/f3ppplot.eps}
+& \includegraphics[width=5.7cm]{figure/sampling-funappxg.eps}
+\\ (a) & (b)
+\end{tabular}
+\caption{(a) The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
 second derivative. This figure is reproducible by {\tt TraubMemorial.m} in
-GAIL. \scnote{To change $f_3$ to $f_1$ in plots.}}
+GAIL. (b) The non-uniform sampling density of Algorithm $A$ for input function
+$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
+and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
+reproducible by {\tt TraubMemorial.m} in GAIL.}
 \label{f3fig}
 \end{figure}
 
@@ -551,21 +558,21 @@ Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_
 This concludes the proof.\end{proof}
 
 
-Figure \ref{fig:sampling-funappxg} displays the function $-f_1$ defined in
+Figure \ref{f3fig}(b) displays the function $-f_1$ defined in
 \eqref{f3def} for a certain choice of parameters, along with the data used to
 compute the linear spline approximation $A(-f_1,0.01)$ by the algorithm
 described above. Note that $-f_1$ is sampled less densely where it is flat.
 
-\begin{figure}[tbh]
-\centering
-%\hspace{-9ex}
-\includegraphics[width=80mm]{figure/sampling-funappxg.eps}
-\caption{The non-uniform sampling density of Algorithm $A$ for input function
-$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
-and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
-reproducible by {\tt TraubMemorial.m} in GAIL.}
-\label{fig:sampling-funappxg}
-\end{figure}
+%\begin{figure}[tbh]
+%\centering
+%%\hspace{-9ex}
+%\includegraphics[width=80mm]{figure/sampling-funappxg.eps}
+%\caption{The non-uniform sampling density of Algorithm $A$ for input function
+%$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
+%and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
+%reproducible by {\tt TraubMemorial.m} in GAIL.}
+%\label{fig:sampling-funappxg}
+%\end{figure}
 
 %---------------------------------------------------------------
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
@@ -734,7 +741,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in \eqr
 	\end{equation}
 
 	For any real $\gamma$, it follows that $\gamma f_1(x_i)=0$ for $i=0, \ldots,
-	n+1$. Figure \ref{f3foolplot} illustrates this situation. Since $0$ and $\pm
+	n+1$. Figure \ref{f3foolplot}(a) illustrates this situation. Since $0$ and $\pm
 	\gamma f_1$ share the same values at the data sites, then they must share the
 	same approximation: $A^*(\pm \gamma f_1,\abstol) = A^*(0,\abstol)$. Moreover,
 	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_1,\abstol) = n$. Since the
@@ -753,16 +760,21 @@ the same as the computational cost of the best possible algorithm, $A^*$ in \eqr
 	f_1''}$ is small enough, which establishes ~\eqref{lowbdWhalf}. Solving the
 	bottom inequality for $n$ in terms of $\sigma = \norm{\gamma f_1''}$
 	establishes~\eqref{lowbdWinf}.
-		
-	\begin{figure}
-		\centering
-		\includegraphics[width = 8cm]{figure/f3foolplot.eps}
-		\caption{The fooling functions $\pm f_1$ used to prove \eqref{lowbdW}. The case
-		$n=15$ is shown.  This figure is reproducible by \texttt{TraubMemorial.m}
+
+\begin{figure}[t]
+\begin{tabular}{cc}	
+		\includegraphics[width=5.7cm]{figure/f3foolplot.eps}
+		&\includegraphics[width=5.7cm]{figure/sampling-funming.eps}
+		\\ (a) & (b)
+		\end{tabular}
+		\caption{(a) The fooling functions $\pm f_1$ used to prove \eqref{lowbdW}. The case
+		$n=15$ is shown.  (b) The same situation as in Figure~\ref{f3fig}(b), but now
+with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
+sampling points are needed to obtain the minimum of $-f_1$.  This figure is reproducible by \texttt{TraubMemorial.m}
 		in GAIL.}
 		\label{f3foolplot}
-	\end{figure}
-	
+\end{figure}
+  
 	Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
 	\begin{equation}
@@ -885,21 +897,21 @@ cone $\cc$ defined in~\eqref{conedef}.
 Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the solution, $\min_{a \le x \le b} f(x) $.
 \end{proof}
 
-Figure \ref{fig:sampling-funming} displays the same function $-f_1$ as in
-\ref{fig:sampling-funappxg}, but this time with the sampling points used for
+Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
+\ref{f3fig}(b), but this time with the sampling points used for
 minimization. It is found that $M(-f_1,0.01)$ uses only $31$ points, whereas
 $A(-f_1,0.01)$ uses $59$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
 
-\begin{figure}[tbh]
-\centering
-\includegraphics[width=80mm]{figure/sampling-funming.eps}
-\caption{The same situation as in Figure~\ref{fig:sampling-funappxg}, but now
-with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
-sampling points are needed to obtain the minimum of $-f_1$. This figure is
-reproducible by {\tt TraubMemorial.m} in GAIL.} \label{fig:sampling-funming}
-\end{figure}
+%\begin{figure}[tbh]
+%\centering
+%\includegraphics[width=80mm]{figure/sampling-funming.eps}
+%\caption{The same situation as in Figure~\ref{f3fig}(b), but now
+%with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
+%sampling points are needed to obtain the minimum of $-f_1$. This figure is
+%reproducible by {\tt TraubMemorial.m} in GAIL.} \label{fig:sampling-funming}
+%\end{figure}
 
 \subsection{Computational Cost} \label{subsec:optcost} \textbf{Fred fix starting here}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a
@@ -1158,7 +1170,7 @@ Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
 terms of a Chebyshev polynomial basis, in principle to machine precision
 ($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
 its intended error tolerance for the function~$f_1$ defined in
-Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}.
+Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}(a).
 Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to
 $f_1$. The blanks in the plot on the left and right correspond to zero error.
 Chebfun was asked to estimate $f_1$ to an error of no more than the specified
