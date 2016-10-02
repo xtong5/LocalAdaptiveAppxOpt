@@ -166,9 +166,9 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We want to solve univariate function approximation and
-global minimization problems by adaptive algorithms. For some suitable cone
-set, $\cc$, of continuously differentiable, real-valued functions defined on a finite interval
+We want to solve univariate function approximation and global minimization
+problems by adaptive algorithms. For some suitable cone set, $\cc$, of
+continuously differentiable, real-valued functions defined on a finite interval
 $[a,b]$, we construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and
 $M: (\cc,(0,\infty)) \to \reals$ such that for any $f \in \cc$ and any error
 tolerance $\abstol > 0$,
@@ -179,65 +179,122 @@ tolerance $\abstol > 0$,
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$. The algorithms
 $A$ and $M$ depend only on function values.
 
-Our algorithms choose their data
-sites adaptively, with each new site depending on the function
-data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over~$[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from \emph{globally adpative} methods that have a fixed sampling pattern and only the sample size is determined adaptively.
+Our algorithms choose their data sites adaptively, with each new site depending
+on the function data already obtained. The number of samples required is also
+determined adaptively. Our algorithms sample nonuniformly over~$[a,b]$, with the
+sampling density determined by the function data. We call our algorithms
+\emph{locally adaptive}, to distinguish them from \emph{globally adpative}
+methods that have a fixed sampling pattern and only the sample size is
+determined adaptively.
 
+%---------------------------------------------------------------
 \subsection{Key Ideas in Our Algorithms} \label{subsec:keyideas}
+%---------------------------------------------------------------
+
 Our algorithms $A$ and $M$ are based on a \emph{linear spline}: 
 \begin{multline} \label{splinedef}
-S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \quad i \in \oton.
+S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), 
+\\ x_{i-1} \le x \le x_i, \quad i \in \oton.
 \end{multline}
-Here ${0\!:\!n}$ is a shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$.   We call such a sequence a \emph{partition} of $[a,b]$.  The error of the linear spline is bounded as follows \cite[Theorem
-3.3]{BurFaiBur16a}:
+Here ${0\!:\!n}$ is a shorthand for ${0, \ldots, n}$, and $\datasites$ is an
+ordered sequence of $n+1$ points that includes the endpoints of the interval,
+i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
+\emph{partition} of $[a,b]$. The error of the linear spline is bounded as
+follows \cite[Theorem 3.3]{BurFaiBur16a}:
 \begin{equation} \label{appxerrbda}
-	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
+	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, 
 \end{equation}
-where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the interval $[\alpha,\beta] \subset [a,b]$.  This error bound leads us to focus on input functions in the Sobolev space $\cw^{2,\infty} :=  \{f \in C^1[a,b] : \norm{f''}  <  \infty \}$.
+where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the
+interval $[\alpha,\beta] \subset [a,b]$. This error bound leads us to focus on
+input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
+\norm{f''} < \infty \}$.
 
-Algorithms $A$ and $M$ require an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$ to make use of~\eqref{appxerrbda}.  A nonadpative algorithm might assume that $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n = \bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a + i(b-a)/n$, $i \in 0\!:\!n$.  However, providing an upper bound on  $\norm{f''}$ is often impractical, and therefore we propose adaptive algorithms that do not require such a priori information.
+Algorithms $A$ and $M$ require an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$
+to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
+$\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
+\bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a +
+i(b-a)/n$, $i \in 0\!:\!n$. However, providing an upper bound on $\norm{f''}$ is
+often impractical, and therefore we propose adaptive algorithms that do not
+require such a priori information.
 
-However, one must have some a priori information about $f \in \cw^{2,\infty} $, to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.  Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and $A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$.  Then one can construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) = 0$, $i\in \zton$ but with $\norm{f - S(f,\datasites)} = \norm{f - S(0,\datasites)} > \varepsilon$.
+However, one must have some a priori information about $f \in \cw^{2,\infty} $,
+to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.
+Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and
+$A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$. Then one can
+construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) =
+0$, $i\in \zton$ but with $\norm{f - S(f,\datasites)} = \norm{f -
+S(0,\datasites)} > \varepsilon$.
 
-Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to include only those functions whose second derivatives do not change dramatically over a short distance.  The precise definition is given in Section \ref{sec:cone}.  This allows us  to use second-order divided differences to construct rigorous upper bounds on the linear spline error in  \eqref{appxerrbda}.  These data-driven error bounds inform the stopping criteria for Algorithm $A$ in Section \ref{subsec:appxalgo} and Algorithm $M$ in Section \ref{sec:minalgo}.
+Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to
+include only those functions whose second derivatives do not change dramatically
+over a short distance. The precise definition is given in Section
+\ref{sec:cone}. This allows us to use second-order divided differences to
+construct rigorous upper bounds on the linear spline error in
+\eqref{appxerrbda}. These data-driven error bounds inform the stopping criteria
+for Algorithm $A$ in Section \ref{subsec:appxalgo} and Algorithm $M$ in Section
+\ref{sec:minalgo}.
 
-The computational cost of Algorithm $A$ is analyzed in Section \ref{subsec:appxcost} and is shown to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to  0$.   Here, $\norm[\frac12]{\cdot}$ denotes the
-$L^{\frac12}$-quasi-norm: $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x
-\bigr)^{1/p}$, $0 < p < \infty$. Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive algorithms can be more efficient than globally
-adaptive algorithms, whose computational costs are proportional to
-$\sqrt{\norm{f''}/\abstol}$.  The computational complexity of \eqref{appxprob} is determined in Section \ref{subsec:appxcomp} to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
+The computational cost of Algorithm $A$ is analyzed in Section
+\ref{subsec:appxcost} and is shown to be
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to 0$. Here,
+$\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm: $\norm[p]{f} :=
+\bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$. Since
+$\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive
+algorithms can be more efficient than globally adaptive algorithms, whose
+computational costs are proportional to $\sqrt{\norm{f''}/\abstol}$. The
+computational complexity of \eqref{appxprob} is determined in Section
+\ref{subsec:appxcomp} to be
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
 
-The computational cost of the optimization algorithm $M$ is analyzed in Section~\ref{subsec:optcost}.  A lower bound on the computational complexity of \eqref{optprob} is a subject for future investigation.
+The computational cost of the optimization algorithm $M$ is analyzed in
+Section~\ref{subsec:optcost}. A lower bound on the computational complexity of
+\eqref{optprob} is a subject for future investigation.
 
-Our new algorithms are implemented in our MATLAB Guaranteed
-Automatic Integration Library (GAIL) \cite{ChoEtal15a}. Section \ref{sec:examples} provides numerical examples
-of our new algorithms and compares their performances with MATLAB's and
-Chebfun's algorithms. We note cases where our algorithms are successful in
-meeting the error tolerance, and the other algorithms are not.
+Our new algorithms are implemented in our MATLAB Guaranteed Automatic
+Integration Library (GAIL) \cite{ChoEtal15a}. Section \ref{sec:examples}
+provides numerical examples of our new algorithms and compares their
+performances with MATLAB's and Chebfun's algorithms. We note cases where our
+algorithms are successful in meeting the error tolerance, and the other
+algorithms are not.
 
+%---------------------------------------------------------------
 \subsection{Related Work on Adaptive Algorithms}
+%---------------------------------------------------------------
+
 Adaptive algorithms relieve the user of having to specify the number of samples
 required. Only the desired error tolerance is needed. Existing adaptive
 numerical algorithms for function approximation, such as the MATLAB toolbox
-Chebfun \citep{TrefEtal16a}, suceed for some $f$, but fail for other
-$f$. No theory explains for which $f$ Chebfun succeeds. A corresponding
-situation exists for minimization algorithms, such as \texttt{min} in Chebfun or
-MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
+Chebfun \citep{TrefEtal16a}, suceed for some $f$, but fail for other $f$. No
+theory explains for which $f$ Chebfun succeeds. A corresponding situation exists
+for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's
+built-in \texttt{fminbnd} \citep{MAT9.0}.
 
-Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a, HicJim16a, Jia16a, JimHic16a,Ton14a}.  Like here, in all those previous cases, a cone, $\cc$, of input functions is identified for which the adaptive algorithms succeed.  However, unlike the algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,Ton14a}, the cone here does not appeal to a weaker norm.  Also, unlike the globally adaptive approximation and optimization algorithms in \cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive, sampling the interval non-uniformly.
+Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
+construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
+HicJim16a, Jia16a, JimHic16a,Ton14a}. Like here, in all those previous cases, a
+cone, $\cc$, of input functions is identified for which the adaptive algorithms
+succeed. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
+HicEtal14a,Ton14a}, the cone here does not appeal to a weaker norm. Also, unlike
+the globally adaptive approximation and optimization algorithms in
+\cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive,
+sampling the interval non-uniformly.
 
 Novak \cite{Nov96a} summarizes the settings under which adaption may provide an
 advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
 adaption has no advantage if the set of functions being considered is symmetric
 and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
-5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation problem \eqref{appxprob}
-is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a} have developed
-adaptive algorithms for functions with singularities. Our algorithms are not
-designed for functions with singularities. Rather they are designed to be
-efficient when the second derivative is large in a small part of the function
-domain.  
+5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation problem
+\eqref{appxprob} is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a}
+have developed adaptive algorithms for functions with singularities. Our
+algorithms are not designed for functions with singularities. Rather they are
+designed to be efficient when the second derivative is large in a small part of
+the function domain.
 
-Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all $x \in [a,b]$.  His algorithm relies on divided differences, like ours do.  His error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.
+Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for
+approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all
+$x \in [a,b]$. His algorithm relies on divided differences, like ours do. His
+error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is
+analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.
 
 There is a significant literature on theoretically justified algorithms based on
 interval arithmetic, which are described by \cite{MoKeCl09} and \cite{Rum10a}
