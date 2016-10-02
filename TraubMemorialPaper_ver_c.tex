@@ -214,7 +214,7 @@ to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
 $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
 \bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a +
 i(b-a)/n$, $i \in 0\!:\!n$. However, providing an upper bound on $\norm{f''}$ is
-often impractical, and therefore we propose adaptive algorithms that do not
+often impractical, and so we propose adaptive algorithms that do not
 require such a priori information.
 
 However, one must have some a priori information about $f \in \cw^{2,\infty} $,
@@ -286,9 +286,9 @@ and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
 5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation problem
 \eqref{appxprob} is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a}
 have developed adaptive algorithms for functions with singularities. Our
-algorithms are not designed for functions with singularities. Rather they are
+algorithms are not designed for such functions. Rather they are
 designed to be efficient when the second derivative is large in a small part of
-the function domain.
+the domain.
 
 Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for
 approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all
@@ -310,25 +310,25 @@ Linear splines \eqref{splinedef} are the foundation for adaptive algorithms $A$ 
 To bound the error of the linear spline in \eqref{appxerrbda}, our algorithms construct
 data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$ in terms of  divided differences. For
 these bounds to hold, we must assume that $f''(x)$ does not change drastically
-with a small change in $x$. These assumptions define our cone of functions, $\cc$, for
+with respect to a small change in $x$. These assumptions define our cone of functions, $\cc$, for
 which our algorithms ultimately apply.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
-\begin{gather}
+\begin{align}
 \nonumber
-p(x) : = f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), \\
-D(f,\alpha,\beta) := \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
-\end{gather}
+p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), \\
+D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
+\end{align}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
-zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on $(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
+zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on $(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $\alpha < \xi_- < (\alpha + \beta)/2 < \xi_+ < \beta$ with
 $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.   Thus,
-\begin{multline} \label{NDDbdm}
-\norm[-\infty,{[\alpha,\beta]}]{f''} := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f(\eta)}{\zeta - \eta}} \\
-\le \abs{\frac{f'(\xi_+) - f(\xi_-)}{\xi_+ - \xi_-}} 
- = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)} \\
- \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
-\end{multline}
+\begin{align} \label{NDDbdm}
+\norm[-\infty,{[\alpha,\beta]}]{f''} & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} \nonumber
+\\ & \le \abs{\frac{f'(\xi_+) - f'(\xi_-)}{\xi_+ - \xi_-}} 
+ = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)}  \nonumber
+ \\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
+\end{align}
 This inequality tells us that twice the divided difference, $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for $\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful.  But, $2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for $\norm[-\infty,{[\alpha,\beta]}]{f''}$.  The cone of interesting functions, $\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not drastically different than the maximum of $\norm[-\infty,{[\beta -  h_-, \alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$.
 
 The cone $\cc$ is defined in terms of two numbers:  an integer $n_{\ninit} \ge 5$ and a positive number  $\fC_0 \ge 1$.  Let 
@@ -352,7 +352,7 @@ B(f,\alpha,\beta,h_-,h_+) :=
  f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f,\alpha,\beta,h_-,h_+)  \text{ for all } [\alpha,\beta] \subset [a,b],
 \\ \text{and } 0 < \beta - \alpha < \max(h_{\pm}) < \fh  \Bigr \}.
 \end{multline}
-The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$. The integer $n_{\ninit}$ will be the initial number of subintervals in  Algorithms $A$ and $M$.  The parameter $\fC_0$ represents an upper bound on $\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta - \alpha \to 0$. Increasing either $n_{\ninit}$ or  $\fC_0$ expands the cone to include more functions.
+The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$. The integer $n_{\ninit}$ is the initial number of subintervals in  Algorithms $A$ and $M$.  The parameter $\fC_0$ represents an upper bound on $\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta - \alpha \to 0$. Increasing either $n_{\ninit}$ or  $\fC_0$ expands the cone to include more functions.
 
 We give an example of a parameterized family of functions whose members lie inside $\cc$ if they are not too spiky. 
 %Consider the following two functions defined on $[-1,1]$ whose
@@ -407,7 +407,7 @@ choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and $h_{\p
 and also
 \begin{multline*}
 \norm[-\infty,{[\beta - h_-,\alpha]}]{f''_1} = \delta^{-2} = \norm{f''_1}\\
-\text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta]
+\text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta].
 \end{multline*}
 Thus, $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta \ge  c - 2\delta$ or $\alpha \le c + 2\delta$.  For $[\alpha,\beta] \subset [-1,c - \delta) \cup (c+\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_1} = 0$, so $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ automatically.  Thus, the definition of the cone is satisfied.
 
@@ -423,7 +423,7 @@ it follows that for $h < \fh$,
 \norm[-\infty,{[\beta - h,\alpha]}]{f''_1} =\norm[-\infty,{[\beta,\alpha+h]}]{f''_1}=0 < \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
 \end{gather*}
 This violates the definition of $\cc$. This example illustrates how the choice
-of $\fh$ influences the width of a spiky function and determines whether or not it lies in
+of $\fh$ influences the width of a spiky function and determines whether it lies in
 $\cc$.
 
 \begin{figure}[t]
