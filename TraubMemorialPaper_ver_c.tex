@@ -142,15 +142,15 @@ minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide approximants that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space
 $\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
-function---sampling more densely where the second derivative is larger. The
+function---sampling more densely where the second derivatives are larger. The
 computational cost of our algorithm for approximating a univariate function on a
 bounded interval with $L^{\infty}$-error not greater than $\abstol$ is
-essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
 same order as that of the best function approximation algorithm for functions in
 $\cc$. The computational cost of our global minimization algorithm is no worse
-than that for function approximation and can be substantially smaller if the
-function significantly exceeds its minimum value over much of its domain. Our
-algorithms have been implemented in our Guaranteed Automatic Integration
+than that for function approximation and can be much smaller if the
+function exceeds its minimum value over much of its domain. Our
+algorithms are implemented in the Guaranteed Automatic Integration
 Library. Numerical examples are presented to illustrate the performance of our
 algorithms.
 \end{abstract}
