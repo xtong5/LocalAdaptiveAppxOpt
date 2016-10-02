@@ -306,55 +306,72 @@ functions have point inputs and outputs.
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines \eqref{splinedef} are the foundation for adaptive algorithms $A$ and $M$. 
-To bound the error of the linear spline in \eqref{appxerrbda}, our algorithms construct
-data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$ in terms of  divided differences. For
-these bounds to hold, we must assume that $f''(x)$ does not change drastically
-with respect to a small change in $x$. These assumptions define our cone of functions, $\cc$, for
-which our algorithms ultimately apply.
+Linear splines \eqref{splinedef} are the foundation for adaptive algorithms $A$
+and $M$. To bound the error of the linear spline in \eqref{appxerrbda}, our
+algorithms construct data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$
+in terms of divided differences. For these bounds to hold, we must assume that
+$f''(x)$ does not change drastically with respect to a small change in $x$.
+These assumptions define our cone of functions, $\cc$, for which our algorithms
+ultimately apply.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
 \begin{align}
 \nonumber
-p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), \\
-D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
+   p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), 
+\\ D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
 \end{align}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
-zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on $(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $\alpha < \xi_- < (\alpha + \beta)/2 < \xi_+ < \beta$ with
-$f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.   Thus,
+zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
+$(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
+\beta)/2 < \xi_+ < \beta$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. Thus,
 \begin{align} \label{NDDbdm}
-\norm[-\infty,{[\alpha,\beta]}]{f''} & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} \nonumber
+     \norm[-\infty,{[\alpha,\beta]}]{f''} 
+   & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} \nonumber
 \\ & \le \abs{\frac{f'(\xi_+) - f'(\xi_-)}{\xi_+ - \xi_-}} 
- = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)}  \nonumber
- \\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
+   = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)}  \nonumber
+\\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
 \end{align}
-This inequality tells us that twice the divided difference, $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for $\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful.  But, $2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for $\norm[-\infty,{[\alpha,\beta]}]{f''}$.  The cone of interesting functions, $\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not drastically different than the maximum of $\norm[-\infty,{[\beta -  h_-, \alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$.
+This inequality tells us that twice the divided difference,
+$2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for
+$\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful. But,
+$2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for
+$\norm[-\infty,{[\alpha,\beta]}]{f''}$. The cone of interesting functions,
+$\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not
+drastically different than the maximum of $\norm[-\infty,{[\beta - h_-,
+\alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$.
 
-The cone $\cc$ is defined in terms of two numbers:  an integer $n_{\ninit} \ge 5$ and a positive number  $\fC_0 \ge 1$.  Let 
+The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
+and a positive number $\fC_0 \ge 1$. Let
 \begin{equation}
 \label{hCdef}
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) : = \frac{\fC_0 \fh}{\fh - h}.
 \end{equation}
-For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 < \beta - \alpha < h_{\pm} < \fh$, define
+For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 <
+\beta - \alpha < h_{\pm} < \fh$, define
 \begin{equation} \label{tbdef}
 B(f,\alpha,\beta,h_-,h_+) :=
 \begin{cases}
-\max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), \\
-\hspace{25ex} a \le \beta- h_- <  \alpha + h_+ \le b,\\
-\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f}, \qquad a \le \beta- h_-  < b< \alpha + h_+ ,\\
-\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, \qquad \beta- h_- <  a < \alpha + h_+ \le b.
-\end{cases} %\quad
-%\Vastr
+   \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), 
+\\                                             \hspace{26ex} a \le \beta- h_- <  \alpha + h_+ \le b,
+\\ \fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},  \quad a \le \beta- h_- < b< \alpha + h_+,
+\\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, \quad \beta- h_- <  a  < \alpha + h_+ \le b.
+\end{cases} 
 \end{equation}
 \begin{multline} \label{conedef}
- \cc :=   \Bigl \{
+ \cc := \Bigl \{
  f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f,\alpha,\beta,h_-,h_+)  \text{ for all } [\alpha,\beta] \subset [a,b],
 \\ \text{and } 0 < \beta - \alpha < \max(h_{\pm}) < \fh  \Bigr \}.
 \end{multline}
-The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$. The integer $n_{\ninit}$ is the initial number of subintervals in  Algorithms $A$ and $M$.  The parameter $\fC_0$ represents an upper bound on $\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta - \alpha \to 0$. Increasing either $n_{\ninit}$ or  $\fC_0$ expands the cone to include more functions.
+The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real
+$c$. The integer $n_{\ninit}$ is the initial number of subintervals in
+Algorithms $A$ and $M$. The parameter $\fC_0$ represents an upper bound on
+$\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta -
+\alpha \to 0$. Increasing either $n_{\ninit}$ or $\fC_0$ expands the cone to
+include more functions.
 
-We give an example of a parameterized family of functions whose members lie inside $\cc$ if they are not too spiky. 
+We give an example of a parameterized family of functions whose members lie
+inside $\cc$ if they are not too spiky.
 %Consider the following two functions defined on $[-1,1]$ whose
 %second derivatives oscillate wildly near $0$:
 %\begin{gather*}
@@ -386,8 +403,8 @@ f_1(x) & = \begin{cases} \displaystyle
 \\ \qquad \qquad
     - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise},
-\end{cases} \\
-\nonumber
+\end{cases} 
+\\ \nonumber
 f''_1(x) & =
 \begin{cases} \displaystyle
     \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta,
@@ -399,7 +416,9 @@ Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta
 for $-c=\delta = 0.2$.
 
 If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_1 \in \cc$ for any
-choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and $h_{\pm}$ satisfying the conditions in the definition of $\cc$ in \eqref{conedef}, it follows that
+choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and
+$h_{\pm}$ satisfying the conditions in the definition of $\cc$ in
+\eqref{conedef}, it follows that
 \begin{multline*}
 \norm[-\infty,{[\beta,\alpha+h_+]}]{f''_1} = \delta^{-2} = \norm{f''_1}\\
 \text{if } \alpha\text{ or } \beta \in [c - 2\delta,  c - 1.5\delta]  \cup [c - \delta,  c + 0.5\delta] \cup [c + \delta, c+1.5\delta] 
@@ -409,11 +428,15 @@ and also
 \norm[-\infty,{[\beta - h_-,\alpha]}]{f''_1} = \delta^{-2} = \norm{f''_1}\\
 \text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta].
 \end{multline*}
-Thus, $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta \ge  c - 2\delta$ or $\alpha \le c + 2\delta$.  For $[\alpha,\beta] \subset [-1,c - \delta) \cup (c+\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_1} = 0$, so $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ automatically.  Thus, the definition of the cone is satisfied.
+Thus, $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta
+\ge c - 2\delta$ or $\alpha \le c + 2\delta$. For $[\alpha,\beta] \subset [-1,c
+- \delta) \cup (c+\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_1} =
+0$, so $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$
+automatically. Thus, the definition of the cone is satisfied.
 
 However, if the hump is too narrow, i.e., $\delta < 2 \fh$, the function $f_1$
-is too spiky to lie in the cone $\cc$ regardless of how
-$\fC_0$ is defined.  For $\alpha$, $\beta$ and $h$ satisfying 
+is too spiky to lie in the cone $\cc$ regardless of how $\fC_0$ is defined. For
+$\alpha$, $\beta$ and $h$ satisfying
 \[
 0 < c - 3\alpha/2 -\alpha =  \beta - c+ 3\delta/2 < \delta/2 < c-3\delta/2 - \beta + h < \fh,
 \]
