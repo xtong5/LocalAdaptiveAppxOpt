@@ -145,7 +145,7 @@ $\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function on a
 bounded interval with $L^{\infty}$-error not greater than $\abstol$ is
-essentially $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
 same order as that of the best function approximation algorithm for functions in
 $\cc$. The computational cost of our global minimization algorithm is no worse
 than that for function approximation and can be substantially smaller if the
@@ -183,61 +183,111 @@ These algorithms choose their data
 sites adaptively, with each new site depending on the function
 data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from ``globally adpative'' algorithms that have a fixed sampling pattern and only the sample size determined adaptively.
 
+%---------------------------------------------------------------
 \subsection{Key Ideas in Our Algorithms} \label{subsec:keyideas}
+%---------------------------------------------------------------
+
 Our algorithms $A$ and $M$ are based on a \emph{linear spline}: 
 \begin{multline} \label{splinedef}
-S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), \\ x_{i-1} \le x \le x_i, \ i \in \oton.
+S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), 
+\\ x_{i-1} \le x \le x_i, \quad i \in \oton.
 \end{multline}
 Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$.   We call such a sequence a \emph{partition} of $[a,b]$.  The error of the linear spline is bounded as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
 \begin{equation} \label{appxerrbda}
-	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \\
+	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, 
 \end{equation}
-where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the interval $[\alpha,\beta] \subset [a,b]$.  This error bound leads us to focus on input functions in the Sobolev space $\cw^{2,\infty} :=  \{f \in C^1[a,b] : \norm{f''}  <  \infty \}$.
+where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the
+interval $[\alpha,\beta] \subset [a,b]$. This error bound leads us to focus on
+input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
+\norm{f''} < \infty \}$.
 
-Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$ to make use of \eqref{appxerrbda}.  A nonadpative algorithm might assume that $\norm{f''} \le \sigma$, for some known $\sigma$, and then proceed to choose $n = \bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a + i(b-a)/n$, $i \in 0\!:\!n$.  However, we think that providing an upper bound on  $\norm{f''}$ is impractical, and therefore propose adaptive algorithms that do not require such a priori information.
+Algorithms $A$ and $M$ require an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$
+to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
+$\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
+\bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a +
+i(b-a)/n$, $i \in 0\!:\!n$. However, providing an upper bound on $\norm{f''}$ is
+often impractical, and so we propose adaptive algorithms that do not
+require such a priori information.
 
-However, one must have some a priori information about $f \in \cw^{2,\infty} $, to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.  Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and $A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$.  Then one can construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) = 0$, $i\in \zton$ but with $\norm{f - S(f,\datasites)} = \norm{f - S(0,\datasites)} > \varepsilon$.
+However, one must have some a priori information about $f \in \cw^{2,\infty} $,
+to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.
+Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and
+$A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$. Then one can
+construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) =
+0$, $i\in \zton$ but with $\norm{f - S(f,\datasites)} = \norm{f -
+S(0,\datasites)} > \varepsilon$.
 
-Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to include only those functions whose second derivatives do not change dramatically over a short distance.  The precise definition is given in Section \ref{sec:cone}.  This allows us  to use second order divided differences to construct rigorous upper bounds on the linear spline error in  \eqref{appxerrbda}.  These data-driven error bounds inform the stopping criteria for Algorithm $A$ in Section \ref{subsec:appxalgo} and Algorithm $M$ in Section \ref{sec:minalgo}.
+Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to
+include only those functions whose second derivatives do not change dramatically
+over a short distance. The precise definition is given in Section
+\ref{sec:cone}. This allows us to use second-order divided differences to
+construct rigorous upper bounds on the linear spline error in
+\eqref{appxerrbda}. These data-driven error bounds inform the stopping criteria
+for Algorithm $A$ in Section \ref{subsec:appxalgo} and Algorithm $M$ in Section
+\ref{sec:minalgo}.
 
-The computational cost of Algorithm $A$ is analyzed in Section \ref{subsec:appxcost} and is shown to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to  0$.   Here, $\norm[\frac12]{\cdot}$ denotes the
-$L^{\frac12}$-quasi-norm: $\norm[p]{f} := \bigl(\int_a^b \abs{f}^p \, \dif x
-\bigr)^{1/p}$, $0 < p < \infty$. Since $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive algorithms can be more efficient than globally
-adaptive algorithms, whose computational costs are proportional to
-$\sqrt{\norm{f''}/\abstol}$.  The computational complexity of \eqref{appxprob} is determined in Section \ref{subsec:appxcomp} to be $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
+The computational cost of Algorithm $A$ is analyzed in Section
+\ref{subsec:appxcost} and is shown to be
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to 0$. Here,
+$\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm: $\norm[p]{f} :=
+\bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$. Since
+$\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive
+algorithms can be more efficient than globally adaptive algorithms, whose
+computational costs are proportional to $\sqrt{\norm{f''}/\abstol}$. The
+computational complexity of \eqref{appxprob} is determined in Section
+\ref{subsec:appxcomp} to be
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
 
-The computational cost of optimization algorithm $M$ is analyzed in Section \ref{subsec:optcost}.  A lower bound on the computational complexity of \eqref{optprob} is a subject for further investigation.
+The computational cost of the optimization algorithm $M$ is analyzed in
+Section~\ref{subsec:optcost}. A lower bound on the computational complexity of
+\eqref{optprob} is a subject for future investigation.
 
-Our new algorithms are implemented in our MATLAB Guaranteed
-Automatic Integration Library (GAIL) \cite{ChoEtal15a}. Section \ref{sec:examples} provides numerical examples
-of our new algorithms and compares their performances with MATLAB's and
-Chebfun's algorithms. We note cases where our algorithms are successful in
-meeting the error tolerance, and the other algorithms are not.
+Our algorithms are implemented in our MATLAB Guaranteed Automatic
+Integration Library (GAIL) \cite{ChoEtal15a}. Section \ref{sec:examples}
+provides numerical examples of our algorithms and compares their
+performances with MATLAB's and Chebfun's algorithms. We note cases where our
+algorithms are successful in meeting the error tolerance, and the other
+algorithms are not.
 
+%---------------------------------------------------------------
 \subsection{Related Work on Adaptive Algorithms}
+%---------------------------------------------------------------
+
 Adaptive algorithms relieve the user of having to specify the number of samples
 required. Only the desired error tolerance is needed. Existing adaptive
 numerical algorithms for function approximation, such as the MATLAB toolbox
-Chebfun \citep{TrefEtal16a}, are successful for some $f$, but fail for other
-$f$. No theory explains for which $f$ Chebfun succeeds. A corresponding
-situation exists for minimization algorithms, such as \texttt{min} in Chebfun or
-MATLAB's built-in \texttt{fminbnd} \citep{MAT9.0}.
+Chebfun \citep{TrefEtal16a}, suceed for some $f$, but fail for other $f$. No
+theory explains for which $f$ Chebfun succeeds. A corresponding situation exists
+for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's
+built-in \texttt{fminbnd} \citep{MAT9.0}.
 
-Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a, HicJim16a, Jia16a, JimHic16a,Ton14a}.  Like here, in all those previous cases a cone, $\cc$, of input functions is identified for which the adaptive algorithms succeed.  However, unlike the algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,Ton14a}, the cone here does not appeal to a weaker norm.  Also, unlike the globally adaptive approximation and optimization algorithms in \cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive, sampling the interval non-uniformly.
+Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
+construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
+HicJim16a, Jia16a, JimHic16a,Ton14a}. Like here, in all those previous cases, a
+cone, $\cc$, of input functions is identified for which the adaptive algorithms
+succeed. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
+HicEtal14a,Ton14a}, the cone here does not appeal to a weaker norm. Also, unlike
+the globally adaptive approximation and optimization algorithms in
+\cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive,
+sampling the interval non-uniformly.
 
 Novak \cite{Nov96a} summarizes the settings under which adaption may provide an
 advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
 adaption has no advantage if the set of functions being considered is symmetric
 and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
-5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation problem \eqref{appxprob}
-is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a} have developed
-adaptive algorithms for functions with singularities. Our algorithms are not
-designed for functions with singularities. Rather they are designed to be
-efficient when the second derivative is large in a small part of the function
-domain.  
+5.2.1]{TraWasWoz88}. The cone $\cc$ defined for our approximation problem
+\eqref{appxprob} is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a}
+have developed adaptive algorithms for functions with singularities. Our
+algorithms are not designed for such functions. Rather they are
+designed to be efficient when the second derivative is large in a small part of
+the domain.
 
-Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all $x \in [a,b]$.  His algorithm relies on divided differences, like ours do.  His error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.
+Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for
+approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all
+$x \in [a,b]$. His algorithm relies on divided differences, like ours do. His
+error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is
+analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.
 
 There is a significant literature on theoretically justified algorithms based on
 interval arithmetic, which are described by \cite{MoKeCl09} and \cite{Rum10a}
@@ -249,55 +299,73 @@ functions have point inputs and outputs.
 \section{The Cone, $\cc$, of Functions of Interest} \label{sec:cone}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Linear splines \eqref{splinedef} are the foundation for adaptive algorithms $A$ and $M$. 
-To bound the error of the linear spline in \eqref{appxerrbda}, our algorithms construct
-data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$ in terms of  divided differences. For
-these bounds to hold, we must assume that $f''(x)$ does not change drastically
-with a small change in $x$. These assumptions define our cone of functions, $\cc$, for
-which our algorithms ultimately apply.
+Linear splines \eqref{splinedef} are the foundation for adaptive algorithms $A$
+and $M$. To bound the error of the linear spline in \eqref{appxerrbda}, our
+algorithms construct data-based upper bounds on $\norm[{[\alpha, \beta]}]{f''}$
+in terms of divided differences. For these bounds to hold, we must assume that
+$f''(x)$ does not change drastically with respect to a small change in $x$.
+These assumptions define our cone of functions, $\cc$, for which our algorithms
+ultimately apply.
 
 Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
-\begin{gather}
+\begin{align}
 \nonumber
-p(x) : = f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), \\
-D(f,\alpha,\beta) := \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
-\end{gather}
+   p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), 
+\\ D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
+\end{align}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
-zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on $(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $x_1 < \xi_- < x_2 < \xi_+ < x_3$ with
-$f'(\xi_\pm) - p'(\xi_{\pm}) = 0$.   Thus,
-\begin{multline} \label{NDDbdm}
-\norm[-\infty,{[\alpha,\beta]}]{f''} := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} \\
-\le \abs{\frac{f'(\xi_+) - f'(\xi_-)}{\xi_+ - \xi_-}} 
- = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)} \\
- \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
-\end{multline}
-This inequality tells us that twice the divided difference, $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for $\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful.  But, $2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for $\norm[-\infty,{[\alpha,\beta]}]{f''}$.  The cone of interesting functions, $\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not drastically different than the maximum of $\norm[-\infty,{[\beta -  h_-, \alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$.
+zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
+$(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
+\beta)/2 < \xi_+ < \beta$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. Thus,
+\begin{align} \label{NDDbdm}
+     \norm[-\infty,{[\alpha,\beta]}]{f''} 
+   & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} \nonumber
+\\ & \le \abs{\frac{f'(\xi_+) - f'(\xi_-)}{\xi_+ - \xi_-}} 
+   = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)}  \nonumber
+\\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
+\end{align}
+This inequality tells us that twice the divided difference,
+$2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for
+$\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful. But,
+$2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for
+$\norm[-\infty,{[\alpha,\beta]}]{f''}$. The cone of interesting functions,
+$\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not
+drastically different than the maximum of $\norm[-\infty,{[\beta - h_-,
+\alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$. \scnote{$\norm[-\infty,{[\alpha - h_-,
+\beta]}]{f''}$ and $\norm[-\infty,{[\alpha, \beta+ h_+]}]{f''}$ instead (here and (6))?}
 
-The cone $\cc$ is defined in terms of two numbers:  an integer $n_{\ninit} \ge 5$ and a positive number  $\fC_0 \ge 1$.  Let 
+The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
+and a positive number $\fC_0 \ge 1$. Let
 \begin{equation}
 \label{hCdef}
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) : = \frac{\fC_0 \fh}{\fh - h}.
 \end{equation}
-For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 < \beta - \alpha < h_{\pm} < \fh$, define
+For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 <
+\beta - \alpha < h_{\pm} < \fh$, define
 \begin{equation} \label{tbdef}
 B(f,\alpha,\beta,h_-,h_+) :=
 \begin{cases}
-\max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), \\
-\hspace{25ex} a \le \beta- h_- <  \alpha + h_+ \le b,\\
-\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f}, \qquad a \le \beta- h_-  < b< \alpha + h_+ ,\\
-\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, \qquad \beta- h_- <  a < \alpha + h_+ \le b.
-\end{cases} %\quad
-%\Vastr
+   \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), 
+\\                                             \hspace{26ex} a \le \beta- h_- <  \alpha + h_+ \le b,
+\\ \fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},  \quad a \le \beta- h_- < b< \alpha + h_+,
+\\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, \quad \beta- h_- <  a  < \alpha + h_+ \le b.
+\end{cases} 
 \end{equation}
 \begin{multline} \label{conedef}
- \cc :=   \Bigl \{
+ \cc := \Bigl \{
  f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f,\alpha,\beta,h_-,h_+)  \text{ for all } [\alpha,\beta] \subset [a,b],
 \\ \text{and } 0 < \beta - \alpha < \max(h_{\pm}) < \fh  \Bigr \}.
 \end{multline}
-The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real $c$. The integer $n_{\ninit}$ will be the initial number of subintervals in  Algorithms $A$ and $M$.  The parameter $\fC_0$ represents an upper bound on $\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta - \alpha \to 0$. Increasing either $n_{\ninit}$ or  $\fC_0$ expands the cone to include more functions.
+The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real
+$c$. The integer $n_{\ninit}$ is the initial number of subintervals in
+Algorithms $A$ and $M$. The parameter $\fC_0$ represents an upper bound on
+$\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta -
+\alpha \to 0$. Increasing either $n_{\ninit}$ or $\fC_0$ expands the cone to
+include more functions.
 
-We give an example of a parameterized family of functions whose members lie inside $\cc$ if they are not too spiky. 
+We give an example of a parameterized family of functions whose members lie
+inside $\cc$ if they are not too spiky.
 %Consider the following two functions defined on $[-1,1]$ whose
 %second derivatives oscillate wildly near $0$:
 %\begin{gather*}
@@ -329,8 +397,8 @@ f_1(x) & = \begin{cases} \displaystyle
 \\ \qquad \qquad
     - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise},
-\end{cases} \\
-\nonumber
+\end{cases} 
+\\ \nonumber
 f''_1(x) & =
 \begin{cases} \displaystyle
     \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta), & \abs{x-c} \le 2\delta,
@@ -338,11 +406,13 @@ f''_1(x) & =
 \end{cases}
 \end{align}
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta
-\le 1$. This function and its second derivative are shown in Figure~\ref{f3fig}
+\le 1$. This function and its second derivative are shown in Figure~\ref{f3fig}(a)
 for $-c=\delta = 0.2$.
 
 If the hump is wide enough, i.e., $\delta \ge 2 \fh$, then $f_1 \in \cc$ for any
-choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and $h_{\pm}$ satisfying the conditions in the definition of $\cc$ in \eqref{conedef}, it follows that
+choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and
+$h_{\pm}$ satisfying the conditions in the definition of $\cc$ in
+\eqref{conedef}, it follows that
 \begin{multline*}
 \norm[-\infty,{[\beta,\alpha+h_+]}]{f''_1} = \delta^{-2} = \norm{f''_1}\\
 \text{if } \alpha\text{ or } \beta \in [c - 2\delta,  c - 1.5\delta]  \cup [c - \delta,  c + 0.5\delta] \cup [c + \delta, c+1.5\delta] 
@@ -350,13 +420,17 @@ choice of $\fC_0 \ge 1$. For for any $[\alpha,\beta]\subseteq [-1,1]$ and $h_{\p
 and also
 \begin{multline*}
 \norm[-\infty,{[\beta - h_-,\alpha]}]{f''_1} = \delta^{-2} = \norm{f''_1}\\
-\text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta]
+\text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta].
 \end{multline*}
-Thus, $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta \ge  c - 2\delta$ or $\alpha \le c + 2\delta$.  For $[\alpha,\beta] \subset [-1,c - \delta) \cup (c+\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_1} = 0$, so $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ automatically.  Thus, the definition of the cone is satisfied.
+Thus, $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta
+\ge c - 2\delta$ or $\alpha \le c + 2\delta$. For $[\alpha,\beta] \subset [-1,c
+- \delta) \cup (c+\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_1} =
+0$, so $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$
+automatically. Thus, the definition of the cone is satisfied.
 
 However, if the hump is too narrow, i.e., $\delta < 2 \fh$, the function $f_1$
-is too spiky to lie in the cone $\cc$ regardless of how
-$\fC_0$ is defined.  For $\alpha$, $\beta$ and $h$ satisfying 
+is too spiky to lie in the cone $\cc$ regardless of how $\fC_0$ is defined. For
+$\alpha$, $\beta$ and $h$ satisfying
 \[
 0 < c - 3\alpha/2 -\alpha =  \beta - c+ 3\delta/2 < \delta/2 < c-3\delta/2 - \beta + h < \fh,
 \]
@@ -366,16 +440,23 @@ it follows that for $h < \fh$,
 \norm[-\infty,{[\beta - h,\alpha]}]{f''_1} =\norm[-\infty,{[\beta,\alpha+h]}]{f''_1}=0 < \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
 \end{gather*}
 This violates the definition of $\cc$. This example illustrates how the choice
-of $\fh$ influences the width of a spiky function and determines whether or not it lies in
+of $\fh$ influences the width of a spiky function and determines whether it lies in
 $\cc$.
 
-\begin{figure}[t]
+\begin{figure}[tbh]
 \centering
+\begin{tabular}{cc}
 \includegraphics[width=5.7cm]{figure/f3plot.eps} \quad
-\includegraphics[width=5.7cm]{figure/f3ppplot.eps}
-\caption{The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
+%\includegraphics[width=5.7cm]{figure/f3ppplot.eps}
+& \includegraphics[width=5.7cm]{figure/sampling-funappxg.eps}
+\\ (a) & (b)
+\end{tabular}
+\caption{(a) The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
 second derivative. This figure is reproducible by {\tt TraubMemorial.m} in
-GAIL.}
+GAIL. (b) The non-uniform sampling density of Algorithm $A$ for input function
+$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
+and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
+reproducible by {\tt TraubMemorial.m} in GAIL.}
 \label{f3fig}
 \end{figure}
 
@@ -383,8 +464,9 @@ GAIL.}
 \section{The Function Approximation Algorithm, $A$}\label{sec:fappx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%---------------------------------------------------------------
 \subsection{Algorithm $A$} \label{subsec:appxalgo}
+%---------------------------------------------------------------
 
 The idea of Algorithm $A$ is to use divided differences to provide upper bounds on $\norm[-\infty,{[\beta - h_-, \alpha]}]{f}$ and $\norm[-\infty{[\beta, \alpha+h_+]}]{f}$ via \eqref{NDDbdm}, which then provide an upper bound on $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in \eqref{conedef}.  This in turn yields an upper bound on the spline error via \eqref{appxerrbda}.  After stating the algorithm, its effectiveness is proven.
 
@@ -465,24 +547,25 @@ Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_
 This concludes the proof.\end{proof}
 
 
-Figure \ref{fig:sampling-funappxg} displays the function $-f_1$ defined in
+Figure \ref{f3fig}(b) displays the function $-f_1$ defined in
 \eqref{f3def} for a certain choice of parameters, along with the data used to
 compute the linear spline approximation $A(-f_1,0.01)$ by the algorithm
 described above. Note that $-f_1$ is sampled less densely where it is flat.
 
-\begin{figure}[tbh]
-\centering
-%\hspace{-9ex}
-\includegraphics[width=80mm]{figure/sampling-funappxg.eps}
-\caption{The non-uniform sampling density of Algorithm $A$ for input function
-$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
-and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
-reproducible by {\tt TraubMemorial.m} in GAIL.}
-\label{fig:sampling-funappxg}
-\end{figure}
+%\begin{figure}[tbh]
+%\centering
+%%\hspace{-9ex}
+%\includegraphics[width=80mm]{figure/sampling-funappxg.eps}
+%\caption{The non-uniform sampling density of Algorithm $A$ for input function
+%$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
+%and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
+%reproducible by {\tt TraubMemorial.m} in GAIL.}
+%\label{fig:sampling-funappxg}
+%\end{figure}
 
-
+%---------------------------------------------------------------
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
+%---------------------------------------------------------------
 
 In this section, we investigate the computational cost of our locally adaptive
 algorithm. Recall the definitions of $h_l$, $\Ixl$, and $\ell(x)$ from the previous subsection.  
@@ -589,7 +672,9 @@ By making $\delta$ small enough, we may make this ratio arbitrarily large, thus 
 \notin \cc$ for $\delta < 2\fh$, this does not violate \eqref{inflesshalf}.
 \end{proof}
 
+%---------------------------------------------------------------
 \subsection{Lower Complexity Bound} \label{subsec:appxcomp}
+%---------------------------------------------------------------
 
 The upper bound on the computational cost of Algorithm~$A$ provides an upper
 bound on the complexity of problem~\eqref{appxprob}. We now construct lower
@@ -645,7 +730,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in \eqr
 	\end{equation}
 
 	For any real $\gamma$, it follows that $\gamma f_1(x_i)=0$ for $i=0, \ldots,
-	n+1$. Figure \ref{f3foolplot} illustrates this situation. Since $0$ and $\pm
+	n+1$. Figure \ref{f3foolplot}(a) illustrates this situation. Since $0$ and $\pm
 	\gamma f_1$ share the same values at the data sites, then they must share the
 	same approximation: $A^*(\pm \gamma f_1,\abstol) = A^*(0,\abstol)$. Moreover,
 	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_1,\abstol) = n$. Since the
@@ -664,16 +749,21 @@ the same as the computational cost of the best possible algorithm, $A^*$ in \eqr
 	f_1''}$ is small enough, which establishes ~\eqref{lowbdWhalf}. Solving the
 	bottom inequality for $n$ in terms of $\sigma = \norm{\gamma f_1''}$
 	establishes~\eqref{lowbdWinf}.
-		
-	\begin{figure}
-		\centering
-		\includegraphics[width = 8cm]{figure/f3foolplot.eps}
-		\caption{The fooling functions $\pm f_1$ used to prove \eqref{lowbdW}. The case
-		$n=15$ is shown.  This figure is reproducible by \texttt{TraubMemorial.m}
+
+\begin{figure}[t]
+\begin{tabular}{cc}	
+		\includegraphics[width=5.7cm]{figure/f3foolplot.eps}
+		&\includegraphics[width=5.7cm]{figure/sampling-funming.eps}
+		\\ (a) & (b)
+		\end{tabular}
+		\caption{(a) The fooling functions $\pm f_1$ used to prove \eqref{lowbdW}. The case
+		$n=15$ is shown.  (b) The same situation as in Figure~\ref{f3fig}(b), but now
+with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
+sampling points are needed to obtain the minimum of $-f_1$.  This figure is reproducible by \texttt{TraubMemorial.m}
 		in GAIL.}
 		\label{f3foolplot}
-	\end{figure}
-	
+\end{figure}
+  
 	Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
 	\begin{equation}
@@ -720,10 +810,14 @@ Similar to the above, we argue that $\gamma\tgamma$ must be no larger than
 \end{proof}
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Minimization Algorithm, $M$} \label{sec:funmin}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%---------------------------------------------------------------
 \subsection{Algorithm $M$}  \label{sec:minalgo}
+%---------------------------------------------------------------
+
 Our minimization algorithm $M$ relies on the derivations in the previous
 sections. The main departure from Algorithm $A$ is the stopping criterion. It is
 not necessary to approximate $f$ accurately everywhere, only where $f$ has small
@@ -792,21 +886,21 @@ cone $\cc$ defined in~\eqref{conedef}.
 Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the solution, $\min_{a \le x \le b} f(x) $.
 \end{proof}
 
-Figure \ref{fig:sampling-funming} displays the same function $-f_1$ as in
-\ref{fig:sampling-funappxg}, but this time with the sampling points used for
+Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
+\ref{f3fig}(b), but this time with the sampling points used for
 minimization. It is found that $M(-f_1,0.01)$ uses only $31$ points, whereas
 $A(-f_1,0.01)$ uses $59$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
 
-\begin{figure}[tbh]
-\centering
-\includegraphics[width=80mm]{figure/sampling-funming.eps}
-\caption{The same situation as in Figure~\ref{fig:sampling-funappxg}, but now
-with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
-sampling points are needed to obtain the minimum of $-f_1$. This figure is
-reproducible by {\tt TraubMemorial.m} in GAIL.} \label{fig:sampling-funming}
-\end{figure}
+%\begin{figure}[tbh]
+%\centering
+%\includegraphics[width=80mm]{figure/sampling-funming.eps}
+%\caption{The same situation as in Figure~\ref{f3fig}(b), but now
+%with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
+%sampling points are needed to obtain the minimum of $-f_1$. This figure is
+%reproducible by {\tt TraubMemorial.m} in GAIL.} \label{fig:sampling-funming}
+%\end{figure}
 
 \subsection{Computational Cost} \label{subsec:optcost}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a
@@ -961,7 +1055,9 @@ manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
 The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$
 is and the smaller the computational cost of Algorithm $M$.
 
+%---------------------------------------------------------------
 \subsection{Lower Complexity Bound} \label{subsec:optcomp}
+%---------------------------------------------------------------
 
 The minimization problem \eqref{optprob} for functions in the whole Sobolev
 space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW}
@@ -973,8 +1069,9 @@ affect the minimum function value, depending on the location of the bump's
 center. We have not yet derived a lower bound on the complexity of the
 minimization problem \eqref{optprob} for functions in $\cc$.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Examples} \label{sec:examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Together with our collaborators, we have developed the Guaranteed Automatic
 Integration Library (GAIL) \cite{ChoEtal15a}. This MATLAB software library
@@ -1076,7 +1173,7 @@ Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
 terms of a Chebyshev polynomial basis, in principle to machine precision
 ($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
 its intended error tolerance for the function~$f_1$ defined in
-Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}.
+Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}(a).
 Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to
 $f_1$. The blanks in the plot on the left and right correspond to zero error.
 Chebfun was asked to estimate $f_1$ to an error of no more than the specified
