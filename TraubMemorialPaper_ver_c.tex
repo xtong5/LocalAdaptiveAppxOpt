@@ -1089,7 +1089,9 @@ automatically determining the sampling needed to satisfy a user provided error
 tolerance. GAIL is under active development.  It implements our best adaptive algorithms and
 upholds the principles of reproducible and reliable computational science.  This includes input parsing extensive testing, code comments, a user guide, and case studies.
 Algorithms $A$ and $M$ described here are implemented as GAIL
-functions \funappxg{} and \funming, respectively.
+functions \funappxg{} and \funming, respectively. The following examples showcase the merits and drawbacks of our algorithms. We
+compare them to the performance of MATLAB's built-in algorithms and the Chebfun
+toolbox.
 
 \begin{comment}
 %% Example 1
@@ -1172,9 +1174,6 @@ in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
 %% Example 3.2
 \end{comment}
 
-The following examples showcase the merits and drawbacks of our algorithms. We
-compare them to the performance of MATLAB's built-in algorithms and the Chebfun
-toolbox.
 
 \begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
@@ -1182,13 +1181,12 @@ terms of a Chebyshev polynomial basis, in principle to machine precision
 ($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
 its intended error tolerance for the function~$f_1$ defined in
 Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}(a).
-Figure~\ref{f3chebfig}a) shows the absolute errors of Chebfun's approximation to
+Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
 $f_1$. The blanks in the plot on the left and right correspond to zero error.
 Chebfun was asked to estimate $f_1$ to an error of no more than the specified
 error tolerance $10^{-14}$, and the ``splitting'' option was turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
-discontinuities were detected. Nonetheless, Chebfun produced errors greater than
-$10^{-5}$.
+discontinuities were detected. However, Chebfun produced errors greater than~$10^{-5}$.
 
 In contrast, the pointwise errors of the piecewise linear interpolant produced
 by \funappxg{} were uniformly below the error tolerance. Unfortunately, the time
@@ -1201,14 +1199,21 @@ par\_}\funappxg{} using four workers achieved a speedup of two times.
 \centering
 \begin{tabular}{cc}
 \includegraphics[width=5.7cm]{figure/chebfun_errors.eps} \hspace{-2.5ex} &
-\includegraphics[width=5.7cm]{figure/funappx_g_errors.eps}
-\\ a) & b)
+%\includegraphics[width=5.7cm]{figure/funappx_g_errors.eps}
+\includegraphics[width=5.7cm]{figure/traub_funappx_g_test.eps}
+\\ (a) & (b)
 \end{tabular}
-\caption{The approximation errors for $f_1(x)$ using a) Chebfun and b)
-\funappxg. The blank regions of the graphs correspond to zero errors. This
-figure is reproducible by \texttt{cf\_chebfun.m}. \label{f3chebfig}}
+\caption{(a) The approximation errors for $f_1(x)$ using  Chebfun and  
+\funappxg. The blank regions of the graphs correspond to zero errors. 
+%This figure is reproducible by \texttt{cf\_chebfun.m}. 
+(b) An empirical distribution function of performance ratios based on 1000
+simulations for each test function: \funappxg{} time $/$ \funappxglobalg{} time
+(blue), \funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),
+\funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$
+Chebfun \# of samples (green). This figure is conditionally reproducible by \texttt{cf\_chebfun.m} and
+\texttt{traubpaper\_funappx\_g\_test.m} in GAIL.
+\label{f3chebfig}} % \label{fig:testfunctions}
 \end{figure}
-%
 
 \end{exmp}
 
@@ -1251,25 +1256,10 @@ our old globally adaptive algorithm \texttt{funappxglobal\_g}, and Chebfun are
 used to approximate $1000$ random test functions. We switch on the splitting
 feature in Chebfun to use piecewise Chebyshev polynomials for approximation if
 needed, and override the default tolerance to $10^{-6}$ as well. The
-approximation results are summarized in Figure~\ref{fig:testfunctions} and
+approximation results are summarized in Figure~\ref{f3chebfig}(b) and
 Table~\ref{tab:localVsGlobalVsChebfun}.
 
 %
-\begin{figure}[tb]
-  \centering
-%  \begin{tabular}{cc}
-%\includegraphics[width=58mm]{figure/traub_funappxNoPenalty_g_testfun.eps} & \hspace{-4ex}
-\includegraphics[width=80mm]{figure/traub_funappx_g_test.eps}
-%  \\ a)  & b)
-%  \end{tabular}
-\caption{An empirical distribution function of performance ratios based on 1000
-simulations for each test function: \funappxg{} time $/$ \funappxglobalg{} time
-(blue), \funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),
-\funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$
-Chebfun \# of samples (green). This figure is conditionally reproducible by
-\texttt{traubpaper\_funappx\_g\_test.m} in GAIL.}
-\label{fig:testfunctions}
-\end{figure}
 
 %
 \begin{table}[bt]
@@ -1298,7 +1288,7 @@ Both \funappxg{} and \funappxglobalg{} obtain the correct answer in all cases,
 even for $g_1$, which is outside the cone $\cc$. The new locally adapative
 algorithm uses fewer samples than the older globally adaptive algorithm. Because it is a higher order algorithm, Chebfun generally used substantially fewer number of samples than
 \funappxg, but Chebfun's run time is longer than \funappxg for a
-significant proportion of the cases; see Figure~\ref{fig:testfunctions}. However, Chebfun only rarely
+significant proportion of the cases; see Figure~\ref{f3chebfig}(b). However, Chebfun only rarely
 approximates the test functions satisfactorily.
 
 
@@ -1399,22 +1389,21 @@ toolbox because they are some of the best.  However, as we have tried to show by
 in applying these and similar algorithms.
 
 Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have sufficient conditions for success.  Although, it may normally be impossible to verify those conditions in practice, the theory behind these algorithms provide several advantages:
-
 \begin{itemize}
 	\item The conditions defining the cone, $\cc$, have an intuitive explanation as requiring the second derivative to not change  drastically over a small interval.  This intuition can guide the user in setting the parameters defining the $\cc$, if so desired.
 	
 	\item Although the sup-norm and the $\frac 12$-quasi-norm of the second derivative may not be known a priori, the upper bounds on the computational cost in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that follow explain how these norms influence the time required by Algorithms $A$ and $M$.  These theorems also explain the advantage of local adaption over global adaption.
 	
-	\item The lower bound on the complexity of the function approximation problem in Theorem \ref{thm:A_cost}  demonstrates that our Algorithm $A$ is asymptotically optimal.
+	\item The lower bound on the complexity of the function approximation problem in Theorem \ref{thm:A_cost}  demonstrates that Algorithm $A$ is asymptotically optimal.
 \end{itemize}
 
 The definition of a cone of not-too-spiky functions is key to the development of theoretically justified adaptive algorithms.  Approximating all functions in $W^{2,\infty}$ is an impractical task.  It can be done if bounds on the sup-norm of the second derivatives are provided, but this is possible for only the simplest functions.  Thus, we would urge the numerical analysis and information-based complexity community to turn their attention to problems defined for cones, not balls, of input functions, where the cones are constructed to facilitate data-based error bounds.
 
 As was mentioned in the introduction, there are theorems providing sufficient conditions under which adaption provides no advantage.  Our setting fails to satisfy those conditions because $\cc$ is not convex.  One may average two mildly spiky functions in $\cc$---whose spikes have opposite signs and partially overlap---to obtain a very spiky function outside $\cc$.
 
-We note that the cone, $\cc$, employed here differs from the cones used in our earlier work, \cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}.  Our earlier algorithms assume that $\norm{f''} \le \tau\norm{f'}$, either globally or on a subinterval, and the minimum horizontal scale of functions that these earlier algorithms can accommodate is  essentially $1/\tau$.  Moreover, the computational costs of our earlier adaptive algorithms are proportional to $\tau$.  Making our earlier algorithms more robust by increasing $\tau$ necessitates a substantial increase in computational cost.
+We note that the cone, $\cc$, employed here differs from the cones used in our earlier work, \cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}.  Our earlier algorithms assume that $\norm{f''} \le \tau\norm{f'}$, either globally or on a subinterval, and the minimum horizontal scale of functions that these earlier algorithms can accommodate is  essentially $1/\tau$.  Moreover, the computational costs of our earlier adaptive algorithms are proportional to~$\tau$.  Making our earlier algorithms more robust by increasing $\tau$ necessitates a substantial increase in computational cost.
 
-In the present setting, the minimum horizontal scale of functions in $\cc$ is $\fh$.  The computational cost of our algorithms is at least $\Order(1/\fh)$, but this is not a multiplicative factor.  Decreasing $\fh$ to make our new algorithms more robust just increases the minimum number of sample points and may increase the computational cost mildly through the definition of $\fC$.
+In the present setting, the minimum horizontal scale of functions in $\cc$ is~$\fh$.  The computational cost of our algorithms is at least $\Order(1/\fh)$, but this is not a multiplicative factor.  Decreasing $\fh$ to make our new algorithms more robust just increases the minimum number of sample points and may increase the computational cost mildly through the definition of $\fC$.
 
 We were surprised that the cost of $A(f,\abstol)$ is $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$.  We are unaware of similar results where the computational cost depends on a \emph{quasi-norm} of a derivative of the input function.  We  conjecture that there are higher order univariate function approximation algorithms where the cost is $\Order\Bigl(\sqrt{\norm[\frac1r]{f^{(r)}}/\abstol}\Bigr)$ for $r = 3, 4, \ldots$.
 
