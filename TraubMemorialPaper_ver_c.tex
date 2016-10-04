@@ -194,7 +194,7 @@ S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{
 \end{multline}
 Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$.   We call such a sequence a \emph{partition} of $[a,b]$.  The error of the linear spline is bounded as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
-\begin{equation} c
+\begin{equation} \label{appxerrbda}
 	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, 
 \end{equation}
 where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the
@@ -546,8 +546,8 @@ Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_
 & \qquad \qquad \qquad \qquad \text{by the definition of $B$ in \eqref{tbdef}}\\
 & \le  \max \Bigl( \frac{1}{8} h_{l_-}^2\fC(3h_{l_-})   \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}- 1}]}] {f''}, \\
 &\qquad \quad \frac{1}{8} h_{l_+}^2\fC(3h_{l_+})   \norm[-\infty,{[x_{i_{l_+}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \\
-& \qquad \qquad  \text{because $h_{\ell(x)} \le h_{l_{\pm}}$ and $\fC$ is non-decreasing}\\
-& \le \abstol \qquad \text{by \eqref{datalesstol}}
+& \qquad \qquad  \text{because $h_{\ell(x)} \le h_{l_{\pm}}$ and $\fC(h)$ is non-decreasing}\\
+& \le \abstol \qquad \text{by \eqref{datalesstol}}.
 \end{align*}
 This concludes the proof.\end{proof}
 
@@ -573,10 +573,10 @@ described above. Note that $-f_1$ is sampled less densely where it is flat.
 %---------------------------------------------------------------
 
 In this section, we investigate the computational cost of our locally adaptive
-algorithm. Recall the definitions of $h_l$, $\Ixl$, and $\ell(x)$ from the previous subsection.  
+algorithm. Recall the definitions of $h_l$, $\Ixl$, and $\ell(x)$ from the last subsection.  
 Let
 $\bar{I}_{x,l}$ be a similar interval with generally five times the
-width of $\Ixl$:
+width of~$\Ixl$:
 \begin{equation}
 \bar{I}_{x,l}=\left[a+\max(0,j-3)h_l, a+ \min(j+2,2^l n_{\ninit})h_l\right] \supset \Ixl,
 \end{equation}
@@ -651,7 +651,7 @@ For functions in the cone $\cc$, the seminorms $\norm{f''}$ and $\norm[\frac
 	\end{subequations}
 \end{prop}
 \begin{proof}
-The first inequality follows directly from the definitions of the (quasi-) norms:
+The first inequality follows from the definitions of the (quasi-)norms:
 \begin{multline} \label{onebdm}
  (\beta - \alpha)^2 \norm[-\infty,{[\alpha,\beta]}]{f''} = \biggl\{\sqrt{\norm[-\infty,{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le 
  \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2\\
@@ -669,10 +669,10 @@ The second inequality comes from the definition of the cone.  Note that $\norm{f
 \end{align*}
 When $\fh$ is small, it is possible for $\norm[\frac 12]{f''} $ to be quite
 small in comparison to $\norm{f''}$. This occurs when $f''$ is rather spiky.
-The hump function $f_1 \in $ defined above satisfies
-\[
-\frac{\norm{f_1''}}{\norm[\frac 12]{f_1''}}  = \frac{ \delta^{-2}}{16}.
-\]
+The hump function $f_1$ in~\eqref{f3def}  satisfies
+$
+ {\norm{f_1''}}/{\norm[\frac 12]{f_1''}}  =  { \delta^{-2}}/{16}.
+$
 By making $\delta$ small enough, we may make this ratio arbitrarily large, thus proving \eqref{infhalfnoteq}. However, since $f_1
 \notin \cc$ for $\delta < 2\fh$, this does not violate \eqref{inflesshalf}.
 \end{proof}
