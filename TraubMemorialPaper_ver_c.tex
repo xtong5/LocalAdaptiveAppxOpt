@@ -1398,35 +1398,92 @@ unnecessary.
 \section{Discussion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Adaptive and automatic algorithms are popular because they require only a black-box function algorithm and an error tolerance.
-Such algorithms exist in a variety of software packages.  We have highlighted those found in MATLAB and in the Chebfun
-toolbox because they are some of the best.  However, as we have tried to show by numerical example, these algorithms may fail.  They may fail without warning.  And, even worse, there is no theory to provide necessary conditions for failure, or equivalently, sufficient conditions for success.  Thus, users must be careful
-in applying these and similar algorithms.
+Adaptive and automatic algorithms are popular because they require only a
+black-box function algorithm and an error tolerance. Such algorithms exist in a
+variety of software packages. We have highlighted those found in MATLAB and in
+the Chebfun toolbox because they are some of the best. However, as we have tried
+to show by numerical example, these algorithms may fail. They may fail without
+warning. And, even worse, there is no theory to provide necessary conditions for
+failure, or equivalently, sufficient conditions for success. Thus, users must be
+careful in applying these and similar algorithms.
 
-Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have sufficient conditions for success.  Although, it may normally be impossible to verify those conditions in practice, the theory behind these algorithms provide several advantages:
+Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have
+sufficient conditions for success. Although, it may normally be impossible to
+verify those conditions in practice, the theory behind these algorithms provide
+several advantages:
 \begin{itemize}
-	\item The conditions defining the cone, $\cc$, have an intuitive explanation as requiring the second derivative to not change  drastically over a small interval.  This intuition can guide the user in setting the parameters defining the $\cc$, if so desired.
 	
-	\item Although the sup-norm and the $\frac 12$-quasi-norm of the second derivative may not be known a priori, the upper bounds on the computational cost in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that follow explain how these norms influence the time required by Algorithms $A$ and $M$.  These theorems also explain the advantage of local adaption over global adaption.
+\item The conditions defining the cone, $\cc$, have an intuitive explanation as
+requiring the second derivative to not change drastically over a small interval.
+This intuition can guide the user in setting the parameters defining the $\cc$,
+if so desired.
 	
-	\item The lower bound on the complexity of the function approximation problem in Theorem \ref{thm:A_cost}  demonstrates that Algorithm $A$ is asymptotically optimal.
+\item Although the sup-norm and the $\frac 12$-quasi-norm of the second
+derivative may not be known a priori, the upper bounds on the computational cost
+in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that
+follow explain how these norms influence the time required by Algorithms $A$ and
+$M$. These theorems also explain the advantage of local adaption over global
+adaption.
+	
+\item The lower bound on the complexity of the function approximation problem in
+Theorem \ref{thm:A_cost} demonstrates that Algorithm $A$ is asymptotically
+optimal.
+	
 \end{itemize}
 
-The definition of a cone of not-too-spiky functions is key to the development of theoretically justified adaptive algorithms.  Approximating all functions in $W^{2,\infty}$ is an impractical task.  It can be done if bounds on the sup-norm of the second derivatives are provided, but this is possible for only the simplest functions.  Thus, we would urge the numerical analysis and information-based complexity community to turn their attention to problems defined for cones, not balls, of input functions, where the cones are constructed to facilitate data-based error bounds.
+The definition of a cone of not-too-spiky functions is key to the development of
+theoretically justified adaptive algorithms. Approximating all functions in
+$W^{2,\infty}$ is an impractical task. It can be done if bounds on the sup-norm
+of the second derivatives are provided, but this is possible for only the
+simplest functions. Thus, we would urge the numerical analysis and
+information-based complexity community to turn their attention to problems
+defined for cones, not balls, of input functions, where the cones are
+constructed to facilitate data-based error bounds.
 
-As was mentioned in the introduction, there are theorems providing sufficient conditions under which adaption provides no advantage.  Our setting fails to satisfy those conditions because $\cc$ is not convex.  One may average two mildly spiky functions in $\cc$---whose spikes have opposite signs and partially overlap---to obtain a very spiky function outside $\cc$.
+As was mentioned in the introduction, there are theorems providing sufficient
+conditions under which adaption provides no advantage. Our setting fails to
+satisfy those conditions because $\cc$ is not convex. One may average two mildly
+spiky functions in $\cc$---whose spikes have opposite signs and partially
+overlap---to obtain a very spiky function outside $\cc$.
 
-We note that the cone, $\cc$, employed here differs from the cones used in our earlier work, \cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}.  Our earlier algorithms assume that $\norm{f''} \le \tau\norm{f'}$, either globally or on a subinterval, and the minimum horizontal scale of functions that these earlier algorithms can accommodate is  essentially $1/\tau$.  Moreover, the computational costs of our earlier adaptive algorithms are proportional to~$\tau$.  Making our earlier algorithms more robust by increasing $\tau$ necessitates a substantial increase in computational cost.
+We note that the cone, $\cc$, employed here differs from the cones used in our
+earlier work, \cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}. Our earlier
+algorithms assume that $\norm{f''} \le \tau\norm{f'}$, either globally or on a
+subinterval, and the minimum horizontal scale of functions that these earlier
+algorithms can accommodate is essentially $1/\tau$. Moreover, the computational
+costs of our earlier adaptive algorithms are proportional to~$\tau$. Making our
+earlier algorithms more robust by increasing $\tau$ necessitates a substantial
+increase in computational cost.
 
-In the present setting, the minimum horizontal scale of functions in $\cc$ is~$\fh$.  The computational cost of our algorithms is at least $\Order(1/\fh)$, but this is not a multiplicative factor.  Decreasing $\fh$ to make our new algorithms more robust just increases the minimum number of sample points and may increase the computational cost mildly through the definition of $\fC$.
+In the present setting, the minimum horizontal scale of functions in $\cc$
+is~$\fh$. The computational cost of our algorithms is at least $\Order(1/\fh)$,
+but this is not a multiplicative factor. Decreasing $\fh$ to make our new
+algorithms more robust just increases the minimum number of sample points and
+may increase the computational cost mildly through the definition of $\fC$.
 
-We were surprised that the cost of $A(f,\abstol)$ is $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$.  We are unaware of similar results where the computational cost depends on a \emph{quasi-norm} of a derivative of the input function.  We  conjecture that there are higher order univariate function approximation algorithms where the cost is $\Order\Bigl(\sqrt{\norm[\frac1r]{f^{(r)}}/\abstol}\Bigr)$ for $r = 3, 4, \ldots$.
+We were surprised that the cost of $A(f,\abstol)$ is
+$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$. We are unaware of
+similar results where the computational cost depends on a \emph{quasi-norm} of a
+derivative of the input function. We conjecture that there are higher order
+univariate function approximation algorithms where the cost is
+$\Order\Bigl(\sqrt{\norm[\frac1r]{f^{(r)}}/\abstol}\Bigr)$ for $r = 3, 4,
+\ldots$.
 
-We recognize that our algorithms do not take advantage of higher orders of smoothness that the input function may have.  We envision the present work as a stepping stone to developing higher order algorithms.  Piecewise interpolants with higher degrees of smoothness or high degree polynomials, such as those used in Chebfun, are potential candidates.
+We recognize that our algorithms do not take advantage of higher orders of
+smoothness that the input function may have. We envision the present work as a
+stepping stone to developing higher order algorithms. Piecewise interpolants
+with higher degrees of smoothness or high degree polynomials, such as those used
+in Chebfun, are potential candidates.
 
 Our algorithms currently provide guaranteed accuracy based on an absolute error
 tolerance $\abstol$. The analysis could be extended to include a \emph{relative}
-error tolerance $\varepsilon_r$.  This would replace $\abstol$ in the right hand side of \eqref{appxprob} with $\max (\varepsilon, \varepsilon_r \norm[\infty]{f})$ where $\norm[\infty]{f}$ is unknown a priori.  One might also consider an error criterion involving a relative error tolerance that is applied pointwise for every $x$ in $[a,b]$.  For the function minimization problem one might want an error criterion that involved the accuracy in knowing where the minimum function value was obtained.
+error tolerance $\varepsilon_r$. This would replace $\abstol$ in the right hand
+side of \eqref{appxprob} with $\max (\varepsilon, \varepsilon_r
+\norm[\infty]{f})$ where $\norm[\infty]{f}$ is unknown a priori. One might also
+consider an error criterion involving a relative error tolerance that is applied
+pointwise for every $x$ in $[a,b]$. For the function minimization problem one
+might want an error criterion that involved the accuracy in knowing where the
+minimum function value was obtained.
 
 
 \section*{Acknowledgments}
@@ -1437,7 +1494,7 @@ computer science and applied mathematics. He was the founding Editor-in-Chief of
 the Journal of Complexity and we are grateful to his tremendous impact and life
 long services to our research community.
 
-We would like to thank our colleagues Greg Fasshauer and the GAIL team for
+We thank our colleagues Greg Fasshauer and the GAIL team for
 valuable suggestions and comments. This research was supported in part by grant
 NSF-DMS-1522687.
 
