@@ -1400,11 +1400,9 @@ unnecessary.
 Adaptive and automatic algorithms are popular because they require only a
 black-box function algorithm and an error tolerance. Such algorithms exist in a
 variety of software packages. We have highlighted those found in MATLAB and in
-the Chebfun toolbox because they are some of the best. However, as we have tried
-to show by numerical example, these algorithms may fail. They may fail without
-warning. And, even worse, there is no theory to provide necessary conditions for
-failure, or equivalently, sufficient conditions for success. Thus, users must be
-careful in applying these and similar algorithms.
+the Chebfun toolbox because they are some of the best. However, as we have shown by numerical example, these algorithms may fail, and without
+warning. Moreover, there is no theory to provide necessary conditions for
+failure, or equivalently, sufficient conditions for success.
 
 Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have
 sufficient conditions for success. Although, it may normally be impossible to
@@ -1414,75 +1412,37 @@ several advantages:
 	
 \item The conditions defining the cone, $\cc$, have an intuitive explanation as
 requiring the second derivative to not change drastically over a small interval.
-This intuition can guide the user in setting the parameters defining the $\cc$,
+This intuition can guide the user in setting the parameters defining $\cc$,
 if so desired.
 	
-\item Although the sup-norm and the $\frac 12$-quasi-norm of the second
-derivative may not be known a priori, the upper bounds on the computational cost
-in Theorems \ref{thm:cost} and \ref{thm:Mcost} and the approximations that
-follow explain how these norms influence the time required by Algorithms $A$ and
-$M$. These theorems also explain the advantage of local adaption over global
-adaption.
+\item The norms of $f$ and its derivatives appearing in the computational cost upper bounds 
+in Theorems \ref{thm:cost} and \ref{thm:Mcost} may not be known.  However, these theorems explain how these norms influence the time required by Algorithms $A$ and
+$M$.
 	
-\item The lower bound on the complexity of the function approximation problem in
-Theorem \ref{thm:A_cost} demonstrates that Algorithm $A$ is asymptotically
-optimal.
+\item Our Algorithm $A$ has been shown to be asymptotically
+optimal for  the complexity of the function approximation problem \eqref{appxprob}.
 	
 \end{itemize}
 
-The definition of a cone of not-too-spiky functions is key to the development of
-theoretically justified adaptive algorithms. Approximating all functions in
-$W^{2,\infty}$ is an impractical task. It can be done if bounds on the sup-norm
-of the second derivatives are provided, but this is possible for only the
-simplest functions. Thus, we would urge the numerical analysis and
-information-based complexity community to turn their attention to problems
-defined for cones, not balls, of input functions, where the cones are
-constructed to facilitate data-based error bounds.
-
-As was mentioned in the introduction, there are theorems providing sufficient
-conditions under which adaption provides no advantage. Our setting fails to
-satisfy those conditions because $\cc$ is not convex. One may average two mildly
-spiky functions in $\cc$---whose spikes have opposite signs and partially
-overlap---to obtain a very spiky function outside $\cc$.
-
-We note that the cone, $\cc$, employed here differs from the cones used in our
-earlier work, \cite{HicEtal14b}, \cite{Din15a}, and \cite{Ton14a}. Our earlier
-algorithms assume that $\norm{f''} \le \tau\norm{f'}$, either globally or on a
-subinterval, and the minimum horizontal scale of functions that these earlier
-algorithms can accommodate is essentially $1/\tau$. Moreover, the computational
-costs of our earlier adaptive algorithms are proportional to~$\tau$. Making our
-earlier algorithms more robust by increasing $\tau$ necessitates a substantial
-increase in computational cost.
-
-In the present setting, the minimum horizontal scale of functions in $\cc$
+The minimum horizontal scale of functions in $\cc$
 is~$\fh$. The computational cost of our algorithms is at least $\Order(1/\fh)$,
 but this is not a multiplicative factor. Decreasing $\fh$ to make our new
 algorithms more robust just increases the minimum number of sample points and
 may increase the computational cost mildly through the definition of $\fC$.
 
-We were surprised that the cost of $A(f,\abstol)$ is
-$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$. We are unaware of
-similar results where the computational cost depends on a \emph{quasi-norm} of a
-derivative of the input function. We conjecture that there are higher order
-univariate function approximation algorithms where the cost is
-$\Order\Bigl(\sqrt{\norm[\frac1r]{f^{(r)}}/\abstol}\Bigr)$ for $r = 3, 4,
-\ldots$.
+There are theorems providing sufficient
+conditions under which adaption provides no advantage. Our setting fails to
+satisfy those conditions because $\cc$ is not convex. One may average two mildly
+spiky functions in $\cc$---whose spikes have opposite signs and partially
+overlap---to obtain a very spiky function outside $\cc$.
+
+Moreover, non-adaptive algorithms are unable to solve \eqref{appxprob}  or \eqref{optprob} using a finite number of function values if the set of interesting functions, $\cc$, is a cone, unless these non-adpative algorithms solve these problems exactly.  Suppose that a successful non-adaptive algorithm for error tolerance $\abstol$ is given the zero input function and samples on some partition $x_{1:n}$.  Construct a function $f^*$ with nonzero minimum value that vanishes on this partition.  The error of the non-adaptive algorithm for $f^*$ must then be some positive $\delta$.  Since $f^* \in \cc$, so is $cf^*$ for any positive $c$, and so the non-adaptive algorithm must have an error of $c\delta$ for some element of $\cc$, where $c\delta$ may be made arbitrarily large.  This is a contradiction.
 
 We recognize that our algorithms do not take advantage of higher orders of
 smoothness that the input function may have. We envision the present work as a
 stepping stone to developing higher order algorithms. Piecewise interpolants
 with higher degrees of smoothness or high degree polynomials, such as those used
 in Chebfun, are potential candidates.
-
-Our algorithms currently provide guaranteed accuracy based on an absolute error
-tolerance $\abstol$. The analysis could be extended to include a \emph{relative}
-error tolerance $\varepsilon_r$. This would replace $\abstol$ in the right hand
-side of \eqref{appxprob} with $\max (\varepsilon, \varepsilon_r
-\norm[\infty]{f})$ where $\norm[\infty]{f}$ is unknown a priori. One might also
-consider an error criterion involving a relative error tolerance that is applied
-pointwise for every $x$ in $[a,b]$. For the function minimization problem one
-might want an error criterion that involved the accuracy in knowing where the
-minimum function value was obtained.
 
 
 \section*{Acknowledgments}
