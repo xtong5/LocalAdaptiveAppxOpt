@@ -136,14 +136,14 @@
 
 
 \begin{abstract}
-Most commonly known \emph{adaptive} algorithms for function approximation and
+Most commonly used \emph{adaptive} algorithms for function approximation and
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
-are guaranteed to provide approximants that satisfy a user-specified absolute
+are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space
 $\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function on a
-bounded interval with $L^{\infty}$-error not greater than $\abstol$ is
+bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
 $\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
 same order as that of the best function approximation algorithm for functions in
 $\cc$. The computational cost of our global minimization algorithm is no worse
@@ -178,9 +178,7 @@ tolerance $\abstol > 0$,
 Here, $\norm{\cdot}$ denotes the $L^{\infty}$-norm on $[a,b]$. The algorithms
 $A$ and $M$ depend only on function values.
 
-These algorithms choose their data
-sites adaptively, with each new site depending on the function
-data already obtained. The number of samples required is also determined adaptively.  Our algorithms sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from ``globally adpative'' algorithms that have a fixed sampling pattern and only the sample size determined adaptively.
+These algorithms proceed iteratively until their data-dependent stopping criteria are satisfied.  The input functions are sampled sample nonuniformly over the interval $[a,b]$, with the sampling density determined by the function data.  We call our algorithms \emph{locally adaptive}, to distinguish them from globally adaptive algorithms that have a fixed sampling pattern and only the sample size determined adaptively.
 
 %---------------------------------------------------------------
 \subsection{Key Ideas in Our Algorithms} \label{subsec:keyideas}
@@ -191,7 +189,7 @@ Our algorithms $A$ and $M$ are based on a \emph{linear spline}:
 S(f,\datasites)(x) =  \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), 
 \\ x_{i-1} \le x \le x_i, \quad i \in \oton.
 \end{multline}
-Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$.   We call such a sequence a \emph{partition} of $[a,b]$.  The error of the linear spline is bounded as follows \cite[Theorem
+Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and  $\datasites$ is an ordered sequence of $n+1$ points that includes the endpoints of the interval, i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$.   We call such a sequence a \emph{partition} of $[a,b]$.  The error of the linear spline is bounded in terms of the second derivative of the input function as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
 \begin{equation} \label{appxerrbda}
 	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} \le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, 
@@ -207,15 +205,15 @@ $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
 \bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a +
 i(b-a)/n$, $i \in 0\!:\!n$. However, providing an upper bound on $\norm{f''}$ is
 often impractical, and so we propose adaptive algorithms that do not
-require such a priori information.
+require such information.
 
-However, one must have some a priori information about $f \in \cw^{2,\infty} $,
+However, one must have some a priori information about $f \in \cw^{2,\infty} $
 to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.
 Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and
 $A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$. Then one can
 construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) =
-0$, $i\in \zton$ but with $\norm{f - S(f,\datasites)} = \norm{f -
-S(0,\datasites)} > \varepsilon$.
+0$, $i\in \zton$ but with $\norm{f - A(f,\abstol)} = \norm{f -
+A(0,\abstol)} > \varepsilon$.
 
 Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to
 include only those functions whose second derivatives do not change dramatically
@@ -331,8 +329,7 @@ $2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for
 $\norm[-\infty,{[\alpha,\beta]}]{f''}$. The cone of interesting functions,
 $\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not
 drastically different than the maximum of $\norm[-\infty,{[\beta - h_-,
-\alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$. \scnote{$\norm[-\infty,{[\alpha - h_-,
-\beta]}]{f''}$ and $\norm[-\infty,{[\alpha, \beta+ h_+]}]{f''}$ instead (here and (6))?} \frednote{This is correct.}
+\alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$.
 
 The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
 and a positive number $\fC_0 \ge 1$. Let
@@ -341,7 +338,7 @@ and a positive number $\fC_0 \ge 1$. Let
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h} \mbox{\, for \,} 0<h<\fh.
 \end{equation}
 For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 <
-\beta - \alpha < h_{\pm} < \fh$, define \scnote{What about working with just $h$ instead of $h_\pm$?}
+\beta - \alpha < h_{\pm} < \fh$, define
 \begin{equation} \label{tbdef}
 B(f,\alpha,\beta,h_-,h_+) :=
 \begin{cases}
@@ -1436,11 +1433,11 @@ satisfy those conditions because $\cc$ is not convex. One may average two mildly
 spiky functions in $\cc$---whose spikes have opposite signs and partially
 overlap---to obtain a very spiky function outside $\cc$.
 
-Moreover, non-adaptive algorithms are unable to solve \eqref{appxprob}  or \eqref{optprob} using a finite number of function values if the set of interesting functions, $\cc$, is a cone, unless these non-adpative algorithms solve these problems exactly.  Suppose that a successful non-adaptive algorithm for error tolerance $\abstol$ is given the zero input function and samples on some partition $x_{1:n}$.  Construct a function $f^*$ with nonzero minimum value that vanishes on this partition.  The error of the non-adaptive algorithm for $f^*$ must then be some positive $\delta$.  Since $f^* \in \cc$, so is $cf^*$ for any positive $c$, and so the non-adaptive algorithm must have an error of $c\delta$ for some element of $\cc$, where $c\delta$ may be made arbitrarily large.  This is a contradiction.
+Moreover, nonadaptive algorithms are unable to solve \eqref{appxprob}  or \eqref{optprob} using a finite number of function values if the set of interesting functions, $\cc$, is a cone, unless there exist nonadaptive algorithms that solve these problems exactly.  Suppose that $A$ is a nonadaptive algorithm satisfying \eqref{appxprob} for some cone $\cc$, and that for an error tolerance $\abstol$, $A$ requires $n$ function values.  For any positive, $c$, define $A^*(f,\abstol) = A(cf,\abstol)/c$ for all $f \in \cc$.  Then $\norm{f - A^*(f,\abstol)} = \norm{cf - A(cf,\abstol)}/c\le \abstol/c$ for all $f \in \cc$ since $cf$ is also in $\cc$.  Thus, $A^*$ satisfies  \eqref{appxprob} for error tolerance $\abstol/c$, using the same number of function evaluations as $A$.  Making $c$ arbitrarily large establishes the existence of a nonadaptive algorithm that solves \eqref{appxprob}  exactly.
 
 We recognize that our algorithms do not take advantage of higher orders of
 smoothness that the input function may have. We envision the present work as a
-stepping stone to developing higher order algorithms. Piecewise interpolants
+stepping stone to developing higher order algorithms.  Piecewise interpolants
 with higher degrees of smoothness or high degree polynomials, such as those used
 in Chebfun, are potential candidates.
 
