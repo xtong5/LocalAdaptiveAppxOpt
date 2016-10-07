@@ -947,16 +947,12 @@ dependence is suppressed in the notation.
 \begin{proof}
 	We start with several observations that aid the proof:
 	\begin{itemize}
-		\item If any subinterval needs to be split at iteration $l$, then its width is no larger than any other subintervals in the partition, namely, $h_l = h_0 2^{-l}$.
+		\item If any subinterval needs to be split at iteration $l$, then its width, $h_l = h_0 2^{-l}$, is no larger than any other subintervals in the partition.
 		
 		\item If $i \in \widehat{\ci}_+$ at iteration $l$, then $x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = h_l$.
 
 		\item If $i \in \widehat{\ci}_-$ at iteration $l$, then $x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1} = h_l$.
 	\end{itemize}
-
-
-
-
 
 Using the same argument as for Theorem \ref{thm:cost}, we only need to show that
 $\tell(x) \le \tL(x)$ for all $x \in [a,b]$.  At each iteration of Algorithm $M$, the index sets $\ci_{\pm}$ are both subsets of $\ci$ for the corresponding iteration of Algorithm $A$.  Thus $\tell(x)
@@ -964,7 +960,15 @@ $\tell(x) \le \tL(x)$ for all $x \in [a,b]$.  At each iteration of Algorithm $M$
 only need to show that $\tell(x) \le \chL(x)$.
 	
 We will show that $\chL(x) < \tell(x) \le L(x)$ for any fixed $x$  leads to a contradiction.  Assuming $\chL(x) < \tell(x)$, then at the $\chL(x)^{\text{th}}$  iteration,
-$I_{x,\chL(x)} = [x_{i-1},x_i]$ for some $i$ must be split in Step~\ref{stagemin2} of $M$, where $x_i-x_{i-1}= h_{\chL(x)} = h_0 2^{-\chL(x)}$.  This means that one or more of the following three possibilities must hold: 
+$I_{x,\chL(x)} = [x_{i-1},x_i]$ for some $i$ must be split in Step~\ref{stagemin2} of $M$, where $x_i-x_{i-1}= h_{\chL(x)} = h_0 2^{-\chL(x)}$.  This means that one or more of the following must exceed $\abstol$:
+\[
+\herr_{i+2,+} , \ \herr_{i+1,+}, \ \herr_{i,+}, \  \herr_{i-1,-}, \ \herr_{i-2,-}, \ \herr_{i-3,-}.
+\]
+
+
+
+
+ three possibilities must hold: 
 \begin{gather*}
  i+1 \in \widehat{\ci}_+ \text{ or } i-2 \in \widehat{\ci}_- \iff \herr_{i+1,+} > \abstol \text{ or } \herr_{i-2,-} > \abstol,\\
  i\in \widehat{\ci}_+ \iff  \herr_{i,+} > \abstol \text{ or } \herr_{i-3,-} > \abstol, \\
