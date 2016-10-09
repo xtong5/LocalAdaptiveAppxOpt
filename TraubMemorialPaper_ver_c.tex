@@ -147,7 +147,7 @@ $\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function on a
 bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
-$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$, which is the
+$\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$, which is the
 same order as that of the best function approximation algorithm for functions in
 $\cc$. The computational cost of our global minimization algorithm is no worse
 than that for function approximation and can be substantially smaller if the
@@ -215,7 +215,7 @@ input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
 Algorithms $A$ and $M$ require an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$
 to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
 $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
-\bigl \lceil (b-a)\sqrt{\sigma/(8 \varepsilon)} \, \bigr \rceil$, $x_i = a +
+\bigl \lceil (b-a)\smash{\sqrt{\sigma/(8 \varepsilon)}} \, \bigr \rceil$, $x_i = a +
 i(b-a)/n$, $i \in 0\!:\!n$. However, providing an upper bound on $\norm{f''}$ is
 often impractical, and so we propose adaptive algorithms that do not
 require such information.
@@ -239,7 +239,7 @@ for Algorithm $A$ in Section \ref{subsec:appxalgo} and Algorithm $M$ in Section
 
 The computational cost of Algorithm $A$ is analyzed in Section
 \ref{subsec:appxcost} and is shown to be
-$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as $\abstol \to 0$. Here,
+$\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$ as $\abstol \to 0$. Here,
 $\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm: $\norm[p]{f} :=
 \bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$. Since
 $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive
@@ -247,7 +247,7 @@ algorithms can be more efficient than globally adaptive algorithms, whose
 computational costs are proportional to $\sqrt{\norm{f''}/\abstol}$. The
 computational complexity of \eqref{appxprob} is determined in Section
 \ref{subsec:appxcomp} to be
-$\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)$ as well.
+$\Order\Bigl(\smash{\sqrt{\norm[\frac12]{f''}/\abstol}}\Bigr)$ as well.
 
 The computational cost of the optimization algorithm $M$ is analyzed in
 Section~\ref{subsec:optcost}. A lower bound on the computational complexity of
@@ -659,8 +659,8 @@ Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
 
 From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know that 
 \begin{align*}
-\frac{1}{h_{L(x)}} = \frac{2}{h_{L(x)-1}}  & < 2 \sqrt{\frac{\fC\left(3 h_{L(x)-1} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}} \\
-& = \sqrt{\frac{\fC\left(6 h_{L(x)} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}
+\frac{1}{h_{L(x)}} = \frac{2}{h_{L(x)-1}}  & < 2 \sqrt{\frac{\fC\left(3 h_{L(x)-1} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}  
+= \sqrt{\frac{\fC\left(6 h_{L(x)} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}
 \end{align*}
 As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,L(x)-1}]{f''}$ approaches $|f''(x)|$.  Thus, the small $\abstol$ asymptotic upper bound on computational cost is
 \begin{align}
