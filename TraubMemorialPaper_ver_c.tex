@@ -139,19 +139,19 @@ USA}
 
 
 \begin{abstract}
-Most commonly used \emph{adaptive} algorithms for function approximation and
+Most commonly used \emph{adaptive} algorithms for function approximation and global
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
-are guaranteed to provide answers that satisfy a user-specified absolute
+are guaranteed to provide approximants that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space
 $\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
 function---sampling more densely where the second derivative is larger. The
-computational cost of our algorithm for approximating a univariate function on a
+computational cost of our algorithm for approximating a univariate function $f$ on a
 bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
-$\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$, which is the
+$\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$, the
 same order as that of the best function approximation algorithm for functions in
-$\cc$. The computational cost of our global minimization algorithm is no worse
-than that for function approximation and can be substantially smaller if the
-function significantly exceeds its minimum value over much of its domain. Our
+$\cc$. The computational cost of our global minimization algorithm is of the same order 
+and can cost substantially less if $f$
+significantly exceeds its minimum over much of its domain. Our
 algorithms have been implemented in our Guaranteed Automatic Integration
 Library. Numerical examples are presented to illustrate the performance of our
 algorithms.
