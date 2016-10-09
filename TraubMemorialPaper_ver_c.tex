@@ -478,8 +478,7 @@ $n=n_{\ninit}$, and the iteration number, $l = 0$.  Define the initial partition
 x_i=a+ i\frac{b-a}{n}, \ i \in \zton \qquad \mathcal{I} = 1\!:\!n-1.
 \]
 
-\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
-%\renewcommand{\labelenumi}{\textbf{Step \arabic{enumi}.}}
+\begin{enumerate}[\em Step 1.]
 
 \item \label{stage1} \emph{Check for convergence.} For all $i \in \ci$ compute
 \begin{equation} \label{oerrdef}
@@ -553,16 +552,6 @@ Figure \ref{f3foolplot}(a) displays the function $-f_1$ defined in
 compute the linear spline approximation $A(-f_1,0.01)$ by the algorithm
 described above. Note that $-f_1$ is sampled less densely where it is flat.
 
-%\begin{figure}[tbh]
-%\centering
-%%\hspace{-9ex}
-%\includegraphics[width=80mm]{figure/sampling-funappxg.eps}
-%\caption{The non-uniform sampling density of Algorithm $A$ for input function
-%$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
-%and~$59$ points are used to meet the error tolerance of~$0.01$. This figure is
-%reproducible by {\tt TraubMemorial.m} in GAIL.}
-%\label{fig:sampling-funappxg}
-%\end{figure}
 
 %---------------------------------------------------------------
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
@@ -576,7 +565,7 @@ width of~$\Ixl$:
 \begin{equation}
 \bar{I}_{x,l}=\left[a+\max(0,j-3)h_l, a+ \min(j+2,2^l n_{\ninit})h_l\right] \supset \Ixl,
 \end{equation}
-with the same $j$ as above.  Let
+with the same $j$ as in \eqref{Ixldef} above.  Let
 \begin{equation}\label{eqn:defoflx}
 L(x) = \min \left\{ l \in \mathbb{N}_0 :  \frac{1}{8} \fC\left(3h_l\right)h_l^2\norm[\bar{I}_{x,l}]{f''} \le \abstol \right\}.
 \end{equation}
@@ -588,11 +577,13 @@ lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all
 values of $l = 0, \ldots, \ell(x)$ are realized. If $\ell(x) > L(x)$, then at
 some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$.  Then $I_{x,L(x)}$ has width $h_{L(x)}$ and corresponds to $[x_{i-1},x_i]$ for some $i$.  We assume that $i \in 3\!:\!n-2$; the other cases have a similar proof.
 According to Step~\ref{stage2} of Algorithm $A$, the only way for $[x_{i-1},x_i]$ to be split is if $\oerr_{i-2}$, $\oerr_{i-1}$, $\oerr_{i}$, or $\oerr_{i+1}$ is larger than $\abstol$.  However, in the proof of Theorem \ref{thm:algAworks} it is noted that for $k \in \{-2, -1, 0, 1\}$,
-\begin{align*}
+\begin{align}
+\nonumber
 \oerr_{i+k} & \le \frac{1}4 \fC(3h_l) h_l^2 \abs{D(f,x_{i-1+k},x_{i+1+k})} \qquad \text{by \eqref{divdiffbd}} \\
-& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[{[x_{i-1+k},x_{i+1+k}]}]{f}  \qquad \text{by \eqref{NDDbdm}}\\
-& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[\bar{I}_{x,l}]{f} \le \varepsilon \qquad \text{by \eqref{eqn:defoflx}}.
-\end{align*}
+\nonumber
+& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[{[x_{i-1+k},x_{i+1+k}]}]{f''}  \qquad \text{by \eqref{NDDbdm}}\\
+& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[\bar{I}_{x,l}]{f''} \le \varepsilon \qquad \text{by \eqref{eqn:defoflx}}. \label{oerrbd}
+\end{align}
 This is a contradiction, so in fact, $\ell(x) \le L(x)$, which is used to prove an upper bound on the
 computational cost of Algorithm $A$.
 
@@ -837,7 +828,7 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 	Then do the
 	following:
 	
-	\begin{enumerate}[\em Step 1.]%\hspace{8.5ex}
+	\begin{enumerate}[\em Step 1.]
 		
 		\item \label{stagemin1} \emph{Check for convergence.} For all $i \in \ci_{\pm}$ compute $\oerr_i $ according to \eqref{oerrdef} and let $\widetilde{\mathcal{I}}_{\pm} = \left\{i \in \mathcal{I}_{\pm}: \oerr_i  > \abstol \right\}$.  Next compute
 		\begin{gather*}
@@ -896,16 +887,6 @@ minimization. It is found that $M(-f_1,0.01)$ uses only $31$ points, whereas
 $A(-f_1,0.01)$ uses $59$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
-
-%\begin{figure}[tbh]
-%\centering
-%\includegraphics[width=80mm]{figure/sampling-funming.eps}
-%\caption{The same situation as in Figure~\ref{f3fig}(b), but now
-%with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
-%sampling points are needed to obtain the minimum of $-f_1$. This figure is
-%reproducible by {\tt TraubMemorial.m} in GAIL.} \label{fig:sampling-funming}
-%\end{figure}
-
 \subsection{Computational Cost} \label{subsec:optcost}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a
 similar manner as that for Algorithm $A$. There are essentially two reasons that a
@@ -925,12 +906,18 @@ Let
 \begin{equation}\label{eqn:defofltx}
 \tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b[,
 \end{equation}
-where $L(x)$ is defined above in \eqref{eqn:defoflx}, and
+where $L(x)$ is defined above in \eqref{eqn:defoflx}, 
 \begin{multline}\label{eqn:defoflt1x}
 \chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\
-+  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,l}]{f''}
-+ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\}.
++  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\tilde{I}_{x,l}]{f''}
++ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\},
 \end{multline}
+and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally five times the:
+\begin{equation}
+\tilde{I}_{x,l}=\left[a+\max(0,j-4)h_l, a+ \min(j+3,2^l n_{\ninit})h_l\right] \supset \Ixl,
+\end{equation}
+with the same $j$ as in \eqref{Ixldef} above. 
+
 
 Note that $\chL(x)$ does not depend on $\abstol$, whereas $L(x)$ does. As is the
 case with $L(x)$, both $\chL(x)$ and $\tL(x)$ depend on $f$, although this
@@ -945,14 +932,14 @@ dependence is suppressed in the notation.
 \end{theorem}
 
 \begin{proof}
-	We start with several observations that aid the proof:
-	\begin{itemize}
-		\item If any subinterval needs to be split at iteration $l$, then its width, $h_l = h_0 2^{-l}$, is no larger than any other subintervals in the partition.
-		
-		\item If $i \in \widehat{\ci}_+$ at iteration $l$, then $x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = h_l$.
-
-		\item If $i \in \widehat{\ci}_-$ at iteration $l$, then $x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1} = h_l$.
-	\end{itemize}
+%	We start with several observations that aid the proof:
+%	\begin{itemize}
+%		\item If any subinterval needs to be split at iteration $l$, then its width, $h_l = h_0 2^{-l}$, is no larger than any other subintervals in the partition.
+%		
+%		\item If $i \in \widehat{\ci}_+$ at iteration $l$, then $x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = h_l$.
+%
+%		\item If $i \in \widehat{\ci}_-$ at iteration $l$, then $x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1} = h_l$.
+%	\end{itemize}
 
 Using the same argument as for Theorem \ref{thm:cost}, we only need to show that
 $\tell(x) \le \tL(x)$ for all $x \in [a,b]$.  At each iteration of Algorithm $M$, the index sets $\ci_{\pm}$ are both subsets of $\ci$ for the corresponding iteration of Algorithm $A$.  Thus $\tell(x)
@@ -964,42 +951,29 @@ $I_{x,\chL(x)} = [x_{i-1},x_i]$ for some $i$ must be split in Step~\ref{stagemin
 \[
 \herr_{i+2,+} , \ \herr_{i+1,+}, \ \herr_{i,+}, \  \herr_{i-1,-}, \ \herr_{i-2,-}, \ \herr_{i-3,-}.
 \]
+We prove that $\herr_{i+2,+} > \abstol$ is impossible.  The arguments for the other cases are similar.
 
+If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is also the case that $\oerr_{i-1} > \abstol$, and 
+\[
+x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2} = h_{\chL(x)}.
+\]
+This means that $[x_{i-2},x_{i+3}] \in \tilde{I}_{x,l}$. By the same argument used in \eqref{oerrbd} it can be shown that
+\[
+\oerr_{i+2} \le \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,l}]{f''}.
+\]
+The quantity $\oerr_{i+2}$ is the first term in the definition of $\herr_{i+2,+}$ in Step \ref{stagemin1} of Algorithm $M$.
 
-
-
- three possibilities must hold: 
-\begin{gather*}
- i+1 \in \widehat{\ci}_+ \text{ or } i-2 \in \widehat{\ci}_- \iff \herr_{i+1,+} > \abstol \text{ or } \herr_{i-2,-} > \abstol,\\
- i\in \widehat{\ci}_+ \iff  \herr_{i,+} > \abstol \text{ or } \herr_{i-3,-} > \abstol, \\
- i-1\in \widehat{\ci}_-  \iff  \herr_{i+2,+} > \abstol \text{ or } \herr_{i-1,-} > \abstol.
-\end{gather*}
-
-
- \textbf{Fred fix starting here}
-
-
-
-Referring to Step~\ref{stagemin2} of $M$, it is necessary that $i \in
-\widetilde{\mathcal{I}}$ for $I_{x,L(x)}$ to be split. Thus, for some $s =+$ or
-$-$, and for some $k \in \{0,1,2\}$, $j = i - sk \in \ci_s$. By the argument
-used to establish \eqref{Blenorm}, we may also establish its analog:
-\begin{equation} \label{Blenormt}
-B_{j,s}(f,\cp)(x_j-x_{j-1})^2 \le  \fC\left(3h\right) h^2  \norm[\bar{I}_{x,\chL(x)}]{f''}.
-\end{equation}
-
-Next, we bound $\min\bigl(f(x_{j-1}),f(x_j) \bigr)$, which appears in the
-definition of $\ci_{\pm}$ in Algorithm $M$. Consider the case of $s=+$, so $j =
-i - k \in \ci_+$ for some $k \in \{0,1,2\}$. As was argued earlier, because $i
-\in \widetilde{\ci}$ it follows that $[x_{j-1},x_{j+2}] \in
-\bar{I}_{x,\chL(x)}$. Then a Taylor expansion about $x \in [x_{j-1},x_{j+2}]$
-with $x_{j+2} - x_{j-1} \le 3h$, establishes that
+Next, we bound $\min\bigl(f(x_{i}),f(x_{i+1}) \bigr)$, which also appears in the
+definition of $\herr_{i+2,+}$. As was argued earlier, $[x_{i-1},x_{i+1}] \in
+\tilde{I}_{x,\chL(x)}$. Then a Taylor expansion about the arbitrary $x \in [x_{i-1},x_{i}] $ under consideration establishes that
 \begin{equation} \label{minfjjm1bd}
-\min\bigl(f(x_{j-1}),f(x_j) \bigr)
-\ge f(x) - 3\abs{f'(x)}h - \frac32  \norm[\bar{I}_{x,\chL(x)}]{f''} h^2
+\min\bigl(f(x_{i}),f(x_{i+1}) \bigr)
+\ge f(x) - 2h_{\chL(x)}\abs{f'(x)} - h_{\chL(x)}^2 \norm[\bar{I}_{x,\chL(x)}]{f''} .
 \end{equation}
-The same bound also holds for the $s = -$ case.
+since $\abs{x_i - x} \le \abs{x_{i+1} - x} \le 2h_{\chL(x)}$.
 
+
+\textbf{Fred fix starting here, refer to notation above}
  
 Finally, we bound $ \widehat{M}-\abstol$. Let $[x_{i^*-1}, x^*_i[$ be the
 subinterval in $\cp$ containing the location of the minimum, $x^*$. Note that by
