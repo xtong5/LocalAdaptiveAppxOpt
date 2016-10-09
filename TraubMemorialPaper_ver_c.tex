@@ -129,9 +129,12 @@
 \author{Sou-Cheng T.~Choi}
 \author{Yuhan Ding}
 \author{Fred J.~Hickernell}
-\address{Department of Applied Mathematics, Illinois Institute of Technology, RE 208, 10 West 32$^{\text{nd}}$ Street, Chicago, Illinois, 60616, USA}
+\address{Department of Applied Mathematics, Illinois Institute of Technology, 
+%RE 208, 10 West 32$^{\text{nd}}$ Street, Chicago, Illinois, 60616, 
+USA}
 \author{Xin Tong}
-\address{Department of Mathematics, Statistics, and Computer Science, University of Illinois at Chicago, Room 322 SEO, 851 S. Morgan Street, Chicago, Illinois, 60607, USA}
+\address{Department of Mathematics, Statistics, and Computer Science, University of Illinois at Chicago, % Room 322 SEO, 851 S. Morgan Street, Chicago, Illinois, 60607, 
+USA}
 
 
 
@@ -473,7 +476,7 @@ The idea of Algorithm $A$ is to use divided differences to provide upper bounds 
 
 \begin{algoA} \label{AlgoA}
 For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Define the number of subintervals,
-$n=n_{\ninit}$, and the iteration number, $l = 0$.  Define the initial partition of equally spaced points, $x_{0:n}$, and the index set of subintervals for which we need to compute quantities $\oerr_i$ to bound the spline error:
+$n=n_{\ninit}$, and the iteration number, $l = 0$.  Define the initial partition of equally spaced points, $x_{0:n}$, and the index set of subintervals for computing the quantities $\oerr_i$ to bound the spline error:
 \[
 x_i=a+ i\frac{b-a}{n}, \ i \in \zton \qquad \mathcal{I} = 1\!:\!n-1.
 \]
@@ -644,7 +647,7 @@ The first inequality follows from the definitions of the (quasi-)norms:
  \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2\\
  = \norm[\frac 12,{[\alpha,\beta]}]{f''} \le\biggl\{\sqrt{\norm[{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le  (\beta - \alpha)^2 \norm[{[\alpha,\beta]}]{f''}.
 \end{multline}
-The second inequality comes from the definition of the cone.  Note that $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $[\alpha,\beta] \subset [a,b]$ whose width can be made arbitrarily small.  Then
+The second inequality comes from the cone definition.  Note that $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $[\alpha,\beta] \subset [a,b]$ whose width can be made arbitrarily small.  Then
 \begin{align*}
 \norm[{[\alpha,\beta]}]{f''}
 & \le \inf\bigl\{B(f,\alpha,\beta,h,h) : h \in (\beta - \alpha,\fh) \bigr \} \quad \text{by}~\eqref{conedef} \\
@@ -707,7 +710,7 @@ algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreove
 the same as the computational cost of the best possible algorithm, $A^*$ in \eqref{lowbdC} as $\abstol \to 0$.
 
 \begin{proof}
-	All of these lower bounds are proved by constructing fooling functions for which
+	These lower bounds are proved by constructing fooling functions for which
 	algorithm $A$ succeeds, and then showing that at least a certain number of
 	samples must be used. The proofs of~\eqref{lowbdW} are simpler, so
 	we start with them first.
@@ -1246,7 +1249,7 @@ This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m} and \texttt{traubpaper\_funmin\_g\_test.m}  in GAIL.}
 \label{tab:localVsGlobalVsChebfun}
 {\footnotesize
-\setlength{\tabcolsep}{.3em} % set table width
+\setlength{\tabcolsep}{.15 em} % set table width
 		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}	
 		 \hline	
 			               &    \multicolumn{9}{c}{\bf Mean Number of Points}   & \multicolumn{9}{c}{\bf Mean Time Used}  & \multicolumn{9}{c}{\bf Success (\%)}
@@ -1256,9 +1259,9 @@ This table can be conditionally reproduced by
 \\        $g_1$   &&   2864  &&&   26265   &&&    43    &&&   0.0080   &&&     0.0092    &&&   0.0083 &&&    100   &&&  100   &&&  3
 \\        $g_2$   &&   6911  &&&   97106   &&&    22    &&&   0.0073   &&&     0.0174    &&&   0.0056 &&&    100   &&&  100    &&&  3  	
 \\ \hline
-\end{tabular}
+%\end{tabular}
 
-		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
+%		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
 		%	Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
 		% \\ 
 			 functions &  \multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &  \multicolumn{3}{c}{\texttt{min}}
