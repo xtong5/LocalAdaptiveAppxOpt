@@ -674,33 +674,45 @@ computational cost is
 For functions in the cone $\cc$, the seminorms $\norm{f''}$ and $\norm[\frac
 12]{f''}$ are equivalent, but  for functions in $ \cw^{2,\infty}$ they are not, as is shown in the following proposition.
 
-\begin{prop} \label{equivnormprop} The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
+\begin{prop} \label{equivnormprop} 
+	The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
 	\begin{subequations}
 		\begin{gather}
 		\label{halflessinf}
-		(b-a)^2\norm[-\infty,{[\alpha,\beta]}]{f''}  \le \norm[\frac 12,{[\alpha,\beta]}]{f''}  \le (b-a)^2 \norm[{[\alpha,\beta]}]{f''} \quad \forall f \in \cw^{2,\infty}, \\
+		(b-a)^2\norm[-\infty,{[\alpha,\beta]}]{f''}  \le \norm[\frac 12,{[\alpha,\beta]}]{f''}  
+		\le (b-a)^2 \norm[{[\alpha,\beta]}]{f''} \quad \forall f \in \cw^{2,\infty}, \\
 		\label{inflesshalf}
 		\frac{4\fh^2}{27\fC_0} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc, \\
 		\label{infhalfnoteq}
-		\sup_{\substack{f \in \cw^{2,\infty}\\ f'' \ne 0}}  \frac{\norm{f''}}{\norm[\frac 12]{f''}} = \infty.
+		\sup_{\substack{f \in \cw^{2,\infty}\\ f'' \ne 0}}  \frac{\norm{f''}}{\norm[\frac 12]{f''}} 
+		= \infty.
 		\end{gather}
 	\end{subequations}
 \end{prop}
 \begin{proof}
 The first inequality follows from the definitions of the (quasi-)norms:
 \begin{multline} \label{onebdm}
- (\beta - \alpha)^2 \norm[-\infty,{[\alpha,\beta]}]{f''} = \biggl\{\sqrt{\norm[-\infty,{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le 
- \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2\\
- = \norm[\frac 12,{[\alpha,\beta]}]{f''} \le\biggl\{\sqrt{\norm[{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 \le  (\beta - \alpha)^2 \norm[{[\alpha,\beta]}]{f''}.
+ (\beta - \alpha)^2 \norm[-\infty,{[\alpha,\beta]}]{f''} 
+ = \biggl\{\sqrt{\norm[-\infty,{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 
+ \le \biggl\{ \int_{\alpha}^{\beta} \sqrt{\abs{f''(x)}} \, \dif x \biggr\}^2\\
+ = \norm[\frac 12,{[\alpha,\beta]}]{f''} 
+ \le\biggl\{\sqrt{\norm[{[\alpha,\beta]}]{f''}}  \int_{\alpha}^{\beta} \, \dif x \biggr\}^2 
+ \le  (\beta - \alpha)^2 \norm[{[\alpha,\beta]}]{f''}.
 \end{multline}
-The second inequality comes from the cone definition.  Note that $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $[\alpha,\beta] \subset [a,b]$ whose width can be made arbitrarily small.  Then
+The second inequality comes from the cone definition.  Note that 
+$\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $[\alpha,\beta] \subset [a,b]$ whose 
+width can be made arbitrarily small.  Then
 \begin{align*}
 \norm[{[\alpha,\beta]}]{f''}
 & \le \inf\bigl\{B(f,\alpha,\beta,h,h) : h \in (\beta - \alpha,\fh) \bigr \} \quad \text{by}~\eqref{conedef} \\
-& \le  \inf\bigl\{\fC(h) \max\bigl(\norm[-\infty,{[\beta - h, \alpha]}]{f''},\norm[-\infty,{[\beta, \alpha+h]}]{f''}\bigr) : h \in (\beta - \alpha,\fh) \bigr \} \\
+& \le  \inf\bigl\{\fC(h) \max\bigl(\norm[-\infty,{[\beta - h, \alpha]}]{f''},
+\norm[-\infty,{[\beta, \alpha+h]}]{f''}\bigr) : h \in (\beta - \alpha,\fh) \bigr \} \\
 & \le \inf_{\beta - \alpha < h < \fh} \frac{\fC(h)}{(h-\beta+\alpha)^2}\norm[\frac 12]{f''} \\
-& \qquad \qquad\text{by}~\eqref{tbdef},~\eqref{onebdm}, \text{ and since }  \norm[{\frac12,[\alpha,\beta]}]{f''} \le \norm[\frac 12]{f''} \ \forall [\alpha,\beta] \subseteq [a,b] \\
-& \le \inf_{0 < h < \fh} \frac{\fC(h)}{h^2}\norm[\frac 12]{f''} \qquad \text{since $\beta-\alpha$ may be made arbitrarily small}\\
+& \qquad \qquad\text{by}~\eqref{tbdef},~\eqref{onebdm}, \text{ and since }  
+\norm[{\frac12,[\alpha,\beta]}]{f''} \le \norm[\frac 12]{f''} \ \forall [\alpha,\beta] 
+\subseteq [a,b] \\
+& \le \inf_{0 < h < \fh} \frac{\fC(h)}{h^2}\norm[\frac 12]{f''} \qquad 
+\text{since $\beta-\alpha$ may be made arbitrarily small}\\
 & = \frac{27\fC_0}{4\fh^2}\norm[\frac 12]{f''} \qquad \text{by \eqref{hCdef}}.
 \end{align*}
 When $\fh$ is small, it is possible for $\norm[\frac 12]{f''} $ to be quite
@@ -709,7 +721,8 @@ The hump function $f_1$ in~\eqref{f3def}  satisfies
 $
  {\norm{f_1''}}/{\norm[\frac 12]{f_1''}}  =  { \delta^{-2}}/{16}.
 $
-By making $\delta$ small enough, we may make this ratio arbitrarily large, thus proving \eqref{infhalfnoteq}. However, since $f_1
+By making $\delta$ small enough, we may make this ratio arbitrarily large, thus proving 
+\eqref{infhalfnoteq}. However, since $f_1
 \notin \cc$ for $\delta < 2\fh$, this does not violate \eqref{inflesshalf}.
 \end{proof}
 
@@ -724,7 +737,8 @@ best algorithm. We then observe that these lower bounds have the same asymptotic
 behavior as the computational cost of Algorithm $A$.
 
 \begin{theorem}
-	Let $A^*$ be any deterministic algorithm that successfully solves problem~\eqref{appxprob}.
+	Let $A^*$ be any deterministic algorithm that successfully solves 
+	problem~\eqref{appxprob}.
 	
 	\begin{enumerate}
 		\renewcommand{\labelenumi}{\roman{enumi}.}
@@ -736,11 +750,14 @@ behavior as the computational cost of Algorithm $A$.
 		\end{gather}
 		\end{subequations}
 		
-		\item If $A^*$ solves~\eqref{appxprob} for all $f \in  \cw^{2,\infty}$, then for any $\sigma, \abstol >0$,
+		\item If $A^*$ solves~\eqref{appxprob} for all $f \in  \cw^{2,\infty}$, then for any 
+		$\sigma, \abstol >0$,
 		\begin{subequations} \label{lowbdW}
 		\begin{gather}
-		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) = \infty \quad \text{for } \sigma > 16 \abstol, \label{lowbdWhalf}\\
-		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \frac{(b-a)}{4} \sqrt{\frac{\sigma}{\abstol}} - 1.  \label{lowbdWinf}
+		\sup_{f \in \cw^{2,\infty} : \norm[\frac12]{f''} \le \sigma} \cost(A^*,f,\abstol) 
+		= \infty \quad \text{for } \sigma > 16 \abstol, \label{lowbdWhalf}\\
+		\sup_{f \in \cw^{2,\infty} : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) 
+		\ge \frac{(b-a)}{4} \sqrt{\frac{\sigma}{\abstol}} - 1.  \label{lowbdWinf}
 		\end{gather}
 		\end{subequations}
 				
@@ -748,12 +765,15 @@ behavior as the computational cost of Algorithm $A$.
 	\label{thm:A_cost}
 \end{theorem}
 
-Note by comparing \eqref{lowbdChalf} and \eqref{lowbdWhalf} that the lower complexity bound is significantly altered by restricting the
+Note by comparing \eqref{lowbdChalf} and \eqref{lowbdWhalf} that the lower complexity 
+bound is significantly altered by restricting the
 set of input functions from all of $ \cw^{2,\infty}$ to just the cone
 $\cc$. Also note that the
 conclusions of this theorem hold whether or not $\sigma$ is an input to the
-algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the computational cost of Algorithm $A$ is asymptotically
-the same as the computational cost of the best possible algorithm, $A^*$ in \eqref{lowbdC} as $\abstol \to 0$.
+algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the 
+computational cost of Algorithm $A$ is asymptotically
+the same as the computational cost of the best possible algorithm, $A^*$ in 
+\eqref{lowbdC} as $\abstol \to 0$.
 
 \begin{proof}
 	These lower bounds are proved by constructing fooling functions for which
@@ -763,7 +783,8 @@ the same as the computational cost of the best possible algorithm, $A^*$ in \eqr
 		
 	Let $A^*$ be a successful algorithm for all $f \in \cw^{2,\infty}$, and consider
 	the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
-	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$ and $x_n = x_{n+1} = b$. Choose any $j=1, \ldots, n+1$ with
+	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$ 
+	and $x_n = x_{n+1} = b$. Choose any $j=1, \ldots, n+1$ with
 	$x_j-x_{j-1} \ge (b-a)/(n+1)$. Let $f_1$ be defined as in~\eqref{f3def} with $c
 	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. Note that in general
 	\begin{equation}
@@ -778,12 +799,16 @@ the same as the computational cost of the best possible algorithm, $A^*$ in \eqr
 	approximations of $0, -f_1$, and $f_1$ are identical, this implies that $\gamma$
 	must be no greater than $\abstol$:
 	\begin{align*}
-	\abstol  &\ge \max(\norm{\gamma f_1 - A^*(\gamma f_1,\abstol)}, \norm{-\gamma f_1 - A^*(-\gamma f_1,\abstol)}) \\
+	\abstol  &\ge \max(\norm{\gamma f_1 - A^*(\gamma f_1,\abstol)}, 
+	\norm{-\gamma f_1 - A^*(-\gamma f_1,\abstol)}) \\
 	&= \max(\norm{\gamma f_1 - A^*(0,\abstol)}, \norm{-\gamma f_1 - A^*(0,\abstol)}) \\
-	& \ge \frac{1}{2} [\norm{\gamma f_1 - A^*(0,\abstol)} + \norm{-\gamma f_1 - A^*(0,\abstol)}] \\
-	& \ge \frac{1}{2} \norm{\gamma f_1 - (-\gamma f_1)} =  \norm{\gamma f_1} = \gamma %\\
+	& \ge \frac{1}{2} [\norm{\gamma f_1 - A^*(0,\abstol)} 
+	+ \norm{-\gamma f_1 - A^*(0,\abstol)}] \\
+	& \ge \frac{1}{2} \norm{\gamma f_1 - (-\gamma f_1)} =  \norm{\gamma f_1} 
+	= \gamma %\\
 	= \begin{cases} \displaystyle { \norm[\frac 12]{\gamma f_1''}}/{16}  \\
-	\displaystyle \delta^2 	\norm{\gamma f_1''} =  \frac{(b-a)^2 \norm{\gamma f_1''}}{16(n+1)^2}
+	\displaystyle \delta^2 	\norm{\gamma f_1''} 
+	=  \frac{(b-a)^2 \norm{\gamma f_1''}}{16(n+1)^2}
 	\end{cases}.
 	\end{align*}
 	The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma
@@ -812,20 +837,24 @@ This figure is reproducible by \texttt{TraubMemorial.m}
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
 	\begin{equation}
 	\label{assumpfzero}
-	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} = (b -a)^2  \quad \norm{f_0''} = 1.
+	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''} 
+	= (b -a)^2  \quad \norm{f_0''} = 1.
 	\end{equation}
 	Since $f_0''$ is constant and $f_0 \in \cc$,  $A^*$ successfully approximates
 	$\gamma f_0$ for any  $\gamma\ge0$.
 	
 	Consider the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
-	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$ and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
+	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$ 
+	and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
 	\ge (b-a)/(n+1)$, and let $f_1$ be defined as in~\eqref{f3def} with $c =
 	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
 	functions:
 	\begin{gather*}
-	f_{\pm} = f_0 \pm \tgamma f_1, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, \qquad
+	f_{\pm} = f_0 \pm \tgamma f_1, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2, 
+	\qquad
 	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
-\norm[-\infty{[\alpha,\beta]}]{f''} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} = \frac{\norm{f''_{\pm}} }{\fC(0)} \qquad \forall [\alpha,\beta] \subseteq [a,b].
+\norm[-\infty{[\alpha,\beta]}]{f''} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1} 
+= \frac{\norm{f''_{\pm}} }{\fC(0)} \qquad \forall [\alpha,\beta] \subseteq [a,b].
 	\end{gather*}
 	The above calculations show that $\gamma f_{\pm} \in \cc$ for all real
 	$\gamma$. Moreover, the definition of $f_{\pm}$ ensures that $A^*(\gamma f_0) =
@@ -835,10 +864,14 @@ This figure is reproducible by \texttt{TraubMemorial.m}
 Similar to the above, we argue that $\gamma\tgamma$ must be no larger than
 	$\abstol$:
 	\begin{align*}
-	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},\norm{\gamma f_--A(f_-, \abstol)}) \\
-	& \ge \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_+,\abstol)}+ \norm{\gamma f_--A(f_-, \abstol)} \right] \\
-	& = \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_0,\abstol)}+ \norm{\gamma f_--A(f_0, \abstol)} \right] \\
-	& \ge \frac{1}{2}  \norm{\gamma f_+ - \gamma f_-} =  \norm{\gamma \tgamma f_1} = \gamma \tgamma\\
+	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},
+	\norm{\gamma f_--A(f_-, \abstol)}) \\
+	& \ge \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_+,\abstol)}
+	+ \norm{\gamma f_--A(f_-, \abstol)} \right] \\
+	& = \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_0,\abstol)}
+	+ \norm{\gamma f_--A(f_0, \abstol)} \right] \\
+	& \ge \frac{1}{2}  \norm{\gamma f_+ - \gamma f_-} =  \norm{\gamma \tgamma f_1} 
+	= \gamma \tgamma\\
 	& = \begin{Bmatrix} \displaystyle
 	\frac{\norm[\frac 12]{\gamma f_0''}}{(b-a)^2}, \\
 	\norm{\gamma f_0''}
@@ -867,8 +900,12 @@ sections. The main departure from Algorithm $A$ is the stopping criterion. It is
 unnecessary to approximate $f$ accurately everywhere,  only where $f$ is small.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and $\abstol >0$ be user inputs. Let
-	$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and the index sets of subintervals for which we need to compute quantities $\oerr_{i}$ to bound the spline error:
+	For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let 
+	$\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and 
+	$\abstol >0$ be user inputs. Let
+	$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and 
+	the index sets of subintervals for which we need to compute quantities $\oerr_{i}$ to 
+	bound the spline error:
 \[
 x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 \]
@@ -878,15 +915,22 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 	
 	\begin{enumerate}[\em Step 1.]
 		
-		\item \label{stagemin1} \emph{Check for convergence.} For all $i \in \ci_{\pm}$ compute $\oerr_i $ according to \eqref{oerrdef} and let $\widetilde{\mathcal{I}}_{\pm} = \left\{i \in \mathcal{I}_{\pm}: \oerr_i  > \abstol \right\}$.  Next compute
+		\item \label{stagemin1} \emph{Check for convergence.} For all $i \in \ci_{\pm}$ 
+		compute $\oerr_i $ according to \eqref{oerrdef} and let 
+		$\widetilde{\mathcal{I}}_{\pm} = \left\{i \in \mathcal{I}_{\pm}: \oerr_i  
+		> \abstol \right\}$.  Next compute
 		\begin{gather*}
-		\herr_{i,+} := \oerr_i + \hM - \min\bigl(f(x_{i - 2}),f(x_{i-1})\bigr) \quad \forall \in \widetilde{\mathcal{I}}_{+}, \\
-		\herr_{i,-} := \oerr_i + \hM - \min\bigl(f(x_{i +1}),f(x_{i+2})\bigr)  \quad \forall \in \widetilde{\mathcal{I}}_{-},		
+		\herr_{i,+} := \oerr_i + \hM - \min\bigl(f(x_{i - 2}),f(x_{i-1})\bigr) \quad 
+		\forall \in \widetilde{\mathcal{I}}_{+}, \\
+		\herr_{i,-} := \oerr_i + \hM - \min\bigl(f(x_{i +1}),f(x_{i+2})\bigr)  \quad 
+		\forall \in \widetilde{\mathcal{I}}_{-},		
 		\end{gather*}
 		and let 
 		\begin{gather*}
-				\widehat{\ci}_+ = \Bigl\{i \in \widetilde{\ci}_+:  \herr_{i,+} > \abstol \text{ or } \bigl( i-3 \in \widetilde{\ci}_- \text{ \& } \herr_{i-3,-} > \abstol \bigr) \Bigr\}, \\
-				\widehat{\ci}_- = \Bigl\{i \in \widetilde{\ci}_-: \herr_{i,-} > \abstol \text{ or } \bigl( i+3\in \widetilde{\ci}_+ \text{ \& } \herr_{i+3,+} > \abstol \bigr) \Bigr\}.
+				\widehat{\ci}_+ = \Bigl\{i \in \widetilde{\ci}_+:  \herr_{i,+} > \abstol \text{ or } 
+				\bigl( i-3 \in \widetilde{\ci}_- \text{ \& } \herr_{i-3,-} > \abstol \bigr) \Bigr\}, \\
+				\widehat{\ci}_- = \Bigl\{i \in \widetilde{\ci}_-: \herr_{i,-} > \abstol \text{ or }
+				\bigl( i+3\in \widetilde{\ci}_+ \text{ \& } \herr_{i+3,+} > \abstol \bigr) \Bigr\}.
 		\end{gather*}
 		If $\widehat{\mathcal{I}}_+ \cup \widehat{\ci}_- =
 		\emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
@@ -898,12 +942,16 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 		\frac{x_{i-2} +x_{i-1}}{2}, \ \frac{x_{i-1} +x_{i}}{2} \ \ \forall i \in \widehat{\ci}_+, \quad 
 		\frac{x_{i} +x_{i+1}}{2}, \  \frac{x_{i+1} +x_{i+2}}{2} \ \ \forall  i \in \widehat{\ci}_-.
 		\end{equation*}
-		(The point $(x_{i-2}+x_{i-1})/2$ is only included for $i \ge 2$, and the point $(x_{i+1} +x_{i+2})/2$ is only included for $i \le n-2$.) Update the sets   $\ci_\pm$ %$\ci_{+}$ and $\ci_-$, 
+		(The point $(x_{i-2}+x_{i-1})/2$ is only included for $i \ge 2$, and the point 
+		$(x_{i+1} +x_{i+2})/2$ is only included for $i \le n-2$.)  Update the sets  
+		 $\ci_{+}$ and $\ci_-$, 
 		respectively, to consist of the new indices corresponding to the old points 
 		\[
-		x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2} \text{ for } i \in \widehat{\ci}_+, \qquad  \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1} \text{ for } i \in \widehat{\ci}_-.
+		x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2} \text{ for } i \in \widehat{\ci}_+, \qquad  
+		\frac{x_{i} +x_{i+1}}{2}, \  x_{i+1} \text{ for } i \in \widehat{\ci}_-.
 		\] 
-		(The point $x_{i-1}$ is only included for $i \ge 2$, and the point $x_{i+1}$ is only included for $i \le n-2$.) Return to Step~\ref{stagemin1}.
+		(The point $x_{i-1}$ is only included for $i \ge 2$, and the point $x_{i+1}$ is only 
+		included for $i \le n-2$.) Return to Step~\ref{stagemin1}.
 	\end{enumerate}
 \end{algoM}
 
@@ -913,12 +961,20 @@ cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
 \begin{proof}
-	The proof of the success of Algorithm $M$ is similar to that for Algorithm $A$. Here we give the highlights.     We use the notation of $I_{x,l}$ introduced in \eqref{Ixldef} and analogously defined $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in Algorithm $M$ containing $x$ when the algorithm terminates.   For a fixed $x \in [a,b]$ we argue as in the proof of Theorem \ref{thm:algAworks} that there exists an $l_{*} \le \ell(x)$ such that $I_{x,l_*} =[x_{i_{l_*}-1},x_{i_{l_*}}]$, and
+	The proof of the success of Algorithm $M$ is similar to that for Algorithm $A$. Here 
+	we give the highlights.     We use the notation of $I_{x,l}$ introduced in \eqref{Ixldef} 
+	and analogously defined $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in 
+	Algorithm $M$ containing $x$ when the algorithm terminates.   For a fixed $x \in 
+	[a,b]$ we argue as in the proof of Theorem \ref{thm:algAworks} that there exists an 
+	$l_{*} \le \ell(x)$ such that $I_{x,l_*} =[x_{i_{l_*}-1},x_{i_{l_*}}]$, and
 	\begin{gather*}
-	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}-3},x_{i_{l_*}-1}]}]{f} + \hM_{l_*} -  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol , \\
-	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}},x_{i_{l_*}+2}]}]{f} +  \hM_{l_*} -  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
+	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}-3},x_{i_{l_*}-1}]}]{f} + \hM_{l_*} 
+	-  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol , \\
+	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}},x_{i_{l_*}+2}]}]{f} +  \hM_{l_*} 
+	-  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
 	\end{gather*}
-	where $ \hM_{l}$ denotes the value of $\hM$ at iteration $l \in \natzero$.  By the definition of $\cc$ in \eqref{conedef}, this then implies that
+	where $ \hM_{l}$ denotes the value of $\hM$ at iteration $l \in \natzero$.  By the 
+	definition of $\cc$ in \eqref{conedef}, this then implies that
 	\begin{align}
 	\nonumber
 	 &	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} + \hM_{l_*} -  
@@ -927,7 +983,8 @@ cone $\cc$ defined in~\eqref{conedef}.
 	\\ \le \ & \hM_{l_*}  - \minfii + \frac{1}{8} h_{l_*}^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} \le  
 	\abstol. \label{herrtogether}
 	\end{align}
-Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the solution, $\min_{a \le x \le b} f(x) $.
+Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the 
+solution, $\min_{a \le x \le b} f(x) $.
 \end{proof}
 
 Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
@@ -1001,13 +1058,17 @@ following must exceed $\abstol$:
 \[
 \herr_{i+2,+} , \ \herr_{i+1,+}, \ \herr_{i,+}, \  \herr_{i-1,-}, \ \herr_{i-2,-}, \ \herr_{i-3,-}.
 \]
-We prove that $\herr_{i+2,+} > \abstol$ is impossible.  The arguments for the other cases are similar.
+We prove that $\herr_{i+2,+} > \abstol$ is impossible.  The arguments for the other cases 
+are similar.
 
-If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is also the case that $\oerr_{i-1} > \abstol$, and 
+If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is also the case 
+that $\oerr_{i-1} > \abstol$, and 
 \[
-x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2} = h_{\chL(x)}.
+x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2} 
+= h_{\chL(x)}.
 \]
-This means that $[x_{i-2},x_{i+3}] \in \tilde{I}_{x,l}$. By the same argument used in \eqref{oerrbd} it can be shown that
+This means that $[x_{i-2},x_{i+3}] \in \tilde{I}_{x,l}$. By the same argument used in 
+\eqref{oerrbd} it can be shown that
 \begin{equation}
 \oerr_{i+2} \le \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''}. 
 \label{oerrupbd}
@@ -1017,7 +1078,8 @@ The quantity $\oerr_{i+2}$ is the first term in the definition of $\herr_{i+2,+}
 
 Next, we bound $\min\bigl(f(x_{i}),f(x_{i+1}) \bigr)$, which also appears in the
 definition of $\herr_{i+2,+}$. As was argued earlier, $[x_{i-1},x_{i+1}] \in
-\tilde{I}_{x,\chL(x)}$. Then a Taylor expansion about the arbitrary $x \in [x_{i-1},x_{i}] $ under consideration establishes that
+\tilde{I}_{x,\chL(x)}$. Then a Taylor expansion about the arbitrary $x \in [x_{i-1},x_{i}] $ 
+under consideration establishes that
 \begin{equation} \label{minfjjm1bd}
 \min\bigl(f(x_{i}),f(x_{i+1}) \bigr)
 \ge f(x) - 2h_{\chL(x)}\abs{f'(x)} - h_{\chL(x)}^2 \norm[\bar{I}_{x,\chL(x)}]{f''} .
@@ -1068,7 +1130,6 @@ that $\tell(x) > \chL(x)$:
 & \le \abstol
 \end{align*}
 This gives a contradiction and completes the proof.
-
 \end{proof}
 
 
@@ -1083,31 +1144,12 @@ $[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the
 error tolerance. In this case, the computational cost for minimization may be
 significantly smaller than that for function approximation.
 
-This becomes more obvious if we can simplify the formula for $\chL(x)$ by
-assuming that $\fC\left(3\cdot2^{-l}h_0\right) \approx \fC(0)$ and that
-$\norm[\bar{I}_{t,l}]{f''} \approx \abs{f''(t)}$ for all $t$. In a similar
-manner as was done for $2^{L(x)}$ in \eqref{twoLxapprox} we now have:
-\begin{equation*}
- 2^{\chL(x)}
-\approx h_0\vastl[\frac{3 \abs{f'(x)}}{2[f(x) - f(x^*)]}
-+  \sqrt{\frac{\Bigl[\frac {\fC\left(0\right)}8  + \frac 32 \Bigr]  \abs{f''(x)} + \frac18\abs{f''(x^*)} }{f(x) - f(x^*)}} \vastr].
-\end{equation*}
-The further $f(x)$ is away from the minimum value of $f$, the smaller $\chL(x)$
-is and the smaller the computational cost of Algorithm $M$.
-
-%---------------------------------------------------------------
-\subsection{Lower Complexity Bound} \label{subsec:optcomp}
-%---------------------------------------------------------------
 
 The minimization problem \eqref{optprob} for functions in the whole Sobolev
 space $\cw^{2,\infty}$ has a similar lower complexity bound as \eqref{lowbdW}
 for the function approximation problem by a similar proof. However, for
-functions only in the cone $\cc$, the lower complexity bound proof for the
-function approximation does not have a direct analog for the minimization
-problem. The bump, $\tgamma f_1$, subtracted from $f_0: x \mapsto x^2/2$ may not
-affect the minimum function value, depending on the location of the bump's
-center. We have not yet derived a lower bound on the complexity of the
-minimization problem \eqref{optprob} for functions in $\cc$.
+functions only in the cone $\cc$, we have not yet derived a lower bound on the 
+complexity of the minimization problem \eqref{optprob} for functions in $\cc$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Examples} \label{sec:examples}
@@ -1125,88 +1167,6 @@ guide, and case studies. Algorithms $A$ and $M$ described here are implemented
 as GAIL functions \funappxg{} and \funming, respectively. The following examples
 showcase the merits and drawbacks of our algorithms. We compare them to the
 performance of MATLAB's built-in algorithms and the Chebfun toolbox.
-
-\begin{comment}
-%% Example 1
-In computer graphics, three-dimensional objects can often be parameterized by
-functions. Moreover, interpolation at low to medium accuracy is often be
-sufficient for projecting satisfactory visual perceptions on devices that have
-relatively limited memory and low-resolution display, for example, cell phones
-and wearables. Example~6 in \cite[Chapter~3, Section~6]{Din15a} uses \funappxg{}
-to interpolate the surface of a seashell, resulting in a sufficiently accurate
-reconstruction in~$\mathbb{R}^3$.
-
-
-\begin{figure}[tbh]
-  \centering
-  \begin{tabular}{cc}
-     \includegraphics[width=30mm]{figure/funappxseashell.pdf}
-  & \includegraphics[width=70mm]{figure/seashellsurferror.pdf}
-  \\ a)  & b)
-  \end{tabular}
-\caption{a) Approximate seashell; b) Error estimation of seashell with tolerance
-$0.1$. This figure is reproducible by \texttt{traub\_funappxseashell.m}.}
-\label{fig:funappxseashell}
-\end{figure}
-
-\begin{exmp}
-Figure~\ref{fig:funappxseashell}a) is an approximation of a
-seashell portrayed as a parametric surface in 3D. Let $a=-0.2$, $b=0.5$,
-$c=0.1$, $n = 2$, $u,v \in [0, 2 \pi]$, and $w(v) =
-a\left(1-\frac{v}{2\pi}\right)$. The parametric surface is defined by the
-following equations~\cite{DavEtal04}:
-\begin{align*}
-x(u,v) & =   \left[ w(v) \left(1+\cos(u)\right) + c\right]\cos(nv),\\
-y(u,v) & = \left[w(v) (1+\cos(u)) + c\right] \sin(nv),\\
-z(u,v) & = {bv}/{2\pi} + w(v)\sin(u).
-\end{align*}
-%
-
-If a function of two variables $f(x,y)$ can be separated, such as
-$$f(x,y)=f_1(x)+f_2(y) \text{ or } f(x,y)=f_1(x)f_2(y),$$ we can apply
-\texttt{funappx\_g} directly to $f_1(x)$ and $f_2(y)$. However, $x(u,v)$,
-$y(u,v)$, and $z(u,v)$ can not be represented by the form mentioned above.
-Instead,
-
-%We approximate $\sin(x)$ and $\cos(x)$ on the interval $[0,4\pi]$. Denote
-Denote $\sinappx(x)$ and $\cosappx (x)$ the approximate functions of $\sin(x)$ and
-$\cos(x)$ on the interval $[0,4\pi]$, respectively; and let the resultant
-approximants of $x(u,v)$, $y(u,v)$, and $z(u,v)$ be $\hat{x}(u,v)$,
-$\hat{y}(u,v)$, and $\hat{z}(u,v)$, respectively.
-Then we have
-\begin{align*}
-   \hat{x}(u,v) & =  \left[a\left(1-\frac{v}{2\pi}\right)\left(1+\cosappx(u)\right) + c\right]\cosappx(nv),
-\\ \hat{y}(u,v) & = \left[a\left(1-\frac{v}{2\pi}\right)(1+\cosappx(u)) + c\right] \sinappx(nv),
-\\ \hat{z}(u,v) & = \frac{bv}{2\pi} + a\left(1-\frac{v}{2\pi}\right)\sinappx(u).
-\end{align*}
-Define the \emph{overall} approximation error measure as the supremum norm
-\begin{align*}
-%\mathscr{E} =
-   \max\limits_{u,v \in [0, 2 \pi] } & \left\{   |x(u,v)-\hat{x}(u,v)|,\right.
-   \left.  |y(u,v)-\hat{y}(u,v)|,
-                                  \ \    |z(u,v)-\hat{z}(u,v)|\right\}.
-\end{align*}
-Even if we set the error tolerance $\abstol$ to be as big as $0.1$ for computing
-$\sinappx$ and $\cosappx$, we can still obtain a much diminished overall error
-in the order of $9 \times 10^{-4}$; see the error plot in
-Figure~\ref{fig:funappxseashell}b). The reconstructed surface in
-Figure~\ref{fig:funappxseashell}a) is very similar to the original seashell
-image.
-\end{exmp}
-
-
-Another application of function approximation is digital animation, in which
-successive image frames are produced to represent movements of objects over
-small discrete time intervals. To automatically insert additional frames between
-two consecutive frames for better visual effects, temporal interpolation can be
-applied to estimate an object's position and movement by parametric curves that
-represent its trajectory in 3D as $(x(t), y(t), z(t))$, where each Cartesian
-coordinate in space is parameterized by time $t$. We refer readers to Example~5
-in \cite[Chapter~3, Section~6]{Din15a} for an illustration.
-
-%% Example 3.2
-\end{comment}
-
 
 \begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
@@ -1515,9 +1475,3 @@ NSF-DMS-1522687.
 \bibliography{FJH23,FJHOwn23}
 
 \end{document}
-
-
-
-
-
-
