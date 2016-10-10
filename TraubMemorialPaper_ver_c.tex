@@ -874,13 +874,13 @@ cone $\cc$ defined in~\eqref{conedef}.
 	\end{gather*}
 	where $ \hM_{l}$ denotes the value of $\hM$ at iteration $l \in \natzero$.  By the definition of $\cc$ in \eqref{conedef}, this then implies that
 	\[
-	\frac{1}{8} (x_{i_{l_*}} - x_{i_{l^*}-1})^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} + \hM_{l_*} -  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
+	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} + \hM_{l_*} -  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
 	\]
 	and
-		\begin{multline*}
+		\begin{multline}
 		\hM_{l_*} - \min_{x_{i_{l^*}-1} \le x \le x_{i_{l_*}}} f(x) \\
-		\le \hM_{l_*}  - \minfii + \frac{1}{8} (x_{i_{l_*}} - x_{i_{l^*}-1})^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} \le  \abstol.
-		\end{multline*}
+		\le \hM_{l_*}  - \min \bigl(f(x_{i_{l_*}-1}), f(x_{i_{l_*}}) \bigr)+ \frac{1}{8} h_{l_*}^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} \le  \abstol. \label{herrtogether}
+		\end{multline}
 Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the solution, $\min_{a \le x \le b} f(x) $.
 \end{proof}
 
@@ -911,11 +911,9 @@ Let
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx}, 
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\
-+  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\tilde{I}_{x,l}]{f''}
-+ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\},
+\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3h_l\right) + 1 \biggr]   \norm[\tilde{I}_{x,l}]{f''} + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\} h_{l}^2 \\ \qquad \qquad +  2 \abs{f'(x)} h_{l} + [f(x^*) - f(x)] \Biggr\},
 \end{multline}
-and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally five times the:
+and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally seven times the width:
 \begin{equation}
 \tilde{I}_{x,l}=\left[a+\max(0,j-4)h_l, a+ \min(j+3,2^l n_{\ninit})h_l\right] \supset \Ixl,
 \end{equation}
@@ -935,15 +933,6 @@ dependence is suppressed in the notation.
 \end{theorem}
 
 \begin{proof}
-%	We start with several observations that aid the proof:
-%	\begin{itemize}
-%		\item If any subinterval needs to be split at iteration $l$, then its width, $h_l = h_0 2^{-l}$, is no larger than any other subintervals in the partition.
-%		
-%		\item If $i \in \widehat{\ci}_+$ at iteration $l$, then $x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = h_l$.
-%
-%		\item If $i \in \widehat{\ci}_-$ at iteration $l$, then $x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1} = h_l$.
-%	\end{itemize}
-
 Using the same argument as for Theorem \ref{thm:cost}, we only need to show that
 $\tell(x) \le \tL(x)$ for all $x \in [a,b]$.  At each iteration of Algorithm $M$, the index sets $\ci_{\pm}$ are both subsets of $\ci$ for the corresponding iteration of Algorithm $A$.  Thus $\tell(x)
 \le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}.  We
@@ -961,9 +950,9 @@ If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is a
 x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2} = h_{\chL(x)}.
 \]
 This means that $[x_{i-2},x_{i+3}] \in \tilde{I}_{x,l}$. By the same argument used in \eqref{oerrbd} it can be shown that
-\[
-\oerr_{i+2} \le \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,l}]{f''}.
-\]
+\begin{equation}
+\oerr_{i+2} \le \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''}. \label{oerrupbd}
+\end{equation}
 The quantity $\oerr_{i+2}$ is the first term in the definition of $\herr_{i+2,+}$ in Step \ref{stagemin1} of Algorithm $M$.
 
 Next, we bound $\min\bigl(f(x_{i}),f(x_{i+1}) \bigr)$, which also appears in the
@@ -975,49 +964,47 @@ definition of $\herr_{i+2,+}$. As was argued earlier, $[x_{i-1},x_{i+1}] \in
 \end{equation}
 since $\abs{x_i - x} \le \abs{x_{i+1} - x} \le 2h_{\chL(x)}$.
 
-
-\textbf{Fred fix starting here, refer to notation above}
- 
-Finally, we bound $ \widehat{M}-\abstol$. Let $[x_{i^*-1}, x^*_i[$ be the
-subinterval in $\cp$ containing the location of the minimum, $x^*$. Note that by
+Finally, we bound $ \hM_{\chL(x)}$. Let $x^*$ be a point where $f$ attains its minimum, and 
+let $I_{x^*,l_*} = [x_{i^*-1}, x_{i^*}]$ be the subinterval in the present partition containing $x^*$, where $l_* \le \chL(x)$. By
 \eqref{appxerrbda} it follows that
 \begin{equation} \label{fxstarlowbd}
-f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}.
+f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 h_{l^*}^2\norm[I_{x^*,l_*}]{f''}.
 \end{equation}
-There are two possibilities regarding $i^*$. If $i^* \in \ci$, then $h = x_i -
-x_{i-1} \ge x_{i^*} - x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
+There are two possibilities regarding $l_*$. If $l_* < \chL(x)$, then by the argument in  in \eqref{herrtogether} used to prove Theorem \ref{thm:algMworks},
 \begin{align*}
-\hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
-& \le f(x^*) + \frac18  (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''} \\
-& \le  f(x^*) + \frac18 \norm[{\bar{I}_{x^*,\chL(x)}}]{f''} h^2
+\hM_{\chL(x)}   & \le \hM_{l_*}  
+ \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 h_{l^*}^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}  + \abstol  \\
+& \le  f(x^*) + \abstol \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
-Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of
-Algorithm $M$,
-\begin{align*}
-\hM   - \abstol & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)  \\
-& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   \\
-& \le  f(x^*) \qquad \text{by}~\eqref{fxstarlowbd} .
-\end{align*}
-Thus, we have
+Otherwise, if $l_* = \chL(x)$, then 
+\begin{equation*}
+\hM_{\chL(x)}   \le \min(f(x_{i^*-1}),f(x_{i^*}))  \le  f(x^*) + \frac18 h_{\chL(x)}^2 \norm[{I_{x^*,\chL(x)}}]{f''} \quad \text{by}~\eqref{fxstarlowbd} .
+\end{equation*}
+Thus, in either case we have
 \begin{equation} \label{Mhatbd}
-\hM - \abstol \le f(x^*) + \frac 18 \norm[{I_{x^*,\chL(x)}}]{f''} h^2.
+\hM_{\chL(x)} \le f(x^*) + \frac 18 h_{\chL(x)}^2  \norm[{I_{x^*,\chL(x)}}]{f''} + \abstol.
 \end{equation}
 
-Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and
+Combining the three inequalities \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
 \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption
 that $\tell(x) > \chL(x)$:
 \begin{align*}
-\MoveEqLeft{\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j}))} \\
-& \le \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2 \\
-& \qquad \qquad +  3 \abs{f'(x)} h + [f(x^*) - f(x)] \\
-&  \le -[f(x) - f(x^*)] \left( 1 - \frac{3\abs{f'(x)}h}{2[f(x) - f(x^*)] } \right)^2  \\
-& \qquad \qquad  +  \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2.
+\abstol & < \herr_{i+2,+} \qquad \text{by assumption} \\
+& = \oerr_{i+2} + \hM_{\chL(x)} - \min\bigl(f(x_{i}),f(x_{i+1})\bigr), \qquad \text{by Step \ref{stagemin1} of Algorithm $M$} \\
+& = \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} + f(x^*) + \frac 18 h_{\chL(x)}^2  \norm[{I_{x^*,\chL(x)}}]{f''} + \abstol \\
+& \qquad \qquad - f(x) + 2h_{\chL(x)}\abs{f'(x)} + h_{\chL(x)}^2 \norm[\bar{I}_{x,\chL(x)}]{f''} \\
+&  \qquad \qquad \qquad  \qquad \text{by \eqref{oerrupbd}, \eqref{minfjjm1bd}, and \eqref{Mhatbd},} \\
+& \le \abstol + \biggl\{ \biggl[\frac 18 \fC\left(3 h_{\chL(x)} \right) + 1 \biggr]   \norm[\tilde{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h_{\chL(x)}^2 \\
+& \qquad \qquad +  2 \abs{f'(x)} h_{\chL(x)} + [f(x^*) - f(x)] \\
+& \le \abstol
 \end{align*}
-For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which
-implies that the left hand side of this inequality is positive. However, the
-definition of $\chL(x)$ implies that the right hand side of this inequality is
-non-positive. This is a contradiction, so $\tell(x) \le \chL(x)$.
+This gives a contradiction and completes the proof.
+
 \end{proof}
+
+
+\textbf{Fred fix starting here}
+
 
 If $f(x)$ is close to the minimum function value, $f(x^*)$, for $x$ in much of
 $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the
