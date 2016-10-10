@@ -316,8 +316,10 @@ Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
 $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
 \begin{align}
 \nonumber
-   p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + (x-\alpha)(x-\beta) D(f,\alpha,\beta), 
-\\ D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) + f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
+   p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  + 
+   (x-\alpha)(x-\beta) D(f,\alpha,\beta), 
+\\ D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2)) 
+	+ f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
 \end{align}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
 zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
@@ -325,10 +327,12 @@ $(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
 \beta)/2 < \xi_+ < \beta$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. Thus,
 \begin{align} \label{NDDbdm}
      \norm[-\infty,{[\alpha,\beta]}]{f''} 
-   & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} \nonumber
+   & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} 
+   \nonumber
 \\ & \le \abs{\frac{f'(\xi_+) - f'(\xi_-)}{\xi_+ - \xi_-}} 
    = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)}  \nonumber
-\\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} =: \norm[{[\alpha,\beta]}]{f''}.
+\\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}} 
+=: \norm[{[\alpha,\beta]}]{f''}.
 \end{align}
 This inequality tells us that twice the divided difference,
 $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for
@@ -343,22 +347,26 @@ The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
 and a positive number $\fC_0 \ge 1$. Let
 \begin{equation}
 \label{hCdef}
-\fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h} \mbox{\, for \,} 0<h<\fh.
+\fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h} 
+\mbox{\, for \,} 0<h<\fh.
 \end{equation}
 For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 <
 \beta - \alpha < h_{\pm} < \fh$, define
 \begin{equation} \label{tbdef}
 B(f,\alpha,\beta,h_-,h_+) :=
 \begin{cases}
-   \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), 
+   \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+}) 
+   \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr), 
 \\                                             \hspace{26ex} a \le \beta- h_- <  \alpha + h_+ \le b,
 \\ \fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},  \quad a \le \beta- h_- < b< \alpha + h_+,
-\\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, \quad \beta- h_- <  a  < \alpha + h_+ \le b.
+\\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f}, 
+\quad \beta- h_- <  a  < \alpha + h_+ \le b.
 \end{cases} 
 \end{equation}
 \begin{multline} \label{conedef}
  \cc := \Bigl \{
- f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f,\alpha,\beta,h_-,h_+)  \text{ for all } [\alpha,\beta] \subset [a,b],
+ f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f,\alpha,\beta,h_-,h_+)  
+ \text{ for all } [\alpha,\beta] \subset [a,b],
 \\ \text{and } 0 < \beta - \alpha < \max(h_{\pm}) < \fh  \Bigr \}.
 \end{multline}
 The set $\cc$ is a cone because $f \in \cc \implies cf \in \cc$ for all real
@@ -369,30 +377,7 @@ $\norm[{[\alpha,\beta]}]{f''}/\norm[-\infty,{[\alpha,\beta]}]{f''}$ as $\beta -
 include more functions.
 
 We give an example of a parameterized family of functions whose members lie
-inside $\cc$ if they are not too spiky.
-%Consider the following two functions defined on $[-1,1]$ whose
-%second derivatives oscillate wildly near $0$:
-%\begin{gather*}
-%f_1(x) = x^4 \sin(1/x), \\
-% f_1''(x) =  (12x^2 - 1) \sin(1/x) -6 x \cos(1/x), \qquad x \ne 0 \\
-%f_2(x) = 10  x^2 + f_1(x), \qquad f_2''(x) = 20+ f_1''(x).
-%\end{gather*}
-%These functions are plotted in Figure~\ref{f1f2fig}. Because $\norm[-\infty,{[\alpha,\beta]}]{f''_1} = 0 < 1 \le \norm[{[\alpha,\beta]}]{f''_1}$ for $-1 \le \alpha < 0 < \beta \le 1$,  $f_1$ cannot lie inside
-%$\cc$ no matter how $n_{\ninit}$ and $\fC_0$ are chosen.   On the other hand,
-%$\norm[{[\alpha,\beta]}]{f''_1} \le 27  \le 2 \norm[-\infty,{[\alpha,\beta]}]{f''_1}$ for all $-1 \le \alpha < \beta \le 1$,  so $f_2 \in
-%\cc$ if $\fC_0 \ge 2$.
-%
-%\begin{figure}[t]
-%\centering
-%\includegraphics[width=5.6cm]{figure/f1f2plot.eps} \quad
-%\includegraphics[width=5.9cm]{figure/f1closeplot.eps} \\
-%\includegraphics[width=5.6cm]{figure/f1ppf2ppplot.eps} \quad
-%\includegraphics[width=5.9cm]{figure/f2closeplot.eps}
-%\caption{The examples $f_1$ and $f_2$ and their second derivatives. Note that
-%$f_2''(x) = f_1''(x) + 20$. This figure is reproducible by {\tt TraubMemorial.m}
-%in GAIL.}
-%\label{f1f2fig}
-%\end{figure}
+inside $\cc$ if they are not too spiky. 
 Consider the following hump-shaped function defined on $[-1,1]$, whose
 second derivative has jump discontinuities:
 \begin{align} \label{f3def}
@@ -462,7 +447,8 @@ $\alpha$, $\beta$, and $h$ satisfying
 it follows that for $h < \fh$,
 \begin{gather*}
    \beta -  h < c - 2 \delta < \alpha < c - 3\alpha/2 < \beta < c - \delta < \alpha + h, 
-\\ \norm[-\infty,{[\beta - h,\alpha]}]{f''_1} =\norm[-\infty,{[\beta,\alpha+h]}]{f''_1}=0 < \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
+\\ \norm[-\infty,{[\beta - h,\alpha]}]{f''_1} =\norm[-\infty,{[\beta,\alpha+h]}]{f''_1}=0 
+< \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
 \end{gather*}
 This violates the definition of $\cc$. This example illustrates how the choice
 of $\fh$ influences the width of a spiky function and determines whether it lies in
@@ -516,7 +502,8 @@ Update the present partition, $x_{0:n}$, to include the subinterval midpoints
 is only needed for $i \le n-2$.) Update the set $\ci$ to consist of the new
 indices corresponding to the old points
 \[
-x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2}, \ \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1}, \qquad i \in \widetilde{\ci}.
+x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2}, \ \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1}, 
+\qquad i \in \widetilde{\ci}.
 \] 
 (The point $x_{i-1}$ is only included for $ i \ge 2$, and the point $x_{i+1}$ is
 only included for $i \le n-2$.) Let $l = l+1$, and return to Step~\ref{stage1}.
@@ -547,7 +534,8 @@ x_{i_l}]$ for some $i_l \in \oton$. (The dependence of $n$ on $l$ is
 suppressed.) Specifically this interval is defined for all $ x \in [a,b]$ and $l
 \in \mathbb{N}_0$ as
 	\begin{equation}\label{Ixldef}
-	\Ixl := \left[a+jh_l,a+(j+1) h_l\right], \ j=\min \left(\left\lfloor\frac{(x-a)}{h_l}\right\rfloor, 2^l n_{\ninit}-1 \right ).
+	\Ixl := \left[a+jh_l,a+(j+1) h_l\right], \ j=\min \left(\left\lfloor\frac{(x-a)}{h_l}\right\rfloor, 
+	2^l n_{\ninit}-1 \right ).
 	\end{equation}
 Let $\ell(x)$ be defined such that $I_{x,\ell(x)}$ is the final subinterval in
 Algorithm $A$ that contains $x$ when the algorithm terminates. We need to
@@ -559,23 +547,33 @@ similar. There exists some $l_- \le \ell(x)$ for which $I_{x,{l_-}}
 =[x_{i_{l_-}-1},x_{i_{l_-}}]$ and
 \begin{subequations} \label{datalesstol}
 \begin{equation}
-\frac{1} 8 \fC(3h_l) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} \le \oerr_{i_{l_-}-2} \le \abstol .
+\frac{1} 8 \fC(3h_l) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} \le \oerr_{i_{l_-}-2} 
+\le \abstol .
 \end{equation}
 There also exists an $l_+ \le \ell(x)$ such that $I_{x,l_+} =[x_{i_{l_+}-1},x_{i_{l_+}}]$ and
 \begin{equation}
-\frac{1} 8 \fC(3h_{l_+}) h_{l_+}^2 \norm[-\infty,{[x_{i_{l_+}},x_{i_{l_+}+2}]}]{f} \le \oerr_{i_{l_+}+1} \le \abstol .
+\frac{1} 8 \fC(3h_{l_+}) h_{l_+}^2 \norm[-\infty,{[x_{i_{l_+}},x_{i_{l_+}+2}]}]{f} 
+\le \oerr_{i_{l_+}+1} \le \abstol .
 \end{equation}
 \end{subequations}
-Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_+}} $, we may conclude that
+Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_+}} $, we may 
+conclude that
 \begin{align*}
-   & \norm[I_{x,\ell(x)}]{f - S(f)} \le \frac{1}{8}h_{\ell(x)}^2\norm[I_{x,\ell(x)}]{f''} \qquad \text{by \eqref{appxerrbda}} 
-\\ & \le \frac{1}{8} h_{\ell(x)}^2 B(f,x_{i_{\ell(x) - 1}},x_{i_{\ell(x)}},x_{i_{\ell(x)}}-x_{i_{l_-}-3},x_{i_{l_+}+2} - x_{i_{\ell(x) - 1}}) \quad 
+   & \norm[I_{x,\ell(x)}]{f - S(f)} \le \frac{1}{8}h_{\ell(x)}^2\norm[I_{x,\ell(x)}]{f''} \qquad 
+   \text{by \eqref{appxerrbda}} 
+\\ & \le \frac{1}{8} h_{\ell(x)}^2 B(f,x_{i_{\ell(x) - 1}},
+x_{i_{\ell(x)}},x_{i_{\ell(x)}}-x_{i_{l_-}-3},x_{i_{l_+}+2} - x_{i_{\ell(x) - 1}}) \quad 
  \text{by  \eqref{conedef}}
-\\ & \le \frac{1}{8} h_{\ell(x)}^2 \max \Bigl(\fC(x_{i_{\ell(x)}}-x_{i_{l_-}-3})   \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{\ell(x) - 1}}]}] {f''}, \\
-&\qquad  \fC(x_{i_{l_+}+2} - x_{i_{\ell(x)}-1})   \norm[-\infty,{[x_{i_{\ell(x)}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \quad \text{by the definition of $B$ in \eqref{tbdef}}\\
-& \le  \max \Bigl( \frac{ h_{l_-}^2}{8}\fC(3h_{l_-})   \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}- 1}]}] {f''},  
+\\ & \le \frac{1}{8} h_{\ell(x)}^2 \max \Bigl(\fC(x_{i_{\ell(x)}}-x_{i_{l_-}-3})   
+\norm[-\infty,{[x_{i_{l_-}-3},x_{i_{\ell(x) - 1}}]}] {f''}, \\
+&\qquad  \fC(x_{i_{l_+}+2} - x_{i_{\ell(x)}-1})   
+\norm[-\infty,{[x_{i_{\ell(x)}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \quad 
+\text{by the definition of $B$ in \eqref{tbdef}}\\
+& \le  \max \Bigl( \frac{ h_{l_-}^2}{8}\fC(3h_{l_-})   
+\norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}- 1}]}] {f''},  
    \ \frac{h_{l_+}^2}{8}\fC(3h_{l_+})   \norm[-\infty,{[x_{i_{l_+}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \\
-& \qquad \qquad  \text{because $h_{\ell(x)} \le h_{l_{\pm}}$ and $\fC$ is non-decreasing}\\
+& \qquad \qquad  \text{because $h_{\ell(x)} \le h_{l_{\pm}}$ and $\fC$ is 
+	non-decreasing}\\
 & \le \abstol \qquad \text{by \eqref{datalesstol}}
 \end{align*}
 This concludes the proof.\end{proof}
@@ -618,12 +616,16 @@ $\oerr_{i+1}$ is larger than $\abstol$. However, in the proof of
 Theorem~\ref{thm:algAworks} it is noted that for $k \in \{-2, -1, 0, 1\}$,
 \begin{align}
 \nonumber
-\oerr_{i+k} & \le \frac{1}4 \fC(3h_l) h_l^2 \abs{D(f,x_{i-1+k},x_{i+1+k})} \qquad \text{by \eqref{divdiffbd}} \\
+\oerr_{i+k} & \le \frac{1}4 \fC(3h_l) h_l^2 \abs{D(f,x_{i-1+k},x_{i+1+k})} \qquad 
+\text{by \eqref{divdiffbd}} \\
 \nonumber
-& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[{[x_{i-1+k},x_{i+1+k}]}]{f''}  \qquad \text{by \eqref{NDDbdm}}\\
-& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[\bar{I}_{x,l}]{f''} \le \varepsilon \qquad \text{by \eqref{eqn:defoflx}}. \label{oerrbd}
+& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[{[x_{i-1+k},x_{i+1+k}]}]{f''}  \qquad 
+\text{by \eqref{NDDbdm}}\\
+& \le \frac{1} 8 \fC(3h_l) h_l^2 \norm[\bar{I}_{x,l}]{f''} \le \varepsilon \qquad 
+\text{by \eqref{eqn:defoflx}}. \label{oerrbd}
 \end{align}
-This is a contradiction, so in fact, $\ell(x) \le L(x)$, which is used to prove an upper bound on the
+This is a contradiction, so in fact, $\ell(x) \le L(x)$, which is used to prove an upper 
+bound on the
 computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
@@ -633,7 +635,8 @@ $\abstol$. This algorithm is known to successfully solve
 problem~\eqref{appxprob} for functions in $\cc$. The computational cost of doing
 so has the following upper bound:
 \begin{equation*}
-\cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 = \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1 \\
+\cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1 
+= \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1 \\
 \end{equation*}
 where $L(x)$ is defined in~\eqref{eqn:defoflx}.
 \end{theorem}
@@ -653,13 +656,19 @@ Noting that $\ell(x) \le L(x)$ establishes the formula for $\cost(A,f,\abstol)$.
 
 From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know that 
 \begin{align*}
-\frac{1}{h_{L(x)}} = \frac{2}{h_{L(x)-1}}  & < 2 \sqrt{\frac{\fC\left(3 h_{L(x)-1} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}  
+\frac{1}{h_{L(x)}} = \frac{2}{h_{L(x)-1}}  
+& < 2 \sqrt{\frac{\fC\left(3 h_{L(x)-1} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}  
 = \sqrt{\frac{\fC\left(6 h_{L(x)} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}
 \end{align*}
-As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,L(x)-1}]{f''}$ approaches $|f''(x)|$.  Thus, the small $\abstol$ asymptotic upper bound on computational cost is
+As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,L(x)-1}]{f''}$ 
+approaches $|f''(x)|$.  Thus, the small $\abstol$ asymptotic upper bound on 
+computational cost is
 \begin{align}
-\cost(A,f,\abstol)  &\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1  =\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
-& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad \text{by \eqref{halflessinf} below}.
+\cost(A,f,\abstol)  
+&\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1  
+=\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
+& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad 
+\text{by \eqref{halflessinf} below}.
 \end{align}
 
 For functions in the cone $\cc$, the seminorms $\norm{f''}$ and $\norm[\frac
@@ -1015,49 +1024,55 @@ definition of $\herr_{i+2,+}$. As was argued earlier, $[x_{i-1},x_{i+1}] \in
 \end{equation}
 since $\abs{x_i - x} \le \abs{x_{i+1} - x} \le 2h_{\chL(x)}$.
 
-
-\textbf{Fred fix starting here, refer to notation above}
- 
-Finally, we bound $ \widehat{M}-\abstol$. Let $[x_{i^*-1}, x^*_i[$ be the
-subinterval in $\cp$ containing the location of the minimum, $x^*$. Note that by
+Finally, we bound $ \hM_{\chL(x)}$. Let $x^*$ be a point where $f$ attains its minimum, 
+and 
+let $I_{x^*,l_*} = [x_{i^*-1}, x_{i^*}]$ be the subinterval in the present partition containing 
+$x^*$, where $l_* \le \chL(x)$. By
 \eqref{appxerrbda} it follows that
 \begin{equation} \label{fxstarlowbd}
-f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''}.
+f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 h_{l^*}^2\norm[I_{x^*,l_*}]{f''}.
 \end{equation}
-There are two possibilities regarding $i^*$. If $i^* \in \ci$, then $h = x_i -
-x_{i-1} \ge x_{i^*} - x_{i^*-1}$, since $i \in \widetilde{\ci}$ and so
+There are two possibilities regarding $l_*$. If $l_* < \chL(x)$, then by the argument in  in 
+\eqref{herrtogether} used to prove Theorem \ref{thm:algMworks},
 \begin{align*}
-\hM  = \min_{i=1, \ldots, n} f(x_i) & \le \min(f(x_{i^*-1}),f(x_{i^*})) \\
-& \le f(x^*) + \frac18  (x_{i^*} - x_{i^*-1})^2\norm[{[x_{i^*-1}, x^*_i]}]{f''} \\
-& \le  f(x^*) + \frac18 \norm[{\bar{I}_{x^*,\chL(x)}}]{f''} h^2
+\hM_{\chL(x)}   & \le \hM_{l_*}  
+\le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 h_{l^*}^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}  + \abstol  \\
+& \le  f(x^*) + \abstol \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
-Otherwise, if $i^* \notin \ci$, then by the definition of $\ci$ in Step 1 of
-Algorithm $M$,
-\begin{align*}
-\hM   - \abstol & \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \max \bigl(B_{i^*,\pm}(f,\cp) \bigr)  \\
-& \le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 (x^*_i - x_{i^*-1})^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}   
-  \ \le    f(x^*) \ \text{by}~\eqref{fxstarlowbd} .
-\end{align*}
-Thus, we have
+Otherwise, if $l_* = \chL(x)$, then 
+\begin{equation*}
+\hM_{\chL(x)}   \le \min(f(x_{i^*-1}),f(x_{i^*}))  \le  f(x^*) + \frac18 h_{\chL(x)}^2 
+\norm[{I_{x^*,\chL(x)}}]{f''} \quad \text{by}~\eqref{fxstarlowbd} .
+\end{equation*}
+Thus, in either case we have
 \begin{equation} \label{Mhatbd}
-\hM - \abstol \le f(x^*) + \frac 18 \norm[{I_{x^*,\chL(x)}}]{f''} h^2.
+\hM_{\chL(x)} \le f(x^*) + \frac 18 h_{\chL(x)}^2  \norm[{I_{x^*,\chL(x)}}]{f''} + \abstol.
 \end{equation}
 
-Combining the three inequalities \eqref{Blenormt}, \eqref{minfjjm1bd}, and
+Combining the three inequalities \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
 \eqref{Mhatbd} yields the inequality that allows us to contradict the assumption
 that $\tell(x) > \chL(x)$:
 \begin{align*}
-\MoveEqLeft{\frac 18 B_{j,s}(f,\cp)(x_j-x_{j-1})^2 + \hM -\abstol - \min(f(x_{j-1}),f(x_{j}))} \\
-& \le \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2 \\
-& \qquad \qquad +  3 \abs{f'(x)} h + [f(x^*) - f(x)] \\
-&  \le -[f(x) - f(x^*)] \left( 1 - \frac{3\abs{f'(x)}h}{2[f(x) - f(x^*)] } \right)^2  \\
-& \qquad \qquad  +  \biggl\{ \biggl[\frac 18 \fC\left(3h\right) + \frac 32 \biggr]   \norm[\bar{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h^2.
+\abstol & < \herr_{i+2,+} \qquad \text{by assumption} \\
+& = \oerr_{i+2} + \hM_{\chL(x)} - \min\bigl(f(x_{i}),f(x_{i+1})\bigr), \qquad \text{by Step 
+\ref{stagemin1} of Algorithm $M$} \\
+& = \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} + f(x^*) + 
+\frac 18 h_{\chL(x)}^2  \norm[{I_{x^*,\chL(x)}}]{f''} + \abstol \\
+& \qquad \qquad - f(x) + 2h_{\chL(x)}\abs{f'(x)} + h_{\chL(x)}^2 
+\norm[\bar{I}_{x,\chL(x)}]{f''} \\
+&  \qquad \qquad \qquad  \qquad \text{by \eqref{oerrupbd}, \eqref{minfjjm1bd}, and 
+\eqref{Mhatbd},} \\
+& \le \abstol + \biggl\{ \biggl[\frac 18 \fC\left(3 h_{\chL(x)} \right) + 1 \biggr]   
+\norm[\tilde{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h_{\chL(x)}^2 \\
+& \qquad \qquad +  2 \abs{f'(x)} h_{\chL(x)} + [f(x^*) - f(x)] \\
+& \le \abstol
 \end{align*}
-For $[x_{i-1},x_i]$ to be split, we must have $j = i - sk \in \ci_s$, which
-implies that the left hand side of this inequality is positive. However, the
-definition of $\chL(x)$ implies that the right hand side of this inequality is
-non-positive. This is a contradiction, so $\tell(x) \le \chL(x)$.
+This gives a contradiction and completes the proof.
+
 \end{proof}
+
+
+\textbf{Fred fix starting here}
 
 If $f(x)$ is close to the minimum function value, $f(x^*)$, for $x$ in much of
 $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the
