@@ -69,12 +69,12 @@
 \newtheorem*{algoA}{Algorithm $A$}
 \newtheorem*{algoM}{Algorithm $M$}
 
-\newcommand{\vastl}{\mathopen\vast}
-\newcommand{\vastm}{\mathrel\vast}
-\newcommand{\vastr}{\mathclose\vast}
-\newcommand{\Vastl}{\mathopen\Vast}
-\newcommand{\Vastm}{\mathrel\Vast}
-\newcommand{\Vastr}{\mathclose\Vast}
+%\newcommand{\vastl}{\mathopen\vast}
+%\newcommand{\vastm}{\mathrel\vast}
+%\newcommand{\vastr}{\mathclose\vast}
+%\newcommand{\Vastl}{\mathopen\Vast}
+%\newcommand{\Vastm}{\mathrel\Vast}
+%\newcommand{\Vastr}{\mathclose\Vast}
 \renewcommand{\cw}{W}
 
 \definecolor{orange}{rgb}{1.0,0.3,0.0}
@@ -96,9 +96,9 @@
 \newcommand{\rell}{\mathring{\ell}}
 \newcommand{\tgamma}{\widetilde{\gamma}}
 \newcommand{\hM}{\widehat{M}}
-\DeclareMathOperator{\lo}{lo}
+%\DeclareMathOperator{\lo}{lo}
 \DeclareMathOperator{\ninit}{ninit}
-\DeclareMathOperator{\errest}{errest}
+%\DeclareMathOperator{\errest}{errest}
 \DeclareMathOperator{\oerr}{\overline{err}}
 \DeclareMathOperator{\herr}{\widehat{err}}
 \newtheorem{theorem}{Theorem}
@@ -109,8 +109,8 @@
 \newcommand{\funming}{\texttt{funmin\_g}\xspace}
 \newcommand{\fminbnd}{\texttt{fminbnd}\xspace}
 \newcommand{\integralg}{\texttt{integral\_g}\xspace}
-\newcommand{\cosappx}{\widehat{\operatorname*{cos}}}
-\newcommand{\sinappx}{\widehat{\operatorname*{sin}}}
+%\newcommand{\cosappx}{\widehat{\operatorname*{cos}}}
+%\newcommand{\sinappx}{\widehat{\operatorname*{sin}}}
 \newcommand{\minfi}{\min\limits_{i \in 0:n} f(x_i)} %minf(xi)
 \newcommand{\minfii}{\min(f(x_{i-1}), f(x_i))} %min{f(x_i-1),f(x_i)}
 \begin{document}
@@ -136,20 +136,21 @@ USA}
 \begin{abstract}
 Most commonly used \emph{adaptive} algorithms for function approximation and global
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
-are guaranteed to provide approximants that satisfy a user-specified absolute
+are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space
 $\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function $f$ on a
 bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
-$\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$, the
+$\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$ as $\abstol \to 0$.  
+This is the
 same order as that of the best function approximation algorithm for functions in
 $\cc$. The computational cost of our global minimization algorithm is of the same order 
 and can cost substantially less if $f$
-significantly exceeds its minimum over much of its domain. Our
-algorithms have been implemented in our Guaranteed Automatic Integration
-Library. Numerical examples are presented to illustrate the performance of our
-algorithms.
+significantly exceeds its minimum over much of its domain. Our 
+Guaranteed Automatic Integration Library contains these new algorithms. Here we 
+provide
+numerical experiments to illustrate their performance.
 \end{abstract}
 
 \begin{keyword}
@@ -192,7 +193,7 @@ Our algorithms $A$ and $M$ are based on a \emph{linear spline}:
    \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i), 
 \\ x_{i-1} \le x \le x_i, \quad i \in \oton.
 \end{multline}
-Here ${0\!:\!n}$ is shorthand for ${0, \ldots, n}$, and $\datasites$ is an
+Here ${0\!:\!n}$ is shorthand for $\{0, \ldots, n\}$, and $\datasites$ is an
 ordered sequence of $n+1$ points that includes the endpoints of the interval,
 i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
 \emph{partition} of $[a,b]$. The error of the linear spline is bounded in terms
@@ -200,7 +201,7 @@ of the second derivative of the input function as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
 \begin{equation} \label{appxerrbda}
 	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)} 
-	\le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, 
+	\le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \quad i \in \oton,
 \end{equation}
 where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the
 interval $[\alpha,\beta] \subset [a,b]$. This error bound leads us to focus on
@@ -211,7 +212,7 @@ Algorithms $A$ and $M$ require an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$
 to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
 $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
 \bigl \lceil (b-a)\smash{\sqrt{\sigma/(8 \varepsilon)}} \, \bigr \rceil$, $x_i = a +
-i(b-a)/n$, $i \in 0\!:\!n$. However, providing an upper bound on $\norm{f''}$ is
+i(b-a)/n$, $i \in 0\!:\!n$. Providing an upper bound on $\norm{f''}$ is
 often impractical, and so we propose adaptive algorithms that do not
 require such information.
 
@@ -223,9 +224,9 @@ construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) =
 0$, $i\in \zton$ but with $\norm{f - A(f,\abstol)} = \norm{f -
 A(0,\abstol)} > \varepsilon$.
 
-Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed is chosen to
-include only those functions whose second derivatives do not change dramatically
-over a short distance. The precise definition is given in Section
+Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed 
+includes only those functions whose second derivatives do not change dramatically
+over a short distance. The precise definition of $\cc$ is given in Section
 \ref{sec:cone}. This allows us to use second-order divided differences to
 construct rigorous upper bounds on the linear spline error in
 \eqref{appxerrbda}. These data-driven error bounds inform the stopping criteria
