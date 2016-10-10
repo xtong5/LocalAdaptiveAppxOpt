@@ -910,15 +910,14 @@ cone $\cc$ defined in~\eqref{conedef}.
 	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}},x_{i_{l_*}+2}]}]{f} +  \hM_{l_*} -  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
 	\end{gather*}
 	where $ \hM_{l}$ denotes the value of $\hM$ at iteration $l \in \natzero$.  By the definition of $\cc$ in \eqref{conedef}, this then implies that
-	\begin{align*}
-	%\[
-	 & \frac{1}{8} (x_{i_{l_*}} - x_{i_{l^*}-1})^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} + \hM_{l_*} -  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
-	%\]
-	%and
-	%	\begin{multline*}
-	\\	   & \hM_{l_*} - \min_{x_{i_{l^*}-1} \le x \le x_{i_{l_*}}} f(x) 
-	\\ \le \ & \hM_{l_*}  - \minfii + \frac{1}{8} (x_{i_{l_*}} - x_{i_{l^*}-1})^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} \le  \abstol.
-	\end{align*}
+	\begin{align}
+	\nonumber
+	 &	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} + \hM_{l_*} -  
+	 \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol, 
+	\\	\MoveEqLeft[5]{\hM_{l_*} - \min_{x_{i_{l^*}-1} \le x \le x_{i_{l_*}}} f(x) } \nonumber
+	\\ \le \ & \hM_{l_*}  - \minfii + \frac{1}{8} h_{l_*}^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} \le  
+	\abstol. \label{herrtogether}
+	\end{align}
 Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the solution, $\min_{a \le x \le b} f(x) $.
 \end{proof}
 
@@ -934,27 +933,27 @@ similar manner as that for Algorithm $A$. There are essentially two reasons that
 subinterval $[x_{i-1},x_i]$ need not be split further. One is the same as that
 for Algorithm $A$: the function being minimized is approximated on
 $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$. This is 
-reflected in the definition of $\widetilde{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm $M$.  The second
+reflected in the definition of $\widetilde{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm 
+$M$.  The second
 reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger
 than $\abstol$, the function values on that subinterval are significantly larger
-than the minimum of the function over $[a,b]$.  This is reflected in the definition of $\widehat{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm $M$. 
+than the minimum of the function over $[a,b]$.  This is reflected in the definition of 
+$\widehat{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm $M$. 
 
 Our definition of $\tL(x)$ reflects these two reasons. Let $x^*$ be some place
 where the minimum of $f$ is obtained, i.e.,
-%\[
 $f(x^*)  = \min_{a \le x \le b} f(x).$
-%\]
 Let
 \begin{equation}\label{eqn:defofltx}
-\tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b[,
+\tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b],
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx}, 
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  2^l \ge h_0 \Biggl[ \frac{3\abs{f'(x)}}{2[f(x) - f(x^*)]} \\
-+  \frac{1}{\sqrt{f(x) - f(x^*)}} \biggl\{ \biggl[\frac 18 \fC\left(3\cdot2^{-l}h_0\right) + \frac 32 \biggr]   \norm[\tilde{I}_{x,l}]{f''}
-+ \frac18\norm[{I_{x^*,l}}]{f''} \biggr\}^{1/2} \Biggr] \Biggr\},
+\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3h_l\right) + 1 
+\biggr]   \norm[\tilde{I}_{x,l}]{f''} + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\} h_{l}^2 \\ \qquad 
+\qquad +  2 \abs{f'(x)} h_{l} + [f(x^*) - f(x)] \Biggr\},
 \end{multline}
-and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally five times the:
+and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally seven times the width:
 \begin{equation}
 \tilde{I}_{x,l}=\left[a+\max(0,j-4)h_l, a+ \min(j+3,2^l n_{\ninit})h_l\right] \supset \Ixl,
 \end{equation}
@@ -966,7 +965,10 @@ case with $L(x)$, both $\chL(x)$ and $\tL(x)$ depend on $f$, although this
 dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
-	Denote by $\cost(M,f,\abstol)$ as the number of functional evaluations required by Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  This algorithm is known to successfully solve problem~\eqref{appxprob} for functions in $\cc$.  The computational cost of doing so is bounded by:
+	Denote by $\cost(M,f,\abstol)$ as the number of functional evaluations required by 
+	Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.  
+	This algorithm is known to successfully solve problem~\eqref{appxprob} for functions 
+	in $\cc$.  The computational cost of doing so is bounded by:
 	\begin{equation*}
 	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1 \\
 	\end{equation*}
@@ -974,22 +976,19 @@ dependence is suppressed in the notation.
 \end{theorem}
 
 \begin{proof}
-%	We start with several observations that aid the proof:
-%	\begin{itemize}
-%		\item If any subinterval needs to be split at iteration $l$, then its width, $h_l = h_0 2^{-l}$, is no larger than any other subintervals in the partition.
-%		
-%		\item If $i \in \widehat{\ci}_+$ at iteration $l$, then $x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = h_l$.
-%
-%		\item If $i \in \widehat{\ci}_-$ at iteration $l$, then $x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1} = h_l$.
-%	\end{itemize}
 
 Using the same argument as for Theorem \ref{thm:cost}, we only need to show that
-$\tell(x) \le \tL(x)$ for all $x \in [a,b]$.  At each iteration of Algorithm $M$, the index sets $\ci_{\pm}$ are both subsets of $\ci$ for the corresponding iteration of Algorithm $A$.  Thus $\tell(x)
+$\tell(x) \le \tL(x)$ for all $x \in [a,b]$.  At each iteration of Algorithm $M$, the index sets 
+$\ci_{\pm}$ are both subsets of $\ci$ for the corresponding iteration of Algorithm $A$.  
+Thus $\tell(x)
 \le L(x)$ by the same argument as used to prove Theorem \ref{thm:cost}.  We
 only need to show that $\tell(x) \le \chL(x)$.
 	
-We will show that $\chL(x) < \tell(x) \le L(x)$ for any fixed $x$  leads to a contradiction.  Assuming $\chL(x) < \tell(x)$, then at the $\chL(x)^{\text{th}}$  iteration,
-$I_{x,\chL(x)} = [x_{i-1},x_i]$ for some $i$ must be split in Step~\ref{stagemin2} of $M$, where $x_i-x_{i-1}= h_{\chL(x)} = h_0 2^{-\chL(x)}$.  This means that one or more of the following must exceed $\abstol$:
+We will show that $\chL(x) < \tell(x) \le L(x)$ for any fixed $x$  leads to a contradiction.  
+Assuming $\chL(x) < \tell(x)$, then at the $\chL(x)^{\text{th}}$  iteration,
+$I_{x,\chL(x)} = [x_{i-1},x_i]$ for some $i$ must be split in Step~\ref{stagemin2} of $M$,
+where $x_i-x_{i-1}= h_{\chL(x)} = h_0 2^{-\chL(x)}$.  This means that one or more of the
+following must exceed $\abstol$:
 \[
 \herr_{i+2,+} , \ \herr_{i+1,+}, \ \herr_{i,+}, \  \herr_{i-1,-}, \ \herr_{i-2,-}, \ \herr_{i-3,-}.
 \]
@@ -1000,10 +999,12 @@ If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is a
 x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2} = h_{\chL(x)}.
 \]
 This means that $[x_{i-2},x_{i+3}] \in \tilde{I}_{x,l}$. By the same argument used in \eqref{oerrbd} it can be shown that
-\[
-\oerr_{i+2} \le \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,l}]{f''}.
-\]
-The quantity $\oerr_{i+2}$ is the first term in the definition of $\herr_{i+2,+}$ in Step \ref{stagemin1} of Algorithm $M$.
+\begin{equation}
+\oerr_{i+2} \le \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''}. 
+\label{oerrupbd}
+\end{equation}
+The quantity $\oerr_{i+2}$ is the first term in the definition of $\herr_{i+2,+}$ in Step 
+\ref{stagemin1} of Algorithm $M$.
 
 Next, we bound $\min\bigl(f(x_{i}),f(x_{i+1}) \bigr)$, which also appears in the
 definition of $\herr_{i+2,+}$. As was argued earlier, $[x_{i-1},x_{i+1}] \in
