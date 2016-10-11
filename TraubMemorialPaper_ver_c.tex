@@ -691,7 +691,8 @@ For functions in the cone $\cc$, the (quasi-)seminorms $\norm{f''}$ and $\norm[\
 		\label{inflesshalf}
 		\frac{4\fh^2}{27\fC_0} \norm{f''} \le \norm[\frac 12]{f''} \qquad \forall f \in \cc, \\
 		\label{infhalfnoteq}
-		\sup_{f \in \cw^{2,\infty} : \norm[\frac 12]{f''} \le 1}  \norm{f''} = \infty.
+		\sup_{\substack{f \in \cw^{2,\infty}\\ f'' \ne 0}}  \frac{\norm{f''}}{\norm[\frac 12]{f''}} 
+		= \infty.
 		\end{gather}
 	\end{subequations}
 \end{prop}
@@ -1279,9 +1280,9 @@ This table can be conditionally reproduced by
 			               &    \multicolumn{9}{c}{\bf Mean Number of Points}   & \multicolumn{9}{c}{\bf Mean Time Used}  & \multicolumn{9}{c}{\bf Success (\%)}
 	  \\ \hline  functions &  \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }  & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }
 \\ \toprule
-          $f_1$   &&   2904  &&&   46439   &&&   116    &&&   0.0057   &&&     0.0115    &&&   0.0386 &&&    100   &&&  100   &&&  0
-\\        $g_1$   &&   2864  &&&   26265   &&&    43    &&&   0.0080   &&&     0.0092    &&&   0.0083 &&&    100   &&&  100   &&&  3
-\\        $g_2$   &&   6911  &&&   97106   &&&    22    &&&   0.0073   &&&     0.0174    &&&   0.0056 &&&    100   &&&  100    &&&  3  	
+          $f_1$   &&    5659  &&&    46439  &&&   116    &&&   0.0084   &&&     0.0137    &&&   0.0403 &&&    100   &&&  100   &&&  0
+\\        $g_1$   &&    3690  &&&    26265  &&&    43    &&&   0.0091   &&&     0.0119    &&&   0.0104 &&&    100   &&&  100   &&&  3
+\\        $g_2$   &&   11835  &&&    97106  &&&    22    &&&   0.0114   &&&     0.0246    &&&   0.0061 &&&    100   &&&  100    &&&  3  	
 \\ \hline
 %\end{tabular}
 
