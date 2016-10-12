@@ -352,19 +352,19 @@ and a  number $\fC_0 \ge 1$. Let
 For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 <
 \beta - \alpha < h_{\pm} < \fh$, define
 \begin{equation} \label{tbdef}
-B(f,\alpha,\beta,h_-,h_+) :=
+B(f'',\alpha,\beta,h_-,h_+) :=
 \begin{cases}
-   \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},\fC(h_{+})
-   \norm[-\infty,{[\beta, \alpha+h_+]}]{f}\bigr),
+   \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f''},\fC(h_{+})
+   \norm[-\infty,{[\beta, \alpha+h_+]}]{f''}\bigr),
 \\                                             \hspace{26ex} a \le \beta- h_- <  \alpha + h_+ \le b,
-\\ \fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f},  \quad a \le \beta- h_- < b< \alpha + h_+,
-\\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f},
+\\ \fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f''},  \quad a \le \beta- h_- < b< \alpha + h_+,
+\\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f''},
 \quad \beta- h_- <  a  < \alpha + h_+ \le b.
 \end{cases}
 \end{equation}
 \begin{multline} \label{conedef}
  \cc := \Bigl \{
- f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f,\alpha,\beta,h_-,h_+)
+ f  \in    \cw^{2,\infty}:   \norm[{[\alpha,\beta]}]{f''}  \le B(f'',\alpha,\beta,h_-,h_+)
  \text{ for all } [\alpha,\beta] \subset [a,b]
 \\ \text{and } h_{\pm} \in (\beta - \alpha,  \fh)  \Bigr \}.
 \end{multline}
@@ -383,7 +383,7 @@ include more functions.
 	\caption{A plot of $\abs{f''(x)}$ (solid) for some sample $f$.  If $f \in \cc$, then
 	$\norm[{\alpha,\beta}]{f''}$ (dashed) \label{fig:ConeDef}} is bounded above in
     terms of  $\norm[-\infty,{[\beta - h_-,\alpha]}]{f''}$ and $\norm[-\infty,{[\beta,
-    \alpha+h_+]}]{f''}$ (dashed) multiplied by inflation factors $\fC(h_{\pm})$.  Moreover, 
+    \alpha+h_+]}]{f''}$ (dashed) multiplied by inflation factors $\fC(h_{\pm})$.  Moreover,
     ???
     \textbf{Fred needs to add more here}
 \end{figure}
@@ -444,11 +444,11 @@ it follows that
 \\ & \qquad\quad  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta].
 \end{cases}
 \end{align*}
-Thus, $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta
+Thus, $B(f'',\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta
 \ge c - 2\delta$ or $\alpha \le c + 2\delta$.
 For $[\alpha,\beta] \subset [-1,c
 - 2\delta) \cup (c+2\delta, 1]$, it follows that $\norm[{[\alpha,\beta]}]{f''_1} =
-0$, so $B(f,\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$
+0$, so $B(f'',\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$
 automatically. Thus, the definition of the cone is satisfied.
 
 However, if the hump is too narrow, i.e., $\delta < 2 \fh$, the function $f_1$
@@ -559,7 +559,7 @@ similar. By \eqref{oerrlobd} there exists some $l_- \le \ell(x)$ for which $I_{x
 =[x_{i_{l_-}-1},x_{i_{l_-}}]$ and
 \begin{subequations} \label{datalesstol}
 \begin{equation}
-\frac{1} 8 \fC(3h_l) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} \le \oerr_{i_{l_-}-2}
+\frac{1} 8 \fC(3h_{l_-}) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} \le \oerr_{i_{l_-}-2}
 \le \abstol .
 \end{equation}
 There also exists an $l_+ \le \ell(x)$ such that $I_{x,l_+} =[x_{i_{l_+}-1},x_{i_{l_+}}]$ and
@@ -867,7 +867,7 @@ This figure is reproducible by \texttt{TraubMemorial.m}
 	f_{\pm} = f_0 \pm \tgamma f_1, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2,
 	\qquad
 	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
-\norm[-\infty{[\alpha,\beta]}]{f''} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1}
+\norm[-\infty,{[\alpha,\beta]}]{f''_{\pm}} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1}
 = \frac{\norm{f''_{\pm}} }{\fC(0)} \qquad \forall [\alpha,\beta] \subseteq [a,b].
 	\end{gather*}
 	The above calculations show that $\gamma f_{\pm} \in \cc$ for all real
@@ -879,11 +879,11 @@ Similar to the above, we argue that $\gamma\tgamma$ must be no larger than
 	$\abstol$:
 	\begin{align*}
 	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},
-	\norm{\gamma f_--A(f_-, \abstol)}) \\
+	\norm{\gamma f_--A(\gamma f_-, \abstol)}) \\
 	& \ge \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_+,\abstol)}
-	+ \norm{\gamma f_--A(f_-, \abstol)} \right] \\
+	+ \norm{\gamma f_--A(\gamma f_-, \abstol)} \right] \\
 	& = \frac{1}{2} \left[ \norm{\gamma f_+-A(\gamma f_0,\abstol)}
-	+ \norm{\gamma f_--A(f_0, \abstol)} \right] \\
+	+ \norm{\gamma f_--A(\gamma f_0, \abstol)} \right] \\
 	& \ge \frac{1}{2}  \norm{\gamma f_+ - \gamma f_-} =  \norm{\gamma \tgamma f_1}
 	= \gamma \tgamma\\
 	& = \begin{Bmatrix} \displaystyle
