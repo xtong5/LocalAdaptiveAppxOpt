@@ -1203,8 +1203,9 @@ par\_}\funappxg{} using four workers achieved a speedup of two times.
 \funappxg. The blank regions of the graphs correspond to zero errors. 
 %This figure is reproducible by \texttt{cf\_chebfun.m}. 
 (b) An empirical distribution function of performance ratios based on 1000
-simulations for each test function: \funappxg{} time $/$ \funappxglobalg{} time
-(blue), \funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),
+simulations for each test function: 
+%\funappxg{} time $/$ \funappxglobalg{} time (blue), 
+%\funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),
 \funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$
 Chebfun \# of samples (green). This figure is conditionally reproducible by \texttt{cf\_chebfun.m} and
 \texttt{traubpaper\_funappx\_g\_test.m} in GAIL.
@@ -1247,8 +1248,9 @@ simulating the following families of test functions  in addition to $f_1$:
 For $f_1$, we choose $\delta = 0.2$ and $c \sim \cu[0,0.6]$, and for $g_1$, and
 $g_2$ we choose and $d \sim \cu[0,2]$. For $d=1$ we obtain $g_i = f_i$ for
 $i=1$, and $2$. We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 1000$, $\fC (h) =
-3 \fh/(\fh-h)$ , and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g},
-our old globally adaptive algorithm \texttt{funappxglobal\_g}, and Chebfun are
+3 \fh/(\fh-h)$ , and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
+%our old globally adaptive algorithm \texttt{funappxglobal\_g}, 
+and Chebfun are
 used to approximate $1000$ random test functions. We switch on the splitting
 feature in Chebfun to use piecewise Chebyshev polynomials for approximation if
 needed, and override the default tolerance to $10^{-6}$ as well. The
@@ -1261,86 +1263,51 @@ Table~\ref{tab:localVsGlobalVsChebfun}.
 \begin{table}[bt]
 \centering
 \caption{Comparison of number of sample points, computational time,  and success
-rates of \funappxg (local), \funappxglobalg (global), and Chebfun in upper table;
+rates of \funappxg (local) %, \funappxglobalg (global), 
+and Chebfun in upper table;
 \funming, \fminbnd, and Chebfun's \texttt{min} in lower table.
 %We also report the number of warnings in parentheses issued by the software.
 This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m} and \texttt{traubpaper\_funmin\_g\_test.m}  in GAIL.}
 \label{tab:localVsGlobalVsChebfun}
 {\footnotesize
-\setlength{\tabcolsep}{.15 em} % set table width
-		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}	
+\setlength{\tabcolsep}{1em} % set table width
+		\begin{tabular}{crrrrrrrrrrrr}	
 		 \hline	
-			               &    \multicolumn{9}{c}{\bf Mean Number of Points}   & \multicolumn{9}{c}{\bf Mean Time Used}  & \multicolumn{9}{c}{\bf Success (\%)}
-	  \\ \hline  functions &  \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }  & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun } & \multicolumn{3}{c}{local}  &  \multicolumn{3}{c}{global }  &  \multicolumn{3}{c}{Chebfun }
+			     &    \multicolumn{2}{c}{\bf Mean Points}   & \multicolumn{2}{c}{\bf Mean Time Used}  & \multicolumn{2}{c}{\bf Success (\%)}
+	  \\ \hline  functions &  \multicolumn{1}{r}{local}  &    \multicolumn{1}{r}{Chebfun}  &   \multicolumn{1}{r}{local}   &  \multicolumn{1}{r}{Chebfun} &    \multicolumn{1}{r}{local}  &   \multicolumn{1}{r}{Chebfun}
 \\ \toprule
-          $f_1$   &&    5659  &&&    46439  &&&   116    &&&   0.0084   &&&     0.0137    &&&   0.0403 &&&    100   &&&  100   &&&  0
-\\        $g_1$   &&    3690  &&&    26265  &&&    43    &&&   0.0091   &&&     0.0119    &&&   0.0104 &&&    100   &&&  100   &&&  3
-\\        $g_2$   &&   11835  &&&    97106  &&&    22    &&&   0.0114   &&&     0.0246    &&&   0.0061 &&&    100   &&&  100    &&&  3  	
+          $f_1$   &   5659       &   116    &   0.0084         &  0.0403 &    100        &  0
+\\        $g_1$   &    3690       &   43    &   0.0091          &   0.0104 &    100       &  3
+\\        $g_2$   &   11835      &    22    &   0.0114          &   0.0061 &    100        &  3  	
 \\ \hline
-%\end{tabular}
-
-%		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
+\end{tabular}
+%
+\setlength{\tabcolsep}{.3em} 
+\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
 		%	Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
 		% \\ 
-			 functions &  \multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &  \multicolumn{3}{c}{\texttt{min}}
-		  &  \multicolumn{3}{c}{\funming}  &  \multicolumn{3}{c}{\fminbnd }  &  \multicolumn{3}{c}{\texttt{min} }  &  \multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} & \multicolumn{3}{c}{\texttt{min}}
+			 functions &  \multicolumn{1}{c}{\funming} &  \multicolumn{1}{c}{\fminbnd}  &  \multicolumn{1}{c}{\texttt{min}}
+		  &  \multicolumn{1}{c}{\funming}  &  \multicolumn{1}{c}{\fminbnd }  &  \multicolumn{1}{c}{\texttt{min} }  &  \multicolumn{1}{c}{\funming} & \multicolumn{1}{c}{\fminbnd} & \multicolumn{1}{c}{\texttt{min}}
 			\\ \toprule
-			$-f_1$   &&  274   &&&   8   &&&  116     &&&   0.0022   &&&   0.0010    &&& 0.0469  &&&   100   &&&  100   &&&  14
-			\\ $\phantom{-}g_1$   && 230 &&&  22   &&&    43    &&& 0.0020  &&&    0.0012   &&&  0.0109 &&&    100   &&&   27   &&&  60
-			\\ $\phantom{-}g_2$   &&  273 &&&   9   &&&   22    &&&  0.0022   &&&   0.0011    &&&  0.0063 &&&    100   &&& 100   &&&  35
+			$-f_1$   &  274   &   8   & 116     &   0.0022   &  0.0010    & 0.0469  &   100   &  100   &  14
+			\\ $\phantom{-}g_1$   & 230 &  22   &    43    & 0.0020  &    0.0012   &  0.0109 &    100   &   27   &  60
+			\\ $\phantom{-}g_2$   &  273 &   9   &   22    &  0.0022   &   0.0011    &  0.0063 &    100   & 100   &  35
 			\\ \hline
 		\end{tabular}
 }
 \end{table}
 %
 
-Both \funappxg{} and \funappxglobalg{} obtain the correct answer in all cases,
-even for $g_1$, which is outside the cone $\cc$. The new locally adapative
-algorithm uses fewer samples than the older globally adaptive algorithm. Because it is a higher order algorithm, Chebfun generally used substantially fewer number of samples than
+\funappxg{} obtained the correct answer in all cases,
+even for $g_1$, which is outside the cone $\cc$. %The new locally adapative
+%algorithm uses fewer samples than the older globally adaptive algorithm. 
+Because it is a higher order algorithm, Chebfun generally used substantially fewer number of samples than
 \funappxg, but Chebfun's run time is longer than \funappxg for a
-significant proportion of the cases; see Figure~\ref{f3chebfig}(b). However, Chebfun only rarely
+significant proportion of the cases; see Figure~\ref{f3chebfig}(b). However, Chebfun rarely
 approximates the test functions satisfactorily.
 
-
-\begin{comment}
-\begin{table}[tb]
-	\centering
-	\caption{Comparison of number of sample points, computational time,  and success
-		rates of \funming, \fminbnd, and
-		Chebfun's \texttt{min}.
-		%We also report the number of warnings in parentheses issued by the software.
-		This table can be conditionally reproduced by
-		\texttt{traubpaper\_funmin\_g\_test.m} in GAIL.}
-	\label{tab:funmingVsfminbndVsChebfun}
-	{\footnotesize
-%		\setlength{\tabcolsep}{.48em} % set table width
-%		\begin{tabular}{|c|rrr|rrr|rrrrrr|}
-%			\hline
-%			Test      &     \multicolumn{3}{c|}{Mean Number of Points} & \multicolumn{3}{c|}{Mean Time Used}  & \multicolumn{6}{|c|}{Success (\%)}
-%			\\  family &  \funming  &  \fminbnd    &  \texttt{min}    & \funming     &  \fminbnd  & \texttt{min}   & \multicolumn{2}{r}{\funming} & \multicolumn{2}{r}{\fminbnd} & \multicolumn{2}{r|}{\texttt{min}}
-%			\\ \hline
-%			-f3   &  274   &   8   &   113    &   0.006   &    0.004    &  0.196  &    100   &  &  100   &   &  12 &
-%			\\ \phantom{-}g1   &  230   &  22   &    44    &   0.005   &    0.006    &  0.044  &    100   &  &   24   &   &  54 &
-%			\\ \phantom{-}g2   &  273   &   9   &    24    &   0.006   &    0.005    &  0.025  &    100   &  &  100   &   &  34 &
-%			\\ \hline
-%		\end{tabular}
-
-	\setlength{\tabcolsep}{.3em}
-		\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
-			Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
-			\\  functions &  \multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &  \multicolumn{3}{c}{\texttt{min}}
-		  &  \multicolumn{3}{c}{\funming}  &  \multicolumn{3}{c}{\fminbnd }  &  \multicolumn{3}{c}{\texttt{min} }  &  \multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} & \multicolumn{3}{c}{\texttt{min}}
-			\\ \toprule
-			$-f_1$   &&  274   &&&   8   &&&  116     &&&   0.0022   &&&   0.0010    &&& 0.0469  &&&   100   &&&  100   &&&  14
-			\\ $\phantom{-}g_1$   && 230 &&&  22   &&&    43    &&& 0.0020  &&&    0.0012   &&&  0.0109 &&&    100   &&&   27   &&&  60
-			\\ $\phantom{-}g_2$   &&  273 &&&   9   &&&   22    &&&  0.0022   &&&   0.0011    &&&  0.0063 &&&    100   &&& 100   &&&  35
-		\end{tabular}
-				
-	}
-\end{table}
-\end{comment}
-
+ 
 Similar simulation tests have been run to compare \funming, \fminbnd, and
 Chebfun's \texttt{min}. The results are summarized in the lower half of
 Table~\ref{tab:localVsGlobalVsChebfun}. Our new \funming{} achieves 100\%
