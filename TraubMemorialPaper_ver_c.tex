@@ -260,7 +260,7 @@ numerical algorithms for function approximation, such as the MATLAB toolbox
 Chebfun \citep{TrefEtal16a}, succeed for some $f$, but fail for other $f$. No
 theory explains for which $f$ Chebfun succeeds. A corresponding situation exists
 for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's
-built-in \texttt{fminbnd} \citep{MAT9.0}.
+built-in \texttt{fminbnd} \citep{MAT9.1}.
 
 Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
@@ -422,11 +422,9 @@ for $-c=\delta = 0.2$.
 \\[1ex] (a) & (b)
 \end{tabular}
 \caption{(a) The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
-second derivative. %This figure is reproducible by {\tt TraubMemorial.m} in GAIL.
+second derivative.
 (b) The fooling functions $\pm f_1$ used to prove~\eqref{lowbdW}. The case
-$n=15$ is shown.
-This figure is reproducible by {\tt TraubMemorial.m} in GAIL.}
-\label{f3fig}
+$n=15$ is shown. \label{f3fig}}
 \end{figure}
 
 
@@ -843,10 +841,7 @@ $-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
 and~$59$ points are used to meet the error tolerance of~$0.01$.
 (b) The same situation as in (a), but now
 with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
-sampling points are needed to obtain the minimum of $-f_1$.
-This figure is reproducible by \texttt{TraubMemorial.m}
-		in GAIL.}
-		\label{f3foolplot}
+sampling points are needed to obtain the minimum of $-f_1$. 	\label{f3foolplot}}
 \end{figure}
 
 	Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
@@ -1184,12 +1179,12 @@ as GAIL functions \funappxg{} and \funming, respectively. The following examples
 showcase the merits and drawbacks of our algorithms. We compare them to the
 performance of MATLAB's built-in algorithms and the Chebfun toolbox.
 
-\begin{exmp}
+%\begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
 terms of a Chebyshev polynomial basis, in principle to machine precision
 ($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
-its intended error tolerance for the function~$f_1$ defined in
-Section~\ref{sec:cone} with $-c = 0.2 = \delta$.
+its intended error tolerance for the function~$f_1$ defined in \eqref{f3def} 
+with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
 $f_1$  an input error tolerance $10^{-14}$, and the ``splitting''' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
@@ -1209,64 +1204,43 @@ required by Chebfun.
 \includegraphics[width=5.7cm]{figure/traub_funappx_g_test.eps}
 \\ (a) & (b)
 \end{tabular}
-\caption{(a) The approximation errors for $f_1(x)$, $x \in [-1,1]$, with $c = -0.2$ and 
-$\delta = 0.2$ using  Chebfun. Bank regions correspond to zero errors.
+\caption{(a) The approximation errors for $f_1(x)$, $x \in [-1,1]$, with $-c = 0.2=\delta$ 
+using  Chebfun. 
 (b) An empirical distribution function of performance ratios based on 1000
-simulations for each test function:
+simulations for each test function in \eqref{eq:testfunctions}:
 %\funappxg{} time $/$ \funappxglobalg{} time (blue),
 %\funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),
-\funappxg{} time $/$ Chebfun time (purple), \funappxg{} \# of samples $/$
-Chebfun \# of samples (green). This figure is conditionally reproducible by \texttt{cf\_chebfun.m} and
+\funappxg{} time $/$ Chebfun time (solid), \funappxg{} \# of samples $/$
+Chebfun \# of samples (dashed). 
+\frednote{For which test functions?  $f_1, f_2,$ and $f_3$ all together?}
+This data for this figure is conditionally reproducible 
+by 
 \texttt{traubpaper\_funappx\_g\_test.m} in GAIL.
 \label{f3chebfig}} % \label{fig:testfunctions}
 \end{figure}
 
-\end{exmp}
+%\end{exmp}
 
-\begin{comment}
-Our algorithm is readily extensible to the following complex-valued function.
-\begin{exmp} This example is taken from MATLAB's documentation for
-\texttt{interp1}. Define the complex valued function $v(x) = 5x + x^2 i$ for $x
-\in [1,10]$. It is clear that the real part of $v$ is $5x$ and the imaginary
-part is $x^2$. We could apply \funappxg to approximate the two parts separately.
-However, it is unnecessary.
-\end{exmp}
-\end{comment}
 
 %% Example 2
 
-\begin{exmp}
-In this example, we compare our adaptive algorithms with Chebfun by
-simulating the following families of test functions  in addition to $f_1$:
-%
-\begin{align*}
- g_1(x) &= x^4 \sin(d/x), \qquad
- g_2(x) = 10  x^2 + g_1(x), \qquad x \in [-1, 1].
-%\\ f_1(x) &= \begin{cases} \displaystyle
-%   \frac{1}{2\delta^2} \Bigl [4 \delta^2 + (x-c)^2 + (x-c-\delta)\abs{x-c-\delta}
-%\\ \qquad \qquad
-%    - (x-c+\delta)\abs{x-c+\delta} \Bigr ], & \abs{x-c} \le 2\delta,
-%\\ 0, & \text{otherwise},
-%\end{cases} \\
-%\\ g_3(x) & = (x-d)^2,  \qquad
-% g_4(x)= d\sin(d\pi x), \qquad
-%\\ g_5(x) &= 10\exp\left(-1000(x-d)^2\right), \qquad
-% \\ f_4(x)&= \frac{c}{4}\exp(-2x)(c-2\exp(x)(-1 + c\cos(x) - c\sin(x)) \\
-%  & \ \ +\exp(2x)(c + 2\cos(x)- 2\sin(x) - c\sin(2x))),
-\end{align*}
-For $f_1$, we choose $\delta = 0.2$ and $c \sim \cu[0,0.6]$, and for $g_1$, and
-$g_2$ we choose and $d \sim \cu[0,2]$. For $d=1$ we obtain $g_i = f_i$ for
-$i=1$, and $2$. We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 1000$, $\fC (h) =
-3 \fh/(\fh-h)$ , and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
-%our old globally adaptive algorithm \texttt{funappxglobal\_g},
+%\begin{exmp}
+Next, we compare our adaptive algorithms with Chebfun  for random samples from the 
+following families of test functions defined on $ [-1, 1]$:
+\begin{subequations} \label{eq:testfunctions}
+\begin{align}
+f_1(x) & \quad \text{defined in \eqref{f3def}}, \quad \delta = 0.2, \ c \sim \cu[0,0.6], \\
+f_2(x) &= x^4 \sin(d/x), \quad d \sim \cu[0,2], \\
+f_3(x) &= 10  x^2 + f_2(x).
+\end{align}
+\end{subequations}
+We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 
+1000$ \frednote{We need $n_{\ninit}$ here}, $\fC (h) =
+3 \fh/(\fh-h)$, and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
 and Chebfun are
-used to approximate $1000$ random test functions. We switch on the splitting
-feature in Chebfun to use piecewise Chebyshev polynomials for approximation,
-and override the default tolerance to $10^{-6}$. The
-approximation results are summarized in Figure~\ref{f3chebfig}(b) and the upper half of
-Table~\ref{tab:localVsGlobalVsChebfun}.
-
-%
+used to approximate $1000$ random test functions from each family. For Chebfun 
+override the default tolerance to $10^{-6}$, and switch on the splitting
+feature to allow piecewise Chebyshev polynomials for approximation.
 
 %
 \begin{table}[bt]
@@ -1280,92 +1254,72 @@ This table can be conditionally reproduced by
 \texttt{traubpaper\_funappx\_g\_test.m} and \texttt{traubpaper\_funmin\_g\_test.m}  in GAIL.}
 \label{tab:localVsGlobalVsChebfun}
 {\footnotesize
-\setlength{\tabcolsep}{1.2em} % set table width
-		\begin{tabular}{crrrrrrrrrrrr}	
+\setlength{\tabcolsep}{0.38em} % set table width
+		\begin{tabular}{crrrrrrrrrrrrrrrrrr}	
 		 \hline	
-			     &    \multicolumn{2}{c}{\bf Mean Points}   & \multicolumn{2}{c}{\bf Mean Time Used}  & \multicolumn{2}{c}{\bf Success (\%)}
-	  \\ \hline  functions &  \multicolumn{1}{r}{local}  &    \multicolumn{1}{r}{Chebfun}  &   \multicolumn{1}{r}{local}   &  \multicolumn{1}{r}{Chebfun} &    \multicolumn{1}{r}{local}  &   \multicolumn{1}{r}{Chebfun}
+			     &    \multicolumn{6}{c}{\bf Mean Points}   & \multicolumn{6}{c}{\bf Mean Time 
+			     Used}  & \multicolumn{6}{c}{\bf Success (\%)}
+	  \\ \hline  functions &  \multicolumn{3}{r}{\funappxg}  &    \multicolumn{3}{r}{Chebfun}  
+	  &   \multicolumn{3}{r}{\funappxg}   &  \multicolumn{3}{r}{Chebfun} &    
+	  \multicolumn{3}{r}{\funappxg}  &   \multicolumn{3}{r}{Chebfun}
 \\ \toprule
-          $f_1$   &   5659       &   116    &   0.0084         &  0.0403 &    100        &  0
-\\        $g_1$   &    3690       &   43    &   0.0091          &   0.0104 &    100       &  3
-\\        $g_2$   &   11835      &    22    &   0.0114          &   0.0061 &    100        &  3  	
+          $f_1$   &   \multicolumn{3}{r}{5659}       &   \multicolumn{3}{r}{116}       &   
+          \multicolumn{3}{r}{0.0084}       &   \multicolumn{3}{r}{0.0403}       &   
+          \multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{0}
+\\        $f_2$   & \multicolumn{3}{r}{3690}       &   \multicolumn{3}{r}{43}       &   
+\multicolumn{3}{r}{0.0091 }       &   \multicolumn{3}{r}{0.0104}       &   
+\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3}
+\\        $f_3$   & \multicolumn{3}{r}{11835}       &   \multicolumn{3}{r}{22}       &   
+\multicolumn{3}{r}{0.0114}       &   \multicolumn{3}{r}{0.0061}       &   
+\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3 }	
+\\ \hline
+ functions &  \multicolumn{2}{c}{\funming} &  \multicolumn{2}{c}{\fminbnd}  &  
+\multicolumn{2}{c}{\texttt{min}}
+&  \multicolumn{2}{c}{\funming}  &  \multicolumn{2}{c}{\fminbnd }  &  
+\multicolumn{2}{c}{\texttt{min} }  &  \multicolumn{2}{c}{\funming} & 
+\multicolumn{2}{c}{\fminbnd} & \multicolumn{2}{c}{\texttt{min}}
+\\ \toprule
+			$-f_1$   &  \multicolumn{2}{c}{274} &  \multicolumn{2}{c}{8} &  
+			\multicolumn{2}{c}{116} &  \multicolumn{2}{c}{0.002} &  
+			\multicolumn{2}{c}{0.0010} &  \multicolumn{2}{c}{0.0469} &  
+			\multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100 } &  \multicolumn{2}{c}{14}
+\\ $\phantom{-}f_2$   & \multicolumn{2}{c}{230} &  \multicolumn{2}{c}{22} &  
+\multicolumn{2}{c}{43} &  \multicolumn{2}{c}{0.0020} &  \multicolumn{2}{c}{0.001} &  
+\multicolumn{2}{c}{0.0109} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{27} &  
+\multicolumn{2}{c}{60}
+\\ $\phantom{-}f_3$   &  \multicolumn{2}{c}{273} &  \multicolumn{2}{c}{9} &  
+\multicolumn{2}{c}{22 } &  \multicolumn{2}{c}{0.0022} &  \multicolumn{2}{c}{0.0011} &  
+\multicolumn{2}{c}{0.0063} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100} &  
+\multicolumn{2}{c}{35}
 \\ \hline
 \end{tabular}
-%
-\setlength{\tabcolsep}{.38em}
-\begin{tabular}{ccrccrccrccrccrccrccrccrccrc}		
-		%	Test      &    \multicolumn{9}{c}{Mean Number of Points}   & \multicolumn{9}{c}{Mean Time Used}  & \multicolumn{9}{c}{Success (\%)}
-		% \\
-			 functions &  \multicolumn{1}{c}{\funming} &  \multicolumn{1}{c}{\fminbnd}  &  \multicolumn{1}{c}{\texttt{min}}
-		  &  \multicolumn{1}{c}{\funming}  &  \multicolumn{1}{c}{\fminbnd }  &  \multicolumn{1}{c}{\texttt{min} }  &  \multicolumn{1}{c}{\funming} & \multicolumn{1}{c}{\fminbnd} & \multicolumn{1}{c}{\texttt{min}}
-			\\ \toprule
-			$-f_1$   &  274   &   8   & 116     &   0.0022   &  0.0010    & 0.0469  &   100   &  100   &  14
-			\\ $\phantom{-}g_1$   & 230 &  22   &    43    & 0.0020  &    0.0012   &  0.0109 &    100   &   27   &  60
-			\\ $\phantom{-}g_2$   &  273 &   9   &   22    &  0.0022   &   0.0011    &  0.0063 &    100   & 100   &  35
-			\\ \hline
-		\end{tabular}
 }
 \end{table}
 %
 
-\funappxg{} obtained the correct answer in all cases,
-even for $g_1$, which is outside the cone $\cc$. %The new locally adapative
-%algorithm uses fewer samples than the older globally adaptive algorithm.
-Because it is a higher order algorithm, Chebfun generally used substantially fewer number of samples than
+From Table Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains 
+the correct answer in all cases,
+even for $f_2$, which is outside the cone $\cc$. Because it is a higher order algorithm, 
+Chebfun generally uses substantially fewer number of samples than
 \funappxg, but Chebfun's run time is longer than \funappxg for a
-significant proportion of the cases; see Figure~\ref{f3chebfig}(b). However, Chebfun rarely
-approximates the test functions satisfactorily.
+significant proportion of the cases; see Figure~\ref{f3chebfig}(b). Moreover, Chebfun 
+rarely approximates the test functions satisfactorily.
 
 
-Similar simulation tests have been run to compare \funming, \fminbnd, and
+Similar simulation tests have been run to compare our \funming, MATLAB's \fminbnd, and
 Chebfun's \texttt{min}. The results are summarized in the lower half of
 Table~\ref{tab:localVsGlobalVsChebfun}. Our new \funming{} achieves 100\%
-success for all families of test functions with substantially less sampling
+success for all families of test functions with substantially fewer sampling
 points and run time than \funappxg. This is because \funming does not need to
-sample densely where the function is not close to its minimum value. Although
+sample densely where the function is not close to its minimum value. Although MATLAB's
 \fminbnd uses far fewer function values than \funming, it cannot locate the
-global minimum (at the left boundary) for about 70\% of the $g_1$ test cases.
+global minimum (at the left boundary) for about 70\% of the $f_2$ test cases.
 Chebfun's {\tt min} uses fewer points than \funming, but Chebfun is slower and
 less accurate than \funming for these test cases.
 
-\end{exmp}
+%\end{exmp}
 
 
-\begin{comment}
-\begin{exmp}
-In this example, we consider the function $f_4(x) = sin(10 \pi x^4) + x$, which
-is increasing oscillating over the interval $[0,2]$. We use \funappxg, \funming,
-and \integralg to approximate the function, locate its global minimum, and
-estimate its integral with $\abstol = 10^{-8}$. With $1,972,359$ points,
-\funappxg can approximate $f_4$ uniformly accurate as shown in
-Figure~\ref{f4fig}(a). The true global minimum is $(0.6212340312,
--0.3782149854)$ and the absolute approximation error of \funming using
-$n=2,022,621$ points is $(1.4\times 10^{-7}, 4.7\times 10^{-11})$. The integral
-$\int_{0}^{2} f_4 (x) dx = 2.145517314$ and the approximation error of
-\integralg is $4.7\times10^{-10}$ using $4,965,641$ points.
-
-\begin{figure}[bt]
-\centering
-\includegraphics[width=6.2cm]{figure/f4_funappx_error.eps} \hspace{-5ex}
-\includegraphics[width=6.2cm]{figure/f4_funmin_g.eps}
-\caption{The example $f_4$ with errors of interpolants from \funappxg (left) and
-minimum found by \funming (right).}
-\label{f4fig}
-\end{figure}
-\end{exmp}
-\end{comment}
-
-
-\begin{comment}
-Our algorithm is readily extensible to the following complex-valued function.
-\begin{exmp}
-This example is taken from MATLAB's documentation for \texttt{interp1}. Define
-the complex valued function $v(x) = 5x + x^2 i$ for $x \in [1,10]$. It is clear
-that the real part of $v$ is $5x$ and the imaginary part is $x^2$. We could
-apply \funappxg to approximate the two parts separately. However, it is
-unnecessary.
-\end{exmp}
-\end{comment}
 
 
 
@@ -1382,18 +1336,20 @@ there is no theory to provide necessary conditions for failure, or equivalently,
 sufficient conditions for success.
 
 Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have
-sufficient conditions for success. Although, it may normally be impossible to
+sufficient conditions for success. Although, it may difficult to
 verify those conditions in practice, the theory behind these algorithms provide
-several advantages: \begin{itemize}
+several advantages: 
+
+\begin{itemize}
 	
-\item The conditions defining the cone, $\cc$, have an intuitive explanation as
-requiring the second derivative to not change drastically over a small interval.
+\item The cone, $\cc$, is intuitively explained as a set of functions whose  second 
+derivatives to not change drastically over a small interval.
 This intuition can guide the user in setting the parameters defining~$\cc$, if
 so desired.
 	
 \item The norms of $f$ and its derivatives appearing in the computational cost
-upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may not be known.
-However, these theorems explain how these norms influence the time required by
+upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but 
+these theorems explain how these norms influence the time required by
 Algorithms $A$ and $M$.
 	
 \item Our Algorithm $A$ has been shown to be asymptotically optimal for the
@@ -1401,11 +1357,11 @@ complexity of the function approximation problem \eqref{appxprob}.
 	
 \end{itemize}
 
-The minimum horizontal scale of functions in $\cc$ is~$\fh$. The computational
-cost of our algorithms is at least $\Order(1/\fh)$, but this is not a
-multiplicative factor. Decreasing $\fh$ to make our new algorithms more robust
+The minimum horizontal scale of functions in $\cc$ is roughly $1/n_{\ninit}$. The 
+computational cost of our algorithms is at least $n_{\ninit}$, but $n_{\ninit}$ is not a
+multiplicative factor. Increasing $n_{\ninit}$ to make our new algorithms more robust
 just increases the minimum number of sample points and may increase the
-computational cost mildly through the definition of $\fC$.
+computational cost mildly.
 
 There are theorems providing sufficient conditions under which adaption provides
 no advantage. Our setting fails to satisfy those conditions because $\cc$ is not
