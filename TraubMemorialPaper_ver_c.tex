@@ -1189,21 +1189,18 @@ Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
 terms of a Chebyshev polynomial basis, in principle to machine precision
 ($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
 its intended error tolerance for the function~$f_1$ defined in
-Section~\ref{sec:cone} with the same parameters as in Figure \ref{f3fig}(a).
+Section~\ref{sec:cone} with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
-$f_1$. The blanks in the plot on the left and right correspond to zero error.
-Chebfun was asked to estimate $f_1$ to an error of no more than the specified
-error tolerance $10^{-14}$, and the ``splitting'' option was turned on to allow
+$f_1$  an input error tolerance $10^{-14}$, and the ``splitting''' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
-discontinuities were detected. However, Chebfun produced errors greater than~$10^{-5}$.
+discontinuities were detected.  However, Chebfun produced errors greater 
+than~$10^{-5}$.
 
 In contrast, the pointwise errors of the piecewise linear interpolant produced
 by \funappxg{} were uniformly below the error tolerance. Unfortunately, the time
-taken by \funappxg{} to produce its answer about $45$ times as long as the time
-required by Chebfun. A parallel implementation of \funappxg called {\texttt
-par\_}\funappxg{} using four workers achieved a speedup of two times.
+taken by \funappxg{} is about $45$ times as long as the time
+required by Chebfun. 
 
-%
 \begin{figure}[tb]
 \centering
 \begin{tabular}{cc}
@@ -1212,9 +1209,8 @@ par\_}\funappxg{} using four workers achieved a speedup of two times.
 \includegraphics[width=5.7cm]{figure/traub_funappx_g_test.eps}
 \\ (a) & (b)
 \end{tabular}
-\caption{(a) The approximation errors for $f_1(x)$ using  Chebfun and
-\funappxg. The blank regions of the graphs correspond to zero errors.
-%This figure is reproducible by \texttt{cf\_chebfun.m}.
+\caption{(a) The approximation errors for $f_1(x)$, $x \in [-1,1]$, with $c = -0.2$ and 
+$\delta = 0.2$ using  Chebfun. Bank regions correspond to zero errors.
 (b) An empirical distribution function of performance ratios based on 1000
 simulations for each test function:
 %\funappxg{} time $/$ \funappxglobalg{} time (blue),
