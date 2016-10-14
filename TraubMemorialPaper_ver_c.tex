@@ -1,4 +1,4 @@
-% A list of all figure files produced by MATLAB 2016a:
+% A list of all figure files produced by MATLAB 2016b:
 % Those produced by TraubMemorial.m
 %	f3plot.eps
 %	f3foolplot.eps
@@ -131,8 +131,8 @@ USA}
 Most commonly used \emph{adaptive} algorithms for function approximation and global
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
-error tolerance for a cone, $\cc$, of non-spiky functions in the Sobolev space
-$\cw^{2,\infty}$. Our algorithms automatically determine where to sample the
+error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
+$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function $f$ on a
 bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
@@ -140,11 +140,10 @@ $\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$ as $\abstol \to 0
 This is the
 same order as that of the best function approximation algorithm for functions in
 $\cc$. The computational cost of our global minimization algorithm is of the same order
-and can cost substantially less if $f$
-significantly exceeds its minimum over much of its domain. Our
-Guaranteed Automatic Integration Library contains these new algorithms. Here we
-provide
-numerical experiments to illustrate their performance.
+and the cost can be substantially less if $f$
+significantly exceeds its minimum over much of the domain. Our
+Guaranteed Automatic Integration Library (GAIL) contains these new algorithms. We
+provide numerical experiments to illustrate their performance.
 \end{abstract}
 
 \begin{keyword}
@@ -171,7 +170,7 @@ $L^{\infty}$-norm on $[a,b]$. The algorithms $A$ and $M$ depend only on function
 values.
 
 These algorithms proceed iteratively until their data-dependent stopping
-criteria are satisfied. The input functions are sampled sample nonuniformly over
+criteria are satisfied. The input functions are sampled nonuniformly over
 the interval $[a,b]$, with the sampling density determined by the function data.
 We call our algorithms \emph{locally adaptive}, to distinguish them from
 globally adaptive algorithms that have a fixed sampling pattern and only the
@@ -185,12 +184,12 @@ Our algorithms $A$ and $M$ are based on a \emph{linear spline}:
 \begin{multline} \label{splinedef}
    S(f,\datasites)(x) =
    \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i),
-\\ x_{i-1} \le x \le x_i, \quad i \in \oton.
+\\ \text{for } x_{i-1} \le x \le x_i, \quad i \in \oton.
 \end{multline}
 Here ${0\!:\!n}$ is shorthand for $\{0, \ldots, n\}$, and $\datasites$ is an
 ordered sequence of $n+1$ points that includes the endpoints of the interval,
 i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
-\emph{partition} of $[a,b]$. The error of the linear spline is bounded in terms
+\emph{partition}. The error of the linear spline is bounded in terms
 of the second derivative of the input function as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
 \begin{equation} \label{appxerrbda}
@@ -198,11 +197,12 @@ of the second derivative of the input function as follows \cite[Theorem
 	\le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \quad i \in \oton,
 \end{equation}
 where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the
-interval $[\alpha,\beta] \subset [a,b]$. This error bound leads us to focus on
+interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on
 input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
 \norm{f''} < \infty \}$.
 
-Algorithms $A$ and $M$ require an upper bound on $\norm[{[x_{i-1},x_i]}]{f''}$
+Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$, $i \in 
+1\!:\!n$,
 to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
 $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
 \bigl \lceil (b-a)\smash{\sqrt{\sigma/(8 \varepsilon)}} \, \bigr \rceil$, $x_i = a +
@@ -239,7 +239,7 @@ computational complexity of \eqref{appxprob} is determined in Section
 \ref{subsec:appxcomp} to be
 $\Order\Bigl(\smash{\sqrt{\norm[\frac12]{f''}/\abstol}}\Bigr)$ as well.
 
-The computational cost of the optimization algorithm $M$ is analyzed in
+The computational cost of our optimization algorithm $M$ is analyzed in
 Section~\ref{subsec:optcost}. A lower bound on the computational complexity of
 \eqref{optprob} is a subject for future investigation.
 
@@ -266,12 +266,12 @@ Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
 HicJim16a, Jia16a, JimHic16a,Ton14a}. In all those previous cases, a
 cone, $\cc$, of input functions is identified for which the adaptive algorithms
-succeed, just like we do here. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
+succeed, just like is done here. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
 HicEtal14a,Ton14a}, the definition of $\cc$ here does not
 depend on a weaker norm. Also, unlike
 the globally adaptive approximation and optimization algorithms in
 \cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive,
-sampling the interval non-uniformly.
+sampling the interval $[a, b]$ non-uniformly.
 
 Novak \cite{Nov96a} summarizes the settings under which adaption may provide an
 advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
@@ -290,7 +290,9 @@ Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for
 approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all
 $x \in [a,b]$. His algorithm relies on divided differences, like ours do. His
 error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is
-analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.
+analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.  Horn \cite{Hor06a} 
+has developed an optimization algorithm for Lipschitz continuous functions that does not 
+require knowledge of the Lipschitz constant.
 
 There is a significant literature on theoretically justified algorithms based on
 interval arithmetic \cite{MoKeCl09, Rum10a}, which are implemented in
@@ -316,8 +318,8 @@ $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
 \nonumber
    p(x) & := f(\alpha) + \frac{(x-\alpha)[f(\beta) - f(\alpha)]}{\beta - \alpha}  +
    (x-\alpha)(x-\beta) D(f,\alpha,\beta),
-\\ D(f,\alpha,\beta) &:= \frac{2[f(\beta) - 2f((\alpha + \beta)/2))
-	+ f(\alpha)]}{(\beta - \alpha)^2}. \label{divdiffdef}
+\\ D(f,\alpha,\beta) &:= \frac{2f(\beta) - 4f((\alpha + \beta)/2))
+	+ 2f(\alpha)}{(\beta - \alpha)^2}. \label{divdiffdef}
 \end{align}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
 zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
@@ -338,7 +340,7 @@ $\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful. But,
 $2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for
 $\norm[-\infty,{[\alpha,\beta]}]{f''}$. The cone of interesting functions,
 $\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not
-drastically different than the maximum of $\norm[-\infty,{[\beta - h_-,
+drastically greater than the maximum of $\norm[-\infty,{[\beta - h_-,
 \alpha]}]{f''}$ and $\norm[-\infty,{[\beta, \alpha+ h_+]}]{f''}$, where $h_{\pm} > \beta -
 \alpha$.
 
@@ -349,7 +351,7 @@ and a  number $\fC_0 \ge 1$. Let
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h}
 \mbox{\, for \,} 0<h<\fh.
 \end{equation}
-For any $[\alpha, \beta] \subseteq [a,b]$ and any $h_{\pm}$ satisfying $0 <
+For any $[\alpha, \beta] \subset [a,b]$ and any $h_{\pm}$ satisfying $0 <
 \beta - \alpha < h_{\pm} < \fh$, define
 \begin{equation} \label{tbdef}
 B(f'',\alpha,\beta,h_-,h_+) :=
@@ -377,6 +379,19 @@ Algorithms $A$ and $M$. The parameter $\fC_0$ represents an upper bound on
  Increasing either $n_{\ninit}$ or $\fC_0$ expands the cone to
 include more functions.
 
+Figure \ref{fig:ConeDef} depicts the second derivative of a typical function in 
+$\cw^{2,\infty}$.  In this figure 
+$\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = \abs{f''(\beta - h_-)} = 0$, which means that the 
+behavior of $f''$ to the left of $[\alpha,\beta]$ cannot help provide an upper bound on $ 
+\norm[{[\alpha,\beta]}]{f''}$.  However, $\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = 
+\abs{f''(\alpha + h_+)} > 0$, so this $f$ may lie in the cone $\cc$ provided that 
+$\fC(h_+)$ is large enough.  The possibility of points in $[a,b]$ where $f''$ vanishes 
+motivates the definition of $B(f'',\alpha,\beta,h_-,h_+)$ to depend on the behavior of $f''$ 
+to both the left and right of $[\alpha,\beta]$.  One may note that if $f''$ vanishes at two 
+points that are close to each other or at a point that is close to either $a$ or $b$, then 
+$f$ will lie outside $\cc$.  The definition of ``close'' depends on 
+$(b-a)/n_{\ninit}$.
+
 \begin{figure}
 	\centering
 	\includegraphics[width = 8 cm]{figure/ConeDefineFig.eps}
@@ -390,7 +405,7 @@ include more functions.
     \label{fig:ConeDef}}
 \end{figure}
 
-We give an example of a parameterized family of functions whose members lie
+We give an example of a family of functions whose members lie
 inside $\cc$ if they are not too spiky.
 Consider the following hump-shaped function defined on $[-1,1]$, whose
 second derivative has jump discontinuities:
@@ -423,7 +438,8 @@ for $-c=\delta = 0.2$.
 \end{tabular}
 \caption{(a) The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
 second derivative.
-(b) The fooling functions $\pm f_1$ used to prove~\eqref{lowbdW}. The case
+(b) The fooling functions $\pm f_1$ used to prove~\eqref{lowbdW} (with different choices 
+of $c$ and $\delta$). The case
 $n=15$ is shown. \label{f3fig}}
 \end{figure}
 
@@ -464,8 +480,8 @@ it follows that
 < \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
 \end{gather*}
 This violates the definition of $\cc$. This example illustrates how the choice
-of $\fh$ influences the width of a spiky function and determines whether it lies in
-$\cc$.
+of $n_{\ninit}$, or equivalently $\fh$, influences the width of a spiky function and 
+determines whether it lies in $\cc$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
