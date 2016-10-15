@@ -271,7 +271,7 @@ HicEtal14a,Ton14a}, the definition of $\cc$ here does not
 depend on a weaker norm. Also, unlike
 the globally adaptive approximation and optimization algorithms in
 \cite{HicEtal14b,Ton14a}, the algorithms proposed here are locally adaptive,
-sampling the interval $[a, b]$ non-uniformly.
+sampling the interval $[a, b]$ nonuniformly.
 
 Novak \cite{Nov96a} summarizes the settings under which adaption may provide an
 advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
@@ -555,7 +555,9 @@ imply that $x_i-x_{i-1} = x_{i+1} - x_i = h_l = 2^{-l}h_0$, and
 	& \ge \frac{1} 8 \fC(3h_l) h_l^2 \norm[-\infty,{[x_{i-1},x_{i+1}]}]{f''}
 	\qquad \text{by \eqref{NDDbdm}}. \label{oerrlobd}
 	\end{align}
-	
+We show that when these $\oerr_i$ get small enough, Algorithm $A$ terminates 
+successfully.
+
 Now, for all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$
 containing $x$ that \emph{might} arise at some stage in Algorithm $A$ as $[x_{i_l-1},
 x_{i_l}]$ for some $i_l \in \oton$. (The dependence of $n$ on $l$ is
@@ -609,9 +611,24 @@ This concludes the proof.\end{proof}
 
 Figure \ref{f3foolplot}(a) displays the function $-f_1$ defined in
 \eqref{f3def} for a certain choice of parameters, along with the data used to
-compute the linear spline approximation $A(-f_1,0.01)$ by the algorithm
+compute the linear spline approximation $A(-f_1,0.02)$ by the algorithm
 described above. Note that $-f_1$ is sampled less densely where it is flat.
 
+\begin{figure}[t]
+	\begin{tabular}{cc}	
+		\includegraphics[width=5.7cm]{figure/sampling-funappxg.eps}
+		&\includegraphics[width=5.7cm]{figure/sampling-funming.eps}
+		\\ (a) & (b)
+	\end{tabular}
+	\caption{(a) The nonuniform sampling density of Algorithm $A$ for input function
+		$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
+		and~$59$ points and $4$ iterations are used to meet the error tolerance 
+		of~$0.02$.
+		(b) The same situation as in (a), but now
+		with Algorithm $M$. Again~$4$ iterations are used, but only~$27$ nonuniform
+		sampling points and $3$ iterations are needed to obtain the minimum of $-f_1$. 	
+		\label{f3foolplot}}
+\end{figure}
 
 %---------------------------------------------------------------
 \subsection{The Computational Cost of $A$} \label{subsec:appxcost}
@@ -622,7 +639,7 @@ algorithm. Recall the definitions of $h_l$, $\Ixl$, and $\ell(x)$ from the
 previous subsection. Let
 $\bar{I}_{x,l}$ be a similar interval with generally five times the
 width of~$\Ixl$:
-\begin{equation}
+\begin{equation} \label{barIxldef}
 \bar{I}_{x,l}=\left[a+\max(0,j-3)h_l, a+ \min(j+2,2^l n_{\ninit})h_l\right] \supset \Ixl,
 \end{equation}
 with the same $j$ as in \eqref{Ixldef} above.  Let
@@ -633,9 +650,9 @@ Note that $L(x)$ does depend on $f$ and $\abstol$, although this dependence is
 suppressed in the notation.
 
 We now show that $\ell(x) \le L(x)$. At each iteration of Algorithm $A$, $x$
-lies in $\Ixl$ for some $l$, and by the time algorithm $A$ terminates, all
+lies in $\Ixl$ for some $l$, and by the time Algorithm $A$ terminates, all
 values of $l = 0, \ldots, \ell(x)$ are realized. If $\ell(x) > L(x)$, then at
-some iteration $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$. So,
+ iteration $L(x)$, the interval  $I_{x,L(x)}$ must be split in Step~\ref{stage2} of $A$. So,
 $I_{x,L(x)}$ has width $h_{L(x)}$ and corresponds to $[x_{i-1},x_i]$ for some
 $i$. We assume that $i \in 3\!:\!n-2$; the other cases have a similar proof.
 According to Step~\ref{stage2} of Algorithm $A$, the only way for
@@ -650,7 +667,7 @@ Theorem~\ref{thm:algAworks} it is noted that for $k \in \{-2, -1, 0, 1\}$,
 & \le \frac{1} 8  \fC(3h_{L(x)}) h_{L(x)}^2\norm[{[x_{i-1+k},x_{i+1+k}]}]{f''}  \qquad
 \text{by \eqref{NDDbdm}}\\
 & \le \frac{1} 8  \fC(3h_{L(x)}) h_{L(x)}^2 \norm[\bar{I}_{x,L(x)}]{f''} \le \varepsilon \qquad
-\text{by \eqref{eqn:defoflx}}. \label{oerrbd}
+\text{by \eqref{barIxldef} and \eqref{eqn:defoflx}}. \label{oerrbd}
 \end{align}
 This is a contradiction, so in fact, $\ell(x) \le L(x)$, which is used to prove an upper
 bound on the
@@ -659,9 +676,8 @@ computational cost of Algorithm $A$.
 \begin{theorem}\label{thm:cost}
 Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by
 Algorithm $A$ for the input function $f$ and the absolute error tolerance
-$\abstol$. This algorithm is known to successfully solve
-problem~\eqref{appxprob} for functions in $\cc$. The computational cost of doing
-so has the following upper bound:
+$\abstol$. The computational cost of $A(f,\varepsilon)$ in terms of the number of 
+function values required has the following upper bound:
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1
 = \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1 \\
@@ -686,7 +702,7 @@ From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know that
 \begin{align*}
 \frac{1}{h_{L(x)}} = \frac{2}{h_{L(x)-1}}
 & < 2 \sqrt{\frac{\fC\left(3 h_{L(x)-1} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{8\abstol}}
-= \sqrt{\frac{\fC\left(6 h_{L(x)} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}
+= \sqrt{\frac{\fC\left(6 h_{L(x)} \right)\norm[\bar{I}_{x,L(x)-1}]{f''} }{2\abstol}}.
 \end{align*}
 As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,L(x)-1}]{f''}$
 approaches $|f''(x)|$.  Thus, the small $\abstol$ asymptotic upper bound on
@@ -729,7 +745,7 @@ The first inequality follows from the definitions of the (quasi-)norms:
 \end{multline}
 
 The second inequality comes from the cone definition.  Note that
-$\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some $[\alpha,\beta] \subset [a,b]$ whose
+$\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some interval $[\alpha,\beta]$ whose
 width can be made arbitrarily small.  Then
 \begin{align*}
 \norm[{[\alpha,\beta]}]{f''}
@@ -737,7 +753,7 @@ width can be made arbitrarily small.  Then
 & \le  \inf\bigl\{\fC(h) \max\bigl(\norm[-\infty,{[\beta - h, \alpha]}]{f''},
 \norm[-\infty,{[\beta, \alpha+h]}]{f''}\bigr) : h \in (\beta - \alpha,\fh) \bigr \} \\
 & \le \inf_{\beta - \alpha < h < \fh} \frac{\fC(h)}{(h-\beta+\alpha)^2}\norm[\frac 12]{f''} \\
-& \qquad \qquad\text{by}~\eqref{tbdef},~\eqref{onebdm}, \text{ and since }
+& \qquad \qquad\text{by}~\eqref{onebdm}, \text{ and since }
 \norm[{\frac12,[\alpha,\beta]}]{f''} \le \norm[\frac 12]{f''} \ \forall [\alpha,\beta]
 \subseteq [a,b] \\
 & \le \inf_{0 < h < \fh} \frac{\fC(h)}{h^2}\norm[\frac 12]{f''} \qquad
@@ -809,18 +825,15 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	These lower bounds are proved by constructing fooling functions for which
 	algorithm $A$ succeeds, and then showing that at least a certain number of
 	samples must be used. The proofs of~\eqref{lowbdW} are simpler, so
-	we start with them first.
+	we start with them.
 		
 	Let $A^*$ be a successful algorithm for all $f \in \cw^{2,\infty}$, and consider
 	the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
-	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$
+	used to compute $A^*(0,\abstol)$.  We now allow the possibility of $a = x_0=x_1$
 	and $x_n = x_{n+1} = b$. Choose any $j=1, \ldots, n+1$ with
 	$x_j-x_{j-1} \ge (b-a)/(n+1)$. Let $f_1$ be defined as in~\eqref{f3def} with $c
-	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. Note that in general
-	\begin{equation}
-	\norm{f_1''} =  \delta^{-2}, \qquad \norm[\frac 12]{f_1''} = 16.
-	\end{equation}
-
+	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. 
+	
 	For any real $\gamma$, it follows that $\gamma f_1(x_i)=0$ for $i=0, \ldots,
 	n+1$. Figure \ref{f3fig}(b) illustrates this situation. Since $0$ and $\pm
 	\gamma f_1$ share the same values at the data sites, then they must share the
@@ -836,29 +849,17 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	+ \norm{-\gamma f_1 - A^*(0,\abstol)}] \\
 	& \ge \frac{1}{2} \norm{\gamma f_1 - (-\gamma f_1)} =  \norm{\gamma f_1}
 	= \gamma %\\
-	= \begin{cases} \displaystyle { \norm[\frac 12]{\gamma f_1''}}/{16}  \\
+	= \begin{cases} \displaystyle { \norm[\frac 12]{\gamma f_1''}}/{16} , \\
 	\displaystyle \delta^2 	\norm{\gamma f_1''}
-	=  \frac{(b-a)^2 \norm{\gamma f_1''}}{16(n+1)^2}
-	\end{cases}.
+	=  \frac{(b-a)^2 \norm{\gamma f_1''}}{16(n+1)^2},
+	\end{cases}
 	\end{align*}
-	The top inequality cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma
+	since $\norm{f_1''} =  \delta^{-2}$,  and $\norm[\frac 12]{f_1''} = 16$. The top inequality 
+	cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma
 	f_1''}$ is small enough, which establishes ~\eqref{lowbdWhalf}. Solving the
 	bottom inequality for $n$ in terms of $\sigma = \norm{\gamma f_1''}$
 	establishes~\eqref{lowbdWinf}.
 
-\begin{figure}[t]
-\begin{tabular}{cc}	
-		 \includegraphics[width=5.7cm]{figure/sampling-funappxg.eps}
-		&\includegraphics[width=5.7cm]{figure/sampling-funming.eps}
-		\\ (a) & (b)
-		\end{tabular}
-		\caption{(a) The non-uniform sampling density of Algorithm $A$ for input function
-$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
-and~$59$ points are used to meet the error tolerance of~$0.01$.
-(b) The same situation as in (a), but now
-with Algorithm $M$. Again~$4$ iterations are used, but only~$31$ non-uniform
-sampling points are needed to obtain the minimum of $-f_1$. 	\label{f3foolplot}}
-\end{figure}
 
 	Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
@@ -867,11 +868,11 @@ sampling points are needed to obtain the minimum of $-f_1$. 	\label{f3foolplot}}
 	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''}
 	= (b -a)^2  \quad \norm{f_0''} = 1.
 	\end{equation}
-	Since $f_0''$ is constant and $f_0 \in \cc$,  $A^*$ successfully approximates
-	$\gamma f_0$ for any  $\gamma\ge0$.
+	Since $f_0''$ is constant, it follows that $f_0 \in \cc$,  and $A^*$ successfully 
+	approximates $\gamma f_0$ for any  $\gamma\ge0$.
 	
 	Consider the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
-	used to compute $A^*(0,\abstol)$, and we now allow the possibility of $a = x_0=x_1$
+	used to compute $A^*(0,\abstol)$, and we again allow the possibility of $a = x_0=x_1$
 	and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
 	\ge (b-a)/(n+1)$, and let $f_1$ be defined as in~\eqref{f3def} with $c =
 	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
@@ -888,8 +889,8 @@ sampling points are needed to obtain the minimum of $-f_1$. 	\label{f3foolplot}}
 	A^*(\gamma f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) =
 	n$.
 	
-Similar to the above, we argue that $\gamma\tgamma$ must be no larger than
-	$\abstol$:
+Analogously to the argument above, we show that $\gamma\tgamma$ must be no larger 
+than	$\abstol$:
 	\begin{align*}
 	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},
 	\norm{\gamma f_--A(\gamma f_-, \abstol)}) \\
