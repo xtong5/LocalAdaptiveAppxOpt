@@ -674,12 +674,11 @@ bound on the
 computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
-Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by
-Algorithm $A$ for the input function $f$ and the absolute error tolerance
-$\abstol$. The computational cost of $A(f,\varepsilon)$ has the following upper bound:
+Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by 
+$A(f,\abstol)$. This computational cost has the following upper bound:
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1
-= \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1 \\
+= \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1, \\
 \end{equation*}
 where $L(x)$ is defined in~\eqref{eqn:defoflx}.
 \end{theorem}
@@ -1023,9 +1022,9 @@ than $\abstol$, the function values on that subinterval are significantly larger
 than the minimum of the function over $[a,b]$.  This is reflected in the definition of
 $\widehat{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm $M$.
 
-Our definition of $\tL(x)$ reflects these two reasons. Let $x^*$ be some place
+Our definition of $\tL(x)$ reflects these two reasons. Let $x_*$ be some place
 where the minimum of $f$ is obtained, i.e.,
-$f(x^*)  = \min_{a \le x \le b} f(x).$
+$f(x_*)  = \min_{a \le x \le b} f(x).$
 Let
 \begin{equation}\label{eqn:defofltx}
 \tL(x) = \min\bigl(L(x),\chL(x)\bigr), \qquad x \in [a,b],
@@ -1033,8 +1032,8 @@ Let
 where $L(x)$ is defined above in \eqref{eqn:defoflx},
 \begin{multline}\label{eqn:defoflt1x}
 \chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3h_l\right) + 1
-\biggr]   \norm[\tilde{I}_{x,l}]{f''} + \frac18\norm[{I_{x^*,l}}]{f''} \biggr\} h_{l}^2 \\ \qquad
-\qquad +  2 \abs{f'(x)} h_{l} + [f(x^*) - f(x)] \Biggr\},
+\biggr]   \norm[\tilde{I}_{x,l}]{f''} + \frac18\norm[{I_{x_*,l}}]{f''} \biggr\} h_{l}^2 \\ \qquad
+\qquad +  2 \abs{f'(x)} h_{l} + [f(x_*) - f(x)] \le 0 \Biggr\},
 \end{multline}
 and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally seven times the width:
 \begin{equation}
@@ -1049,10 +1048,9 @@ dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
 	Denote by $\cost(M,f,\abstol)$ the number of functional evaluations required by
-	Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.
-    This computational cost is bounded as follows:
+	$M(f,\abstol)$. This computational cost is bounded as follows:
 	\begin{equation*}
-	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1 \\
+	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1, \\
 	\end{equation*}
 	where $\tL(x)$ is defined in~\eqref{eqn:defofltx}.
 \end{theorem}
@@ -1067,7 +1065,7 @@ Thus $\tell(x)
 only need to show that $\tell(x) \le \chL(x)$.
 	
 We will show that $\chL(x) < \tell(x) \le L(x)$ for any fixed $x$  leads to a contradiction.
-Assuming $\chL(x) < \tell(x)$, then at the $\chL(x)^{\text{th}}$  iteration,
+If $\chL(x) < \tell(x)$, then at the $\chL(x)^{\text{th}}$  iteration,
 $I_{x,\chL(x)} = [x_{i-1},x_i]$ for some $i$ must be split in Step~\ref{stagemin2} of $M$,
 where $x_i-x_{i-1}= h_{\chL(x)} = h_0 2^{-\chL(x)}$.  This means that one or more of the
 following must exceed $\abstol$:
@@ -1078,7 +1076,7 @@ We prove that $\herr_{i+2,+} > \abstol$ is impossible.  The arguments for the ot
 are similar.
 
 If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is also the case
-that $\oerr_{i-1} > \abstol$, and
+that $i-1 \in \widetilde{\ci}_-$, and so $\oerr_{i-1} > \abstol$.  In this case
 \[
 x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2}
 = h_{\chL(x)}.
@@ -1102,29 +1100,29 @@ under consideration establishes that
 \end{equation}
 since $\abs{x_i - x} \le \abs{x_{i+1} - x} \le 2h_{\chL(x)}$.
 
-Finally, we bound $ \hM_{\chL(x)}$. Let $x^*$ be a point where $f$ attains its minimum,
+Finally, we bound $ \hM_{\chL(x)}$. Let $x_*$ be a point where $f$ attains its minimum,
 and
-let $I_{x^*,l_*} = [x_{i^*-1}, x_{i^*}]$ be the subinterval in the present partition containing
-$x^*$, where $l_* \le \chL(x)$. By
+let $I_{x_*,l_*} = [x_{i_*-1}, x_{i_*}]$ be the subinterval in the present partition containing
+$x_*$, where $l_* \le \chL(x)$. By
 \eqref{appxerrbda} it follows that
 \begin{equation} \label{fxstarlowbd}
-f(x^*) \ge \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 h_{l^*}^2\norm[I_{x^*,l_*}]{f''}.
+f(x_*) \ge \min(f(x_{i_*-1}),f(x_{i_*})) - \frac18 h_{l_*}^2\norm[I_{x_*,l_*}]{f''}.
 \end{equation}
 There are two possibilities regarding $l_*$. If $l_* < \chL(x)$, then by the argument in  in
 \eqref{herrtogether} used to prove Theorem \ref{thm:algMworks},
 \begin{align*}
 \hM_{\chL(x)}   & \le \hM_{l_*}
-\le \min(f(x_{i^*-1}),f(x_{i^*})) - \frac18 h_{l^*}^2 \norm[{[x_{i^*-1}, x^*_i]}]{f''}  + \abstol  \\
-& \le  f(x^*) + \abstol \qquad \text{by}~\eqref{fxstarlowbd} .
+\le \min(f(x_{i_*-1}),f(x_{i_*})) - \frac18 h_{l_*}^2 \norm[{[x_{i_*-1}, x_{i_*}]}]{f''}  + \abstol  \\
+& \le  f(x_*) + \abstol \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
 Otherwise, if $l_* = \chL(x)$, then
 \begin{equation*}
-\hM_{\chL(x)}   \le \min(f(x_{i^*-1}),f(x_{i^*}))  \le  f(x^*) + \frac18 h_{\chL(x)}^2
-\norm[{I_{x^*,\chL(x)}}]{f''} \quad \text{by}~\eqref{fxstarlowbd} .
+\hM_{\chL(x)}   \le \min(f(x_{i_*-1}),f(x_{i_*}))  \le  f(x_*) + \frac18 h_{\chL(x)}^2
+\norm[{I_{x_*,\chL(x)}}]{f''} \quad \text{by}~\eqref{fxstarlowbd} .
 \end{equation*}
 Thus, in either case we have
 \begin{equation} \label{Mhatbd}
-\hM_{\chL(x)} \le f(x^*) + \frac 18 h_{\chL(x)}^2  \norm[{I_{x^*,\chL(x)}}]{f''} + \abstol.
+\hM_{\chL(x)} \le f(x_*) + \frac 18 h_{\chL(x)}^2  \norm[{I_{x_*,\chL(x)}}]{f''} + \abstol.
 \end{equation}
 
 Combining the three inequalities \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
@@ -1132,30 +1130,29 @@ Combining the three inequalities \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
 that $\tell(x) > \chL(x)$:
 \begin{align*}
 \abstol & < \herr_{i+2,+} \qquad \text{by assumption} \\
-& = \oerr_{i+2} + \hM_{\chL(x)} - \min\bigl(f(x_{i}),f(x_{i+1})\bigr), \qquad \text{by Step
+& = \oerr_{i+2} + \hM_{\chL(x)} - \min\bigl(f(x_{i}),f(x_{i+1})\bigr) \qquad \text{by Step
 \ref{stagemin1} of Algorithm $M$} \\
-& = \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} + f(x^*) +
-\frac 18 h_{\chL(x)}^2  \norm[{I_{x^*,\chL(x)}}]{f''} + \abstol \\
+& = \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} + f(x_*) +
+\frac 18 h_{\chL(x)}^2  \norm[{I_{x_*,\chL(x)}}]{f''} + \abstol \\
 & \qquad \qquad - f(x) + 2h_{\chL(x)}\abs{f'(x)} + h_{\chL(x)}^2
 \norm[\bar{I}_{x,\chL(x)}]{f''} \\
 &  \qquad \qquad \qquad  \qquad \text{by \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
-\eqref{Mhatbd},} \\
+\eqref{Mhatbd}} \\
 & \le \abstol + \biggl\{ \biggl[\frac 18 \fC\left(3 h_{\chL(x)} \right) + 1 \biggr]
-\norm[\tilde{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x^*,\chL(x)}}]{f''} \biggr\} h_{\chL(x)}^2 \\
-& \qquad \qquad +  2 \abs{f'(x)} h_{\chL(x)} + [f(x^*) - f(x)] \\
-& \le \abstol
+\norm[\tilde{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x_*,\chL(x)}}]{f''} \biggr\} h_{\chL(x)}^2 \\
+& \qquad \qquad +  2 \abs{f'(x)} h_{\chL(x)} + [f(x_*) - f(x)] \\
+& \le \abstol \qquad \text{by \eqref{eqn:defoflt1x}}.
 \end{align*}
 This gives a contradiction and completes the proof.
 \end{proof}
 
-If $f(x)$ is close to the minimum function value, $f(x^*)$, for $x$ in much of
-$[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the
+If $f(x)$ is close to the minimum function value, $f(x_*)$, for $x$ in much of
+$[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$  determines the
 computational cost of Algorithm $M$. In this case, the computational cost for
-minimization may be similar to that for function approximation. However, if
-$f(x)$ is significantly larger than $f(x^*)$, for $x$ in a large part of
-$[a,b]$, then $\chL(x)$ may have a quite moderate value, independent of the
-error tolerance. In this case, the computational cost for minimization may be
-significantly smaller than that for function approximation.
+minimization is similar to that for function approximation. However, if $f$ attains it 
+minimum at only a finite number of points, then for vanishing $\varepsilon$, 
+$\tL(x) = \widehat{L}(x)$ for nearly all $x$, and the computational cost for minimization 
+is significantly smaller than that for function approximation.
 
 
 The minimization problem \eqref{optprob} for functions in the whole Sobolev
@@ -1175,7 +1172,7 @@ integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by
 automatically determining the sampling needed to satisfy a user provided error
 tolerance. GAIL is under active development. It implements our best adaptive
 algorithms and upholds the principles of reproducible and reliable computational
-science. This includes input parsing extensive testing, code comments, a user
+science. This includes input parsing, extensive testing, code comments, a user
 guide, and case studies. Algorithms $A$ and $M$ described here are implemented
 as GAIL functions \funappxg{} and \funming, respectively. The following examples
 showcase the merits and drawbacks of our algorithms. We compare them to the
@@ -1190,11 +1187,11 @@ with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
 $f_1$  an input error tolerance $10^{-14}$, and the ``splitting''' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
-discontinuities were detected.  However, Chebfun produced errors greater 
+discontinuities are detected.  However, Chebfun produces errors greater 
 than~$10^{-5}$.
 
 In contrast, the pointwise errors of the piecewise linear interpolant produced
-by \funappxg{} were uniformly below the error tolerance. Unfortunately, the time
+by \funappxg{} are uniformly below the error tolerance. Unfortunately, the time
 taken by \funappxg{} is about $45$ times as long as the time
 required by Chebfun. 
 
@@ -1237,12 +1234,14 @@ f_3(x) &= 10  x^2 + f_2(x).
 \end{align}
 \end{subequations}
 We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 
-1000$ \frednote{We need $n_{\ninit}$ here}, $\fC (h) =
+1000$ \frednote{We need $n_{\ninit}$ here instead}, $\fC (h) =
 3 \fh/(\fh-h)$, and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
 and Chebfun are
-used to approximate $1000$ random test functions from each family. For Chebfun 
+used to approximate $1000$ random test functions from each family. For Chebfun we
 override the default tolerance to $10^{-6}$, and switch on the splitting
-feature to allow piecewise Chebyshev polynomials for approximation.
+feature to allow piecewise Chebyshev polynomials for approximation.  Success  is 
+determined by whether a discrete approximation to the $L^{\infty}$ error is 
+no greater than the error tolerance.
 
 %
 \begin{table}[bt]
@@ -1299,7 +1298,7 @@ This table can be conditionally reproduced by
 \end{table}
 %
 
-From Table Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains 
+From Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains 
 the correct answer in all cases,
 even for $f_2$, which is outside the cone $\cc$. Because it is a higher order algorithm, 
 Chebfun generally uses substantially fewer number of samples than
@@ -1347,7 +1346,7 @@ several advantages:
 \item The cone, $\cc$, is intuitively explained as a set of functions whose  second 
 derivatives to not change drastically over a small interval.
 This intuition can guide the user in setting the parameters defining~$\cc$, if
-so desired.
+ desired.
 	
 \item The norms of $f$ and its derivatives appearing in the computational cost
 upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but 
@@ -1365,13 +1364,14 @@ multiplicative factor. Increasing $n_{\ninit}$ to make our new algorithms more r
 just increases the minimum number of sample points and may increase the
 computational cost mildly.
 
-There are theorems providing sufficient conditions under which adaption provides
+As mentioned in the introduction, there are general theorems providing sufficient 
+conditions under which adaption provides
 no advantage. Our setting fails to satisfy those conditions because $\cc$ is not
 convex. One may average two mildly spiky functions in $\cc$---whose spikes have
 opposite signs and partially overlap---to obtain a very spiky function outside
 $\cc$.
 
-Moreover, nonadaptive algorithms are unable to solve \eqref{appxprob} or
+Nonadaptive algorithms are unable to solve \eqref{appxprob} or
 \eqref{optprob} using a finite number of function values if the set of
 interesting functions, $\cc$, is a cone, unless there exist nonadaptive
 algorithms that solve these problems exactly. Suppose that $A$ is a nonadaptive
@@ -1384,8 +1384,8 @@ tolerance $\abstol/c$, using the same number of function evaluations as $A$.
 Making $c$ arbitrarily large establishes the existence of a nonadaptive
 algorithm that solves \eqref{appxprob} exactly.
 
-We recognize that our algorithms do not take advantage of higher orders of
-smoothness that the input function may have. We envision the present work as a
+Our algorithms do not take advantage of higher orders of
+smoothness that the input function may have. We view the present work as a
 stepping stone to developing higher order algorithms. Piecewise interpolants
 with higher degrees of smoothness or high degree polynomials, such as those used
 in Chebfun, are potential candidates.
@@ -1397,7 +1397,7 @@ We dedicate this article to the memory of our colleague Joseph F. Traub, who
 passed away on August 24, 2015. He was a polymath and an influential figure in
 computer science and applied mathematics. He was the founding Editor-in-Chief of
 the Journal of Complexity and we are grateful to his tremendous impact and life
-long services to our research community.
+long service to our research community.
 
 We thank Greg Fasshauer and the GAIL team for
 valuable suggestions and comments. This research was supported in part by grant
