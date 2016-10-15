@@ -676,8 +676,7 @@ computational cost of Algorithm $A$.
 \begin{theorem}\label{thm:cost}
 Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by
 Algorithm $A$ for the input function $f$ and the absolute error tolerance
-$\abstol$. The computational cost of $A(f,\varepsilon)$ in terms of the number of 
-function values required has the following upper bound:
+$\abstol$. The computational cost of $A(f,\varepsilon)$ has the following upper bound:
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1
 = \int_a^b \frac{1}{h_{L(x)}} \, \dif x +1 \\
@@ -937,28 +936,20 @@ unnecessary to approximate $f$ accurately everywhere,  only where $f$ is small.
 \[
 x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 \]
-	Compute $\hM= \minfi$.
-	Then do the
-	following:
+	Compute $\hM= \minfi$.  Then do the following.
 	
 	\begin{enumerate}[\em Step 1.]
 		
-		\item \label{stagemin1} \emph{Check for convergence.} For all $i \in \ci_{\pm}$
-		compute $\oerr_i $ according to \eqref{oerrdef} and let
-		$\widetilde{\mathcal{I}}_{\pm} = \left\{i \in \mathcal{I}_{\pm}: \oerr_i
+		\item \label{stagemin1} \emph{Check for convergence.} For $ s \in \{+,-\}$ do the 
+		following.  
+		Compute $\oerr_i $ for all $i \in \ci_{\pm}$ according to \eqref{oerrdef}. Let
+		$\widetilde{\mathcal{I}}_{s} = \left\{i \in \mathcal{I}_{s}: \oerr_i
 		> \abstol \right\}$.  Next compute
 		\begin{gather*}
-		\herr_{i,+} := \oerr_i + \hM - \min\bigl(f(x_{i - 2}),f(x_{i-1})\bigr) \quad
-		\forall i \in \widetilde{\mathcal{I}}_{+}, \\
-		\herr_{i,-} := \oerr_i + \hM - \min\bigl(f(x_{i +1}),f(x_{i+2})\bigr)  \quad
-		\forall i \in \widetilde{\mathcal{I}}_{-},		
-		\end{gather*}
-		and let
-		\begin{gather*}
-				\widehat{\ci}_+ = \Bigl\{i \in \widetilde{\ci}_+:  \herr_{i,+} > \abstol \text{ or }
-				\bigl( i-3 \in \widetilde{\ci}_- \text{ \& } \herr_{i-3,-} > \abstol \bigr) \Bigr\}, \\
-				\widehat{\ci}_- = \Bigl\{i \in \widetilde{\ci}_-: \herr_{i,-} > \abstol \text{ or }
-				\bigl( i+3\in \widetilde{\ci}_+ \text{ \& } \herr_{i+3,+} > \abstol \bigr) \Bigr\}.
+		\herr_{i,s} := \oerr_i + \hM - \min\bigl(f(x_{i - s2}),f(x_{i-s1})\bigr) \quad
+		\forall i \in \widetilde{\mathcal{I}}_{s}, 	\\
+		\widehat{\ci}_s = \Bigl\{i \in \widetilde{\ci}_s:  \herr_{i,s} > \abstol \text{ or }
+		\bigl( i-s3 \in \widetilde{\ci}_{-s} \text{ \& } \herr_{i-s3,-s} > \abstol \bigr) \Bigr\}.	
 		\end{gather*}
 		If $\widehat{\mathcal{I}}_+ \cup \widehat{\ci}_- =
 		\emptyset$, return $M(f,\abstol) = \widehat{M}$ and terminate the algorithm.
@@ -967,16 +958,14 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{\pm} =  1\!:\!n-1.
 		\item \label{stagemin2} \emph{Split the subintervals as needed.}
 		Update the present partition, $x_{0:n}$, to include the subinterval midpoints
 		\begin{equation*}
-		\frac{x_{i-2} +x_{i-1}}{2}, \ \frac{x_{i-1} +x_{i}}{2} \ \ \forall i \in \widehat{\ci}_+, \quad
-		\frac{x_{i} +x_{i+1}}{2}, \  \frac{x_{i+1} +x_{i+2}}{2} \ \ \forall  i \in \widehat{\ci}_-.
+		\frac{x_{i-s2} +x_{i-s1}}{2}, \ \frac{x_{i-s1} +x_{i}}{2} \quad \forall i \in \widehat{\ci}_s.
 		\end{equation*}
-		(The point $(x_{i-2}+x_{i-1})/2$ is only included for $i \ge 2$, and the point
+    	(The point $(x_{i-2}+x_{i-1})/2$ is only included for $i \ge 2$, and the point
 		$(x_{i+1} +x_{i+2})/2$ is only included for $i \le n-2$.)  Update the sets
 		 $\ci_{+}$ and $\ci_-$,
 		respectively, to consist of the new indices corresponding to the old points
 		\[
-		x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2} \text{ for } i \in \widehat{\ci}_+, \qquad
-		\frac{x_{i} +x_{i+1}}{2}, \  x_{i+1} \text{ for } i \in \widehat{\ci}_-.
+		x_{i-s1}, \ \frac{x_{i-s1} +x_{i}}{2} \text{ for } i \in \widehat{\ci}_s.
 		\]
 		(The point $x_{i-1}$ is only included for $i \ge 2$, and the point $x_{i+1}$ is only
 		included for $i \le n-2$.) Return to Step~\ref{stagemin1}.
@@ -1005,10 +994,10 @@ cone $\cc$ defined in~\eqref{conedef}.
 	definition of $\cc$ in \eqref{conedef}, this then implies that
 	\begin{align}
 	\nonumber
-	 &	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} + \hM_{l_*} -
+	 &	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l_*}-1}, x_{i_{l_*}}]}]{f} + \hM_{l_*} -
 	 \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
-	\\	\MoveEqLeft[5]{\hM_{l_*} - \min_{x_{i_{l^*}-1} \le x \le x_{i_{l_*}}} f(x) } \nonumber
-	\\ \le \ & \hM_{l_*}  - \minfii + \frac{1}{8} h_{l_*}^2\norm[{[x_{i_{l^*}-1} x_{i_{l_*}}]}]{f} \le
+	\\	\MoveEqLeft[5]{\hM_{l_*} - \min_{x_{i_{l_*}-1} \le x \le x_{i_{l_*}}} f(x) } \nonumber
+	\\ \le \ & \hM_{l_*}  - \minfii + \frac{1}{8} h_{l_*}^2\norm[{[x_{i_{l_*}-1}, x_{i_{l_*}}]}]{f} \le
 	\abstol. \label{herrtogether}
 	\end{align}
 Further iterations of the algorithm can only make $\hM_{l}$ possibly closer to the
@@ -1017,8 +1006,8 @@ solution, $\min_{a \le x \le b} f(x) $.
 
 Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
 Figure \ref{f3foolplot}(a), but this time with the sampling points used for
-minimization. Here $M(-f_1,0.01)$ uses only $31$ points, whereas
-$A(-f_1,0.01)$ uses $59$ points. This is because $-f_1$ does not need to be
+minimization. Here $M(-f_1,0.02)$ uses only $24$ points, whereas
+$A(-f_1,0.02)$ uses $59$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
 \subsection{The Computational Cost of $M$} \label{subsec:optcost}
@@ -1029,7 +1018,7 @@ for Algorithm $A$: the function being minimized is approximated on
 $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$. This is
 reflected in the definition of $\widetilde{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm
 $M$.  The second
-reason is that, although the approximation error on $[x_{i-1},x_i]$ is larger
+reason is that, although the spline approximation error on $[x_{i-1},x_i]$ is larger
 than $\abstol$, the function values on that subinterval are significantly larger
 than the minimum of the function over $[a,b]$.  This is reflected in the definition of
 $\widehat{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm $M$.
@@ -1059,10 +1048,9 @@ case with $L(x)$, both $\chL(x)$ and $\tL(x)$ depend on $f$, although this
 dependence is suppressed in the notation.
 
 \begin{theorem}\label{thm:Mcost}
-	Denote by $\cost(M,f,\abstol)$ as the number of functional evaluations required by
+	Denote by $\cost(M,f,\abstol)$ the number of functional evaluations required by
 	Algorithm $M$ for the input function $f$ and the absolute error tolerance $\abstol$.
-	This algorithm is known to successfully solve problem~\eqref{appxprob} for functions
-	in $\cc$.  The computational cost of doing so is bounded by:
+    This computational cost is bounded as follows:
 	\begin{equation*}
 	\cost(M,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{\tL(x)} \, \dif x +1 \\
 	\end{equation*}
@@ -1159,9 +1147,6 @@ that $\tell(x) > \chL(x)$:
 \end{align*}
 This gives a contradiction and completes the proof.
 \end{proof}
-
-
-\textbf{Fred fix starting here}
 
 If $f(x)$ is close to the minimum function value, $f(x^*)$, for $x$ in much of
 $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$ may determine the
