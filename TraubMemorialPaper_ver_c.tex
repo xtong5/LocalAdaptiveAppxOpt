@@ -346,7 +346,7 @@ drastically greater than the maximum of $\norm[-\infty,{[\beta - h_-,
 \alpha$.
 
 The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
-and a  number $\fC_0 \ge 1$. Let
+and a  number $\fC_0 \ge 1$. Let \scnote{In code \funappxg, $\fh$'s denominator is $\ninit-2$}
 \begin{equation}
 \label{hCdef}
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h}
@@ -1212,7 +1212,7 @@ simulations for each test function in \eqref{eq:testfunctions}:
 %\funappxg{} \# of samples $/$ \funappxglobalg{} \# of samples (orange),
 \funappxg{} time $/$ Chebfun time (solid), \funappxg{} \# of samples $/$
 Chebfun \# of samples (dashed). 
-\frednote{For which test functions?  $f_1, f_2,$ and $f_3$ all together?}
+\frednote{For which test functions?  $f_1, f_2,$ and $f_3$ all together?}\scnote{all}
 This data for this figure is conditionally reproducible 
 by 
 \texttt{funappx\_g\_test.m} in GAIL.
@@ -1235,8 +1235,8 @@ f_3(x) &= 10  x^2 + f_2(x).
 \end{align}
 \end{subequations}
 We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 
-1000$ \frednote{We need $n_{\ninit}$ here instead}, $\fC (h) =
-3 \fh/(\fh-h)$, and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
+1000$ \frednote{We need $n_{\ninit}$ here instead}\scnote{216}, $\fC (h) =
+3 \fh/(\fh-h)$\scnote{constant is 10 instead of 3}, and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
 and Chebfun are
 used to approximate $1000$ random test functions from each family. For Chebfun we
 override the default tolerance to $10^{-6}$, and switch on the splitting
