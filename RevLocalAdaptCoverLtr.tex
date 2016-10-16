@@ -1,0 +1,60 @@
+\documentclass[11pt]{iitletter}
+\usepackage{amsmath,amssymb}
+%\input FJHDef.tex
+
+
+\newcommand{\norm}[2][{}]{\ensuremath{\left \lVert #2 \right \rVert}_{#1}}
+\renewcommand{\cc}{\mathcal{C}}
+\address{}
+
+\date{\today}  % optional
+%\signature{\vspace*{-9ex}\includegraphics[width=4.5cm]{FredSignature.pdf} \\ Fred J. Hickernell}
+\signature{Fred J. Hickernell}
+
+\begin{document}
+
+\begin{letter}{}
+
+\opening{Dear Prof.\ Novak,}
+
+\begin{center} \textbf{ Revised Version of \\
+		\emph{Local Adaption for Approximation and 
+Minimization of Univariate Functions}} \end{center}
+Enclosed please find the revised version of our manuscript for possible publication in the 
+Joseph Traub memorial issue of the Journal of Complexity.  We thank you  and the 
+referees for your helpful comments.  Here is a summary of the changes that we have 
+made:
+
+\begin{itemize}
+	\item We have shortened the manuscript to 28 pages in draft form by shortening the 
+	introduction, the numerical examples, and the discussion.
+	
+	\item We have explained the key ideas behind our algorithms at an earlier point in the 
+	manuscript, namely, the introduction.
+	
+	\item We have defined $\norm[{[\alpha,\beta]}]{f''}$ in terms of the Lipschitz constant 
+	for $f'$ in (4), as suggested by a referee.  In (4) we have also introduced the notation 
+	$\norm[-\infty,{[\alpha,\beta]}]{f''}$ to denote the minimum of the corresponding 
+	difference quotient.  
+	
+	\item We do not think of $f''$ as an interval valued function anymore.  This has led to a 
+	modification of our definition of the cone, $\cc$, of input functions and modifications 
+	to Algorithms $A$ and $M$.
+	
+	\item We have tried to correct all of the typos pointed out by the referees.
+
+
+\end{itemize}
+
+
+\closing{Sincerely yours,}
+
+%\encl{}
+
+%\smallskip
+%
+%\bibliographystyle{amsalpha}
+%\bibliography{FJH22,FJHown22}
+
+\end{letter}
+\end{document}
