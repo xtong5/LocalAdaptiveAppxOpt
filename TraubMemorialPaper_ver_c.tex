@@ -622,11 +622,11 @@ described above. Note that $-f_1$ is sampled less densely where it is flat.
 		\\ (a) & (b)
 	\end{tabular}
 	\caption{(a) The nonuniform sampling density of Algorithm $A$ for input function
-		$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$4$ iterations
-		and~$59$ points and $4$ iterations are used to meet the error tolerance 
+		$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$3$ iterations
+		and~$65$ points are used to meet the error tolerance 
 		of~$0.02$.
 		(b) The same situation as in (a), but now
-		with Algorithm $M$. Now, only~$3$ iterations and only~$24$ nonuniform
+		with Algorithm $M$. Still~$3$ iterations but only~$46$ nonuniform
 		sampling points are needed to obtain the minimum of $-f_1$. 	
 		\label{f3foolplot}}
 \end{figure}
@@ -1186,14 +1186,14 @@ terms of a Chebyshev polynomial basis, in principle to machine precision
 its intended error tolerance for the function~$f_1$ defined in \eqref{f3def} 
 with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
-$f_1$  an input error tolerance $10^{-14}$, and the ``splitting''' option  turned on to allow
+$f_1$  an input error tolerance $10^{-12}$, and the ``splitting''' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
 discontinuities are detected.  However, Chebfun produces errors greater 
 than~$10^{-5}$.
 
 In contrast, the pointwise errors of the piecewise linear interpolant produced
 by \funappxg{} are uniformly below the error tolerance. Unfortunately, the time
-taken by \funappxg{} is about $45$ times as long as the time
+taken by \funappxg{} is about $30$ times as long as the time
 required by Chebfun. 
 
 \begin{figure}[tb]
@@ -1231,8 +1231,7 @@ f_2(x) &= x^4 \sin(d/x), \quad d \sim \cu[0,2], \\
 f_3(x) &= 10  x^2 + f_2(x).
 \end{align}
 \end{subequations}
-We set $n_{\text{lo}} = 10$, $n_{\text{hi}} = 
-1000$ \frednote{We need $n_{\ninit}$ here instead}\scnote{216}, $\fC (h) =
+We set $n_{\ninit}= 250$, $\fC (h) =
 10 \fh/(\fh-h)$, and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
 and Chebfun are
 used to approximate $1000$ random test functions from each family. For Chebfun we
