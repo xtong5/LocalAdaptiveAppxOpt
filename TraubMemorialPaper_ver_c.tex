@@ -1242,57 +1242,64 @@ no greater than the error tolerance.
 
 %
 \begin{table}[bt]
-\centering
-\caption{Comparison of number of sample points, computational time,  and success
-rates of \funappxg (local) %, \funappxglobalg (global),
-and Chebfun in upper table;
-\funming, \fminbnd, and Chebfun's \texttt{min} in lower table.
-%We also report the number of warnings in parentheses issued by the software.
-This table can be conditionally reproduced by
-\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in GAIL.}
-\label{tab:localVsGlobalVsChebfun}
-{\footnotesize
-\setlength{\tabcolsep}{0.38em} % set table width
+	\centering
+	\caption{Comparison of number of sample points, computational time,  and success
+		rates of \funappxg (local) %, \funappxglobalg (global),
+		and Chebfun in upper table;
+		\funming, \fminbnd, and Chebfun's \texttt{min} in lower table.
+		%We also report the number of warnings in parentheses issued by the software.
+		This table can be conditionally reproduced by
+		\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in GAIL.}
+	\label{tab:localVsGlobalVsChebfun}
+	{\footnotesize
+		\setlength{\tabcolsep}{0.38em} % set table width
 		\begin{tabular}{crrrrrrrrrrrrrrrrrr}	
-		 \hline	
-			     &    \multicolumn{6}{c}{\bf Mean Points}   & \multicolumn{6}{c}{\bf Mean Time 
-			     Used}  & \multicolumn{6}{c}{\bf Success (\%)}
-	  \\ \hline  functions &  \multicolumn{3}{r}{\funappxg}  &    \multicolumn{3}{r}{Chebfun}  
-	  &   \multicolumn{3}{r}{\funappxg}   &  \multicolumn{3}{r}{Chebfun} &    
-	  \multicolumn{3}{r}{\funappxg}  &   \multicolumn{3}{r}{Chebfun}
-\\ \toprule
-          $f_1$   &   \multicolumn{3}{r}{5659}       &   \multicolumn{3}{r}{116}       &   
-          \multicolumn{3}{r}{0.0084}       &   \multicolumn{3}{r}{0.0403}       &   
-          \multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{0}
-\\        $f_2$   & \multicolumn{3}{r}{3690}       &   \multicolumn{3}{r}{43}       &   
-\multicolumn{3}{r}{0.0091 }       &   \multicolumn{3}{r}{0.0104}       &   
-\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3}
-\\        $f_3$   & \multicolumn{3}{r}{11835}       &   \multicolumn{3}{r}{22}       &   
-\multicolumn{3}{r}{0.0114}       &   \multicolumn{3}{r}{0.0061}       &   
-\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3 }	
-\\ \hline
- functions &  \multicolumn{2}{c}{\funming} &  \multicolumn{2}{c}{\fminbnd}  &  
-\multicolumn{2}{c}{\texttt{min}}
-&  \multicolumn{2}{c}{\funming}  &  \multicolumn{2}{c}{\fminbnd }  &  
-\multicolumn{2}{c}{\texttt{min} }  &  \multicolumn{2}{c}{\funming} & 
-\multicolumn{2}{c}{\fminbnd} & \multicolumn{2}{c}{\texttt{min}}
-\\ \toprule
-			$-f_1$   &  \multicolumn{2}{c}{274} &  \multicolumn{2}{c}{8} &  
-			\multicolumn{2}{c}{116} &  \multicolumn{2}{c}{0.002} &  
-			\multicolumn{2}{c}{0.0010} &  \multicolumn{2}{c}{0.0469} &  
+			\hline	
+			&    \multicolumn{6}{c}{\bf Mean Points}   & \multicolumn{6}{c}{\bf Mean Time
+				Used}  & \multicolumn{6}{c}{\bf Success (\%)}
+			\\ \hline  functions &  \multicolumn{3}{r}{\funappxg}  &    
+			\multicolumn{3}{r}{Chebfun}
+			&   \multicolumn{3}{r}{\funappxg}   &  \multicolumn{3}{r}{Chebfun} &
+			\multicolumn{3}{r}{\funappxg}  &   \multicolumn{3}{r}{Chebfun}
+			\\ \toprule
+			$f_1$   &   \multicolumn{3}{r}{6557}       &   \multicolumn{3}{r}{116}       &
+			\multicolumn{3}{r}{0.0030}       &   \multicolumn{3}{r}{0.0216}       &
+			\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{0}
+			\\        $f_2$   & \multicolumn{3}{r}{5017}       &   \multicolumn{3}{r}{43}       &
+			\multicolumn{3}{r}{0.0032 }       &   \multicolumn{3}{r}{0.0063}       &
+			\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3}
+			\\        $f_3$   & \multicolumn{3}{r}{15698}       &   \multicolumn{3}{r}{22}       &
+			\multicolumn{3}{r}{0.0050}       &   \multicolumn{3}{r}{0.0039}       &
+			\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3 }	
+			\\ \hline
+			functions &  \multicolumn{2}{c}{\funming} &  \multicolumn{2}{c}{\fminbnd}  &
+			\multicolumn{2}{c}{\texttt{min}}
+			&  \multicolumn{2}{c}{\funming}  &  \multicolumn{2}{c}{\fminbnd }  &
+			\multicolumn{2}{c}{\texttt{min} }  &  \multicolumn{2}{c}{\funming} &
+			\multicolumn{2}{c}{\fminbnd} & \multicolumn{2}{c}{\texttt{min}}
+			\\ \toprule
+			$-f_1$   &  \multicolumn{2}{c}{318} &  \multicolumn{2}{c}{8} &
+			\multicolumn{2}{c}{116} &  \multicolumn{2}{c}{0.0025} &
+			\multicolumn{2}{c}{0.0007} &  \multicolumn{2}{c}{0.0272} &
 			\multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100 } &  \multicolumn{2}{c}{14}
-\\ $\phantom{-}f_2$   & \multicolumn{2}{c}{230} &  \multicolumn{2}{c}{22} &  
-\multicolumn{2}{c}{43} &  \multicolumn{2}{c}{0.0020} &  \multicolumn{2}{c}{0.001} &  
-\multicolumn{2}{c}{0.0109} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{27} &  
-\multicolumn{2}{c}{60}
-\\ $\phantom{-}f_3$   &  \multicolumn{2}{c}{273} &  \multicolumn{2}{c}{9} &  
-\multicolumn{2}{c}{22 } &  \multicolumn{2}{c}{0.0022} &  \multicolumn{2}{c}{0.0011} &  
-\multicolumn{2}{c}{0.0063} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100} &  
-\multicolumn{2}{c}{35}
-\\ \hline
-\end{tabular}
-}
+			\\ $\phantom{-}f_2$   & \multicolumn{2}{c}{233} &  \multicolumn{2}{c}{22} &
+			\multicolumn{2}{c}{43} &  \multicolumn{2}{c}{0.0024} &  
+			\multicolumn{2}{c}{0.0010} &
+			\multicolumn{2}{c}{0.0070} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{27} 
+			&
+			\multicolumn{2}{c}{60}
+			\\ $\phantom{-}f_3$   &  \multicolumn{2}{c}{316} &  \multicolumn{2}{c}{9} &
+			\multicolumn{2}{c}{22 } &  \multicolumn{2}{c}{0.0026} &  
+			\multicolumn{2}{c}{0.0008} &
+			\multicolumn{2}{c}{0.0039} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100} 
+			&
+			\multicolumn{2}{c}{35}
+			\\ \hline
+		\end{tabular}
+	}
 \end{table}
+
+
 %
 
 From Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains 
