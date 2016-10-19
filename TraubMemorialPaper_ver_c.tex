@@ -346,7 +346,7 @@ drastically greater than the maximum of $\norm[-\infty,{[\beta - h_-,
 \alpha$.
 
 The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
-and a  number $\fC_0 \ge 1$. Let \scnote{In code \funappxg, $\fh$'s denominator is $\ninit-2$}
+and a  number $\fC_0 \ge 1$. Let 
 \begin{equation}
 \label{hCdef}
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h}
@@ -384,7 +384,7 @@ Figure \ref{fig:ConeDef} depicts the second derivative of a typical function in
 $\cw^{2,\infty}$.  In this figure 
 $\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = \abs{f''(\beta - h_-)} = 0$, which means that the 
 behavior of $f''$ to the left of $[\alpha,\beta]$ cannot help provide an upper bound on $ 
-\norm[{[\alpha,\beta]}]{f''}$.  However, $\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = 
+\norm[{[\alpha,\beta]}]{f''}$.  However, $\norm[-\infty,{[\beta,\alpha+h_+]}]{f''} = 
 \abs{f''(\alpha + h_+)} > 0$, so this $f$ may lie in the cone $\cc$ provided that 
 $\fC(h_+)$ is large enough.  The possibility of points in $[a,b]$ where $f''$ vanishes 
 motivates the definition of $B(f'',\alpha,\beta,h_-,h_+)$ to depend on the behavior of $f''$ 
@@ -1355,7 +1355,7 @@ This intuition can guide the user in setting the parameters defining~$\cc$, if
 \item The norms of $f$ and its derivatives appearing in the computational cost
 upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but 
 these theorems explain how these norms influence the time required by
-Algorithms $A$ and $M$.
+Algorithms $A$ and~$M$.
 	
 \item Our Algorithm $A$ has been shown to be asymptotically optimal for the
 complexity of the function approximation problem \eqref{appxprob}.
