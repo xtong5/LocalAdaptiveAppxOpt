@@ -133,7 +133,8 @@ Most commonly used \emph{adaptive} algorithms for function approximation and glo
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
-$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
+$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the 
+\linebreak[4]
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function $f$ on a
 bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
@@ -164,9 +165,13 @@ problems by adaptive algorithms. We prescribe a suitable set, $\cc$, of continuo
 differentiable, real-valued functions defined on a finite interval $[a,b]$.  Then, we
 construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M:
 (\cc,(0,\infty)) \to \reals$ such that for any $f \in \cc$ and any error
-tolerance $\abstol > 0$, \begin{gather} \norm{f - A(f,\abstol)} \le \abstol,
-\tag{APP} \label{appxprob} \\ 0 \le M(f,\abstol) - \min_{a \le x \le b} f(x) \le
-\abstol. \tag{MIN} \label{optprob} \end{gather} Here, $\norm{\cdot}$ denotes the
+tolerance $\abstol > 0$, 
+\begin{gather} \norm{f - A(f,\abstol)} \le \abstol,
+\tag{APP} \label{appxprob} \\ 
+0 \le M(f,\abstol) - \min_{a \le x \le b} f(x) \le
+\abstol. \tag{MIN} \label{optprob} 
+\end{gather} 
+Here, $\norm{\cdot}$ denotes the
 $L^{\infty}$-norm on $[a,b]$. The algorithms $A$ and $M$ depend only on function
 values.
 
@@ -204,7 +209,7 @@ input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
 
 Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$, $i \in 
 1\!:\!n$,
-to make use of~\eqref{appxerrbda}. A nonadpative algorithm might assume that
+to make use of~\eqref{appxerrbda}. A nonadaptive algorithm might assume that
 $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
 \bigl \lceil (b-a)\smash{\sqrt{\sigma/(8 \varepsilon)}} \, \bigr \rceil$, $x_i = a +
 i(b-a)/n$, $i \in 0\!:\!n$. Providing an upper bound on $\norm{f''}$ is
@@ -325,14 +330,14 @@ For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
 zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
 $(\alpha,\beta)$.  Specifically, there exist $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
 \beta)/2 < \xi_+ < \beta$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. Thus,
-\begin{align} \label{NDDbdm}
+\begin{align} 
      \norm[-\infty,{[\alpha,\beta]}]{f''}
    & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}}
    \nonumber
 \\ & \le \abs{\frac{f'(\xi_+) - f'(\xi_-)}{\xi_+ - \xi_-}}
    = \abs{\frac{p'(\xi_+) - p'(\xi_-)}{\xi_+ - \xi_-}} = 2 \abs{D(f,\alpha,\beta)}  \nonumber
 \\ & \le \sup_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}}
-=: \norm[{[\alpha,\beta]}]{f''}.
+=: \norm[{[\alpha,\beta]}]{f''}. \label{NDDbdm}
 \end{align}
 This inequality tells us that twice the divided difference,
 $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for
@@ -704,13 +709,13 @@ From the definition of $L(x)$ in~\eqref{eqn:defoflx}, we know that
 As $\abstol \to 0$, $L(x) \to \infty$, $h_{L(x)} \to 0$, and  $\norm[\bar{I}_{x,L(x)-1}]{f''}$
 approaches $|f''(x)|$.  Thus, the small $\abstol$ asymptotic upper bound on
 computational cost is
-\begin{align}
+\begin{align*}
 \cost(A,f,\abstol)
 &\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1
-=\sqrt{\frac{\fC_0 \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
-& \le (b-a)\sqrt{\frac{\fC_0 \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad
+=\sqrt{\frac{\fC_0 \norm[\frac 12]{f''}}{2\abstol}} +1  \\
+& \le (b-a)\sqrt{\frac{\fC_0 \norm{f''}}{2\abstol}} +1  \qquad
 \text{by \eqref{halflessinf} below}.
-\end{align}
+\end{align*}
 
 For functions in the cone $\cc$, the (quasi-)seminorms $\norm{f''}$ and $\norm[\frac
 12]{f''}$ are equivalent, but  for functions in $ \cw^{2,\infty}$ they are not, as is shown in the following proposition.
@@ -863,11 +868,10 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 
 	Now, we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
-	\begin{equation}
-	\label{assumpfzero}
+	\begin{equation*}
 	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''}
 	= (b -a)^2  \quad \norm{f_0''} = 1.
-	\end{equation}
+	\end{equation*}
 	Since $f_0''$ is constant, it follows that $f_0 \in \cc$,  and $A^*$ successfully 
 	approximates $\gamma f_0$ for any  $\gamma\ge0$.
 	
@@ -1037,9 +1041,9 @@ where $L(x)$ is defined above in \eqref{eqn:defoflx},
 \qquad +  2 \abs{f'(x)} h_{l} + [f(x_*) - f(x)] \le 0 \Biggr\},
 \end{multline}
 and $\tilde{I}_{x,l}$ is similar to $\Ixl$, but with generally seven times the width:
-\begin{equation}
+\begin{equation*}
 \tilde{I}_{x,l}=\left[a+\max(0,j-4)h_l, a+ \min(j+3,2^l n_{\ninit})h_l\right] \supset \Ixl,
-\end{equation}
+\end{equation*}
 with the same $j$ as in \eqref{Ixldef} above.
 
 
