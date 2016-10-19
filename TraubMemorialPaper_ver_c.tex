@@ -933,17 +933,15 @@ unnecessary to approximate $f$ accurately everywhere,  only where $f$ is small.
 	$\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and
 	$\abstol >0$ be user inputs. Let
 	$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and
-	the index sets of subintervals for which we need to compute quantities $\oerr_{i}$ to
-	bound the spline error:
+	certain index sets of subintervals:
 \[
 x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{+} =  2\!:\!n-1, \quad \ci_{-} =  1\!:\!n-2.
 \]
-	Compute $\hM= \minfi$.  Then do the following.
+	Compute $\hM= \minfi$.   For $ s \in \{+,-\}$ do the following.
 	
 	\begin{enumerate}[\em Step 1.]
 		
-		\item \label{stagemin1} \emph{Check for convergence.} For $ s \in \{+,-\}$ do the 
-		following.  
+		\item \label{stagemin1} \emph{Check for convergence.} 
 		Compute $\oerr_i $ for all $i \in \ci_{\pm}$ according to \eqref{oerrdef}. Let
 		$\widetilde{\mathcal{I}}_{s} = \left\{i \in \mathcal{I}_{s}: \oerr_i
 		> \abstol \right\}$.  Next compute
@@ -964,8 +962,7 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{+} =  2\!:\!n-1, \quad \ci_{-}
 		\end{equation*}
     	(The point $(x_{i-2}+x_{i-1})/2$ is only included for $i \ge 2$, and the point
 		$(x_{i+1} +x_{i+2})/2$ is only included for $i \le n-2$.)  Update the sets
-		 $\ci_{+}$ and $\ci_-$,
-		respectively, to consist of the new indices corresponding to the old points
+		 $\ci_{\pm}$ to consist of the new indices corresponding to the old points
 		\[
 		x_{i-s1}, \ \frac{x_{i-s1} +x_{i}}{2} \text{ for } i \in \widehat{\ci}_s.
 		\]
@@ -982,14 +979,15 @@ cone $\cc$ defined in~\eqref{conedef}.
 \begin{proof}
 	The proof of the success of Algorithm $M$ is similar to that for Algorithm $A$. Here
 	we give the highlights.     We use the notation of $I_{x,l}$ introduced in \eqref{Ixldef}
-	and analogously defined $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in
+	and analogously define $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in
 	Algorithm $M$ containing $x$ when the algorithm terminates.   For a fixed $x \in
-	[a,b]$ we argue as in the proof of Theorem \ref{thm:algAworks} that there exists an
-	$l_{*} \le \ell(x)$ such that $I_{x,l_*} =[x_{i_{l_*}-1},x_{i_{l_*}}]$, and
+	[a,b]$ we argue as in the proof of Theorem \ref{thm:algAworks} that there exist 
+	$l_{\pm} \le l_{*} \le \ell(x)$ such that $I_{x,l_*} =[x_{i_{l_*}-1},x_{i_{l_*}}]$, 
+	$x_{i_{l_{\pm}-1}} \le x_{i_{l_*}-1} \le x_{i_{l_*}} \le x_{i_{l_{\pm}}}$, and
 	\begin{gather*}
-	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}-3},x_{i_{l_*}-1}]}]{f} + \hM_{l_*}
+	\frac{1} 8 \fC(3h_{l_-}) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} + \hM_{l_*}
 	-  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol , \\
-	\frac{1} 8 \fC(3h_{l_*}) h_{l_*}^2 \norm[-\infty,{[x_{i_{l_*}},x_{i_{l_*}+2}]}]{f} +  \hM_{l_*}
+	\frac{1} 8 \fC(3h_{l_+}) h_{l_+}^2 \norm[-\infty,{[x_{i_{l_+}},x_{i_{l_+}+2}]}]{f} +  \hM_{l_*}
 	-  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
 	\end{gather*}
 	where $ \hM_{l}$ denotes the value of $\hM$ at iteration $l \in \natzero$.  By the
@@ -1008,8 +1006,8 @@ solution, $\min_{a \le x \le b} f(x) $.
 
 Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
 Figure \ref{f3foolplot}(a), but this time with the sampling points used for
-minimization. Here $M(-f_1,0.02)$ uses only $24$ points, whereas
-$A(-f_1,0.02)$ uses $59$ points. This is because $-f_1$ does not need to be
+minimization. Here $M(-f_1,0.02)$ uses only $46$ points, whereas
+$A(-f_1,0.02)$ uses $65$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
 \subsection{The Computational Cost of $M$} \label{subsec:optcost}
@@ -1034,7 +1032,7 @@ Let
 \end{equation}
 where $L(x)$ is defined above in \eqref{eqn:defoflx},
 \begin{multline}\label{eqn:defoflt1x}
-\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3h_l\right) + 1
+\chL(x) = \min \Biggl\{ l \in \mathbb{N}_0 :  \biggl\{ \biggl[\frac 18 \fC\left(3h_l\right) + 2
 \biggr]   \norm[\tilde{I}_{x,l}]{f''} + \frac18\norm[{I_{x_*,l}}]{f''} \biggr\} h_{l}^2 \\ \qquad
 \qquad +  2 \abs{f'(x)} h_{l} + [f(x_*) - f(x)] \le 0 \Biggr\},
 \end{multline}
@@ -1099,7 +1097,7 @@ definition of $\herr_{i+2,+}$. As was argued earlier, $[x_{i-1},x_{i+1}] \in
 under consideration establishes that
 \begin{equation} \label{minfjjm1bd}
 \min\bigl(f(x_{i}),f(x_{i+1}) \bigr)
-\ge f(x) - 2h_{\chL(x)}\abs{f'(x)} - h_{\chL(x)}^2 \norm[\bar{I}_{x,\chL(x)}]{f''} .
+\ge f(x) - 2h_{\chL(x)}\abs{f'(x)} - h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} .
 \end{equation}
 since $\abs{x_i - x} \le \abs{x_{i+1} - x} \le 2h_{\chL(x)}$.
 
@@ -1137,11 +1135,11 @@ that $\tell(x) > \chL(x)$:
 \ref{stagemin1} of Algorithm $M$} \\
 & = \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} + f(x_*) +
 \frac 18 h_{\chL(x)}^2  \norm[{I_{x_*,\chL(x)}}]{f''} + \abstol \\
-& \qquad \qquad - f(x) + 2h_{\chL(x)}\abs{f'(x)} + h_{\chL(x)}^2
-\norm[\bar{I}_{x,\chL(x)}]{f''} \\
+& \qquad \qquad - f(x) + 2h_{\chL(x)}\abs{f'(x)} + 2h_{\chL(x)}^2
+\norm[\tilde{I}_{x,\chL(x)}]{f''} \\
 &  \qquad \qquad \qquad  \qquad \text{by \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
 \eqref{Mhatbd}} \\
-& \le \abstol + \biggl\{ \biggl[\frac 18 \fC\left(3 h_{\chL(x)} \right) + 1 \biggr]
+& \le \abstol + \biggl\{ \biggl[\frac 18 \fC\left(3 h_{\chL(x)} \right) + 2 \biggr]
 \norm[\tilde{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x_*,\chL(x)}}]{f''} \biggr\} h_{\chL(x)}^2 \\
 & \qquad \qquad +  2 \abs{f'(x)} h_{\chL(x)} + [f(x_*) - f(x)] \\
 & \le \abstol \qquad \text{by \eqref{eqn:defoflt1x}}.
@@ -1207,7 +1205,7 @@ required by Chebfun.
 \\ (a) & (b)
 \end{tabular}
 \caption{(a) The approximation errors for $f_1(x)$, $x \in [-1,1]$, with $-c = 0.2=\delta$ 
-using  Chebfun. 
+using  Chebfun with an error tolerance of $10^{-12}$. 
 (b) An empirical distribution function of performance ratios based on 1000
 simulations for each test function in \eqref{eq:testfunctions}:
 \funappxg{} time $/$ Chebfun time (solid), \funappxg{} \# of samples $/$
@@ -1386,7 +1384,7 @@ tolerance $\abstol$, $A$ requires $n$ function values. For any positive, $c$,
 define $A^*(f,\abstol) = A(cf,\abstol)/c$ for all $f \in \cc$. Then $\norm{f -
 A^*(f,\abstol)} = \norm{cf - A(cf,\abstol)}/c\le \abstol/c$ for all $f \in \cc$
 since $cf$ is also in $\cc$. Thus, $A^*$ satisfies \eqref{appxprob} for error
-tolerance $\abstol/c$, using the same number of function evaluations as $A$.
+tolerance $\abstol/c$, using the same number of function values as $A$.
 Making $c$ arbitrarily large establishes the existence of a nonadaptive
 algorithm that solves \eqref{appxprob} exactly.
 
