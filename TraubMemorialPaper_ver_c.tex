@@ -160,8 +160,8 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Our goal is to solve univariate function approximation and global minimization
-problems by adaptive algorithms. For some suitable set, $\cc$, of continuously
-differentiable, real-valued functions defined on a finite interval $[a,b]$, we
+problems by adaptive algorithms. We prescribe a suitable set, $\cc$, of continuously
+differentiable, real-valued functions defined on a finite interval $[a,b]$.  Then, we
 construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M:
 (\cc,(0,\infty)) \to \reals$ such that for any $f \in \cc$ and any error
 tolerance $\abstol > 0$, \begin{gather} \norm{f - A(f,\abstol)} \le \abstol,
@@ -265,7 +265,7 @@ built-in \texttt{fminbnd} \citep{MAT9.1}.
 
 Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
-HicJim16a, Jia16a, JimHic16a,Ton14a}. In all those previous cases, a
+HicJim16a, Jia16a, JimHic16a,Ton14a}. In all those cases, a
 cone, $\cc$, of input functions is identified for which the adaptive algorithms
 succeed, just like is done here. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
 HicEtal14a,Ton14a}, the definition of $\cc$ here does not
@@ -279,9 +279,8 @@ advantage over nonadaption. For linear problems, such as~\eqref{appxprob},
 adaption has no advantage if the set of functions being considered is symmetric
 and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
 5.2.1]{TraWasWoz88}, \cite{Woz88a}.
-The cone $\cc$ defined for our approximation
-problem
-\eqref{appxprob} is symmetric, but not convex. Plaskota et al.~\cite{PlaEtal08a}
+The cone $\cc$ defined for our approximation problem
+\eqref{appxprob} is symmetric, but \emph{not} convex. Plaskota et al.~\cite{PlaEtal08a}
 have developed adaptive algorithms for functions with singularities. Our
 algorithms are not designed for such functions. Rather they are
 designed to be efficient when the second derivative is large in a small part of
@@ -324,7 +323,7 @@ $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
 \end{align}
 For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
 zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
-$(\alpha,\beta)$, i.e., there exists $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
+$(\alpha,\beta)$.  Specifically, there exist $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
 \beta)/2 < \xi_+ < \beta$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. Thus,
 \begin{align} \label{NDDbdm}
      \norm[-\infty,{[\alpha,\beta]}]{f''}
@@ -505,8 +504,7 @@ For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 >
 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}. Let $f:[a,b] \to
 \reals$ and $\abstol >0$ be user inputs. Define the number of subintervals,
 $n=n_{\ninit}$, and the iteration number, $l = 0$. Define the initial partition
-of equally spaced points, $x_{0:n}$, and the index set of subintervals for
-computing the quantities $\oerr_i$ to bound the spline error:
+of equally spaced points, $x_{0:n}$, and an index set of subintervals:
 \[
 h_0 =\frac{b-a}{n}, \quad  x_i=a+ ih_0, \ i \in \zton, \qquad \mathcal{I} = 1\!:\!n-1.
 \]
@@ -559,7 +557,7 @@ imply that $x_i-x_{i-1} = x_{i+1} - x_i = h_l = 2^{-l}h_0$, and
 We show that when these $\oerr_i$ get small enough, Algorithm $A$ terminates 
 successfully.
 
-Now, for all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$
+For all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$
 containing $x$ that \emph{might} arise at some stage in Algorithm $A$ as $[x_{i_l-1},
 x_{i_l}]$ for some $i_l \in \oton$. (The dependence of $n$ on $l$ is
 suppressed.) Specifically this interval is defined for all $ x \in [a,b]$ and $l
@@ -587,7 +585,7 @@ There also exists an $l_+ \le \ell(x)$ such that $I_{x,l_+} =[x_{i_{l_+}-1},x_{i
 \le \oerr_{i_{l_+}+1} \le \abstol .
 \end{equation}
 \end{subequations}
-Noting that $x_{i_{l_-}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_+}} $, we may
+Noting that $x_{i_{l_{\pm}}-1} \le x_{i_{\ell(x) -1}} < x_{i_{\ell(x)}} \le x_{i_{l_{\pm}}} $, we may
 conclude that
 \begin{align*}
    & \norm[I_{x,\ell(x)}]{f - S(f)} \le \frac{1}{8}h_{\ell(x)}^2\norm[I_{x,\ell(x)}]{f''} \qquad
@@ -709,8 +707,8 @@ computational cost is
 \begin{align}
 \cost(A,f,\abstol)
 &\lesssim \int_a^b \sqrt{\frac{\fC\left(0\right)   |f''(x)|}{2\abstol}} \, \dif x +1
-=\sqrt{\frac{\fC(0) \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
-& \le (b-a)\sqrt{\frac{\fC(0) \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad
+=\sqrt{\frac{\fC_0 \norm[\frac 12]{f''}}{2\abstol}} +1 \label{costbdapprox} \\
+& \le (b-a)\sqrt{\frac{\fC_0 \norm{f''}}{2\abstol}} +1 \label{costbdinf}  \qquad
 \text{by \eqref{halflessinf} below}.
 \end{align}
 
@@ -790,8 +788,10 @@ behavior as the computational cost of Algorithm $A$.
 		\item  If $A^*$ solves~\eqref{appxprob} for all $f \in \cc$, then for any $\sigma, \abstol >0$,
 		\begin{subequations} \label{lowbdC}
 		\begin{gather}
-		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge \sqrt{\frac{(\fC(0)-1)\sigma}{16(\fC(0)+1)\abstol}} -1, \label{lowbdChalf}\\
-		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge (b-a)\sqrt{\frac{(\fC(0)-1)\sigma}{16(\fC(0)+1)\abstol}} -1 \label{lowbdCinf}.
+		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge 
+		\sqrt{\frac{(\fC_0-1)\sigma}{16(\fC_0+1)\abstol}} -1, \label{lowbdChalf}\\
+		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge 
+		(b-a)\sqrt{\frac{(\fC_0-1)\sigma}{16(\fC_0+1)\abstol}} -1 \label{lowbdCinf}.
 		\end{gather}
 		\end{subequations}
 		
@@ -815,10 +815,10 @@ bound is significantly altered by restricting the
 set of input functions from all of $ \cw^{2,\infty}$ to just the cone
 $\cc$. Also note that the
 conclusions of this theorem hold whether or not $\sigma$ is an input to the
-algorithm $A^*$. For our algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the
+algorithm $A^*$. For our Algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the
 computational cost of Algorithm $A$ is asymptotically
 the same as the computational cost of the best possible algorithm, $A^*$ in
-\eqref{lowbdC} as $\abstol \to 0$.
+\eqref{lowbdC}, as $\abstol \to 0$.
 
 \begin{proof}
 	These lower bounds are proved by constructing fooling functions for which
@@ -838,7 +838,8 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	\gamma f_1$ share the same values at the data sites, then they must share the
 	same approximation: $A^*(\pm \gamma f_1,\abstol) = A^*(0,\abstol)$. Moreover,
 	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_1,\abstol) = n$. Since the
-	approximations of $0, -f_1$, and $f_1$ are identical, this implies that $\gamma$
+	approximations of $0, -\gamma f_1$, and $\gamma f_1$ are identical, this implies that 
+	$\gamma$
 	must be no greater than $\abstol$:
 	\begin{align*}
 	\abstol  &\ge \max(\norm{\gamma f_1 - A^*(\gamma f_1,\abstol)},
@@ -860,7 +861,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	establishes~\eqref{lowbdWinf}.
 
 
-	Now we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
+	Now, we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
 	\begin{equation}
 	\label{assumpfzero}
@@ -871,17 +872,18 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	approximates $\gamma f_0$ for any  $\gamma\ge0$.
 	
 	Consider the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
-	used to compute $A^*(0,\abstol)$, and we again allow the possibility of $a = x_0=x_1$
+	used to compute $A^*(\gamma f_0,\abstol)$, and we again allow the possibility of $a 
+	= x_0=x_1$
 	and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
 	\ge (b-a)/(n+1)$, and let $f_1$ be defined as in~\eqref{f3def} with $c =
 	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
 	functions:
 	\begin{gather*}
-	f_{\pm} = f_0 \pm \tgamma f_1, \qquad \tgamma =\frac{\fC(0)-1}{\fC(0)+1}\delta^2,
+	f_{\pm} = f_0 \pm \tgamma f_1, \qquad \tgamma =\frac{\fC_0-1}{\fC_0+1}\delta^2,
 	\qquad
-	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC(0)}{\fC(0)+1} , \\
-\norm[-\infty,{[\alpha,\beta]}]{f''_{\pm}} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC(0)+1}
-= \frac{\norm{f''_{\pm}} }{\fC(0)} \qquad \forall [\alpha,\beta] \subseteq [a,b].
+	\norm{f''_{\pm}} = 1+\frac{\tgamma}{\delta^2} = \frac{2\fC_0}{\fC_0+1} , \\
+\norm[-\infty,{[\alpha,\beta]}]{f''_{\pm}} \ge 1-\frac{\tgamma}{\delta^2} = \frac{2}{\fC_0+1}
+= \frac{\norm{f''_{\pm}} }{\fC_0} \qquad \forall [\alpha,\beta] \subseteq [a,b].
 	\end{gather*}
 	The above calculations show that $\gamma f_{\pm} \in \cc$ for all real
 	$\gamma$. Moreover, the definition of $f_{\pm}$ ensures that $A^*(\gamma f_0) =
@@ -902,11 +904,11 @@ than	$\abstol$:
 	& = \begin{Bmatrix} \displaystyle
 	\frac{\norm[\frac 12]{\gamma f_0''}}{(b-a)^2}, \\
 	\norm{\gamma f_0''}
-	\end{Bmatrix}  \cdot \frac{\fC(0)-1}{\fC(0)+1} \delta^2
+	\end{Bmatrix}  \cdot \frac{\fC_0-1}{\fC_0+1} \delta^2
 	 = \begin{Bmatrix} \displaystyle
 	\norm[\frac 12]{\gamma f_0''}, \\
 	(b-a)^2\norm{\gamma f_0''}
-	\end{Bmatrix}  \cdot \frac{\fC(0)-1}{16(\fC(0)+1)(n+1)^2}
+	\end{Bmatrix}  \cdot \frac{\fC_0-1}{16(\fC_0+1)(n+1)^2}
 	\end{align*}
 	Substituting $\norm[\frac12]{\gamma f_0''} = \sigma$ in the top inequality and
 	$\norm{\gamma f_0''} = \sigma$ in the bottom inequality, and then solving for
