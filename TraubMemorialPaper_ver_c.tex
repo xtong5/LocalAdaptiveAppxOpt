@@ -121,6 +121,7 @@
 \address{Department of Applied Mathematics, Illinois Institute of Technology,
 RE 208, 10 West 32$^{\text{nd}}$ Street, Chicago, Illinois, 60616,
 USA}
+\ead{hickernell@iit.edu}
 \author{Xin Tong}
 \address{Department of Mathematics, Statistics, and Computer Science, University of 
 Illinois at Chicago, Room 322 SEO, 851 S. Morgan Street, Chicago, Illinois, 60607,
@@ -627,9 +628,9 @@ described above. Note that $-f_1$ is sampled less densely where it is flat.
 	\caption{(a) The nonuniform sampling density of Algorithm $A$ for input function
 		$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$3$ iterations
 		and~$65$ points are used to meet the error tolerance 
-		of~$0.02$.
+		of~$0.02$.  We have chosen $n_{\ninit} = 20$ and $\fC_0 = 10$.
 		(b) The same situation as in (a), but now
-		with Algorithm $M$. Still~$3$ iterations but only~$46$ nonuniform
+		with Algorithm $M$. Still~$3$ iterations but only~$43$ nonuniform
 		sampling points are needed to obtain the minimum of $-f_1$. 	
 		\label{f3foolplot}}
 \end{figure}
@@ -1010,7 +1011,7 @@ solution, $\min_{a \le x \le b} f(x) $.
 
 Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
 Figure \ref{f3foolplot}(a), but this time with the sampling points used for
-minimization. Here $M(-f_1,0.02)$ uses only $46$ points, whereas
+minimization. Here $M(-f_1,0.02)$ uses only $43$ points, whereas
 $A(-f_1,0.02)$ uses $65$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
@@ -1248,57 +1249,54 @@ no greater than the error tolerance.
 \begin{table}[bt]
 	\centering
 	\caption{Comparison of number of sample points, computational time,  and success
-		rates of \funappxg (local) %, \funappxglobalg (global),
+		rates of \funappxg  %, \funappxglobalg (global),
 		and Chebfun in upper table;
 		\funming, \fminbnd, and Chebfun's \texttt{min} in lower table.
 		%We also report the number of warnings in parentheses issued by the software.
 		This table can be conditionally reproduced by
-		\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in GAIL.}
-	\label{tab:localVsGlobalVsChebfun}
+		\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in 
+		GAIL.\label{tab:localVsGlobalVsChebfun}}
+	\medskip
 	{\footnotesize
-		\setlength{\tabcolsep}{0.38em} % set table width
-		\begin{tabular}{crrrrrrrrrrrrrrrrrr}	
-			\hline	
-			&    \multicolumn{6}{c}{\bf Mean Points}   & \multicolumn{6}{c}{\bf Mean Time
-				Used}  & \multicolumn{6}{c}{\bf Success (\%)}
-			\\ \hline  functions &  \multicolumn{3}{r}{\funappxg}  &    
-			\multicolumn{3}{r}{Chebfun}
-			&   \multicolumn{3}{r}{\funappxg}   &  \multicolumn{3}{r}{Chebfun} &
-			\multicolumn{3}{r}{\funappxg}  &   \multicolumn{3}{r}{Chebfun}
+		\setlength{\tabcolsep}{0.35em} % set table width
+		\begin{tabular}{crrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}	
+			\toprule	
+			& \multicolumn{7}{c}{\bf Mean \# Samples}   
+			& \multicolumn{7}{c}{\bf Mean Time Used}  
+			& \multicolumn{7}{c}{\bf Success (\%)}
+			\\ \midrule    
+			& 
+			\multicolumn{3}{c}{\funappxg}  & \multicolumn{3}{c}{Chebfun} &&  
+			\multicolumn{3}{c}{\funappxg}  &  \multicolumn{3}{c}{Chebfun} &&
+			\multicolumn{3}{c}{\funappxg}  &   \multicolumn{3}{c}{Chebfun}
 			\\ \toprule
-			$f_1$   &   \multicolumn{3}{r}{6557}       &   \multicolumn{3}{r}{116}       &
-			\multicolumn{3}{r}{0.0030}       &   \multicolumn{3}{r}{0.0216}       &
-			\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{0}
-			\\        $f_2$   & \multicolumn{3}{r}{5017}       &   \multicolumn{3}{r}{43}       &
-			\multicolumn{3}{r}{0.0032 }       &   \multicolumn{3}{r}{0.0063}       &
-			\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3}
-			\\        $f_3$   & \multicolumn{3}{r}{15698}       &   \multicolumn{3}{r}{22}       &
-			\multicolumn{3}{r}{0.0050}       &   \multicolumn{3}{r}{0.0039}       &
-			\multicolumn{3}{r}{100}       &   \multicolumn{3}{r}{3 }	
-			\\ \hline
-			functions &  \multicolumn{2}{c}{\funming} &  \multicolumn{2}{c}{\fminbnd}  &
-			\multicolumn{2}{c}{\texttt{min}}
-			&  \multicolumn{2}{c}{\funming}  &  \multicolumn{2}{c}{\fminbnd }  &
-			\multicolumn{2}{c}{\texttt{min} }  &  \multicolumn{2}{c}{\funming} &
-			\multicolumn{2}{c}{\fminbnd} & \multicolumn{2}{c}{\texttt{min}}
+			$f_1$  &&
+			6557 &&& 116  &&&&	0.0030  &&& 0.0216  &&&& 100  &&& 0
+			\\        
+			$f_2$  && 
+			5017  &&&  43 &&&&  0.0032  &&& 0.0063 &&&& 100  &&& 3
+			\\        
+			$f_3$  && 
+			15698 &&& 22  &&&& 0.0050  &&& 0.0039  &&&& 100  &&&  3 	
+			\\ \bottomrule
+			 & 
+			\multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &
+			\multicolumn{1}{c}{\texttt{min}} &
+			\multicolumn{3}{c}{\funming}  &  \multicolumn{3}{c}{\fminbnd }  &
+			\multicolumn{1}{c}{\texttt{min} }  &  
+			\multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} & 
+			\multicolumn{1}{c}{\texttt{min}}
 			\\ \toprule
-			$-f_1$   &  \multicolumn{2}{c}{318} &  \multicolumn{2}{c}{8} &
-			\multicolumn{2}{c}{116} &  \multicolumn{2}{c}{0.0025} &
-			\multicolumn{2}{c}{0.0007} &  \multicolumn{2}{c}{0.0272} &
-			\multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100 } &  \multicolumn{2}{c}{14}
-			\\ $\phantom{-}f_2$   & \multicolumn{2}{c}{233} &  \multicolumn{2}{c}{22} &
-			\multicolumn{2}{c}{43} &  \multicolumn{2}{c}{0.0024} &  
-			\multicolumn{2}{c}{0.0010} &
-			\multicolumn{2}{c}{0.0070} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{27} 
-			&
-			\multicolumn{2}{c}{60}
-			\\ $\phantom{-}f_3$   &  \multicolumn{2}{c}{316} &  \multicolumn{2}{c}{9} &
-			\multicolumn{2}{c}{22 } &  \multicolumn{2}{c}{0.0026} &  
-			\multicolumn{2}{c}{0.0008} &
-			\multicolumn{2}{c}{0.0039} &  \multicolumn{2}{c}{100} &  \multicolumn{2}{c}{100} 
-			&
-			\multicolumn{2}{c}{35}
-			\\ \hline
+			$-f_1$   &&  
+			318 &&&  8 && 116 &&  0.0025 &&& 0.0007 && 0.0272 && 
+			100 &&& 100 && 14
+			\\ $\phantom{-}f_2$ && 
+			233 &&& 22 && 43 && 0.0024 &&& 0.0010 && 0.0070 &&  
+			100 &&& 27 && 60
+			\\ $\phantom{-}f_3$ &&  
+			316 &&& 9 && 22 && 0.0026 &&& 0.0008 && 0.0039 &&  
+			100 &&&  100 && 35
+			\\ \bottomrule
 		\end{tabular}
 	}
 \end{table}
@@ -1316,7 +1314,8 @@ rarely approximates the test functions satisfactorily.
 
 
 Similar simulation tests have been run to compare our \funming, MATLAB's \fminbnd, and
-Chebfun's \texttt{min}. The results are summarized in the lower half of
+Chebfun's \texttt{min}, but this time $n_{\ninit} = 20$ for \funming. The results are 
+summarized in the lower half of
 Table~\ref{tab:localVsGlobalVsChebfun}. Our new \funming{} achieves 100\%
 success for all families of test functions with substantially fewer sampling
 points and run time than \funappxg. This is because \funming does not need to
@@ -1340,7 +1339,7 @@ Adaptive and automatic algorithms are popular because they require only a
 black-box function algorithm and an error tolerance. Such algorithms exist in a
 variety of software packages. We have highlighted those found in MATLAB and in
 the Chebfun toolbox because they are some of the best. However, as we have shown
-by numerical example, these algorithms may fail, and without warning. Moreover,
+by numerical example, these algorithms may fail. Moreover,
 there is no theory to provide necessary conditions for failure, or equivalently,
 sufficient conditions for success.
 
