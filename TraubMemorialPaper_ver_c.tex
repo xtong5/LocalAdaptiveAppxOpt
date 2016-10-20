@@ -123,7 +123,7 @@ RE 208, 10 West 32$^{\text{nd}}$ Street, Chicago, Illinois, 60616,
 USA}
 \ead{hickernell@iit.edu}
 \author{Xin Tong}
-\address{Department of Mathematics, Statistics, and Computer Science, University of 
+\address{Department of Mathematics, Statistics, and Computer Science, University of
 Illinois at Chicago, Room 322 SEO, 851 S. Morgan Street, Chicago, Illinois, 60607,
 USA}
 
@@ -134,7 +134,7 @@ Most commonly used \emph{adaptive} algorithms for function approximation and glo
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
-$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the 
+$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
 \linebreak[4]
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function $f$ on a
@@ -166,12 +166,12 @@ problems by adaptive algorithms. We prescribe a suitable set, $\cc$, of continuo
 differentiable, real-valued functions defined on a finite interval $[a,b]$.  Then, we
 construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M:
 (\cc,(0,\infty)) \to \reals$ such that for any $f \in \cc$ and any error
-tolerance $\abstol > 0$, 
+tolerance $\abstol > 0$,
 \begin{gather} \norm{f - A(f,\abstol)} \le \abstol,
-\tag{APP} \label{appxprob} \\ 
+\tag{APP} \label{appxprob} \\
 0 \le M(f,\abstol) - \min_{a \le x \le b} f(x) \le
-\abstol. \tag{MIN} \label{optprob} 
-\end{gather} 
+\abstol. \tag{MIN} \label{optprob}
+\end{gather}
 Here, $\norm{\cdot}$ denotes the
 $L^{\infty}$-norm on $[a,b]$. The algorithms $A$ and $M$ depend only on function
 values.
@@ -208,7 +208,7 @@ interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on
 input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
 \norm{f''} < \infty \}$.
 
-Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$, $i \in 
+Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$, $i \in
 1\!:\!n$,
 to make use of~\eqref{appxerrbda}. A nonadaptive algorithm might assume that
 $\norm{f''} \le \sigma$, for some known~$\sigma$, and proceed to choose $n =
@@ -296,8 +296,8 @@ Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for
 approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all
 $x \in [a,b]$. His algorithm relies on divided differences, like ours do. His
 error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is
-analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.  Horn \cite{Hor06a} 
-has developed an optimization algorithm for Lipschitz continuous functions that does not 
+analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.  Horn \cite{Hor06a}
+has developed an optimization algorithm for Lipschitz continuous functions that does not
 require knowledge of the Lipschitz constant.
 
 There is a significant literature on theoretically justified algorithms based on
@@ -331,7 +331,7 @@ For any $f \in \cw^{2,\infty}$, the function $f - p$ has at least three distinct
 zeros on $[\alpha,\beta]$, so $f' - p'$ has at least two distinct zeros on
 $(\alpha,\beta)$.  Specifically, there exist $\xi_\pm$ with $\alpha < \xi_- < (\alpha +
 \beta)/2 < \xi_+ < \beta$ with $f'(\xi_\pm) - p'(\xi_{\pm}) = 0$. Thus,
-\begin{align} 
+\begin{align}
      \norm[-\infty,{[\alpha,\beta]}]{f''}
    & := \inf_{\alpha \le \eta < \zeta \le \beta} \abs{\frac{f'(\zeta) - f'(\eta)}{\zeta - \eta}}
    \nonumber
@@ -351,7 +351,7 @@ drastically greater than the maximum of $\norm[-\infty,{[\beta - h_-,
 \alpha$.
 
 The cone $\cc$ is defined in terms of two numbers: an integer $n_{\ninit} \ge 5$
-and a  number $\fC_0 \ge 1$. Let 
+and a  number $\fC_0 \ge 1$. Let
 \begin{equation}
 \label{hCdef}
 \fh := \frac{3(b-a)}{n_{\ninit}-1}, \qquad \fC(h) := \frac{\fC_0 \fh}{\fh - h}
@@ -385,28 +385,28 @@ Algorithms $A$ and $M$. The parameter $\fC_0$ represents an upper bound on
  Increasing either $n_{\ninit}$ or $\fC_0$ expands the cone to
 include more functions.
 
-Figure \ref{fig:ConeDef} depicts the second derivative of a typical function in 
-$\cw^{2,\infty}$.  In this figure 
-$\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = \abs{f''(\beta - h_-)} = 0$, which means that the 
-behavior of $f''$ to the left of $[\alpha,\beta]$ cannot help provide an upper bound on $ 
-\norm[{[\alpha,\beta]}]{f''}$.  However, $\norm[-\infty,{[\beta,\alpha+h_+]}]{f''} = 
-\abs{f''(\alpha + h_+)} > 0$, so this $f$ may lie in the cone $\cc$ provided that 
-$\fC(h_+)$ is large enough.  The possibility of points in $[a,b]$ where $f''$ vanishes 
-motivates the definition of $B(f'',\alpha,\beta,h_-,h_+)$ to depend on the behavior of $f''$ 
-to both the left and right of $[\alpha,\beta]$.  One may note that if $f''$ vanishes at two 
-points that are close to each other or at a point that is close to either $a$ or $b$, then 
-$f$ will lie outside $\cc$.  The definition of ``close'' depends on 
+Figure \ref{fig:ConeDef} depicts the second derivative of a typical function in
+$\cw^{2,\infty}$.  In this figure
+$\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = \abs{f''(\beta - h_-)} = 0$, which means that the
+behavior of $f''$ to the left of $[\alpha,\beta]$ cannot help provide an upper bound on $
+\norm[{[\alpha,\beta]}]{f''}$.  However, $\norm[-\infty,{[\beta,\alpha+h_+]}]{f''} =
+\abs{f''(\alpha + h_+)} > 0$, so this $f$ may lie in the cone $\cc$ provided that
+$\fC(h_+)$ is large enough.  The possibility of points in $[a,b]$ where $f''$ vanishes
+motivates the definition of $B(f'',\alpha,\beta,h_-,h_+)$ to depend on the behavior of $f''$
+to both the left and right of $[\alpha,\beta]$.  One may note that if $f''$ vanishes at two
+points that are close to each other or at a point that is close to either $a$ or $b$, then
+$f$ will lie outside $\cc$.  The definition of ``close'' depends on
 $(b-a)/n_{\ninit}$.
 
 \begin{figure}
 	\centering
 	\includegraphics[width = 8 cm]{figure/ConeDefineFig.eps}
-	\caption{For some sample $f$, a plot of $\abs{f''(x)}$ (solid), 
-	$\norm[{[\alpha,\beta]}]{f''}$ (dashed), 
+	\caption{For some sample $f$, a plot of $\abs{f''(x)}$ (solid),
+	$\norm[{[\alpha,\beta]}]{f''}$ (dashed),
    $\norm[-\infty,{[\beta - h_-,\alpha]}]{f''}$ and $\norm[-\infty,{[\beta,
-    \alpha+h_+]}]{f''}$ (dotted), and 
-    $2\abs{D(f,\beta - h_-,\alpha)}$ and $2\abs{D(f,\beta,\alpha+h_+)}$ (dot-dashed).  
-    This figure and others in this article may be reproduced by 
+    \alpha+h_+]}]{f''}$ (dotted), and
+    $2\abs{D(f,\beta - h_-,\alpha)}$ and $2\abs{D(f,\beta,\alpha+h_+)}$ (dot-dashed).
+    This figure and others in this article may be reproduced by
     \texttt{LocallyAdaptivePaperFigs.m} in GAIL \cite{ChoEtal15a}.
     \label{fig:ConeDef}}
 \end{figure}
@@ -444,7 +444,7 @@ for $-c=\delta = 0.2$.
 \end{tabular}
 \caption{(a) The example $f_1$ with $-c=\delta = 0.2$ and its piecewise constant
 second derivative.
-(b) The fooling functions $\pm f_1$ used to prove~\eqref{lowbdW} (with different choices 
+(b) The fooling functions $\pm f_1$ used to prove~\eqref{lowbdW} (with different choices
 of $c$ and $\delta$). The case
 $n=15$ is shown. \label{f3fig}}
 \end{figure}
@@ -486,7 +486,7 @@ it follows that
 < \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
 \end{gather*}
 This violates the definition of $\cc$. This example illustrates how the choice
-of $n_{\ninit}$, or equivalently $\fh$, influences the width of a spiky function and 
+of $n_{\ninit}$, or equivalently $\fh$, influences the width of a spiky function and
 determines whether it lies in $\cc$.
 
 
@@ -560,7 +560,7 @@ imply that $x_i-x_{i-1} = x_{i+1} - x_i = h_l = 2^{-l}h_0$, and
 	& \ge \frac{1} 8 \fC(3h_l) h_l^2 \norm[-\infty,{[x_{i-1},x_{i+1}]}]{f''}
 	\qquad \text{by \eqref{NDDbdm}}. \label{oerrlobd}
 	\end{align}
-We show that when these $\oerr_i$ get small enough, Algorithm $A$ terminates 
+We show that when these $\oerr_i$ get small enough, Algorithm $A$ terminates
 successfully.
 
 For all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$
@@ -627,7 +627,7 @@ described above. Note that $-f_1$ is sampled less densely where it is flat.
 	\end{tabular}
 	\caption{(a) The nonuniform sampling density of Algorithm $A$ for input function
 		$-f_1$ defined by $\delta = 0.3$ and $c = -0.2$. A total of~$3$ iterations
-		and~$65$ points are used to meet the error tolerance 
+		and~$65$ points are used to meet the error tolerance
 		of~$0.02$.  We have chosen $n_{\ninit} = 20$ and $\fC_0 = 10$.
 		(b) The same situation as in (a), but now
 		with Algorithm $M$. Still~$3$ iterations but only~$43$ nonuniform
@@ -679,7 +679,7 @@ bound on the
 computational cost of Algorithm $A$.
 
 \begin{theorem}\label{thm:cost}
-Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by 
+Let $\cost(A,f,\abstol)$ denote the number of functional evaluations required by
 $A(f,\abstol)$. This computational cost has the following upper bound:
 \begin{equation*}
 \cost(A,f,\abstol) \le \frac{1}{h_0}\int_a^b 2^{L(x)} \, \dif x +1
@@ -794,9 +794,9 @@ behavior as the computational cost of Algorithm $A$.
 		\item  If $A^*$ solves~\eqref{appxprob} for all $f \in \cc$, then for any $\sigma, \abstol >0$,
 		\begin{subequations} \label{lowbdC}
 		\begin{gather}
-		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge 
+		\sup_{f \in \cc : \norm[\frac12]{f''} \le\sigma } \cost(A^*,f,\abstol) \ge
 		\sqrt{\frac{(\fC_0-1)\sigma}{16(\fC_0+1)\abstol}} -1, \label{lowbdChalf}\\
-		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge 
+		\sup_{f \in \cc : \norm{f''} \le\sigma } \cost(A^*,f,\abstol) \ge
 		(b-a)\sqrt{\frac{(\fC_0-1)\sigma}{16(\fC_0+1)\abstol}} -1 \label{lowbdCinf}.
 		\end{gather}
 		\end{subequations}
@@ -837,14 +837,14 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	used to compute $A^*(0,\abstol)$.  We now allow the possibility of $a = x_0=x_1$
 	and $x_n = x_{n+1} = b$. Choose any $j=1, \ldots, n+1$ with
 	$x_j-x_{j-1} \ge (b-a)/(n+1)$. Let $f_1$ be defined as in~\eqref{f3def} with $c
-	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. 
+	= (x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$.
 	
 	For any real $\gamma$, it follows that $\gamma f_1(x_i)=0$ for $i=0, \ldots,
 	n+1$. Figure \ref{f3fig}(b) illustrates this situation. Since $0$ and $\pm
 	\gamma f_1$ share the same values at the data sites, then they must share the
 	same approximation: $A^*(\pm \gamma f_1,\abstol) = A^*(0,\abstol)$. Moreover,
 	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_1,\abstol) = n$. Since the
-	approximations of $0, -\gamma f_1$, and $\gamma f_1$ are identical, this implies that 
+	approximations of $0, -\gamma f_1$, and $\gamma f_1$ are identical, this implies that
 	$\gamma$
 	must be no greater than $\abstol$:
 	\begin{align*}
@@ -860,7 +860,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	=  \frac{(b-a)^2 \norm{\gamma f_1''}}{16(n+1)^2},
 	\end{cases}
 	\end{align*}
-	since $\norm{f_1''} =  \delta^{-2}$,  and $\norm[\frac 12]{f_1''} = 16$. The top inequality 
+	since $\norm{f_1''} =  \delta^{-2}$,  and $\norm[\frac 12]{f_1''} = 16$. The top inequality
 	cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma
 	f_1''}$ is small enough, which establishes ~\eqref{lowbdWhalf}. Solving the
 	bottom inequality for $n$ in terms of $\sigma = \norm{\gamma f_1''}$
@@ -873,11 +873,11 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''}
 	= (b -a)^2  \quad \norm{f_0''} = 1.
 	\end{equation*}
-	Since $f_0''$ is constant, it follows that $f_0 \in \cc$,  and $A^*$ successfully 
+	Since $f_0''$ is constant, it follows that $f_0 \in \cc$,  and $A^*$ successfully
 	approximates $\gamma f_0$ for any  $\gamma\ge0$.
 	
 	Consider the partition $x_{0:n+1}$, where $x_{1:n}$ are the data sites
-	used to compute $A^*(\gamma f_0,\abstol)$, and we again allow the possibility of $a 
+	used to compute $A^*(\gamma f_0,\abstol)$, and we again allow the possibility of $a
 	= x_0=x_1$
 	and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
 	\ge (b-a)/(n+1)$, and let $f_1$ be defined as in~\eqref{f3def} with $c =
@@ -895,7 +895,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	A^*(\gamma f_{\pm})$, and $\cost(A^*,\gamma f_0) = \cost(A^*,\gamma f_{\pm}) =
 	n$.
 	
-Analogously to the argument above, we show that $\gamma\tgamma$ must be no larger 
+Analogously to the argument above, we show that $\gamma\tgamma$ must be no larger
 than	$\abstol$:
 	\begin{align*}
 	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},
@@ -946,7 +946,7 @@ x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{+} =  2\!:\!n-1, \quad \ci_{-}
 	
 	\begin{enumerate}[\em Step 1.]
 		
-		\item \label{stagemin1} \emph{Check for convergence.} 
+		\item \label{stagemin1} \emph{Check for convergence.}
 		Compute $\oerr_i $ for all $i \in \ci_{\pm}$ according to \eqref{oerrdef}. Let
 		$\widetilde{\mathcal{I}}_{s} = \left\{i \in \mathcal{I}_{s}: \oerr_i
 		> \abstol \right\}$.  Next compute
@@ -986,8 +986,8 @@ cone $\cc$ defined in~\eqref{conedef}.
 	we give the highlights.     We use the notation of $I_{x,l}$ introduced in \eqref{Ixldef}
 	and analogously define $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in
 	Algorithm $M$ containing $x$ when the algorithm terminates.   For a fixed $x \in
-	[a,b]$ we argue as in the proof of Theorem \ref{thm:algAworks} that there exist 
-	$l_{\pm} \le l_{*} \le \ell(x)$ such that $I_{x,l_*} =[x_{i_{l_*}-1},x_{i_{l_*}}]$, 
+	[a,b]$ we argue as in the proof of Theorem \ref{thm:algAworks} that there exist
+	$l_{\pm} \le l_{*} \le \ell(x)$ such that $I_{x,l_*} =[x_{i_{l_*}-1},x_{i_{l_*}}]$,
 	$x_{i_{l_{\pm}-1}} \le x_{i_{l_*}-1} \le x_{i_{l_*}} \le x_{i_{l_{\pm}}}$, and
 	\begin{gather*}
 	\frac{1} 8 \fC(3h_{l_-}) h_{l_-}^2 \norm[-\infty,{[x_{i_{l_-}-3},x_{i_{l_-}-1}]}]{f} + \hM_{l_*}
@@ -1155,9 +1155,9 @@ This gives a contradiction and completes the proof.
 If $f(x)$ is close to the minimum function value, $f(x_*)$, for $x$ in much of
 $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$  determines the
 computational cost of Algorithm $M$. In this case, the computational cost for
-minimization is similar to that for function approximation. However, if $f$ attains it 
-minimum at only a finite number of points, then for vanishing $\varepsilon$, 
-$\tL(x) = \widehat{L}(x)$ for nearly all $x$, and the computational cost for minimization 
+minimization is similar to that for function approximation. However, if $f$ attains it
+minimum at only a finite number of points, then for vanishing $\varepsilon$,
+$\tL(x) = \widehat{L}(x)$ for nearly all $x$, and the computational cost for minimization
 is significantly smaller than that for function approximation.
 
 
@@ -1188,18 +1188,18 @@ performance of MATLAB's built-in algorithms and the Chebfun toolbox.
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
 terms of a Chebyshev polynomial basis, in principle to machine precision
 ($\approx 10^{-15}$) by default. In this example, we show that it fails to reach
-its intended error tolerance for the function~$f_1$ defined in \eqref{f3def} 
+its intended error tolerance for the function~$f_1$ defined in \eqref{f3def}
 with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
 $f_1$  an input error tolerance $10^{-12}$, and the ``splitting''' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
-discontinuities are detected.  However, Chebfun produces errors greater 
+discontinuities are detected.  However, Chebfun produces errors greater
 than~$10^{-5}$.
 
 In contrast, the pointwise errors of the piecewise linear interpolant produced
 by \funappxg{} are uniformly below the error tolerance. Unfortunately, the time
 taken by \funappxg{} is about $30$ times as long as the time
-required by Chebfun. 
+required by Chebfun.
 
 \begin{figure}[tb]
 \centering
@@ -1209,14 +1209,14 @@ required by Chebfun.
 \includegraphics[width=5.7cm]{figure/funappx_g_test.eps}
 \\ (a) & (b)
 \end{tabular}
-\caption{(a) The approximation errors for $f_1(x)$, $x \in [-1,1]$, with $-c = 0.2=\delta$ 
-using  Chebfun with an error tolerance of $10^{-12}$. 
+\caption{(a) The approximation errors for $f_1(x)$, $x \in [-1,1]$, with $-c = 0.2=\delta$
+using  Chebfun with an error tolerance of $10^{-12}$.
 (b) An empirical distribution function of performance ratios based on 1000
 simulations for each test function in \eqref{eq:testfunctions}:
 \funappxg{} time $/$ Chebfun time (solid), \funappxg{} \# of samples $/$
-Chebfun \# of samples (dashed). 
-This data for this figure is conditionally reproducible 
-by 
+Chebfun \# of samples (dashed).
+This data for this figure is conditionally reproducible
+by
 \texttt{funappx\_g\_test.m} in GAIL.
 \label{f3chebfig}} % \label{fig:testfunctions}
 \end{figure}
@@ -1227,7 +1227,7 @@ by
 %% Example 2
 
 %\begin{exmp}
-Next, we compare our adaptive algorithms with Chebfun  for random samples from the 
+Next, we compare our adaptive algorithms with Chebfun  for random samples from the
 following families of test functions defined on $ [-1, 1]$:
 \begin{subequations} \label{eq:testfunctions}
 \begin{align}
@@ -1241,8 +1241,8 @@ We set $n_{\ninit}= 250$, $\fC (h) =
 and Chebfun are
 used to approximate $1000$ random test functions from each family. For Chebfun we
 override the default tolerance to $10^{-6}$, and switch on the splitting
-feature to allow piecewise Chebyshev polynomials for approximation.  Success  is 
-determined by whether a discrete approximation to the $L^{\infty}$ error is 
+feature to allow piecewise Chebyshev polynomials for approximation.  Success  is
+determined by whether a discrete approximation to the $L^{\infty}$ error is
 no greater than the error tolerance.
 
 %
@@ -1254,47 +1254,47 @@ no greater than the error tolerance.
 		\funming, \fminbnd, and Chebfun's \texttt{min} in lower table.
 		%We also report the number of warnings in parentheses issued by the software.
 		This table can be conditionally reproduced by
-		\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in 
+		\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in
 		GAIL.\label{tab:localVsGlobalVsChebfun}}
 	\medskip
 	{\footnotesize
 		\setlength{\tabcolsep}{0.35em} % set table width
 		\begin{tabular}{crrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}	
 			\toprule	
-			& \multicolumn{7}{c}{\bf Mean \# Samples}   
-			& \multicolumn{7}{c}{\bf Mean Time Used}  
+			& \multicolumn{7}{c}{\bf Mean \# Samples}
+			& \multicolumn{7}{c}{\bf Mean Time Used}
 			& \multicolumn{7}{c}{\bf Success (\%)}
-			\\ \midrule    
-			& 
-			\multicolumn{3}{c}{\funappxg}  & \multicolumn{3}{c}{Chebfun} &&  
+			\\ \midrule
+			&
+			\multicolumn{3}{c}{\funappxg}  & \multicolumn{3}{c}{Chebfun} &&
 			\multicolumn{3}{c}{\funappxg}  &  \multicolumn{3}{c}{Chebfun} &&
 			\multicolumn{3}{c}{\funappxg}  &   \multicolumn{3}{c}{Chebfun}
 			\\ \toprule
 			$f_1$  &&
-			6557 &&& 116  &&&&	0.0030  &&& 0.0216  &&&& 100  &&& 0
-			\\        
-			$f_2$  && 
-			5017  &&&  43 &&&&  0.0032  &&& 0.0063 &&&& 100  &&& 3
-			\\        
-			$f_3$  && 
-			15698 &&& 22  &&&& 0.0050  &&& 0.0039  &&&& 100  &&&  3 	
+			6557 &&& 116  &&&&	0.0029  &&& 0.0205  &&&& 100  &&& 0
+			\\
+			$f_2$  &&
+			5017  &&&  43 &&&&  0.0031  &&& 0.0051 &&&& 100  &&& 3
+			\\
+			$f_3$  &&
+			15698 &&& 22  &&&& 0.0049  &&& 0.0036  &&&& 100  &&&  3 	
 			\\ \bottomrule
-			 & 
+			 &
 			\multicolumn{3}{c}{\funming} &  \multicolumn{3}{c}{\fminbnd}  &
 			\multicolumn{1}{c}{\texttt{min}} &
 			\multicolumn{3}{c}{\funming}  &  \multicolumn{3}{c}{\fminbnd }  &
-			\multicolumn{1}{c}{\texttt{min} }  &  
-			\multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} & 
+			\multicolumn{1}{c}{\texttt{min} }  &
+			\multicolumn{3}{c}{\funming} & \multicolumn{3}{c}{\fminbnd} &
 			\multicolumn{1}{c}{\texttt{min}}
 			\\ \toprule
-			$-f_1$   &&  
-			318 &&&  8 && 116 &&  0.0025 &&& 0.0007 && 0.0272 && 
+			$-f_1$   &&
+			111&&&  8 && 116 &&  0.0029 &&& 0.0006 && 0.0256 &&
 			100 &&& 100 && 14
-			\\ $\phantom{-}f_2$ && 
-			233 &&& 22 && 43 && 0.0024 &&& 0.0010 && 0.0070 &&  
+			\\ $\phantom{-}f_2$ &&
+			48 &&& 22 && 43 && 0.0028 &&& 0.0007 && 0.0063 &&
 			100 &&& 27 && 60
-			\\ $\phantom{-}f_3$ &&  
-			316 &&& 9 && 22 && 0.0026 &&& 0.0008 && 0.0039 &&  
+			\\ $\phantom{-}f_3$ &&
+			108 &&& 9 && 22 && 0.0028 &&& 0.0007 && 0.0037 &&
 			100 &&&  100 && 35
 			\\ \bottomrule
 		\end{tabular}
@@ -1304,17 +1304,17 @@ no greater than the error tolerance.
 
 %
 
-From Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains 
+From Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains
 the correct answer in all cases,
-even for $f_2$, which is outside the cone $\cc$. Because it is a higher order algorithm, 
+even for $f_2$, which is outside the cone $\cc$. Because it is a higher order algorithm,
 Chebfun generally uses substantially fewer number of samples than
 \funappxg, but Chebfun's run time is longer than \funappxg for a
-significant proportion of the cases; see Figure~\ref{f3chebfig}(b). Moreover, Chebfun 
+significant proportion of the cases; see Figure~\ref{f3chebfig}(b). Moreover, Chebfun
 rarely approximates the test functions satisfactorily.
 
 
 Similar simulation tests have been run to compare our \funming, MATLAB's \fminbnd, and
-Chebfun's \texttt{min}, but this time $n_{\ninit} = 20$ for \funming. The results are 
+Chebfun's \texttt{min}, but this time $n_{\ninit} = 20$ for \funming. The results are
 summarized in the lower half of
 Table~\ref{tab:localVsGlobalVsChebfun}. Our new \funming{} achieves 100\%
 success for all families of test functions with substantially fewer sampling
@@ -1346,17 +1346,17 @@ sufficient conditions for success.
 Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have
 sufficient conditions for success. Although, it may difficult to
 verify those conditions in practice, the theory behind these algorithms provide
-several advantages: 
+several advantages:
 
 \begin{itemize}
 	
-\item The cone, $\cc$, is intuitively explained as a set of functions whose  second 
+\item The cone, $\cc$, is intuitively explained as a set of functions whose  second
 derivatives to not change drastically over a small interval.
 This intuition can guide the user in setting the parameters defining~$\cc$, if
  desired.
 	
 \item The norms of $f$ and its derivatives appearing in the computational cost
-upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but 
+upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but
 these theorems explain how these norms influence the time required by
 Algorithms $A$ and~$M$.
 	
@@ -1365,13 +1365,13 @@ complexity of the function approximation problem \eqref{appxprob}.
 	
 \end{itemize}
 
-The minimum horizontal scale of functions in $\cc$ is roughly $1/n_{\ninit}$. The 
+The minimum horizontal scale of functions in $\cc$ is roughly $1/n_{\ninit}$. The
 computational cost of our algorithms is at least $n_{\ninit}$, but $n_{\ninit}$ is not a
 multiplicative factor. Increasing $n_{\ninit}$ to make our new algorithms more robust
 just increases the minimum number of sample points and may increase the
 computational cost mildly.
 
-As mentioned in the introduction, there are general theorems providing sufficient 
+As mentioned in the introduction, there are general theorems providing sufficient
 conditions under which adaption provides
 no advantage. Our setting fails to satisfy those conditions because $\cc$ is not
 convex. One may average two mildly spiky functions in $\cc$---whose spikes have
@@ -1403,7 +1403,7 @@ in Chebfun, are potential candidates.
 We dedicate this article to the memory of our colleague Joseph F. Traub, who
 passed away on August 24, 2015. He was a polymath and an influential figure in
 computer science and applied mathematics. He was the founding Editor-in-Chief of
-the Journal of Complexity and we are grateful to his tremendous impact and lifelong 
+the Journal of Complexity and we are grateful to his tremendous impact and lifelong
 service to our research community.
 
 We thank Greg Fasshauer and the GAIL team for
