@@ -406,7 +406,7 @@ $(b-a)/n_{\ninit}$.
    $\norm[-\infty,{[\beta - h_-,\alpha]}]{f''}$ and $\norm[-\infty,{[\beta,
     \alpha+h_+]}]{f''}$ (dotted), and
     $2\abs{D(f,\beta - h_-,\alpha)}$ and $2\abs{D(f,\beta,\alpha+h_+)}$ (dot-dashed).
-    This figure and others in this article may be reproduced by
+    This figure and others in this article can be reproduced by
     \texttt{LocallyAdaptivePaperFigs.m} in GAIL \cite{ChoEtal15a}.
     \label{fig:ConeDef}}
 \end{figure}
@@ -506,13 +506,13 @@ $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in
 \eqref{appxerrbda}. After stating the algorithm, its effectiveness is proven.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 >
+For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 \ge
 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}. Let $f:[a,b] \to
 \reals$ and $\abstol >0$ be user inputs. Define the number of subintervals,
 $n=n_{\ninit}$, and the iteration number, $l = 0$. Define the initial partition
 of equally spaced points, $x_{0:n}$, and an index set of subintervals:
 \[
-h_0 =\frac{b-a}{n}, \quad  x_i=a+ ih_0, \ i \in \zton, \qquad \mathcal{I} = 1\!:\!n-1.
+h_0 =\frac{b-a}{n}, \quad  x_i=a+ ih_0, \ i \in \zton, \qquad \mathcal{I} = 1\!:\!(n-1).
 \]
 
 \begin{enumerate}[\em Step 1.]
@@ -540,7 +540,7 @@ x_{i-1}, \ \frac{x_{i-1} +x_{i}}{2}, \ \frac{x_{i} +x_{i+1}}{2}, \  x_{i+1},
 \qquad i \in \widetilde{\ci}.
 \]
 (The point $x_{i-1}$ is only included for $ i \ge 2$, and the point $x_{i+1}$ is
-only included for $i \le n-2$.) Let $l = l+1$ and $h_l = h_{l-1}/2$.  Return to
+only included for $i \le n-2$.) Let $l \leftarrow l+1$ and $h_l = h_{l-1}/2$.  Return to
 Step~\ref{stage1}.
 \end{enumerate}
 \end{algoA}
@@ -609,7 +609,7 @@ x_{i_{\ell(x)}},x_{i_{\ell(x)}}-x_{i_{l_-}-3},x_{i_{l_+}+2} - x_{i_{\ell(x) - 1}
    \ \frac{h_{l_+}^2}{8}\fC(3h_{l_+})   \norm[-\infty,{[x_{i_{l_+}}, x_{i_{l_+}+2}]}] {f''}  \Bigr) \\
 & \qquad \qquad  \text{because $h_{\ell(x)} \le h_{l_{\pm}}$ and $\fC$ is
 	non-decreasing}\\
-& \le \abstol \qquad \text{by \eqref{datalesstol}}
+& \le \abstol \qquad \text{by \eqref{datalesstol}}.
 \end{align*}
 This concludes the proof.\end{proof}
 
@@ -818,7 +818,7 @@ behavior as the computational cost of Algorithm $A$.
 
 Note by comparing \eqref{lowbdChalf} and \eqref{lowbdWhalf} that the lower complexity
 bound is significantly altered by restricting the
-set of input functions from all of $ \cw^{2,\infty}$ to just the cone
+set of input functions from the whole space of $ \cw^{2,\infty}$ to just the cone
 $\cc$. Also note that the
 conclusions of this theorem hold whether or not $\sigma$ is an input to the
 algorithm $A^*$. For our Algorithm $A$, $\sigma$ is \emph{not} an input. Moreover, the
@@ -870,8 +870,8 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	Now, we prove the lower complexity bounds~\eqref{lowbdC}, assuming that $A^*$ is
 	a successful algorithm for all $f \in \cc$. Let $f_0$ be defined as follows
 	\begin{equation*}
-	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b], \qquad \norm[\frac12]{f_0''}
-	= (b -a)^2  \quad \norm{f_0''} = 1.
+	f_0(x) =\frac{x^2}{2}, \quad f_0''(x) = 1, \quad x \in [a,b]; \qquad \norm[\frac12]{f_0''}
+	= (b -a)^2,  \quad \norm{f_0''} = 1.
 	\end{equation*}
 	Since $f_0''$ is constant, it follows that $f_0 \in \cc$,  and $A^*$ successfully
 	approximates $\gamma f_0$ for any  $\gamma\ge0$.
@@ -896,7 +896,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	n$.
 	
 Analogously to the argument above, we show that $\gamma\tgamma$ must be no larger
-than	$\abstol$:
+than~$\abstol$:
 	\begin{align*}
 	\abstol & \ge \max(\norm{\gamma f_+-A(\gamma f_+,\abstol)},
 	\norm{\gamma f_--A(\gamma f_-, \abstol)}) \\
@@ -917,7 +917,7 @@ than	$\abstol$:
 	\end{align*}
 	Substituting $\norm[\frac12]{\gamma f_0''} = \sigma$ in the top inequality and
 	$\norm{\gamma f_0''} = \sigma$ in the bottom inequality, and then solving for
-	$n$ yields the two bounds in~\eqref{lowbdC}.
+	$n$ yield the two bounds in~\eqref{lowbdC}.
 \end{proof}
 
 
@@ -934,13 +934,13 @@ sections. The main departure from Algorithm $A$ is the stopping criterion. It is
 unnecessary to approximate $f$ accurately everywhere,  only where $f$ is small.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 > 1$, let
+	For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 \ge 1$, let
 	$\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and
 	$\abstol >0$ be user inputs. Let
 	$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and
 	certain index sets of subintervals:
 \[
-x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{+} =  2\!:\!n-1, \quad \ci_{-} =  1\!:\!n-2.
+x_i=a+ i\frac{b-a}{n}, \ i \in \zton, \qquad \ci_{+} =  2\!:\!(n-1), \quad \ci_{-} =  1\!:\!(n-2).
 \]
 	Compute $\hM= \minfi$.   For $ s \in \{+,-\}$ do the following.
 	
@@ -982,7 +982,7 @@ cone $\cc$ defined in~\eqref{conedef}.
 \end{theorem}
 
 \begin{proof}
-	The proof of the success of Algorithm $M$ is similar to that for Algorithm $A$. Here
+	The proof of success of Algorithm $M$ is similar to that for Algorithm~$A$. Here
 	we give the highlights.     We use the notation of $I_{x,l}$ introduced in \eqref{Ixldef}
 	and analogously define $\tell(x)$ such that $I_{x,\tell(x)}$ is the final subinterval in
 	Algorithm $M$ containing $x$ when the algorithm terminates.   For a fixed $x \in
@@ -996,12 +996,12 @@ cone $\cc$ defined in~\eqref{conedef}.
 	-  \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
 	\end{gather*}
 	where $ \hM_{l}$ denotes the value of $\hM$ at iteration $l \in \natzero$.  By the
-	definition of $\cc$ in \eqref{conedef}, this then implies that
+	definition of $\cc$ in~\eqref{conedef}, this then implies that
 	\begin{align}
 	\nonumber
-	 &	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l_*}-1}, x_{i_{l_*}}]}]{f} + \hM_{l_*} -
-	 \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,
-	\\	\MoveEqLeft[5]{\hM_{l_*} - \min_{x_{i_{l_*}-1} \le x \le x_{i_{l_*}}} f(x) } \nonumber
+	% &	\frac{1}{8} h_{l_*}^2 \norm[{[x_{i_{l_*}-1}, x_{i_{l_*}}]}]{f} + \hM_{l_*} -
+	% \min\bigl(f(x_{i_{l_*}-1}),f(x_{i_{l_*}})\bigr)   \le \abstol,\\
+		\MoveEqLeft[5]{\hM_{l_*} - \min_{x_{i_{l_*}-1} \le x \le x_{i_{l_*}}} f(x) } \nonumber
 	\\ \le \ & \hM_{l_*}  - \minfii + \frac{1}{8} h_{l_*}^2\norm[{[x_{i_{l_*}-1}, x_{i_{l_*}}]}]{f} \le
 	\abstol. \label{herrtogether}
 	\end{align}
@@ -1011,14 +1011,14 @@ solution, $\min_{a \le x \le b} f(x) $.
 
 Figure \ref{f3foolplot}(b) displays the same function $-f_1$ as in
 Figure \ref{f3foolplot}(a), but this time with the sampling points used for
-minimization. Here $M(-f_1,0.02)$ uses only $43$ points, whereas
+minimization. Here $M(-f_1,0.02)$ uses only~$43$ points, whereas
 $A(-f_1,0.02)$ uses $65$ points. This is because $-f_1$ does not need to be
 approximated accurately when its value is far from the minimum.
 
 \subsection{The Computational Cost of $M$} \label{subsec:optcost}
 The derivation of an upper bound on the cost of Algorithm $M$ proceeds in a
 similar manner as that for Algorithm $A$. There are essentially two reasons that a
-subinterval $[x_{i-1},x_i]$ need not be split further. One is the same as that
+subinterval $[x_{i-1},x_i]$ need not be split further. The first reason is the same as that
 for Algorithm $A$: the function being minimized is approximated on
 $[x_{i-1},x_i]$ with an error no more than the tolerance $\abstol$. This is
 reflected in the definition of $\widetilde{\ci}_{\pm}$ in Step \ref{stagemin1} of Algorithm
@@ -1084,8 +1084,9 @@ are similar.
 If $[x_{i-1},x_i]$ must be split because $\herr_{i+2,+} > \abstol$, then it is also the case
 that $i-1 \in \widetilde{\ci}_-$, and so $\oerr_{i-1} > \abstol$.  In this case
 \[
-x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2}
-= h_{\chL(x)}.
+%x_{i-1} - x_{i-2} = x_i - x_{i-1} = x_{i+1} - x_i = x_{i+2} - x_{i+1}  = x_{i+3} - x_{i+2}
+x_{j} - x_{j-1} 
+= h_{\chL(x)}   \mbox{ for } j=(i-1):(i+3).
 \]
 This means that $[x_{i-2},x_{i+3}] \in \tilde{I}_{x,l}$. By the same argument used in
 \eqref{oerrbd} it can be shown that
@@ -1155,7 +1156,7 @@ This gives a contradiction and completes the proof.
 If $f(x)$ is close to the minimum function value, $f(x_*)$, for $x$ in much of
 $[a,b]$, then $\chL(x)$ may be quite large, and $L(x)$  determines the
 computational cost of Algorithm $M$. In this case, the computational cost for
-minimization is similar to that for function approximation. However, if $f$ attains it
+minimization is similar to that for function approximation. However, if $f$ attains its
 minimum at only a finite number of points, then for vanishing $\varepsilon$,
 $\tL(x) = \widehat{L}(x)$ for nearly all $x$, and the computational cost for minimization
 is significantly smaller than that for function approximation.
@@ -1175,12 +1176,12 @@ Together with our collaborators, we have developed the Guaranteed Automatic
 Integration Library (GAIL) \cite{ChoEtal15a}. This MATLAB software library
 implements algorithms that provide answers to univariate and multivariate
 integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by
-automatically determining the sampling needed to satisfy a user provided error
+automatically determining the sampling needed to satisfy a user-provided error
 tolerance. GAIL is under active development. It implements our best adaptive
 algorithms and upholds the principles of reproducible and reliable computational
 science. This includes input parsing, extensive testing, code comments, a user
 guide, and case studies. Algorithms $A$ and $M$ described here are implemented
-as GAIL functions \funappxg{} and \funming, respectively. The following examples
+as GAIL functions \funappxg{} and \funming, respectively in GAIL version 2.2. The following examples
 showcase the merits and drawbacks of our algorithms. We compare them to the
 performance of MATLAB's built-in algorithms and the Chebfun toolbox.
 
@@ -1191,7 +1192,7 @@ terms of a Chebyshev polynomial basis, in principle to machine precision
 its intended error tolerance for the function~$f_1$ defined in \eqref{f3def}
 with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
-$f_1$  an input error tolerance $10^{-12}$, and the ``splitting''' option  turned on to allow
+$f_1$  with an input error tolerance $10^{-12}$, and the ``splitting''' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
 discontinuities are detected.  However, Chebfun produces errors greater
 than~$10^{-5}$.
@@ -1215,7 +1216,7 @@ using  Chebfun with an error tolerance of $10^{-12}$.
 simulations for each test function in \eqref{eq:testfunctions}:
 \funappxg{} time $/$ Chebfun time (solid), \funappxg{} \# of samples $/$
 Chebfun \# of samples (dashed).
-This data for this figure is conditionally reproducible
+The data for this figure is conditionally reproducible
 by
 \texttt{funappx\_g\_test.m} in GAIL.
 \label{f3chebfig}} % \label{fig:testfunctions}
@@ -1233,9 +1234,10 @@ following families of test functions defined on $ [-1, 1]$:
 \begin{align}
 f_1(x) & \quad \text{defined in \eqref{f3def}}, \quad \delta = 0.2, \ c \sim \cu[0,0.6], \\
 f_2(x) &= x^4 \sin(d/x), \quad d \sim \cu[0,2], \\
-f_3(x) &= 10  x^2 + f_2(x).
+f_3(x) &= 10  x^2 + f_2(x),
 \end{align}
 \end{subequations}
+where  $\cu[a,b]$ represents a uniform distribution over $[a,b]$.
 We set $n_{\ninit}= 250$, $\fC (h) =
 10 \fh/(\fh-h)$, and $\abstol = 10^{-6}$. Our new algorithm \texttt{funappx\_g}
 and Chebfun are
@@ -1316,14 +1318,14 @@ rarely approximates the test functions satisfactorily.
 Similar simulation tests have been run to compare our \funming, MATLAB's \fminbnd, and
 Chebfun's \texttt{min}, but this time $n_{\ninit} = 20$ for \funming. The results are
 summarized in the lower half of
-Table~\ref{tab:localVsGlobalVsChebfun}. Our new \funming{} achieves 100\%
+Table~\ref{tab:localVsGlobalVsChebfun}. Our \funming{} achieves~100\%
 success for all families of test functions with substantially fewer sampling
-points and run time than \funappxg. This is because \funming does not need to
+points and run time than \funappxg. This is because \funming does not 
 sample densely where the function is not close to its minimum value. Although MATLAB's
 \fminbnd uses far fewer function values than \funming, it cannot locate the
 global minimum (at the left boundary) for about 70\% of the $f_2$ test cases.
 Chebfun's {\tt min} uses fewer points than \funming, but Chebfun is slower and
-less accurate than \funming for these test cases.
+less accurate than \funming for these tests.
 
 %\end{exmp}
 
@@ -1344,7 +1346,7 @@ there is no theory to provide necessary conditions for failure, or equivalently,
 sufficient conditions for success.
 
 Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have
-sufficient conditions for success. Although, it may difficult to
+sufficient conditions for success. Although it may be difficult to
 verify those conditions in practice, the theory behind these algorithms provide
 several advantages:
 
@@ -1367,9 +1369,9 @@ complexity of the function approximation problem \eqref{appxprob}.
 
 The minimum horizontal scale of functions in $\cc$ is roughly $1/n_{\ninit}$. The
 computational cost of our algorithms is at least $n_{\ninit}$, but $n_{\ninit}$ is not a
-multiplicative factor. Increasing $n_{\ninit}$ to make our new algorithms more robust
-just increases the minimum number of sample points and may increase the
-computational cost mildly.
+multiplicative factor. Increasing $n_{\ninit}$ makes our new algorithms more robust, and it may
+increase the minimum number of sample points and %may increase the
+computational cost, if any, only mildly.
 
 As mentioned in the introduction, there are general theorems providing sufficient
 conditions under which adaption provides
@@ -1381,9 +1383,8 @@ $\cc$.
 Nonadaptive algorithms are unable to solve \eqref{appxprob} or
 \eqref{optprob} using a finite number of function values if the set of
 interesting functions, $\cc$, is a cone, unless there exist nonadaptive
-algorithms that solve these problems exactly. Suppose that $A$ is a nonadaptive
-algorithm satisfying \eqref{appxprob} for some cone $\cc$, and that for an error
-tolerance $\abstol$, $A$ requires $n$ function values. For any positive, $c$,
+algorithms that solve these problems exactly. Suppose that algorithm~$A$ is nonadaptive, satisfying \eqref{appxprob} for some cone~$\cc$, and that for an error
+tolerance $\abstol$, algorithm~$A$ requires $n$ function values. For any positive $c$,
 define $A^*(f,\abstol) = A(cf,\abstol)/c$ for all $f \in \cc$. Then $\norm{f -
 A^*(f,\abstol)} = \norm{cf - A(cf,\abstol)}/c\le \abstol/c$ for all $f \in \cc$
 since $cf$ is also in $\cc$. Thus, $A^*$ satisfies \eqref{appxprob} for error
@@ -1394,7 +1395,7 @@ algorithm that solves \eqref{appxprob} exactly.
 Our algorithms do not take advantage of higher orders of
 smoothness that the input function may have. We view the present work as a
 stepping stone to developing higher order algorithms. Piecewise interpolants
-with higher degrees of smoothness or high degree polynomials, such as those used
+with higher degrees of smoothness or higher degree polynomials, such as those used
 in Chebfun, are potential candidates.
 
 
