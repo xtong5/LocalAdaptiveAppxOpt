@@ -432,7 +432,9 @@ f_1(x) & = \begin{cases} \displaystyle
 \\ \nonumber
 f''_1(x) & =
 \begin{cases} \displaystyle
-    \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta)], & \abs{x-c} \le 2\delta,
+    \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta)\begin{FJHchange}
+    ]
+    \end{FJHchange}, & \abs{x-c} \le 2\delta,
 \\ 0, & \text{otherwise}.
 \end{cases}
 \end{align}
@@ -790,7 +792,8 @@ The upper bound on the computational cost of Algorithm~$A$ provides an upper
 bound on the complexity of problem~\eqref{appxprob}. We now construct lower
 bounds on the complexity of the problem, i.e., the computational cost of the
 best algorithm. We then observe that these lower bounds have the same asymptotic
-behavior as the computational cost of Algorithm $A$.  Our lower complexity 
+behavior as the computational cost of Algorithm $A$.  \begin{FJHchange}
+	Our lower complexity 
 bounds 
 are 
 derived for subsets of functions in the balls, $\cb^{2,p}_{\sigma} = \{f \in W^{1,\infty} : 
@@ -847,6 +850,7 @@ $A$, \emph{no} bound on a norm of $f''$ is provided as  input. However, the
 computational cost of Algorithm $A$ is asymptotically
 the same as the computational cost of the best possible algorithm, $A^*$ in
 \eqref{lowbdC}, as $\abstol \to 0$.
+\end{FJHchange}
 
 \begin{proof}
 	These lower bounds are proved by constructing fooling functions for which
@@ -1429,9 +1433,11 @@ computer science and applied mathematics. He was the founding Editor-in-Chief of
 the Journal of Complexity and we are grateful to his tremendous impact and lifelong
 service to our research community.
 
-We thank Greg Fasshauer and the GAIL team for
-valuable suggestions and comments. This research was supported in part by grant
-NSF-DMS-1522687.
+\begin{FJHchange}
+	We thank Greg Fasshauer, Erich Novak, the GAIL team, and two anonymous referees 
+	for their valuable comments and suggestions. This research was supported in part by 
+	grants NSF-DMS-1522687 and NSF-DMS-0923111.
+\end{FJHchange}
 
 
 
