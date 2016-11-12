@@ -190,17 +190,19 @@ sample size determined adaptively.
 \subsection{Key Ideas in Our Algorithms} \label{subsec:keyideas}
 %---------------------------------------------------------------
 
-Our algorithms $A$ and $M$ are based on a \emph{linear spline}, $S(f,\datasites)$ defined on $[a,b]$ such that for 
-a given $i \in \oton$, we have $x \in [x_{i-1},x_i]$ and
+Our algorithms $A$ and $M$ are based on a \emph{linear spline}, $S(f,\datasites)$ 
+defined on $[a,b]$.  Let ${0\!:\!n}$ be shorthand for $\{0, \ldots, n\}$, and let 
+$\datasites$ be any
+ordered sequence of $n+1$ points that includes the endpoints of the interval,
+i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
+\emph{partition}. Then given any $\datasites$ and any $i \in \oton$, the linear 
+spline  is defined for $x \in [x_{i-1},x_i]$ by
 \begin{align} \label{splinedef}
-   S(f,\datasites)(x) =
+   S(f,\datasites)(x) :=
    \frac{x-x_i}{x_{i-1} - x_i} f(x_{i-1}) + \frac{x-x_{i-1}}{x_{i} - x_{i-1}}f(x_i).
 %\\ \text{for } x_{i-1} \le x \le x_i, \quad i \in \oton.
 \end{align}
-Here ${0\!:\!n}$ is shorthand for $\{0, \ldots, n\}$, and $\datasites$ is an
-ordered sequence of $n+1$ points that includes the endpoints of the interval,
-i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
-\emph{partition}. The error of the linear spline is bounded in terms
+The error of the linear spline is bounded in terms
 of the second derivative of the input function as follows \cite[Theorem
 3.3]{BurFaiBur16a}:
 \begin{equation} \label{appxerrbda}
@@ -271,7 +273,7 @@ numerical algorithms for function approximation, such as the MATLAB toolbox
 Chebfun \citep{TrefEtal16a}, succeed for some functions, but fail for others. No
 theory explains for which $f$ Chebfun succeeds. A corresponding situation exists
 for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's
-built-in \texttt{fminbnd} \citep{For77,Bre73}.
+built-in \texttt{fminbnd} \citep{For77, Bre73}.
 
 Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
