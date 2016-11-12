@@ -164,7 +164,7 @@ adaption \sep automatic \sep computational complexity \sep function approximatio
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our goal is to solve univariate function approximation and global minimization
+Our goal is to reliably solve univariate function approximation and global minimization
 problems by adaptive algorithms. We prescribe a suitable set, $\cc$, of continuously
 differentiable, real-valued functions defined on a finite interval $[a,b]$.  Then, we
 construct algorithms $A:(\cc,(0,\infty)) \to L^{\infty}[a,b]$ and $M:
@@ -176,7 +176,7 @@ tolerance $\abstol > 0$,
 \abstol. \tag{MIN} \label{optprob}
 \end{gather}
 Here, $\norm{\cdot}$ denotes the
-$L^{\infty}$-norm on $[a,b]$. The algorithms $A$ and $M$ depend only on function
+$L^{\infty}$-norm on $[a,b]$, i.e., $\norm{f} =\sup_{x\in[a,b]} |f(x)| $. The algorithms~$A$ and~$M$ depend only on function
 values.
 
 These algorithms proceed iteratively until their data-dependent stopping
@@ -206,7 +206,7 @@ of the second derivative of the input function as follows \cite[Theorem
 	\norm[{[x_{i-1},x_i]}]{f - S(f,\datasites)}
 	\le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \quad i \in \oton,
 \end{equation}
-where $\norm[{[\alpha,\beta]}]{f}$ denotes the norm of $f$ restricted to the
+where $\norm[{[\alpha,\beta]}]{f}$ denotes the $L^{\infty}$-norm of $f$ restricted to the
 interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on
 input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
 \norm{f''} < \infty \}$.
@@ -222,11 +222,11 @@ require such information.
 
 However, one must have some a priori information about $f \in \cw^{2,\infty} $
 to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.
-Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function, and
+Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function $f=0$, and
 $A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$. Then one can
-construct a \emph{nonzero} function $f \in \cw^{2,\infty}$ satisfying $f(x_i) =
-0$, $i\in \zton$ but with $\norm{f - A(f,\abstol)} = \norm{f -
-A(0,\abstol)} > \varepsilon$.
+construct a \emph{nonzero} function $g \in \cw^{2,\infty}$ satisfying $g(x_i) =
+0$, $i\in \zton$ but with $\smash{\norm{g- A(g,\abstol)}} = \smash{\norm{g -
+A(0,\abstol)}} > \varepsilon$.
 
 Our set $\cc \subset \cw^{2,\infty}$ for which $A$ and $M$ succeed
 includes only those functions whose second derivatives do not change dramatically
@@ -240,8 +240,8 @@ for Algorithm $A$ in Section \ref{subsec:appxalgo} and Algorithm $M$ in Section
 The computational cost of Algorithm $A$ is analyzed in Section
 \ref{subsec:appxcost} and is shown to be
 $\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$ as $\abstol \to 0$. Here,
-$\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm: $\norm[p]{f} :=
-\bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < \infty$. Since
+$\norm[\frac12]{\cdot}$ denotes the $L^{\frac12}$-quasi-norm, a special case of the $L^{p}$-quasi-norm, $\norm[p]{f} :=
+\bigl(\int_a^b \abs{f}^p \, \dif x \bigr)^{1/p}$, $0 < p < 1$. Since
 $\norm[\frac12]{f''}$ can be much smaller than $\norm{f''}$, locally adaptive
 algorithms can be more efficient than globally adaptive algorithms, whose
 computational costs are proportional to $\sqrt{\norm{f''}/\abstol}$. The
@@ -253,7 +253,7 @@ The computational cost of our optimization algorithm $M$ is analyzed in
 Section~\ref{subsec:optcost}. A lower bound on the computational complexity of
 \eqref{optprob} is a subject for future investigation.
 
-Our algorithms are implemented in our MATLAB Guaranteed Automatic
+Our algorithms are implemented in our MATLAB~\cite{MAT9.1} Guaranteed Automatic
 Integration Library (GAIL) \cite{ChoEtal15a}. Section \ref{sec:examples}
 provides numerical examples of our algorithms and compares their
 performances with MATLAB's and Chebfun's algorithms. We note cases where our
@@ -267,10 +267,10 @@ algorithms are not.
 Adaptive algorithms relieve the user of having to specify the number of samples
 required. Only the desired error tolerance is needed. Existing adaptive
 numerical algorithms for function approximation, such as the MATLAB toolbox
-Chebfun \citep{TrefEtal16a}, succeed for some $f$, but fail for other $f$. No
+Chebfun \citep{TrefEtal16a}, succeed for some functions, but fail for others. No
 theory explains for which $f$ Chebfun succeeds. A corresponding situation exists
 for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's
-built-in \texttt{fminbnd} \citep{MAT9.1}.
+built-in \texttt{fminbnd} \citep{For77,Bre73}.
 
 Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
@@ -289,17 +289,17 @@ adaption has no advantage if the set of functions being considered is symmetric
 and convex \cite[Theorem 1]{Nov96a}, \cite[Chapter 4, Theorem
 5.2.1]{TraWasWoz88}, \cite{Woz88a}.
 The cone $\cc$ defined for our approximation problem
-\eqref{appxprob} is symmetric, but \emph{not} convex. Plaskota et al.~\cite{PlaEtal08a}
+\eqref{appxprob} is symmetric, but \emph{not} convex. Plaskota et~al.~\cite{PlaEtal08a}
 have developed adaptive algorithms for functions with singularities. Our
 algorithms are not designed for such functions. Rather they are
 designed to be efficient when the second derivative is large in a small part of
 the domain.
 
 Plaskota \cite{Pla15a} has developed an adaptive Simpson's algorithm for
-approximating $\int_a^b f(x) \, \dif x$ assuming that $f^{(4)}(x) \ge 0$ for all
+approximating $\int_a^b f(x) \, \dif x$ assuming that the fourth derivative $f^{(4)}(x) \ge 0$ for all
 $x \in [a,b]$. His algorithm relies on divided differences, like ours do. His
 error is asymptotically proportional to $\norm[\frac14]{f^{(4)}}$, which is
-analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.  Horn \cite{Hor06a}
+analogous to the $\norm[\frac12]{f''}$ that appears in our analysis.  Horn~\cite{Hor06a}
 has developed an optimization algorithm for Lipschitz continuous functions that does not
 require knowledge of the Lipschitz constant.
 
