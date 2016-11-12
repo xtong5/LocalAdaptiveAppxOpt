@@ -133,20 +133,20 @@ USA}
 
 
 \begin{abstract}
-Most commonly used \emph{adaptive} algorithms for function approximation and global
+Most commonly used \emph{adaptive} algorithms for univariate real-valued function approximation and global
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
 $\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
-\linebreak[4]
+%\linebreak[4]
 function---sampling more densely where the second derivative is larger. The
-computational cost of our algorithm for approximating a univariate function $f$ on a
-bounded interval with $L^{\infty}$-error no greater than $\abstol$ is
+computational cost of our algorithm for approximating a univariate function~$f$ on a
+bounded interval with $L^{\infty}$-error no greater than~$\abstol$ is
 $\smash{\Order\Bigl(\sqrt{\norm[\frac12]{f''}/\abstol}\Bigr)}$ as $\abstol \to 0$.
 This is the
-same order as that of the best function approximation algorithm for functions in
-$\cc$. The computational cost of our global minimization algorithm is of the same order
-and the cost can be substantially less if $f$
+same order as that of the best function approximation algorithm for functions in~$\cc$. 
+The computational cost of our global minimization algorithm is of the same order
+and the cost can be substantially less if~$f$
 significantly exceeds its minimum over much of the domain. Our
 Guaranteed Automatic Integration Library (GAIL) contains these new algorithms. We
 provide numerical experiments to illustrate their performance.
