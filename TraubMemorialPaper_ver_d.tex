@@ -348,8 +348,8 @@ $(\alpha,\beta)$.  Specifically, there exist $\xi_\pm$ with $\alpha < \xi_- < (\
 \end{align}
 This inequality tells us that twice the divided difference,
 $2\abs{D(f,\alpha,\beta)}$, is a \emph{lower} bound for
-$\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful. But,
-$2\abs{D(f,\alpha,\beta)}$, is an \emph{upper} bound for
+$\norm[{[\alpha,\beta]}]{f''}$, which by itself is not helpful. But
+$2\abs{D(f,\alpha,\beta)}$ is an \emph{upper} bound for
 $\norm[-\infty,{[\alpha,\beta]}]{f''}$. The cone of interesting functions,
 $\cc$, will contain those $f$ for which $\norm[{[\alpha,\beta]}]{f''}$ is not
 drastically greater than the maximum of $\norm[-\infty,{[\beta - h_-,
@@ -1208,11 +1208,11 @@ integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by
 automatically determining the sampling needed to satisfy a user-provided error
 tolerance. GAIL is under active development. It implements our best adaptive
 algorithms and upholds the principles of reproducible and reliable computational
-science. This includes input parsing, extensive testing, code comments, a user
+science as elucidated in Choi et al.~\cite{Cho13,Cho14a}. This includes input parsing, extensive testing, code comments, a user
 guide, and case studies. Algorithms $A$ and $M$ described here are implemented
 as GAIL functions \funappxg{} and \funming, respectively in GAIL version 2.2. The following examples
 showcase the merits and drawbacks of our algorithms. We compare them to the
-performance of MATLAB's built-in algorithms and the Chebfun toolbox.
+performance of algorithms in MATLAB and the Chebfun toolbox.
 
 %\begin{exmp}
 Chebfun~\cite{TrefEtal16a} is a MATLAB toolbox that approximates functions in
@@ -1221,9 +1221,9 @@ terms of a Chebyshev polynomial basis, in principle to machine precision
 its intended error tolerance for the function~$f_1$ defined in \eqref{f3def}
 with $-c = 0.2 = \delta$.
 Figure~\ref{f3chebfig}(a) shows the absolute errors of Chebfun's approximation to
-$f_1$  with an input error tolerance $10^{-12}$, and the ``splitting''' option  turned on to allow
+$f_1$  with an input error tolerance $10^{-12}$, and the ``splitting'' option  turned on to allow
 Chebfun to construct a piecewise polynomial interpolant if derivative
-discontinuities are detected.  However, Chebfun produces errors greater
+discontinuities are detected.  However, Chebfun produces some pointwise errors computed at a partition of $[-1,1]$ with even subinterval length $10^{-5}$ to be greater
 than~$10^{-5}$.
 
 In contrast, the pointwise errors of the piecewise linear interpolant produced
