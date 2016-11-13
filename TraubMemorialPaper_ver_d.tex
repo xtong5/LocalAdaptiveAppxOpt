@@ -137,7 +137,7 @@ Most commonly used \emph{adaptive} algorithms for univariate real-valued functio
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
-$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
+$\cw^{2,\infty}$ with restrictions of functions to a given finite closed interval. Our algorithms automatically determine where to sample the
 %\linebreak[4]
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function~$f$ on a
@@ -193,7 +193,7 @@ sample size determined adaptively.
 Our algorithms $A$ and $M$ are based on a \emph{linear spline}, $S(f,\datasites)$ 
 defined on $[a,b]$.  Let ${0\!:\!n}$ be shorthand for $\{0, \ldots, n\}$, and let 
 $\datasites$ be any
-ordered sequence of $n+1$ points that includes the endpoints of the interval,
+ordered sequence of $n+1$ points that include the endpoints of the interval,
 i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
 \emph{partition}. Then given any $\datasites$ and any $i \in \oton$, the linear 
 spline  is defined for $x \in [x_{i-1},x_i]$ by
@@ -210,8 +210,8 @@ of the second derivative of the input function as follows \cite[Theorem
 	\le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \quad i \in \oton,
 \end{equation}
 where $\norm[{[\alpha,\beta]}]{f}$ denotes the $L^{\infty}$-norm of $f$ restricted to the
-interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on
-input functions in the Sobolev space $\cw^{2,\infty} := \{f \in C^1[a,b] :
+interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on restrictions to $[a,b]$ of 
+input functions in the Sobolev space $\cw^{2,\infty}:= \{f \in C^1[a,b] :
 \norm{f''} < \infty \}$.
 
 Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$, $i \in
@@ -223,7 +223,7 @@ i(b-a)/n$, $i \in 0\!:\!n$. Providing an upper bound on $\norm{f''}$ is
 often impractical, and so we propose adaptive algorithms that do not
 require such information.
 
-However, one must have some a priori information about $f \in \cw^{2,\infty} $
+However, one must have some a priori information about $f \in \cw^{2,\infty}$
 to construct successful algorithms for \eqref{appxprob} or \eqref{optprob}.
 Suppose that algorithm $A$ satisfies \eqref{appxprob} for the zero function $f=0$, and
 $A(0,\varepsilon)$ uses the data sites $x_{0:n}\subset [a,b]$. Then one can
@@ -324,7 +324,7 @@ $f''(x)$ does not change drastically with respect to a small change in $x$.
 These assumptions define our cone of functions, $\cc$, for which our algorithms
 ultimately apply.
 
-Let $p$ denote the Lagrange quadratic interpolating polynomial at the nodes
+Let $p$ denote the quadratic Lagrange interpolating polynomial at the nodes
 $\{\alpha, (\alpha + \beta)/2, \beta\}$, which may be written as
 \begin{align}
 \nonumber
