@@ -857,7 +857,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 
 \begin{proof}
 	These lower bounds are proved by constructing fooling functions for which
-	algorithm $A$ succeeds, and then showing that at least a certain number of
+	Algorithm $A$ succeeds, and then showing that at least a certain number of
 	samples must be used. The proofs of~\eqref{lowbdW} are simpler, so
 	we start with them.
 		
@@ -1208,8 +1208,8 @@ integration problems, as well as \eqref{appxprob} and \eqref{optprob}, by
 automatically determining the sampling needed to satisfy a user-provided error
 tolerance. GAIL is under active development. It implements our best adaptive
 algorithms and upholds the principles of reproducible and reliable computational
-science as elucidated in Choi et al.~\cite{Cho13,Cho14a}. This includes input parsing, extensive testing, code comments, a user
-guide, and case studies. Algorithms $A$ and $M$ described here are implemented
+science as elucidated in Choi et al.~\cite{Cho13,Cho14a}. We have adopted practices including input parsing, extensive testing, code comments, a user
+guide~\cite{Gail_ug}, and case studies. Algorithms $A$ and $M$ described here are implemented
 as GAIL functions \funappxg{} and \funming, respectively in GAIL version 2.2. The following examples
 showcase the merits and drawbacks of our algorithms. We compare them to the
 performance of algorithms in MATLAB and the Chebfun toolbox.
@@ -1284,7 +1284,7 @@ no greater than the error tolerance.
 		and Chebfun in upper table;
 		\funming, \fminbnd, and Chebfun's \texttt{min} in lower table.
 		%We also report the number of warnings in parentheses issued by the software.
-		This table can be conditionally reproduced by
+		This table is conditionally reproducible by
 		\texttt{funappx\_g\_test.m} and \texttt{funmin\_g\_test.m}  in
 		GAIL.\label{tab:localVsGlobalVsChebfun}}
 	\medskip
@@ -1335,11 +1335,11 @@ no greater than the error tolerance.
 
 %
 
-From Table~\ref{tab:localVsGlobalVsChebfun} it is seen that \funappxg{} obtains
+We see in Table~\ref{tab:localVsGlobalVsChebfun} that \funappxg{} obtains
 the correct answer in all cases,
-even for $f_2$, which is outside the cone $\cc$. Because it is a higher order algorithm,
-Chebfun generally uses substantially fewer number of samples than
-\funappxg, but Chebfun's run time is longer than \funappxg for a
+even for $f_2$, which is outside the cone $\cc$. Since it is a higher order algorithm,
+Chebfun generally uses substantially fewer samples than
+\funappxg, but its run time is longer than \funappxg for a
 significant proportion of the cases; see Figure~\ref{f3chebfig}(b). Moreover, Chebfun
 rarely approximates the test functions satisfactorily.
 
@@ -1367,10 +1367,10 @@ less accurate than \funming for these tests.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Adaptive and automatic algorithms are popular because they require only a
-black-box function algorithm and an error tolerance. Such algorithms exist in a
-variety of software packages. We have highlighted those found in MATLAB and in
-the Chebfun toolbox because they are some of the best. However, as we have shown
-by numerical example, these algorithms may fail. Moreover,
+(black-box) function and an error tolerance. Such algorithms exist in a
+variety of software packages. We have highlighted those found in MATLAB and 
+Chebfun  because they are among the best. However, as we have shown
+by numerical examples, these algorithms may fail. Moreover,
 there is no theory to provide necessary conditions for failure, or equivalently,
 sufficient conditions for success.
 
@@ -1378,18 +1378,17 @@ Our Algorithms $A$ (\funappxg) and $M$ (\funming) are locally adaptive and have
 sufficient conditions for success. Although it may be difficult to
 verify those conditions in practice, the theory behind these algorithms provide
 several advantages:
-
 \begin{itemize}
 	
 \item The cone, $\cc$, is intuitively explained as a set of functions whose  second
-derivatives to not change drastically over a small interval.
+derivatives do not change drastically over a small interval.
 This intuition can guide the user in setting the parameters defining~$\cc$, if
  desired.
 	
-\item The norms of $f$ and its derivatives appearing in the computational cost
-upper bounds in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but
-these theorems explain how these norms influence the time required by
-Algorithms $A$ and~$M$.
+\item The norms of $f$ and its derivatives appearing in the upper bounds of computational cost
+in Theorems \ref{thm:cost} and \ref{thm:Mcost} may be unknown, but
+these theorems explain how the norms influence the time required by
+our algorithms.
 	
 \item Our Algorithm $A$ has been shown to be asymptotically optimal for the
 complexity of the function approximation problem \eqref{appxprob}.
@@ -1412,8 +1411,8 @@ $\cc$.
 Nonadaptive algorithms are unable to solve \eqref{appxprob} or
 \eqref{optprob} using a finite number of function values if the set of
 interesting functions, $\cc$, is a cone, unless there exist nonadaptive
-algorithms that solve these problems exactly. Suppose that algorithm~$A$ is nonadaptive, satisfying \eqref{appxprob} for some cone~$\cc$, and that for an error
-tolerance $\abstol$, algorithm~$A$ requires $n$ function values. For any positive $c$,
+algorithms that solve these problems exactly. Suppose that Algorithm~$A$ is nonadaptive, satisfying \eqref{appxprob} for some cone~$\cc$, and that for an error
+tolerance $\abstol$, Algorithm~$A$ requires $n$ function values. For any positive $c$,
 define $A^*(f,\abstol) = A(cf,\abstol)/c$ for all $f \in \cc$. Then $\norm{f -
 A^*(f,\abstol)} = \norm{cf - A(cf,\abstol)}/c\le \abstol/c$ for all $f \in \cc$
 since $cf$ is also in $\cc$. Thus, $A^*$ satisfies \eqref{appxprob} for error
