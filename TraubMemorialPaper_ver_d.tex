@@ -137,7 +137,7 @@ Most commonly used \emph{adaptive} algorithms for univariate real-valued functio
 minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
-$\cw^{2,\infty}$ with restrictions of functions to a given finite closed interval. Our algorithms automatically determine where to sample the
+$\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
 %\linebreak[4]
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function~$f$ on a
@@ -193,7 +193,7 @@ sample size determined adaptively.
 Our algorithms $A$ and $M$ are based on a \emph{linear spline}, $S(f,\datasites)$ 
 defined on $[a,b]$.  Let ${0\!:\!n}$ be shorthand for $\{0, \ldots, n\}$, and let 
 $\datasites$ be any
-ordered sequence of $n+1$ points that include the endpoints of the interval,
+ordered sequence of $n+1$ points that includes the endpoints of the interval,
 i.e., $a=:x_0 <x_1 < \cdots < x_{n-1} < x_{n}:=b$. We call such a sequence a
 \emph{partition}. Then given any $\datasites$ and any $i \in \oton$, the linear 
 spline  is defined for $x \in [x_{i-1},x_i]$ by
@@ -210,9 +210,9 @@ of the second derivative of the input function as follows \cite[Theorem
 	\le \frac{(x_i - x_{i-1})^2\norm[{[x_{i-1},x_i]}]{f''}}{8}, \quad i \in \oton,
 \end{equation}
 where $\norm[{[\alpha,\beta]}]{f}$ denotes the $L^{\infty}$-norm of $f$ restricted to the
-interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on restrictions to $[a,b]$ of 
-input functions in the Sobolev space $\cw^{2,\infty}:= \{f \in C^1[a,b] :
-\norm{f''} < \infty \}$.
+interval $[\alpha,\beta] \subseteq [a,b]$. This error bound leads us to focus on 
+input functions in the Sobolev space $\cw^{2,\infty}:= \cw^{2,\infty}[a,b] := \{f \in 
+C^1[a,b] : \norm{f''} < \infty \}$.
 
 Algorithms $A$ and $M$ require upper bounds on $\norm[{[x_{i-1},x_i]}]{f''}$, $i \in
 1\!:\!n$,
@@ -273,7 +273,7 @@ numerical algorithms for function approximation, such as the MATLAB toolbox
 Chebfun \citep{TrefEtal16a}, succeed for some functions, but fail for others. No
 theory explains for which $f$ Chebfun succeeds. A corresponding situation exists
 for minimization algorithms, such as \texttt{min} in Chebfun or MATLAB's
-built-in \texttt{fminbnd} \citep{For77, Bre73}.
+built-in \texttt{fminbnd} \citep{Bre13a, For77}.
 
 Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
@@ -1411,8 +1411,10 @@ $\cc$.
 Nonadaptive algorithms are unable to solve \eqref{appxprob} or
 \eqref{optprob} using a finite number of function values if the set of
 interesting functions, $\cc$, is a cone, unless there exist nonadaptive
-algorithms that solve these problems exactly. Suppose that Algorithm~$A$ is nonadaptive, satisfying \eqref{appxprob} for some cone~$\cc$, and that for an error
-tolerance $\abstol$, Algorithm~$A$ requires $n$ function values. For any positive $c$,
+algorithms that solve these problems exactly. Suppose that some nonadaptive, 
+algorithm~$A$ satisfies \eqref{appxprob} for some cone~$\cc$, and that for an error
+tolerance $\abstol$, this algorithm~$A$ requires $n$ function values. For any positive 
+$c$,
 define $A^*(f,\abstol) = A(cf,\abstol)/c$ for all $f \in \cc$. Then $\norm{f -
 A^*(f,\abstol)} = \norm{cf - A(cf,\abstol)}/c\le \abstol/c$ for all $f \in \cc$
 since $cf$ is also in $\cc$. Thus, $A^*$ satisfies \eqref{appxprob} for error
