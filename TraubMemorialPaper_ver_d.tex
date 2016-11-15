@@ -179,9 +179,9 @@ Here, $\norm{\cdot}$ denotes the
 $L^{\infty}$-norm on $[a,b]$, i.e., $\norm{f} =\sup_{x\in[a,b]} |f(x)|$. The algorithms~$A$ and~$M$ depend only on function
 values.
 
-These algorithms proceed iteratively until their data-dependent stopping
+Our algorithms proceed iteratively until their data-dependent stopping
 criteria are satisfied. The input functions are sampled nonuniformly over
-the interval $[a,b]$, with the sampling density determined by the function data.
+$[a,b]$, with the sampling density determined by the function data.
 We call our algorithms \emph{locally adaptive}, to distinguish them from
 globally adaptive algorithms that have a fixed sampling pattern and only the
 sample size determined adaptively.
@@ -279,7 +279,7 @@ Our theoretically justified Algorithms $A$ and $M$ build upon the ideas used to
 construct the adaptive algorithms in \cite{HicEtal14b, Din15a, HicEtal14a,
 HicJim16a, Jia16a, JimHic16a,Ton14a}. In all those cases, a
 cone, $\cc$, of input functions is identified for which the adaptive algorithms
-succeed, just like is done here. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
+succeed, just as is done here. However, unlike the algorithms in \cite{HicEtal14b, Din15a,
 HicEtal14a,Ton14a}, the definition of $\cc$ here does not
 depend on a weaker norm. Also, unlike
 the globally adaptive approximation and optimization algorithms in
@@ -416,8 +416,8 @@ $(b-a)/n_{\ninit}$.
    $\norm[-\infty,{[\beta - h_-,\alpha]}]{f''}$ and $\norm[-\infty,{[\beta,
     \alpha+h_+]}]{f''}$ (dotted), and
     $2\abs{D(f,\beta - h_-,\alpha)}$ and $2\abs{D(f,\beta,\alpha+h_+)}$ (dot-dashed).
-    This figure and others in this article can be reproduced by
-    \texttt{LocallyAdaptivePaperFigs.m} in GAIL \cite{ChoEtal15a}.
+    All figures in this paper are reproducible by
+    \texttt{LocallyAdaptivePaperFigs.m} in GAIL~\cite{ChoEtal15a}.
     \label{fig:ConeDef}}
 \end{figure}
 
@@ -1147,8 +1147,8 @@ f(x_*) \ge \min(f(x_{i_*-1}),f(x_{i_*})) - \frac18 h_{l_*}^2\norm[I_{x_*,l_*}]{f
 There are two possibilities regarding $l_*$. If $l_* < \chL(x)$, then by the argument in  in
 \eqref{herrtogether} used to prove Theorem \ref{thm:algMworks},
 \begin{align*}
-\hM_{\chL(x)}   & \le \hM_{l_*}
-\le \min(f(x_{i_*-1}),f(x_{i_*})) - \frac18 h_{l_*}^2 \norm[{[x_{i_*-1}, x_{i_*}]}]{f''}  + \abstol  \\
+\hM_{\chL(x)}   & \  \le \ \hM_{l_*}
+\ \le \  \min(f(x_{i_*-1}),f(x_{i_*})) - \frac18 h_{l_*}^2 \norm[{[x_{i_*-1}, x_{i_*}]}]{f''}  + \abstol  \\
 & \le  f(x_*) + \abstol \qquad \text{by}~\eqref{fxstarlowbd} .
 \end{align*}
 Otherwise, if $l_* = \chL(x)$, then
@@ -1424,8 +1424,8 @@ algorithm that solves \eqref{appxprob} exactly.
 
 Our algorithms do not take advantage of higher orders of
 smoothness that the input function may have. We view the present work as a
-stepping stone to developing higher order algorithms. Piecewise interpolants
-with higher degrees of smoothness or higher degree polynomials, such as those used
+stepping stone to developing higher order algorithms. Nonlinear splines
+or higher degree polynomials, such as those used
 in Chebfun, are potential candidates.
 
 
