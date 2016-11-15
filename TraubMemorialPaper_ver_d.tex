@@ -115,8 +115,6 @@
 \begin{frontmatter}
 
 \title{Local Adaption for Approximation and Minimization of Univariate Functions}
-
-
 %% Group authors per affiliation:
 \author{Sou-Cheng T.~Choi}
 \author{Yuhan Ding}
@@ -128,9 +126,7 @@ USA}
 \author{Xin Tong}
 \address{Department of Mathematics, Statistics, and Computer Science, University of
 Illinois at Chicago, Room 322 SEO, 851 S. Morgan Street, Chicago, Illinois, 60607,
-USA}
-
-
+USA} 
 
 \begin{abstract}
 Most commonly used \emph{adaptive} algorithms for univariate real-valued function approximation and global
@@ -138,7 +134,6 @@ minimization lack theoretical guarantees. Our new locally adaptive algorithms
 are guaranteed to provide answers that satisfy a user-specified absolute
 error tolerance for a cone, $\cc$, of non-spiky input functions in the Sobolev space
 $\cw^{2,\infty}[a,b]$. Our algorithms automatically determine where to sample the
-%\linebreak[4]
 function---sampling more densely where the second derivative is larger. The
 computational cost of our algorithm for approximating a univariate function~$f$ on a
 bounded interval with $L^{\infty}$-error no greater than~$\abstol$ is
@@ -524,7 +519,7 @@ For some finite interval $[a,b]$, integer $n_{\ninit}\ge 5$, and constant $\fC_0
 $n=n_{\ninit}$, and the iteration number, $l = 0$. Define the initial partition
 of equally spaced points, $x_{0:n}$, and an index set of subintervals:
 \[
-h_0 =\frac{b-a}{n}, \quad  x_i=a+ ih_0, \ i \in \zton, \qquad \mathcal{I} = 1\!:\!(n-1).
+h_0 =\frac{b-a}{n}, \qquad  x_i=a+ ih_0,  \qquad\ i \in \zton, \qquad \mathcal{I} = 1\!:\!(n-1).
 \]
 
 \begin{enumerate}[\em Step 1.]
@@ -572,7 +567,7 @@ imply that $x_i-x_{i-1} = x_{i+1} - x_i = h_l = 2^{-l}h_0$, and
 	& \ge \frac{1} 8 \fC(3h_l) h_l^2 \norm[-\infty,{[x_{i-1},x_{i+1}]}]{f''}
 	\qquad \text{by \eqref{NDDbdm}}. \label{oerrlobd}
 	\end{align}
-We show that when these $\oerr_i$ get small enough, Algorithm $A$ terminates
+We show that when  $\oerr_i$ get small enough, Algorithm $A$ terminates
 successfully.
 
 For all $x \in [a,b]$, let $\Ixl$ be the closed interval with width $h_l$
@@ -731,7 +726,7 @@ computational cost is
 \end{align*}
 
 For functions in the cone $\cc$, the (quasi-)seminorms $\norm{f''}$ and $\norm[\frac
-12]{f''}$ are equivalent, but  for functions in $ \cw^{2,\infty}$ they are not, as is shown in the following proposition.
+12]{f''}$ are equivalent, but  for functions in $ \cw^{2,\infty}$ they are not, as shown in the following proposition.
 
 \begin{prop} \label{equivnormprop}
 	The quantities $\norm{f''}$ and $\norm[\frac 12]{f''}$ bound each other as follows:
@@ -759,9 +754,9 @@ The first inequality follows from the definitions of the (quasi-)norms:
  \le  (\beta - \alpha)^2 \norm[{[\alpha,\beta]}]{f''}.
 \end{multline}
 
-The second inequality comes from the cone definition.  Note that
+The second inequality comes from the cone definition.  Since
 $\norm{f''}  = \norm[{[\alpha,\beta]}]{f''}$  for some interval $[\alpha,\beta]$ whose
-width can be made arbitrarily small.  Then
+width can be made arbitrarily small, we have
 \begin{align*}
 \norm[{[\alpha,\beta]}]{f''}
 & \le \inf\bigl\{B(f,\alpha,\beta,h,h) : h \in (\beta - \alpha,\fh) \bigr \} \quad \text{by}~\eqref{conedef} \\
@@ -796,7 +791,7 @@ bound on the complexity of problem~\eqref{appxprob}. We now construct lower
 bounds on the complexity of the problem, i.e., the computational cost of the
 best algorithm. We then observe that these lower bounds have the same asymptotic
 behavior as the computational cost of Algorithm $A$.  \begin{FJHchange}
-	Our lower complexity 
+Our lower complexity 
 bounds 
 are 
 derived for subsets of functions in the balls, $\cb^{2,p}_{\sigma} = \{f \in W^{1,\infty} : 
@@ -891,7 +886,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	\end{align*}
 	since $\norm{f_1''} =  \delta^{-2}$,  and $\norm[\frac 12]{f_1''} = 16$. The top inequality
 	cannot be satisfied unless $\sigma = \norm[\frac 12]{\gamma
-	f_1''}$ is small enough, which establishes ~\eqref{lowbdWhalf}. Solving the
+	f_1''}$ is small enough, which establishes~\eqref{lowbdWhalf}. Solving the
 	bottom inequality for $n$ in terms of $\sigma = \norm{\gamma f_1''}$
 	establishes~\eqref{lowbdWinf}.
 
@@ -1170,9 +1165,8 @@ that $\tell(x) > \chL(x)$:
 \ref{stagemin1} of Algorithm $M$} \\
 & = \frac{1}{8} \fC(3 h_{\chL(x)}) h_{\chL(x)}^2 \norm[\tilde{I}_{x,\chL(x)}]{f''} + f(x_*) +
 \frac 18 h_{\chL(x)}^2  \norm[{I_{x_*,\chL(x)}}]{f''} + \abstol \\
-& \qquad \qquad - f(x) + 2h_{\chL(x)}\abs{f'(x)} + 2h_{\chL(x)}^2
-\norm[\tilde{I}_{x,\chL(x)}]{f''} \\
-&  \qquad \qquad \qquad  \qquad \text{by \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
+& \quad  - f(x) + 2h_{\chL(x)}\abs{f'(x)} + 2h_{\chL(x)}^2
+\norm[\tilde{I}_{x,\chL(x)}]{f''}  \qquad \text{by \eqref{oerrupbd}, \eqref{minfjjm1bd}, and
 \eqref{Mhatbd}} \\
 & \le \abstol + \biggl\{ \biggl[\frac 18 \fC\left(3 h_{\chL(x)} \right) + 2 \biggr]
 \norm[\tilde{I}_{x,\chL(x)}]{f''} + \frac18\norm[{I_{x_*,\chL(x)}}]{f''} \biggr\} h_{\chL(x)}^2 \\
