@@ -370,7 +370,7 @@ B(f'',\alpha,\beta,h_-,h_+) :=
 \begin{cases}
    \max\bigl(\fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f''},\fC(h_{+})
    \norm[-\infty,{[\beta, \alpha+h_+]}]{f''}\bigr),
-\\                                             \hspace{26ex} a \le \beta- h_- <  \alpha + h_+ \le b,
+\\                                             \hspace{27ex} a \le \beta- h_- <  \alpha + h_+ \le b,
 \\ \fC(h_{-}) \norm[-\infty,{[\beta-h_-,\alpha]}]{f''},  \quad a \le \beta- h_- < b< \alpha + h_+,
 \\ \fC(h_{+}) \norm[-\infty,{[\beta, \alpha+h_+]}]{f''},
 \quad \beta- h_- <  a  < \alpha + h_+ \le b.
@@ -401,10 +401,10 @@ $\norm[-\infty,{[\beta-h_-,\alpha]}]{f''} = \abs{f''(\beta - h_-)} = 0$, which m
 behavior of $f''$ to the left of $[\alpha,\beta]$ cannot help provide an upper bound on $
 \norm[{[\alpha,\beta]}]{f''}$.  However, $\norm[-\infty,{[\beta,\alpha+h_+]}]{f''} =
 \abs{f''(\alpha + h_+)} > 0$, so this $f$ may lie in the cone $\cc$ provided that
-$\fC(h_+)$ is large enough.  The possibility of points in $[a,b]$ where $f''$ vanishes
+$\fC(h_+)$ is large enough.  The possibility of points in $[a,b]$ where~$f''$ vanishes
 motivates the definition of $B(f'',\alpha,\beta,h_-,h_+)$ to depend on the behavior of $f''$
 to both the left and right of $[\alpha,\beta]$.  One may note that if $f''$ vanishes at two
-points that are close to each other or at a point that is close to either $a$ or $b$, then
+points that are close to each other or at a point that is close to either $a$ or~$b$, then
 $f$ will lie outside $\cc$.  The definition of ``close'' depends on
 $(b-a)/n_{\ninit}$.
 
@@ -437,8 +437,8 @@ f''_1(x) & =
 \begin{cases} \displaystyle
     \frac{1}{\delta^2} [1 + \sign(x-c-\delta) - \sign(x-c+\delta)\begin{FJHchange}
     ]
-    \end{FJHchange}, & \abs{x-c} \le 2\delta,
-\\ 0, & \text{otherwise}.
+    \end{FJHchange}, & \quad \abs{x-c} \le 2\delta,
+\\ 0, & \quad \text{otherwise}.
 \end{cases}
 \end{align}
 Here $c$ and $\delta$ are parameters satisfying $-1 \le c-2 \delta < c+ 2\delta
@@ -468,14 +468,14 @@ choice of $\fC_0 \ge 1$. For any $[\alpha,\beta]\subseteq [-1,1]$ and
 $h_{\pm}$ satisfying the conditions in the definition of~$\cc$ in~\eqref{conedef},
 it follows that
 \begin{align*}
-    & \norm{f''_1} = \delta^{-2} =
+    & \norm[{[\alpha,\beta]}]{f''_1} = \frac{1}{ \delta^{2} } =
 \begin{cases}
 \norm[-\infty,{[\beta,\alpha+h_+]}]{f''_1}  %= \delta^{-2} = \norm{f''_1}
    & \text{if } \alpha\text{ or } \beta \in [c - 2\delta,  c - 1.5\delta]
-\\ & \qquad\quad \cup [c - \delta,  c - 0.5\delta] \cup [c + \delta, c+1.5\delta],
+\\ & \quad\quad \cup [c - \delta,  c - 0.5\delta] \cup [c + \delta, c+1.5\delta],
 \\ \norm[-\infty,{[\beta - h_-,\alpha]}]{f''_1} %= \delta^{-2} = \norm{f''_1}
    & \text{if } \alpha\text{ or } \beta \in [c - 1.5\delta,  c - \delta]
-\\ & \qquad\quad  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta].
+\\ & \quad\quad  \cup [c - 0.5 \delta,  c + \delta] \cup [c + 1.5\delta, c+2\delta].
 \end{cases}
 \end{align*}
 Thus, $B(f'',\alpha,\beta,h_-,h_+)\ge\norm[{[\alpha,\beta]}]{f''_1}$ for $\beta
@@ -494,8 +494,8 @@ $\alpha$, $\beta$, and $h$ satisfying
 it follows that
 \begin{gather*}
    \beta -  h  \ < \ c - 2 \delta \ < \ \alpha \ < \ c - 1.5\alpha  \ < \ \beta \ < \ c - \delta \ < \ \alpha + h,
-\\ \norm[-\infty,{[\beta - h,\alpha]}]{f''_1} =\norm[-\infty,{[\beta,\alpha+h]}]{f''_1}=0
-< \delta^{-2} =\norm[{[\alpha,\beta]}]{f''_1}.
+\\ \norm[-\infty,{[\beta - h,\alpha]}]{f''_1} \   =  \ \norm[-\infty,{[\beta,\alpha+h]}]{f''_1} \ = \ 0
+\ < \ \delta^{-2} \ = \ \norm[{[\alpha,\beta]}]{f''_1}.
 \end{gather*}
 This violates the definition of $\cc$. This example illustrates how the choice
 of $n_{\ninit}$, or equivalently $\fh$, influences the width of a spiky function and
@@ -518,7 +518,7 @@ $\norm[{[\alpha,\beta]}]{f}$ via the definition of the cone, $\cc$, in
 \eqref{appxerrbda}. After stating the algorithm, its effectiveness is proven.
 
 \begin{algoA} \label{AlgoA}
-For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 \ge
+For some finite interval $[a,b]$, integer $n_{\ninit}\ge 5$, and constant $\fC_0 \ge
 1$, let $\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}. Let $f:[a,b] \to
 \reals$ and $\abstol >0$ be user inputs. Define the number of subintervals,
 $n=n_{\ninit}$, and the iteration number, $l = 0$. Define the initial partition
@@ -782,7 +782,7 @@ The hump function $f_1$ in~\eqref{f3def}  satisfies
 $
  {\norm{f_1''}}/{\norm[\frac 12]{f_1''}}  =  { \delta^{-2}}/{16}.
 $
-By making $\delta$ small enough, we may make this ratio arbitrarily large, thus proving
+By making~$\delta$ small enough, we may make this ratio arbitrarily large, thus proving
 \eqref{infhalfnoteq}. However, since $f_1
 \notin \cc$ for $\delta < 2\fh$, this does not violate \eqref{inflesshalf}.
 \end{proof}
@@ -856,7 +856,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 \end{FJHchange}
 
 \begin{proof}
-	These lower bounds are proved by constructing fooling functions for which
+	The lower bounds are proved by constructing fooling functions for which
 	Algorithm $A$ succeeds, and then showing that at least a certain number of
 	samples must be used. The proofs of~\eqref{lowbdW} are simpler, so
 	we start with them.
@@ -873,7 +873,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	\gamma f_1$ share the same values at the data sites, then they must share the
 	same approximation: $A^*(\pm \gamma f_1,\abstol) = A^*(0,\abstol)$. Moreover,
 	$\cost(A^*,0,\abstol) = \cost(A^*,\pm \gamma f_1,\abstol) = n$. Since the
-	approximations of $0, -\gamma f_1$, and $\gamma f_1$ are identical, this implies that
+	approximations of~$0, -\gamma f_1$, and $\gamma f_1$ are identical, this implies that
 	$\gamma$
 	must be no greater than $\abstol$:
 	\begin{align*}
@@ -909,7 +909,7 @@ the same as the computational cost of the best possible algorithm, $A^*$ in
 	used to compute $A^*(\gamma f_0,\abstol)$, and we again allow the possibility of $a
 	= x_0=x_1$
 	and $x_n = x_{n+1} = b$.  Again choose any $j=1, \ldots, n+1$ with $x_j-x_{j-1}
-	\ge (b-a)/(n+1)$, and let $f_1$ be defined as in~\eqref{f3def} with $c =
+	\ge (b-a)/(n+1)$, and let~$f_1$ be defined as in~\eqref{f3def} with $c =
 	(x_j+x_{j-1})/2$, and $\delta = (b-a)/[4(n+1)]$. We construct two fooling
 	functions:
 	\begin{gather*}
@@ -963,7 +963,7 @@ sections. The main departure from Algorithm $A$ is the stopping criterion. It is
 unnecessary to approximate $f$ accurately everywhere,  only where $f$ is small.
 
 \begin{algoM} \label{AlgoM}
-	For some finite interval $[a,b]$, integer $n_{\ninit}$, and constant $\fC_0 \ge 1$, let
+	For some finite interval $[a,b]$, integer $n_{\ninit} \ge 5$, and constant $\fC_0 \ge 1$, let
 	$\fh$ and $\fC(h)$ be defined as in~\eqref{hCdef}.  Let $f:[a,b] \to \reals$ and
 	$\abstol >0$ be user inputs. Let
 	$n=n_{\ninit}$, and define the initial partition of equally spaced points, $x_{0:n}$, and
@@ -1138,8 +1138,8 @@ since $\abs{x_i - x} \le \abs{x_{i+1} - x} \le 2h_{\chL(x)}$.
 
 Finally, we bound $ \hM_{\chL(x)}$. Let $x_*$ be a point where $f$ attains its minimum,
 and
-let $I_{x_*,l_*} = [x_{i_*-1}, x_{i_*}]$ be the subinterval in the present partition containing
-$x_*$, where $l_* \le \chL(x)$. By
+let $I_{x_*,l_*} = [x_{i_*-1}, x_{i_*}]$ be the subinterval in the present partition containing~$x_*$, 
+where $l_* \le \chL(x)$. By
 \eqref{appxerrbda} it follows that
 \begin{equation} \label{fxstarlowbd}
 f(x_*) \ge \min(f(x_{i_*-1}),f(x_{i_*})) - \frac18 h_{l_*}^2\norm[I_{x_*,l_*}]{f''}.
@@ -1247,7 +1247,7 @@ simulations for each test function in \eqref{eq:testfunctions}:
 Chebfun \# of samples (dashed).
 The data for this figure is conditionally reproducible
 by
-\texttt{funappx\_g\_test.m} in GAIL.
+\texttt{funappx\_g\_test.m}  and  \texttt{LocallyAdaptivePaperFigs.m} in GAIL.
 \label{f3chebfig}} % \label{fig:testfunctions}
 \end{figure}
 
@@ -1261,8 +1261,8 @@ Next, we compare our adaptive algorithms with Chebfun  for random samples from t
 following families of test functions defined on $ [-1, 1]$:
 \begin{subequations} \label{eq:testfunctions}
 \begin{align}
-f_1(x) & \quad \text{defined in \eqref{f3def}}, \quad \delta = 0.2, \ c \sim \cu[0,0.6], \\
-f_2(x) &= x^4 \sin(d/x), \quad d \sim \cu[0,2], \\
+f_1(x) & \quad \text{defined in \eqref{f3def}}, \quad \delta = 0.2, \quad \ c \sim \cu[0,0.6], \\
+f_2(x) &= x^4 \sin(d/x), \hspace{15.5ex} d \sim \cu[0,2], \\
 f_3(x) &= 10  x^2 + f_2(x),
 \end{align}
 \end{subequations}
